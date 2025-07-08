@@ -1,1 +1,7 @@
 @import "tailwindcss";
+
+@layer components {
+  .primary-btn {
+    @apply w-full bg-[#86c0fa] text-white  font-medium  rounded-md text-center hover:bg-[#6bb4ff] transition-colors;
+  }
+}

@@ -1,5 +1,6 @@
 'use client';
 import { useState } from "react";
+import { LiaUploadSolid } from "react-icons/lia";
 
 export default function SettingAfterSignup() {
 
@@ -58,22 +59,25 @@ export default function SettingAfterSignup() {
                 
 
                 {/*프로필 사진*/}
-                <div className="border border-2 border-black flex flex-col justify-between items-start m-10 w-[330px]">
+                <div className="flex flex-col justify-between items-start mt-4 mb-6 w-[330px]">
                     <div className="flex flex-col p-3">
-                        <span className="text-[15px] font-semibold">프로필 사진</span>
+                        <div className="text-[15px] font-semibold">프로필 사진</div>
                         <span className="text-[12px] font-normal text-[#757575]">10MB 이내의 이미지 파일을 업로드 해주세요.</span>
                     </div>
-                    <div className="flex justify-center items-center gap-x-7">
+                    <div className="flex justify-center items-center gap-x-7 py-3">
                         <div className="w-[87px] h-[87px] border border-none rounded-[50%] bg-[#F8F8F8]" ></div>
-                        <div className="w-[148px] h-[35px] border border-[#D9D9D9] rounded-[22px] flex justify-center items-center">
-                            <span></span>
+                        <button type="button" className="w-[148px] h-[35px] border border-[#D9D9D9] rounded-[22px] flex justify-center items-center gap-x-1 cursor-pointer">
+                            <LiaUploadSolid className="text-[12.63px]"/>
                             <span className="text-[12.63px]">프로필 사진 업로드</span>
-                        </div>
+                        </button>
                     </div>
                 </div>
 
                 {/*확인버튼*/}
-                <div className="w-[330px] h-[44px] border border-none rounded-[7.89px] bg-[#6BB4FF] flex justify-center items-center text-[12.63px] text-[#FFFFFF]">확인</div>
+                <button 
+                className="cursor-pointer w-[330px] h-[44px] border border-none rounded-[7.89px] bg-[#6BB4FF] flex justify-center items-center text-[12.63px] text-[#FFFFFF]">
+                    확인
+                    </button>
 
             </div>
             

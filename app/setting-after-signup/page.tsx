@@ -109,9 +109,9 @@ export default function SettingAfterSignup() {
 
                 {/*확인버튼*/}
                 <button 
-                className="cursor-pointer w-[330px] h-[44px] border border-none rounded-[7.89px] bg-[#6BB4FF] flex justify-center items-center text-[12.63px] text-[#FFFFFF]">
+                className="m-2 cursor-pointer w-[330px] h-[44px] border border-none rounded-[7.89px] bg-[#6BB4FF] flex justify-center items-center text-[12.63px] text-[#FFFFFF]">
                     확인
-                    </button>
+                </button>
 
             </div>
             

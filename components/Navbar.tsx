@@ -11,7 +11,7 @@ export default function Navbar() {
     setSearch(e.target.value);
   }
   return (
-    <header className="flex gap-8 justify-between items-baseline w-full pt-9 pl-8 pr-8">
+    <header className="flex gap-8 justify-between items-baseline w-full pt-9 pb-9 pl-8 pr-8">
       <div className="flex gap-7 items-baseline">
         <h1
           className="text-2xl font-bold cursor-pointer"

@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex gap-7.5">
+    <div className="flex w-screen h-screen">
       <ChatSideBar />
       {children}
     </div>

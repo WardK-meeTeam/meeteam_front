@@ -1,9 +1,10 @@
+import Chat from "@/components/Chat";
+
 export default async function Page({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  console.log(params);
-  const { id } = await params;
-  return <main>{id}번 id의채팅</main>;
+  const { id } = await params; // 여기서 resolve() or reject() 값이 id로 들어감
+  return <Chat id={id} />;
 }

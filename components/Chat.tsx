@@ -12,15 +12,16 @@ export default function Chat({ id }: { id: string }) {
   const nowChat = chatData.filter((chatData) => id === chatData.chatId)[0]; // chatData에서 현재 채팅페이지에 해당하는 채팅목록 가져오기
   const nowMessages = nowChat.messages; // 채팅내역 불러오기
 
+  const textareaRef = useRef<HTMLTextAreaElement>(null); // textArea 동적 높이 적용하기 위함
   const chatContainerRef = useRef<HTMLDivElement>(null); // 채팅페이지 들어왔을 때 제일 마지막 채팅으로 자동스크롤 하기 위함
 
-  function handleChangeInput(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleChangeInput(e: React.ChangeEvent<HTMLTextAreaElement>) {
     setInputChat(e.target.value);
-    if (e.target.value === "") {
-      // input값이 공백이면 아직 입력하지 않음
-      setIsOnChat(false);
-    } else {
-      setIsOnChat(true);
+    setIsOnChat(e.target.value.trim() !== "");
+
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto"; // 먼저 초기화
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // 내용에 따라 높이 조절
     }
   }
 
@@ -46,13 +47,13 @@ export default function Chat({ id }: { id: string }) {
 
       {/*form태그(메세지 입력창) -> 스크롤 안 되고 고정되도록 함 */}
       <form
-        className={`flex items-center justify-between h-[65px] rounded-[8px] border mb-[200px] ${
+        className={`flex items-center justify-between rounded-[8px] border mb-[200px] ${
           isOnChat ? "border-[#6BB4FF]" : "border-[#D9D9D9]"
         }`}
       >
-        <input
-          className="min-w-[350px] placeholder:text-[#979797] outline-none flex-1 p-5"
-          type="text"
+        <textarea
+          ref={textareaRef}
+          className="min-w-[350px] max-h-[300px] overflow-y-auto resize-none placeholder:text-[#979797] outline-none flex-1 p-5"
           onChange={handleChangeInput}
           value={inputChat}
           placeholder="변경 목적을 입력하면 자동으로 문서화돼요!"

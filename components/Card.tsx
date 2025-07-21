@@ -9,6 +9,10 @@ interface CardProps {
     title: string;
     leader: string;
     progress : number;
+    teamSize : number;
+    userImg : string[];
+    deadDate: string;
+    passionLevel: number;
 };
 
 const CardBgImgs : {[key: string] : string} = {
@@ -26,28 +30,28 @@ const ToolImgs : { [key: string] : string} = {
     Ps: "/images/Ps.png"
 };
 
-const CategoryColors : { [key: string] : [string, string] } = {
-    Beauty: ["#DB6893", "#FFF0F9"],          
-    Eco: ["#71B04E", "#E5FFD6"],
-    Education: ["#A27DC2", "#F5E9FF"],
-    Pet: ["#F1A800", "#FFFCE9"],
-    Productivity: ["#3A84BC", "#D9FBFF"],
-    Healthcare: ["#EE7366", "#FFEAE8"],
+// 순서대로 [textColor, boxColor, (gradient colors 3개)]
+const CategoryColors : { [key: string] : [string, string, string, string] } = {
+    Beauty: ["#DB6893", "#FFF0F9", "#F3D8E6", "#F2CAD2"],          
+    Eco: ["#71B04E", "#E5FFD6", "#AAEBE0", "#CBE8BA"],
+    Education: ["#A27DC2", "#F5E9FF", "#C7C9EE", "#DDCCEA"],
+    Pet: ["#F1A800", "#FFFCE9", "#F4D2BD", "#F4EDBF"],
+    Productivity: ["#3A84BC", "#D9FBFF", "#CCDEFF", "#B5E7ED"],
+    Healthcare: ["#EE7366", "#FFEAE8", "#FFCAC1", "#F7E2DC"],
 };
   
 
-export default function Card( {category, tool, tools, teamName, date, title, leader, progress} : CardProps) {
-    const bgImg = CardBgImgs[category] || "/images/HealthCare.png";
-    const textColor = CategoryColors[category]?.[0] || "#EE7366";
-    const boxColor = CategoryColors[category]?.[1] || "#FFEAE8";
+export default function Card( {category, tool, tools, teamName, date, title, leader, progress, teamSize, userImg, deadDate, passionLevel} : CardProps) {
 
     return (
-        <div className="m-3 w-[305px] h-[415px]">
+        
+        <div className="m-3 w-[305px] h-[1000px] border border-1">
+            {/*후에 높이 415로 수정*/}
 
             {/*카드 앞면*/}
             <div 
-            className="w-full h-full rounded-[16px] flex flex-col justify-between overflow-hidden bg-cover bg-center relative"
-            style={ {backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 2%, rgba(0, 0, 0, 0.8) 83%), url(${bgImg})`}}
+            className="w-full h-[415px] full rounded-[16px] flex flex-col justify-between overflow-hidden bg-cover bg-center relative"
+            style={ {backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 2%, rgba(0, 0, 0, 0.8) 83%), url(${CardBgImgs[category] || "/images/HealthCare.png"})`}}
             >
                     
                 {/*위쪽*/}
@@ -55,7 +59,7 @@ export default function Card( {category, tool, tools, teamName, date, title, lea
                     <div className="flex items-center justify-between mx-6 mt-6">
                         <div 
                         className="w-[104px] h-[25px] border border-none rounded-[16px] text-[14px] font-semibold text-[#EE7366] flex justify-center items-center"
-                        style={ {color: `${textColor}`, backgroundColor: `${boxColor}`}}
+                        style={ {color: `${CategoryColors[category]?.[0] || "#EE7366"}`, backgroundColor: `${CategoryColors[category]?.[1] || "#FFEAE8"}`}}
                         >
                             {teamName || "BreathMate"} 
                         </div>
@@ -94,7 +98,7 @@ export default function Card( {category, tool, tools, teamName, date, title, lea
                         <div className="w-[230px] h-[5px] border border-none rounded-[30px] bg-[#E0E0E0] mb-1.5">
                             <div
                             className="h-full rounded-[30px]"
-                            style={{width: `${progress || 70}%`, backgroundColor: `${textColor}`}}
+                            style={{width: `${progress || 70}%`, backgroundColor: `${CategoryColors[category]?.[0] || "#EE7366"}`}}
                             ></div>
                         </div>
                     </div>
@@ -102,6 +106,75 @@ export default function Card( {category, tool, tools, teamName, date, title, lea
             </div>
 
             {/*카드 뒷면*/}
+            <div 
+            className="w-full h-[415px] mt-5 rounded-[16px] flex flex-col items-center relative"
+            style={{
+                backgroundImage: `linear-gradient(143deg,
+                  ${CategoryColors[category][2]} 0%,
+                  ${CategoryColors[category][2]} 30%,
+                  #FFFFFF 49.75%,
+                  #FFFFFF 50.25%,
+                  ${CategoryColors[category][3]} 70%,
+                  ${CategoryColors[category][3]} 100%)`
+              }}
+            >
+                
+                <div 
+                className="w-[92px] h-[25px] text-[14px] font-semibold border border-none rounded-[13px] flex items-center justify-center m-6"
+                style={{color: `${CategoryColors[category]?.[0] || "#EE7366"}`, backgroundColor: `${CategoryColors[category]?.[1] || "#FFEAE8"}`}}
+                >{teamName}
+                </div>
+
+                <div className="flex gap-x-2 mt-5">
+                    <div className="text-[16px] font-medium text-[#757575]">팀원</div>
+                    <div className="text-[16px] font-semibold" 
+                    style={{color: `${CategoryColors[category]?.[0] || "#EE7366"}`}}
+                    >{teamSize || 0}명</div>
+                </div>
+                
+                <div className="flex flex-col my-3 gap-y-2">
+                    <div className="flex justify-center items-center gap-x-2">
+                        {userImg.slice(0,4).map((img, idx) => (
+                            <img
+                            key={idx}
+                            className="w-[56px] h-[56px] rounded-full object-cover" 
+                            src={img}
+                            alt={`user-${idx}`}
+                            />
+                        ))}
+                    </div>
+                    <div className="flex justify-center items-center gap-x-2">
+                        {userImg.slice(4, 7).map((img, idx) => (
+                            <img
+                            key={idx}
+                            className="w-[56px] h-[56px] rounded-full object-cover" 
+                            src={img}
+                            alt={`user-${idx}`}
+                            />
+                        ))}
+                    </div>
+                    <div className="absolute text-[12px] font-medium"
+                    style={ {
+                        top: "214px",
+                        left: "252px",
+                        color: `${CategoryColors[category][0]}`,
+                    }}
+                    >
+                        +{teamSize-userImg.length}
+                    </div>
+                </div>
+
+                <div className="w-[243px] border border-1 border-[#D9D9D9] my-5"></div>
+
+                <div className="flex gap-x-2 mt-3">
+                    <div className="text-[16px] font-bold text-[#757575]">목표 기간</div>
+                    <div className="text-[16px] font-medium text-[#757575]">{deadDate}</div>
+                </div>
+                <div className="flex gap-x-2 my-2">
+                    <div className="text-[16px] font-bold text-[#757575]">열정 레벨</div>
+                    <div className="text-[16px] font-medium text-[#757575]">LV. {passionLevel}</div>
+                </div>
+            </div>
         
         </div>
     )

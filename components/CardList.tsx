@@ -29,7 +29,7 @@ export default function CardList() {
     
     return (
         <div className="ml-6 flex items-center justify-start w-[90%] overflow-hidden">
-            {Array(1).fill(0).map((idx) => (
+            {Array(4).fill(0).map((idx) => (
                 <Card key={idx} {...dummyCard}/>
             ))}
         </div>

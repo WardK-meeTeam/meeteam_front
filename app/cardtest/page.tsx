@@ -1,13 +1,12 @@
 "use client";
 
-import Card from "@/components/Card";
+import CardList from "@/components/CardList";
 
 export default function CardTestPage() {
 
     return (
-        <div>
-            <Card 
-            />
+        <div className="flex items-center justify-center mt-5">
+            <CardList />
         </div>
     )
 }

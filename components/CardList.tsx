@@ -29,14 +29,14 @@ const dummyCard = {
 export default function CardList() {
     
     return (
-        <div className="h-[1000vh]">
+        <div className="flex flex-col justify-center items-center">
             <div className="ml-6 flex items-center justify-start w-[90%] overflow-hidden">
                 {Array(4).fill(0).map((idx) => (
                     <Card key={idx} {...dummyCard}/>
                     ))}
             </div>
 
-            <div>
+            <div className="m-10">
                 <TeamRecruitCard></TeamRecruitCard>
             </div>
         </div>

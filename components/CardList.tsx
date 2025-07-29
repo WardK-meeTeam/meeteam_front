@@ -36,9 +36,6 @@ export default function CardList() {
                     ))}
             </div>
 
-            <div className="m-10">
-                <TeamRecruitCard></TeamRecruitCard>
-            </div>
         </div>
     )
 };

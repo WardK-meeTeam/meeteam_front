@@ -25,7 +25,7 @@ export default function SelectableButtonGroup({
     setselectedOption(Object.keys(options).filter((part) => options[part]));
   }, [options]); // part : true인 애들만 뽑아서 selected에 넣음 -> 전체를 다시 넣는거라 성능 최적화 고려하면 나중에 로직 다시 짜야하긴 할듯
 
-  console.log("현재 선택된 옵션들 : ", selectedOption);
+  // console.log("현재 선택된 옵션들 : ", selectedOption);
 
   return (
     <div className="flex flex-col gap-4">

@@ -1,10 +1,10 @@
 import { projectApplyUserData } from "@/mocks/projectApplyUserData";
 import SelectableButtonGroup from "../../components/SelectableButtonGroup";
 import AvailableDaysSelector from "./components/AvailableDaysSelector";
-import OfflineAvailabilityToggle from "./components/OfflineAvailabilityToggle";
+import BinaryOptionSelector from "../../components/BinaryOptionSelector";
 import SelfIntroductionInput from "./components/SelfIntroductionInput";
 import UserProfileSummary from "./components/UserProfileSummary";
-import WeeklyHourInput from "./components/WeeklyHourInput";
+import NumberStepper from "../../components/NumberStepper";
 
 export default function Page() {
   const partList = ["프론트", "백", "디자인", "기획", "마케팅"];
@@ -14,9 +14,19 @@ export default function Page() {
       <div className="flex flex-col gap-15">
         <SelectableButtonGroup title={"지원 분야"} optionList={partList} />
         <SelfIntroductionInput />
-        <WeeklyHourInput />
+        <NumberStepper
+          title={"주당 투자 가능 시간"}
+          initValue={1}
+          min={0}
+          max={168}
+          warningMessage={"시간은 0시간 이상 168시간 이하로 입력해주세요!"}
+        />
         <AvailableDaysSelector />
-        <OfflineAvailabilityToggle />
+        <BinaryOptionSelector
+          title={"오프라인 참여 가능 여부"}
+          option1={"가능"}
+          option2={"불가능"}
+        />
         <UserProfileSummary {...projectApplyUserData} />
       </div>
     </div>

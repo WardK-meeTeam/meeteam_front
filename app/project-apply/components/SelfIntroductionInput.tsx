@@ -23,7 +23,7 @@ export default function SelfIntroductionInput() {
         <textarea
           value={inputText}
           onChange={handleInputChange}
-          className="w-full h-[215px] border border-[#D9D9D9] p-2 rounded-xl resize-none overflow-scroll focus:outline-[#6BB4FF]"
+          className="w-full h-[215px] border border-[#D9D9D9] p-2 rounded-xl overflow-x-hidden overflow-y-auto resize-none focus:outline-[#6BB4FF]"
         />
         <div className="flex gap-1 text-[12px] justify-end">
           <span>{inputText.length}</span>

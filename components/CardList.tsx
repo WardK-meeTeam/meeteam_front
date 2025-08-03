@@ -1,6 +1,7 @@
 "use client";
 
 import Card from "./Card";
+import TeamRecruitCard from "./TeamRecruitCard";
 
 const dummyCard = {
     category: "Healthcare",
@@ -28,10 +29,13 @@ const dummyCard = {
 export default function CardList() {
     
     return (
-        <div className="ml-6 flex items-center justify-start w-[90%] overflow-hidden">
-            {Array(4).fill(0).map((idx) => (
-                <Card key={idx} {...dummyCard}/>
-            ))}
+        <div className="flex flex-col justify-center items-center">
+            <div className="ml-6 flex items-center justify-start w-[90%] overflow-hidden">
+                {Array(4).fill(0).map((idx) => (
+                    <Card key={idx} {...dummyCard}/>
+                    ))}
+            </div>
+
         </div>
     )
 };

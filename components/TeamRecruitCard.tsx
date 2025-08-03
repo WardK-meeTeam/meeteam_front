@@ -25,7 +25,7 @@ export default function TeamRecruitCard ( {profileImg, name, temp, sideProjectCo
                     alt="profileImage"/>
                     <div className="text-[12px] font-bold">{name}</div>
                 </div>
-                <div className="flex flex-col justify-center items-left">
+                <div className="flex flex-col justify-center items-start">
                     <div className="flex items-center gap-x-2">
                         <div className="text-[14px] font-bold">협업온도</div>
                         <div>{temp}°</div>
@@ -41,7 +41,7 @@ export default function TeamRecruitCard ( {profileImg, name, temp, sideProjectCo
             <div className="flex flex-col px-5">
                 <div className="text-[14px] font-bold text-[#C48DFF]">Skill</div>
                 <div className="flex gap-x-3">
-                    <div className="flex flex-col justify-center items-left">
+                    <div className="flex flex-col justify-center items-start">
                         {skills.map((skill, idx) => (
                             <div key={idx} className="text-[14px]">{skill.skillName}</div>
                         ))}

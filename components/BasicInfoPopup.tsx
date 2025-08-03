@@ -15,6 +15,10 @@ export default function BasicInfoPopup() {
         "운영" : ["사업기획(BD/BA)", "마케터", "재무/회계", "영업", "전략", "컨설팅", "투자", "고문", "인사(HR)", "기타"],
     };
 
+   const allStacksTest : { [key: string ] : string} = {
+    React: ""
+   }
+
     console.log(selectedField);
 
     return (
@@ -27,7 +31,7 @@ export default function BasicInfoPopup() {
                 <div className="flex flex-col items-start justify-center my-5 gap-y-3">
                     <div className="text-[16px] font-bold">이름</div>
                     <input 
-                    className="w-full h-[41px] border border-1 border-[#D9D9D9] rounded-[10px] focus:outline-none px-4 text-[14px]" 
+                    className="w-full h-[41px] border border-1 border-[#D9D9D9] rounded-[10px] px-4 text-[14px] focus:outline focus:outline-2 focus:outline-[#6BB4FF]" 
                     placeholder="" />
                 </div>
 
@@ -35,7 +39,7 @@ export default function BasicInfoPopup() {
                 <div className="flex flex-col items-start justify-center my-5 gap-y-3">
                     <div className="text-[16px] font-bold">나이</div>
                     <input 
-                    className="w-full h-[41px] border border-1 border-[#D9D9D9] rounded-[10px] focus:outline-none px-4 text-[14px]" 
+                    className="w-full h-[41px] border border-1 border-[#D9D9D9] rounded-[10px] px-4 text-[14px] focus:outline focus:outline-2 focus:outline-[#6BB4FF]" 
                     placeholder="" />
                 </div>
 
@@ -53,7 +57,7 @@ export default function BasicInfoPopup() {
                     <div className="text-[16px] font-bold">이메일 계정</div>
                     <input 
                     typeof="email"
-                    className="w-full h-[41px] border border-1 border-[#D9D9D9] rounded-[10px] focus:outline-none px-4 text-[14px]" 
+                    className="w-full h-[41px] border border-1 border-[#D9D9D9] rounded-[10px] focus:outline focus:outline-2 focus:outline-[#6BB4FF] px-4 text-[14px]" 
                     placeholder="" />
                     <div className="text-[10px] text-[#CA2A30] px-3">※ 올바른 메일 형태로 작성해주세요</div>
                 </div>
@@ -87,6 +91,24 @@ export default function BasicInfoPopup() {
                     )}
                     <RiArrowDownWideFill className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none"/>
                 </div>
+
+                {/* 기술스택 */}
+                <div className="flex flex-col items-start justify-center my-5 gap-y-1">
+                    <div className="text-[12px] text-[#6BB4FF]">*복수 선택 가능</div>
+                    <input 
+                    className="w-full h-[41px] border border-1 border-[#D9D9D9] rounded-[10px] focus:outline-none px-4 text-[14px]" 
+                    placeholder="기술 스택을 검색해주세요." />
+                    
+                    {Array(4).fill(0).map( (idx) => (
+                        <div>
+                            <img />
+                            
+                        </div>
+                    ))
+                    }
+                </div>
+
+                <button className="w-[418px] h-[47px] bg-[#6BB4FF] rounded-[10px]">등록하기</button>
             </form>
         </div>
     )

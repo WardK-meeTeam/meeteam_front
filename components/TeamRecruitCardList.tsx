@@ -32,7 +32,7 @@ export default function TeamRecruitCardList() {
     
     return (
         <div className="ml-6 flex items-center justify-start w-[90%] overflow-hidden gap-x-3">
-            {Array(4).fill(0).map((idx) => (
+            {Array(4).fill(0).map((_,idx) => (
                 <TeamRecruitCard key={idx} {...dummyCard}/>
                 ))}
         </div>

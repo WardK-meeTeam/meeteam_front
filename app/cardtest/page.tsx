@@ -2,6 +2,7 @@
 
 import CardList from "@/components/CardList";
 import TeamRecruitCardList from "@/components/TeamRecruitCardList";
+import BasicInfoPopup from "@/components/BasicInfoPopup";
 
 export default function CardTestPage() {
 
@@ -13,6 +14,10 @@ export default function CardTestPage() {
         
             <div className="flex items-center justify-center mt-5">
                 <TeamRecruitCardList />
+            </div>
+
+            <div className="flex items-center justify-center my-5">
+                <BasicInfoPopup />
             </div>
         </div>
 

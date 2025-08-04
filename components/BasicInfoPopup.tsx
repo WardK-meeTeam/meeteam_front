@@ -3,8 +3,19 @@
 import { useState } from "react";
 import { RiArrowDownWideFill } from "react-icons/ri";
 
-
 export default function BasicInfoPopup() {
+
+    const allStacks = ["React", "Flutter", "Python"];
+    const [searchStack, setSearchStack] = useState("");
+
+    const [selectedStack, setSelectedStack] = useState<string[]>([]);
+
+    const stackImgs =[
+       { name : "React", img: "/images/react.png"},
+       { name: "Flutter", img: "/images/flutter.png" },
+       { name: "Python", img: "/images/python.png" },
+    ];
+
     const [selectedField, setSelectedField] = useState("기획");
     
     const subOptions : { [key:string] : string[]} = {
@@ -14,10 +25,8 @@ export default function BasicInfoPopup() {
         "백엔드" : ["웹 서버", "블록체인", "AI", "DBA/빅데이터/DS", "게임 서버", "프롬프트 엔지니어", "아키텍스(TA/DA/AA)", "보안/화이트해커", "네트워크/클라우드"],
         "운영" : ["사업기획(BD/BA)", "마케터", "재무/회계", "영업", "전략", "컨설팅", "투자", "고문", "인사(HR)", "기타"],
     };
-
-   const allStacksTest : { [key: string ] : string} = {
-    React: ""
-   }
+    
+    const selectedOps = [];
 
     console.log(selectedField);
 
@@ -96,16 +105,35 @@ export default function BasicInfoPopup() {
                 <div className="flex flex-col items-start justify-center my-5 gap-y-1">
                     <div className="text-[12px] text-[#6BB4FF]">*복수 선택 가능</div>
                     <input 
+                    type="text"
+                    value={searchStack}
                     className="w-full h-[41px] border border-1 border-[#D9D9D9] rounded-[10px] focus:outline-none px-4 text-[14px]" 
-                    placeholder="기술 스택을 검색해주세요." />
+                    placeholder="기술 스택을 검색해주세요." 
+                    onChange={(e) => {
+                        const keyword = e.target.value;
+
+                        setSearchStack(keyword);
+                        setSelectedStack(allStacks.filter(stack =>
+                            stack.toLowerCase().includes(keyword.toLowerCase())
+                        ));
+                    }}
+                    />
                     
-                    {Array(4).fill(0).map( (idx) => (
-                        <div>
-                            <img />
-                            
+                    {searchStack && (
+                        <div className="w-full flex gap-x-2 my-1">
+                            {stackImgs.filter(s => selectedStack.includes(s.name)).map((st, idx) => (
+                                <div className=" flex w-[84px] h-[40px] border border-1 border-[#6BB4FF] rounded-[22.5px] justify-between px-4 items-center bg-[#EDF6FF]">
+                                    <img 
+                                    key={idx} alt="selectedStack Name" 
+                                    src={st.img}
+                                    className="w-[33px] h-[33px]"
+                                    />
+                                    <div>X</div>
+                                </div>
+                            ))}
                         </div>
-                    ))
-                    }
+                    )}
+                    
                 </div>
 
                 <button className="w-[418px] h-[47px] bg-[#6BB4FF] rounded-[10px]">등록하기</button>

@@ -4,6 +4,13 @@ import CardList from "@/components/CardList";
 import TeamRecruitCardList from "@/components/TeamRecruitCardList";
 import BasicInfoPopup from "@/components/BasicInfoPopup";
 
+const dummyStacks = {
+    stacks : {
+        react: "/images/react.png",
+        flutter : "images/flutter.png",
+    }
+}
+
 export default function CardTestPage() {
 
     return (

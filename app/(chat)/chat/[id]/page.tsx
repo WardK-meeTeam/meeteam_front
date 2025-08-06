@@ -1,4 +1,4 @@
-import Chat from "@/components/Chat";
+import Chat from "@/app/(chat)/chat/components/Chat";
 
 export default async function Page({
   params,

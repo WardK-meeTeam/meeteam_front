@@ -1,4 +1,4 @@
-import { userProfile } from "@/types/userProfile";
+import { UserProfile } from "@/types/userProfile";
 
 export const projectApplyUserData: userProfile = {
   name: "정이현",

@@ -1,4 +1,4 @@
-export type userProfile = {
+export type UserProfile = {
   name: string;
   age: number;
   sex: string;

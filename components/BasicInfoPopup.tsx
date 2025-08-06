@@ -119,20 +119,7 @@ export default function BasicInfoPopup() {
                     }}
                     />
                     
-                    {searchStack && (
-                        <div className="w-full flex gap-x-2 my-1">
-                            {stackImgs.filter(s => selectedStack.includes(s.name)).map((st, idx) => (
-                                <div className=" flex w-[84px] h-[40px] border border-1 border-[#6BB4FF] rounded-[22.5px] justify-between px-4 items-center bg-[#EDF6FF]">
-                                    <img 
-                                    key={idx} alt="selectedStack Name" 
-                                    src={st.img}
-                                    className="w-[33px] h-[33px]"
-                                    />
-                                    <div>X</div>
-                                </div>
-                            ))}
-                        </div>
-                    )}
+                    
                     
                 </div>
 

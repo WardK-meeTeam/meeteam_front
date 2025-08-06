@@ -10,7 +10,8 @@ export default function formatChatDate(date: Date): string {
   const minute = String(date.getMinutes()).padStart(2, "0");
 
   const ampm = hour < 12 ? "오전" : "오후";
-  if (hour === 0) hour = 12; // 자정
+  if (hour === 0)
+    hour = 12; // 자정
   else if (hour > 12) hour -= 12;
 
   return `${year}. ${month}. ${day}. ${ampm} ${hour}:${minute}`;

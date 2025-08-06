@@ -2,9 +2,8 @@
 name: "✅Feature request"
 about: Feature 작업 상황을 입력해주세요.
 title: "[FEAT] -"
-labels: ''
-assignees: ''
-
+labels: ""
+assignees: ""
 ---
 
 ## 📄 이슈 내용

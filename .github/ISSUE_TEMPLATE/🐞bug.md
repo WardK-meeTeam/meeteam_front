@@ -2,9 +2,8 @@
 name: "\U0001F41EBug"
 about: Bug 발생 시 작성해 주세요.
 title: "[BUG] - "
-labels: ''
-assignees: ''
-
+labels: ""
+assignees: ""
 ---
 
 # 🐞 어떤 버그인가요?

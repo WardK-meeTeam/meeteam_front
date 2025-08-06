@@ -9,7 +9,7 @@ export default function SelectableButtonGroup({
   title: string;
   optionList: string[];
 }) {
-  const [selectedOption, setselectedOption] = useState<string[]>([]);
+  const [selectedOption, setSelectedOption] = useState<string[]>([]);
   const [options, setOptions] = useState<Record<string, boolean>>(
     Object.fromEntries(optionList.map((opt) => [opt, false]))
   );
@@ -22,7 +22,7 @@ export default function SelectableButtonGroup({
   }
 
   useEffect(() => {
-    setselectedOption(Object.keys(options).filter((part) => options[part]));
+    setSelectedOption(Object.keys(options).filter((part) => options[part]));
   }, [options]); // part : true인 애들만 뽑아서 selected에 넣음 -> 전체를 다시 넣는거라 성능 최적화 고려하면 나중에 로직 다시 짜야하긴 할듯
 
   // console.log("현재 선택된 옵션들 : ", selectedOption);

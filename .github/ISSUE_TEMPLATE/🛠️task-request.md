@@ -2,9 +2,8 @@
 name: "\U0001F6E0️Task Request"
 about: 작업 요청 사항을 입력해 주세요.
 title: "[TASK] - "
-labels: ''
-assignees: ''
-
+labels: ""
+assignees: ""
 ---
 
 ## 📄 작업 요청 내용

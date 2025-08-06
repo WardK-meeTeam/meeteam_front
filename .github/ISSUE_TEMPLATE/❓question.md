@@ -2,9 +2,8 @@
 name: "❓Question"
 about: 프로젝트에 관련된 질문을 작성해 주세요.
 title: "[Question] - "
-labels: ''
-assignees: ''
-
+labels: ""
+assignees: ""
 ---
 
 ## ❓ 질문 내용

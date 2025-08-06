@@ -1,0 +1,26 @@
+# 포맷팅 적용 안 시키는 파일들
+# 빌드 결과물
+/dist
+/.next
+/out
+/build
+
+# 의존성
+/node_modules
+
+# 환경 설정 및 기타
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# 설정 파일들 (옵션)
+*.snap
+*.lock
+*.min.js
+
+# 테스트 커버리지 결과
+/coverage
+
+# 기타 IDE 설정
+.vscode
+.idea

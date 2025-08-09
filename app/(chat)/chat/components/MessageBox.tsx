@@ -19,7 +19,7 @@ export default function MessageBox({
         <div
           className={`px-6 py-4 ${
             role === "user" ? "bg-[#3395F9] text-white" : "bg-[#F9FAFA]"
-          } max-w-[830px] rounded-[8px] text-[18px]`}
+          } max-w-[830px] rounded-[8px]`}
         >
           {content}
         </div>

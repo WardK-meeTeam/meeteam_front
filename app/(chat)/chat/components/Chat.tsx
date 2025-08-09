@@ -13,6 +13,7 @@ export default function Chat({ id }: { id: string }) {
   const nowMessages = nowChat.messages; // 채팅내역 불러오기
 
   const textareaRef = useRef<HTMLTextAreaElement>(null); // textArea 동적 높이 적용하기 위함
+  const scrollWrapRef = useRef<HTMLDivElement>(null); // ✅ 풀폭 스크롤 래퍼
   const chatContainerRef = useRef<HTMLDivElement>(null); // 채팅페이지 들어왔을 때 제일 마지막 채팅으로 자동스크롤 하기 위함
 
   function handleChangeInput(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -34,10 +35,10 @@ export default function Chat({ id }: { id: string }) {
   });
 
   return (
-    <main className="flex flex-1 flex-col mx-auto max-w-[1000px] justify-between">
+    <main className="flex flex-1 flex-col mx-auto max-w-[1000px] h-full">
       <div
         ref={chatContainerRef}
-        className="flex flex-col gap-10 overflow-y-scroll"
+        className="flex flex-col flex-1 gap-10 overflow-y-auto pb-10"
       >
         {/* 채팅 메세지 영역 -> 스크롤 되는 부분*/}
         {nowMessages.map((message) => (
@@ -47,7 +48,7 @@ export default function Chat({ id }: { id: string }) {
 
       {/*form태그(메세지 입력창) -> 스크롤 안 되고 고정되도록 함 */}
       <form
-        className={`flex items-center justify-between rounded-[8px] border mb-[200px] ${
+        className={`flex items-center justify-between rounded-[8px] border mb-5 ${
           isOnChat ? "border-[#6BB4FF]" : "border-[#D9D9D9]"
         }`}
       >

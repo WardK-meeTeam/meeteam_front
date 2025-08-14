@@ -4,10 +4,10 @@ labels: [order]
 title: '이슈 이름을 컨벤션에 맞게 작성해주세요, [Feat/Bug/Refactor/Docs/Test/Chore/Style/Build/CI/Other]'
 body:
   - type: input
-    id: parentKey
+    id: relatedTicket
     attributes:
-      label: '관련 티켓 번호 (선택사항)'
-      description: '관련된 기존 티켓이 있다면 Ticket Number를 기입해주세요'
+      label: '연결된 티켓 번호 (선택사항)'
+      description: '이 이슈와 연관된 기존 티켓이 있다면 Ticket Number를 기입해주세요'
       placeholder: 'MTMF-09'
     validations:
       required: false

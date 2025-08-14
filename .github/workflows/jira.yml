@@ -37,7 +37,7 @@ jobs:
 
       - name: Log Issue Parser
         run: |
-          echo '${{ steps.issue-parser.outputs.issueparser_parentKey }}'
+          echo '${{ steps.issue-parser.outputs.issueparser_relatedTicket }}'
           echo '${{ steps.issue-parser.outputs.issueparser_issueType }}'
           echo '${{ steps.issue-parser.outputs.__ticket_number }}'
           echo '${{ steps.issue-parser.outputs.jsonString }}'
@@ -49,8 +49,8 @@ jobs:
           input-text: |
             ### Github Issue Link
             - ${{ github.event.issue.html_url }}
-            ${{ steps.issue-parser.outputs.issueparser_parentKey && format('### 관련 티켓
-            - {0}', steps.issue-parser.outputs.issueparser_parentKey) || '' }}
+            ${{ steps.issue-parser.outputs.issueparser_relatedTicket && format('### 연결된 티켓
+            - {0}', steps.issue-parser.outputs.issueparser_relatedTicket) || '' }}
 
             ${{ github.event.issue.body }}
           mode: md2jira
@@ -65,7 +65,7 @@ jobs:
           description: '${{ steps.md2jira.outputs.output-text }}'
 
       - name: Log created issue
-        run: echo "Jira Issue ${{ steps.issue-parser.outputs.parentKey }}/${{ steps.create.outputs.issue }} was created"
+        run: echo "Jira Issue ${{ steps.create.outputs.issue }} was created"
 
       - name: Checkout master code for branch creation
         uses: actions/checkout@v4

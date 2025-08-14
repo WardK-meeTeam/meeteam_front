@@ -58,7 +58,7 @@ jobs:
         uses: atlassian/gajira-create@v3
         with:
           project: MTMF
-          issuetype: ${{ steps.issue-parser.outputs.issueparser_issueType }}
+          issuetype: Subtask
           summary: '${{ github.event.issue.title }}'
           description: '${{ steps.md2jira.outputs.output-text }}'
           fields: |
@@ -70,26 +70,6 @@ jobs:
 
       - name: Log created subtask
         run: echo "Jira Subtask ${{ steps.create.outputs.issue }} was created under ${{ steps.issue-parser.outputs.issueparser_parentKey }}"
-
-      - name: Checkout master code for branch creation
-        uses: actions/checkout@v4
-        with:
-          ref: master
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create branch with Ticket number
-        run: |
-          echo "Checking git status..."
-          git status
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          ISSUE_NUMBER="${{ steps.create.outputs.issue }}"
-          ISSUE_TITLE="${{ steps.issue-parser.outputs.issueparser_branch}}"
-          BRANCH_NAME="${ISSUE_NUMBER}-$(echo ${ISSUE_TITLE} | sed 's/ /-/g')"
-          echo "Creating branch: ${BRANCH_NAME}"
-          git checkout -b "${BRANCH_NAME}"
-          echo "Pushing branch to origin..."
-          git push origin "${BRANCH_NAME}"
 
       - name: Update issue title
         uses: actions-cool/issues-helper@v3

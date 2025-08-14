@@ -1,7 +1,7 @@
 name: 'meeTeam Front 이슈 생성'
 description: 'meeTeam_front Repo에 이슈를 생성하며, 생성된 이슈는 Jira와 연동됩니다.'
 labels: [order]
-title: '이슈 이름을 작성해주세요'
+title: '이슈 이름을 컨벤션에 맞게 작성해주세요, [Feat/Bug/Refactor/Docs/Test/Chore/Style/Perf/Test/Build/CI/Other]'
 body:
   - type: input
     id: parentKey

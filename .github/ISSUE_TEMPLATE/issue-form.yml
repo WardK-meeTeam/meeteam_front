@@ -23,7 +23,7 @@ body:
         - Refactoring
         - Documentation
         - Chore
-        - Test / QA
+        - Test/QA
     validations:
       required: true
 

@@ -12,6 +12,21 @@ body:
     validations:
       required: true
 
+  - type: dropdown
+    id: issueType
+    attributes:
+      label: '이슈 유형(Type)'
+      description: '이슈 유형을 선택해주세요'
+      options:
+        - Feature Request
+        - Bug Report
+        - Refactoring
+        - Documentation
+        - Chore
+        - Test / QA
+    validations:
+      required: true
+
   - type: input
     id: description
     attributes:

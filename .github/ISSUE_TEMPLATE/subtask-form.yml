@@ -24,6 +24,7 @@ body:
         - Documentation
         - Chore
         - Test/QA
+        - Feat
     validations:
       required: true
 

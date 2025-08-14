@@ -13,8 +13,6 @@ jobs:
   create-issue:
     name: Create Jira issue
     runs-on: ubuntu-latest
-    # 하위 작업 라벨이 없는 이슈만 처리
-    if: "!contains(github.event.issue.labels.*.name, 'subtask')"
     steps:
       - name: Login
         uses: atlassian/gajira-login@v3
@@ -80,8 +78,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           ISSUE_NUMBER="${{ steps.create.outputs.issue }}"
-          ISSUE_TITLE="${{ steps.issue-parser.outputs.issueparser_branch}}"
-          BRANCH_NAME="${ISSUE_NUMBER}-$(echo ${ISSUE_TITLE} | sed 's/ /-/g')"
+          BRANCH_NAME="${ISSUE_NUMBER}-${{ steps.issue-parser.outputs.issueparser_branch }}"
           echo "Creating branch: ${BRANCH_NAME}"
           git checkout -b "${BRANCH_NAME}"
           echo "Pushing branch to origin..."

@@ -13,7 +13,6 @@ export default function Chat({ id }: { id: string }) {
   const nowMessages = nowChat.messages; // 채팅내역 불러오기
 
   const textareaRef = useRef<HTMLTextAreaElement>(null); // textArea 동적 높이 적용하기 위함
-  const scrollWrapRef = useRef<HTMLDivElement>(null); // ✅ 풀폭 스크롤 래퍼
   const chatContainerRef = useRef<HTMLDivElement>(null); // 채팅페이지 들어왔을 때 제일 마지막 채팅으로 자동스크롤 하기 위함
 
   function handleChangeInput(e: React.ChangeEvent<HTMLTextAreaElement>) {

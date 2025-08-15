@@ -35,32 +35,36 @@ export default function Chat({ id }: { id: string }) {
   });
 
   return (
-    <main className="flex flex-1 flex-col mx-auto max-w-[1000px] h-full">
+    <main className="flex flex-col gap-4 items-center w-full h-full ">
       <div
         ref={chatContainerRef}
-        className="flex flex-col flex-1 gap-10 overflow-y-auto pb-10"
+        className="flex flex-col justify-center items-center w-full overflow-y-auto px-20 py-4"
       >
         {/* 채팅 메세지 영역 -> 스크롤 되는 부분*/}
-        {nowMessages.map((message) => (
-          <MessageBox key={message.content} {...message} />
-        ))}
+        <div className="flex flex-col gap-10 w-full h-full max-w-[1200px]">
+          {nowMessages.map((message) => (
+            <MessageBox key={message.content} {...message} />
+          ))}
+        </div>
       </div>
 
       {/*form태그(메세지 입력창) -> 스크롤 안 되고 고정되도록 함 */}
-      <form
-        className={`flex items-center justify-between rounded-[8px] border mb-5 ${
-          isOnChat ? "border-[#6BB4FF]" : "border-[#D9D9D9]"
-        }`}
-      >
-        <textarea
-          ref={textareaRef}
-          className="min-w-[350px] max-h-[300px] overflow-y-auto resize-none placeholder:text-[#979797] outline-none flex-1 p-5"
-          onChange={handleChangeInput}
-          value={inputChat}
-          placeholder="변경 목적을 입력하면 자동으로 문서화돼요!"
-        />
-        <ChatSendButton isOnChat={isOnChat} />
-      </form>
+      <div className="px-20 w-full flex justify-center">
+        <form
+          className={`w-full max-w-[1200px] flex items-center justify-between rounded-[8px] border mb-5 ${
+            isOnChat ? "border-[#6BB4FF]" : "border-[#D9D9D9]"
+          }`}
+        >
+          <textarea
+            ref={textareaRef}
+            className="min-w-[350px] max-h-[300px] overflow-y-auto resize-none placeholder:text-[#979797] outline-none flex-1 p-5"
+            onChange={handleChangeInput}
+            value={inputChat}
+            placeholder="변경 목적을 입력하면 자동으로 문서화돼요!"
+          />
+          <ChatSendButton isOnChat={isOnChat} />
+        </form>
+      </div>
     </main>
   );
 }

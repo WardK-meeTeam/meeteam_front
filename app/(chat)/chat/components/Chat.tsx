@@ -35,7 +35,7 @@ export default function Chat({ id }: { id: string }) {
   });
 
   return (
-    <main className="flex flex-col gap-4 items-center w-full h-full ">
+    <main className="flex flex-col gap-4 justify-between items-center w-full h-full ">
       <div
         ref={chatContainerRef}
         className="flex flex-col justify-center items-center w-full overflow-y-auto px-20 py-4"

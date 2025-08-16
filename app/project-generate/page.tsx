@@ -1,0 +1,35 @@
+import BinaryOptionSelector from "@/components/BinaryOptionSelector";
+import Selectable from "@/components/Selectable";
+import SelectableButtonGroup from "@/components/SelectableButtonGroup";
+
+const partList = ["프론트(웹)", "백(웹)", "디자인", "기획", "마케팅"];
+const categories = ["프론트(웹)", "백(웹)", "디자인", "기획", "마케팅"];
+const flatforms = ["iOS", "Android", "Web"];
+const options = ["iOS", "Android", "Web"];
+
+export default function Page() {
+  return (
+    <div className="w-[420px] m-auto flex flex-col py-10 h-full">
+      <b className="text-[26px] mb-10">프로젝트 등록</b>
+      <div className="flex flex-col gap-16">
+        <SelectableButtonGroup
+          title={"프로젝트 카테고리"}
+          optionList={categories}
+        />
+        <SelectableButtonGroup title={"플랫폼"} optionList={flatforms} />
+        <BinaryOptionSelector
+          title={"오프라인 정기모임 필수 여부"}
+          option1={"필수"}
+          option2={"선택"}
+        />
+        <div className="flex flex-col gap-4 w-full">
+          <b>나의 포지션</b>
+          <div className="w-full flex flex-1 flex-row gap-2">
+            <Selectable options={options} />
+            <Selectable options={options} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

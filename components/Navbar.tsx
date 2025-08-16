@@ -17,7 +17,7 @@ export default function Navbar() {
           className="text-2xl font-bold cursor-pointer"
           onClick={() => alert("MainPage 이동")}
         >
-          Meeteam
+          meeTeam
         </h1>
         <h2
           className="font-semibold cursor-pointer"

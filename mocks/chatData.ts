@@ -241,6 +241,56 @@ export const chatData: ChatType[] = [
         content: "간결한 스위치 디자인과 레이블로 UX를 개선했습니다.",
         timestamp: "24.10.20. 오전 10:09",
       },
+      {
+        role: "ai",
+        content: "UI 구성은 사용자 친화적으로 처리되었을까요?",
+        timestamp: "24.10.20. 오전 10:08",
+      },
+      {
+        role: "user",
+        content: "간결한 스위치 디자인과 레이블로 UX를 개선했습니다.",
+        timestamp: "24.10.20. 오전 10:09",
+      },
+      {
+        role: "ai",
+        content: "UI 구성은 사용자 친화적으로 처리되었을까요?",
+        timestamp: "24.10.20. 오전 10:08",
+      },
+      {
+        role: "user",
+        content: "간결한 스위치 디자인과 레이블로 UX를 개선했습니다.",
+        timestamp: "24.10.20. 오전 10:09",
+      },
+      {
+        role: "ai",
+        content: "UI 구성은 사용자 친화적으로 처리되었을까요?",
+        timestamp: "24.10.20. 오전 10:08",
+      },
+      {
+        role: "user",
+        content: "간결한 스위치 디자인과 레이블로 UX를 개선했습니다.",
+        timestamp: "24.10.20. 오전 10:09",
+      },
+      {
+        role: "ai",
+        content: "UI 구성은 사용자 친화적으로 처리되었을까요?",
+        timestamp: "24.10.20. 오전 10:08",
+      },
+      {
+        role: "user",
+        content: "간결한 스위치 디자인과 레이블로 UX를 개선했습니다.",
+        timestamp: "24.10.20. 오전 10:09",
+      },
+      {
+        role: "ai",
+        content: "UI 구성은 사용자 친화적으로 처리되었을까요?",
+        timestamp: "24.10.20. 오전 10:08",
+      },
+      {
+        role: "user",
+        content: "간결한 스위치 디자인과 레이블로 UX를 개선했습니다.",
+        timestamp: "24.10.20. 오전 10:09",
+      },
     ],
   },
   {
@@ -301,27 +351,6 @@ export const chatData: ChatType[] = [
   },
   {
     chatId: "13",
-    title: "test",
-    description: "다운로드 토글 기능 구현",
-    unread: false,
-    messages: [],
-  },
-  {
-    chatId: "14",
-    title: "test",
-    description: "다운로드 토글 기능 구현",
-    unread: false,
-    messages: [],
-  },
-  {
-    chatId: "15",
-    title: "test",
-    description: "다운로드 토글 기능 구현",
-    unread: false,
-    messages: [],
-  },
-  {
-    chatId: "16",
     title: "test",
     description: "다운로드 토글 기능 구현",
     unread: false,

@@ -42,7 +42,7 @@ export default function Chat({ id }: { id: string }) {
         {/* 채팅 메세지 영역 -> 스크롤 되는 부분*/}
         <div className="flex flex-col gap-10 w-full h-full max-w-[1200px]">
           {nowMessages.map((message) => (
-            <MessageBox key={message.content} {...message} />
+            <MessageBox key={`${id}-${message.timestamp}-${message.content}`} {...message} />
           ))}
         </div>
       </div>

@@ -17,7 +17,7 @@ export default function ChatSideBar() {
     }
   });
   return (
-    <aside className="flex flex-col w-[258px] h-screen bg-[#F9FAFA] py-6">
+    <aside className="flex flex-col w-[258px] h-full min-h-0 bg-[#F9FAFA] py-6">
       <div className={isExistNew ? "" : "hidden"}>
         <div className="flex gap-4 items-center">
           <div className="font-bold ml-7.5 text-[#3395F9]">
@@ -33,7 +33,7 @@ export default function ChatSideBar() {
         <hr className="text-[#EEEEEE] mt-3 mb-6" />
       </div>
 
-      <div className="h-screen overflow-y-auto">
+      <div className="flex-1 min-h-0 overflow-y-auto">
         <div className="font-bold ml-7.5 text-[#3395F9]">채팅 기록</div>
         <div className="flex flex-col">
           {readChat.map((readChat) => (

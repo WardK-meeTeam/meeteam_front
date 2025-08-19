@@ -8,7 +8,7 @@ body:
     attributes:
       label: '연결된 티켓 번호 (선택사항)'
       description: '이 이슈와 연관된 기존 티켓이 있다면 Ticket Number를 기입해주세요'
-      placeholder: 'MTMF-09'
+      placeholder: 'MTM-00'
     validations:
       required: false
 
@@ -30,7 +30,7 @@ body:
   - type: input
     id: branch
     attributes:
-      label: '🌳 브랜치명 (Branch)'
+      label: '브랜치명 (Branch)'
       description: '영어로 브랜치명을 작성해주세요'
     validations:
       required: true

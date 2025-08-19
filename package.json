@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "husky install"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -32,8 +33,15 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.5",
     "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
+    "jira-prepare-commit-msg": "^1.7.2",
     "prettier": "3.6.2",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "jira-prepare-commit-msg": {
+    "messagePattern": "[$J] $M",
+    "allowEmptyCommitMessage": false,
+    "ignoredBranchesPattern": "^(master|main|dev|develop|development|release)$"
   }
 }

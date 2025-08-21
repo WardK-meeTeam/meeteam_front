@@ -28,7 +28,7 @@ export default function BinaryOptionSelector({
       setSelectOption1((prev) => !prev);
     }
   }
-  console.log(nowSelceted);
+  // console.log(nowSelceted);
   return (
     <div className="flex flex-col gap-4">
       <b>{title}</b>

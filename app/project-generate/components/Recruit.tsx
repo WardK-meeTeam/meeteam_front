@@ -13,7 +13,7 @@ export default function Recruit() {
       setCount((prev) => prev.slice(0, prev.length - 1));
     }
   };
-  console.log("카운트 : ", count);
+
   return (
     <div className="flex flex-col gap-4 w-full">
       <b>분야</b>

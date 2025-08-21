@@ -41,6 +41,14 @@ export default function Page() {
         </div>
         <Recruit />
         <TechSearch />
+        <div className="flex flex-col gap-4">
+          <b>프로젝트 마감일</b>
+          <input
+            placeholder="YYYY년  /  MM월  /  DD일"
+            type="date"
+            className="rounded-xl py-3 px-5 box-border border border-main outline-0"
+          />
+        </div>
       </div>
     </div>
   );

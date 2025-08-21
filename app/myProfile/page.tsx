@@ -10,16 +10,22 @@ export default function myPofile() {
         ["디자인", "3d 그래픽"], 
         ["프론트엔드", "웹 프론트엔드"]
     ];
-
     const stacksImg = ["/images/Ps.png", "/images/Figma.png", "/images/Ps.png"];
-
+    const reviews = [
+        {name: "박서현", star: 4.5, review: "디자인 감각이 뛰어나고 세부적인 디테일까지 꼼꼼하게 챙기는 모습이 인상적입니다. 아이디어 회의 때는 다른 사람의 생각을 잘 경청하며...."},
+        {name: "박서현", star: 4.0, review: "디자인 감각이 뛰어나고 세부적인 디테일까지 꼼꼼하게 챙기는 모습이 인상적입니다. 아이디어 회의 때는 다른 사람의 생각을 잘 경청하며...."},
+        {name: "박서현", star: 4.5, review: "디자인 감각이 뛰어나고 세부적인 디테일까지 꼼꼼하게 챙기는 모습이 인상적입니다. 아이디어 회의 때는 다른 사람의 생각을 잘 경청하며...."},
+        {name: "박서현", star: 4.0, review: "디자인 감각이 뛰어나고 세부적인 디테일까지 꼼꼼하게 챙기는 모습이 인상적입니다. 아이디어 회의 때는 다른 사람의 생각을 잘 경청하며...."},
+    ]
+    
     const [selected, setSelected] = useState(false);
 
     return (
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center gap-x-11">
+
             {/*왼쪽 정보 */}
-            <aside className="border flex flex-col gap-y-12">
-                <div className="flex flex-col gap-y-5 items-center">
+            <aside className="flex flex-col gap-y-12 mr-5">
+                <div className="flex flex-col gap-y-4 items-center">
                     <img 
                     src="/images/userImg1.png"
                     className="w-[194px] h-[194px] rounded-[50%]"
@@ -33,7 +39,7 @@ export default function myPofile() {
                     </div>
                 </div>
 
-                <div className="flex justify-center items-between gap-x-9 mt-5">
+                <div className="flex justify-center items-between gap-x-9 mt-10">
                     <div className="flex flex-col gap-y-3">
                         <div className="text-[16px] font-bold">나이</div>
                         <div className="text-[16px] font-bold">성별</div>
@@ -78,7 +84,46 @@ export default function myPofile() {
             </aside>
 
             {/*메인 정보 부분 */}
-            <main className="border"></main>
+            <main className="flex flex-col gap-y-12 mt-10 ml-10 pl-10">
+                <div>
+                    <div className="text-[40px] font-extrabold">안녕하세요! 김성림입니다🐠</div>
+                    <div className="text-[16px] my-8">
+                        저는 시각디자인과에서
+                        <br/>
+                        타이포그래피, 레이아웃, 그리고 브랜딩 작업을 즐기는 디자이너입니다
+                        <br/>
+                        깔끔한 디자인 안에 톡톡 튀는 포인트💫를 넣는 걸 좋아합니다
+                    </div>
+                    <div className="flex flex-col gap-y-2">
+                        <div className="text-[15px] font-bold">제가 잘하는 것</div>
+                        <div className="flex flex-col text-[15px] gap-y-1">
+                            <div>- 포스터, 웹.앱, UI 디자인</div>
+                            <div>- 위계가 잘 잡힌 타이포와 레이아웃</div>
+                            <div>- 브랜드 컨셉 잡기와 키 비주얼 제작</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="flex flex-col gap-y-5 my-12">
+                    <div className="flex items-center gap-x-5">
+                        <div className="text-[20px] font-extrabold flex justify-center items-center">Review</div>
+                        <div className="flex justify-center items-center">4개</div>
+                    </div>
+                    <div className="w-[753px] h-[2px] bg-black"></div>
+                    <div className="w-[753px] flex overflow-x-auto gap-x-5">
+                        {reviews.map((idx, key) => (
+                            <div
+                            key={key} 
+                            className="w-[365px] h-[169px] rounded-[8px] shrink-0 bg-[#F8F8F8] border">
+                                <div className="flex  justify-between">
+                                    <div>{idx.name}</div>
+                                    <div>{idx.star}</div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </main>
         </div>
     )
 };

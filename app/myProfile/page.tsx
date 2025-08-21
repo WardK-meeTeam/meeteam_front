@@ -1,5 +1,8 @@
 "use client";
 
+import ToggleSwitchButton from "@/components/ToggleSwitchButton";
+import { useState } from "react";
+
 export default function myPofile() {
 
     const partGroups = [
@@ -9,6 +12,8 @@ export default function myPofile() {
     ];
 
     const stacksImg = ["/images/Ps.png", "/images/Figma.png", "/images/Ps.png"];
+
+    const [selected, setSelected] = useState(false);
 
     return (
         <div className="flex justify-center items-center">
@@ -59,7 +64,7 @@ export default function myPofile() {
                     </div>
                     <div className="flex gap-x-3 mt-7">
                         <div className="text-[16px] font-bold">프로젝트 참여 여부</div>
-                        <div>toggle btn</div>
+                        <ToggleSwitchButton onClick={() => setSelected((prev) => !prev) } isSelected={selected}/>
                     </div>
                     <div className="flex gap-x-3 mt-5">
                         <div className="text-[16px] font-bold">프로젝트 참여 수</div>

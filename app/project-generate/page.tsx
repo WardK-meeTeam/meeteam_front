@@ -4,6 +4,7 @@ import SelectableButtonGroup from "@/components/SelectableButtonGroup";
 import ImageSelector from "./components/ImageSelector";
 import Recruit from "./components/Recruit";
 import TechSearch from "./components/TechSearch";
+import DateSelector from "@/components/DateSelector";
 
 const categories = ["프론트(웹)", "백(웹)", "디자인", "기획", "마케팅"];
 const flatforms = ["iOS", "Android", "Web"];
@@ -43,11 +44,7 @@ export default function Page() {
         <TechSearch />
         <div className="flex flex-col gap-4">
           <b>프로젝트 마감일</b>
-          <input
-            placeholder="YYYY년  /  MM월  /  DD일"
-            type="date"
-            className="rounded-xl py-3 px-5 box-border border border-main outline-0"
-          />
+          <DateSelector />
         </div>
       </div>
     </div>

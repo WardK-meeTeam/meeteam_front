@@ -18,7 +18,7 @@ export default function DateSelector() {
     else if (type === "date") setDate(value);
   };
   return (
-    <div className="flex flex-row w-full rounded-xl px-5 py-3 box-border border border-mtm-main-blue">
+    <div className="flex flex-row w-full rounded-xl px-5 py-3 box-border border border-mtm-light-gray hover:border-mtm-main-blue focus:border-mtm-main-blue">
       <span className="flex flex-row gap-2">
         <input
           size={4}

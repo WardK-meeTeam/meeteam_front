@@ -1,15 +1,14 @@
+// 여기 isDay 프로젝트 지원에서 요일 고를때 사용할 props라서 무시해도 됨
 interface ToggleButtonProps {
   content: string;
-  width: number;
-  height: number;
+  isDay?: boolean;
   isSelected: boolean;
   onClick: () => void;
 }
 // 기본 스타일 border-radius:20px, font-size : 14px
 export default function ToggleButton({
   content,
-  width,
-  height,
+  isDay,
   isSelected,
   onClick,
 }: ToggleButtonProps) {
@@ -20,8 +19,9 @@ export default function ToggleButton({
     <button
       type="button"
       onClick={onClick}
-      style={{ width: `${width}px`, height: `${height}px` }}
-      className={`border rounded-[20px] text-[14px] flex justify-center items-center cursor-pointer ${buttonStyle}`}
+      className={`border rounded-full text-[14px] inline-flex justify-center border-box items-center cursor-pointer 
+        ${isDay ? "py-3 px-4" : "py-3 px-8"}
+        ${buttonStyle}`}
     >
       {content}
     </button>

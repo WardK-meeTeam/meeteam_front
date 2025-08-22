@@ -4,14 +4,16 @@ import { useEffect, useState } from "react";
 
 export default function SelectableButtonGroup({
   title,
+  subtitle,
   optionList,
 }: {
   title: string;
+  subtitle?: string;
   optionList: string[];
 }) {
   const [selectedOption, setSelectedOption] = useState<string[]>([]);
   const [options, setOptions] = useState<Record<string, boolean>>(
-    Object.fromEntries(optionList.map((opt) => [opt, false]))
+    Object.fromEntries(optionList.map((opt) => [opt, false])),
   );
   // Object.fromEntries = 배열을 객체화 시켜줌
   // partList에 있는 문자열들을 map을 통해서 객체의 Key로 넣고, Value는 false로 초기화함
@@ -29,14 +31,15 @@ export default function SelectableButtonGroup({
 
   return (
     <div className="flex flex-col gap-4">
-      <b>{title}</b>
-      <div className="grid grid-cols-3 w-[350px] gap-4">
+      <div className="flex flex-row gap-2 justify-start items-center">
+        <b>{title}</b>
+        <span className="text-red-500 text-xs">{subtitle ? subtitle : ""}</span>
+      </div>
+      <div className="flex flex-wrap w-full gap-3">
         {Object.keys(options).map((part) => (
           <ToggleButton
             key={part}
             content={part}
-            width={101}
-            height={41}
             isSelected={options[part]}
             onClick={() => handleClickPartButton(part)}
           />

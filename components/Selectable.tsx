@@ -34,7 +34,7 @@ export default function Selectable({ options }: { options: string[] }) {
         className="
           border rounded-xl text-[14px] p-3
           w-full flex items-center justify-between gap-2
-          border-gray-300 hover:border-[#B5D9FF]
+          border-mtm-light-gray hover:border-mtm-main-blue
           bg-white
         "
       >

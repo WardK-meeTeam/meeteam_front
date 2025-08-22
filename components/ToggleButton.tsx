@@ -14,8 +14,8 @@ export default function ToggleButton({
   onClick,
 }: ToggleButtonProps) {
   const buttonStyle = isSelected
-    ? "bg-selected border-main"
-    : "bg-transparent border-[#D9D9D9] hover:bg-[#F4F9FF] hover:border-[#B5D9FF]";
+    ? "bg-mtm-light-blue border-mtm-main-blue"
+    : "bg-transparent border-mtm-light-gray hover:bg-[#F4F9FF] hover:border-[#B5D9FF]";
   return (
     <button
       type="button"

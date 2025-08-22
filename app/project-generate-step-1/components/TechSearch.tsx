@@ -65,7 +65,7 @@ export default function TechSearch() {
           onClick={() => setOpen(true)}
           onChange={handleChangeSearch}
           placeholder="기술 스택을 검색해주세요"
-          className="w-full rounded-xl py-3 px-5 box-border border border-main outline-0"
+          className="w-full rounded-xl py-3 px-5 box-border border border-mtm-main-blue outline-0"
         />
         {/* 여기는 눌렀을 때 나오는 검색 창 */}
         {open && (
@@ -86,7 +86,6 @@ export default function TechSearch() {
               const selected = selectedStacks.find(
                 (stack) => stack.eng === item.eng,
               );
-              console.log(item.kor, " : ", selected);
               return (
                 <li
                   key={`TechStacks-${item.eng}`}
@@ -94,7 +93,7 @@ export default function TechSearch() {
                   onClick={() => {
                     if (!selected) handleAddStack(item);
                   }}
-                  className={`px-3 py-2 rounded-lg ${selected ? "cursor-not-allowed text-gray-400" : "hover:bg-selected cursor-pointer"}`}
+                  className={`px-3 py-2 rounded-lg ${selected ? "cursor-not-allowed text-gray-400" : "hover:bg-mtm-light-blue cursor-pointer"}`}
                 >
                   <span className="flex flex-row gap-4">
                     <svg

@@ -16,7 +16,8 @@ export default function MainButton({
   return (
     <button
       disabled={disabled}
-      className={`rounded-[10px] border font-bold py-3 px-8 text-white ${disabled ? `bg-mtm-button-disabled border-mtm-button-disabled` : `bg-main border-main cursor-pointer`}`}
+      onClick={onClick}
+      className={`rounded-[10px] border font-bold py-3 px-8 text-white ${disabled ? `bg-mtm-button-disabled border-mtm-button-disabled` : `bg-mtm-main-blue border-mtm-main-blue cursor-pointer`}`}
     >
       {buttonName}
     </button>

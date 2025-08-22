@@ -12,7 +12,7 @@ export default function ImageSelector() {
       <input type="file" id="project-cover-img-upload" className="hidden" />
       <div className="flex flex-col">
         <b>프로젝트 커버 이미지</b>
-        <span className="text-main text-[12px]">
+        <span className="text-mtm-main-blue text-[12px]">
           PNG, JPG 형식의 이미지를 업로드해주세요!
         </span>
       </div>

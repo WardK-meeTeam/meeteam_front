@@ -29,7 +29,7 @@ export default function Recruit() {
           삭제
         </button>
         <button
-          className="py-2 px-4 cursor-pointer bg-selected rounded-xl border border-main"
+          className="py-2 px-4 cursor-pointer bg-mtm-light-blue rounded-xl border border-mtm-main-blue"
           onClick={onClickButton}
           value="추가"
         >

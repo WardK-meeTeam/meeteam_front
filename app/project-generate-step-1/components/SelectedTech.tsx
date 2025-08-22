@@ -9,7 +9,7 @@ export default function SelectedTech({
   onClick: () => void;
 }) {
   return (
-    <span className="flex flex-row justify-center items-center gap-2 border border-main bg-selected px-4 py-2 rounded-3xl">
+    <span className="flex flex-row justify-center items-center gap-2 border border-mtm-main-blue bg-mtm-light-blue px-4 py-2 rounded-3xl">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         role="img"

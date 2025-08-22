@@ -15,11 +15,11 @@ export default function TextArea({ maxSize }: { maxSize: number }) {
       <textarea
         value={inputText}
         onChange={handleInputChange}
-        className="w-full h-[215px] border border-[#D9D9D9] p-2 rounded-xl overflow-x-hidden overflow-y-auto resize-none focus:outline-[#6BB4FF]"
+        className="w-full h-[215px] border border-mtm-light-gray p-5 rounded-xl overflow-x-hidden overflow-y-auto resize-none focus:outline-mtm-main-blue"
       />
       <div className="flex gap-1 text-[12px] justify-end">
         <span>{inputText.length}</span>
-        <span className="text-[#9C9C9C]">/ {maxSize}자</span>
+        <span className="text-mtm-text-gray">/ {maxSize}자</span>
       </div>
     </div>
   );

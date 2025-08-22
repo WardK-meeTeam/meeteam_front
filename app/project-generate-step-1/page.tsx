@@ -9,8 +9,16 @@ import DateSelector from "@/components/DateSelector";
 import MainButton from "@/components/MainButton";
 import SubButton from "@/components/SubButton";
 import { useRouter } from "next/navigation";
+import Input from "./components/Input";
 
-const categories = ["프론트(웹)", "백(웹)", "디자인", "기획", "마케팅"];
+const categories = [
+  "친환경☘️",
+  "반려동물🐱",
+  "헬스케어💪",
+  "교육/학습📚",
+  "AI/테크💻",
+  "패션/뷰티💄",
+];
 const flatforms = ["iOS", "Android", "Web"];
 const options = ["iOS", "Android", "Web"];
 
@@ -19,18 +27,16 @@ export default function Page() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="w-[420px] m-auto justify-start flex flex-col flex-1 py-10 ">
+      <div className="w-[430px] m-auto justify-start flex flex-col flex-1 py-10 ">
         <b className="text-[26px] mb-10">프로젝트 등록</b>
         <div className="flex flex-col gap-16">
-          <div className="flex flex-col gap-4">
-            <b>프로젝트 명</b>
-            <input
-              placeholder="프로젝트 이름을 입력해주세요"
-              className="rounded-xl py-3 px-5 box-border border border-mtm-main-blue outline-0"
-            />
-          </div>
+          <Input
+            title="프로젝트 명"
+            placeholder="프로젝트 이름을 입력해주세요"
+          />
           <SelectableButtonGroup
             title={"프로젝트 카테고리"}
+            subtitle="프로젝트 카테고리를 선택해주세요!"
             optionList={categories}
           />
           <SelectableButtonGroup title={"플랫폼"} optionList={flatforms} />

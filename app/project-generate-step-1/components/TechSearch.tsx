@@ -65,7 +65,7 @@ export default function TechSearch() {
           onClick={() => setOpen(true)}
           onChange={handleChangeSearch}
           placeholder="기술 스택을 검색해주세요"
-          className="w-full rounded-xl py-3 px-5 box-border border border-mtm-main-blue outline-0"
+          className="w-full rounded-xl py-3 px-5 box-border border border-mtm-light-gray focus:border-mtm-main-blue hover:border-mtm-main-blue outline-0"
         />
         {/* 여기는 눌렀을 때 나오는 검색 창 */}
         {open && (

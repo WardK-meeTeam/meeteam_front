@@ -1,3 +1,4 @@
+"use client";
 import BinaryOptionSelector from "@/components/BinaryOptionSelector";
 import Selectable from "@/components/Selectable";
 import SelectableButtonGroup from "@/components/SelectableButtonGroup";
@@ -7,22 +8,25 @@ import TechSearch from "./components/TechSearch";
 import DateSelector from "@/components/DateSelector";
 import MainButton from "@/components/MainButton";
 import SubButton from "@/components/SubButton";
+import { useRouter } from "next/navigation";
 
 const categories = ["프론트(웹)", "백(웹)", "디자인", "기획", "마케팅"];
 const flatforms = ["iOS", "Android", "Web"];
 const options = ["iOS", "Android", "Web"];
 
 export default function Page() {
+  const router = useRouter();
+
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="w-[420px] m-auto flex flex-col py-10 ">
+      <div className="w-[420px] m-auto justify-start flex flex-col flex-1 py-10 ">
         <b className="text-[26px] mb-10">프로젝트 등록</b>
         <div className="flex flex-col gap-16">
           <div className="flex flex-col gap-4">
             <b>프로젝트 명</b>
             <input
               placeholder="프로젝트 이름을 입력해주세요"
-              className="rounded-xl py-3 px-5 box-border border border-main outline-0"
+              className="rounded-xl py-3 px-5 box-border border border-mtm-main-blue outline-0"
             />
           </div>
           <SelectableButtonGroup
@@ -52,7 +56,12 @@ export default function Page() {
         </div>
       </div>
       <footer className="flex flex-row justify-end gap-2 w-full border-t border-mtm-light-gray py-3 px-16">
-        <SubButton buttonName="다음" width={4} height={4} />
+        <SubButton
+          buttonName="다음"
+          width={4}
+          height={4}
+          onClick={() => router.push("/project-generate-step-2")}
+        />
         <MainButton
           buttonName="등록하기"
           disabled={false}

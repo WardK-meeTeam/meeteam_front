@@ -6,7 +6,6 @@ import { useState } from "react";
 import { useRef } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
-import { SlArrowRight } from "react-icons/sl";
 
 export default function myPofile() {
 
@@ -98,7 +97,7 @@ export default function myPofile() {
                         <div className="text-[14px] text-[#AD5FFF]">정보 수정하기</div>
                     </div>
                     <div className="w-[148px] h-[45px] rounded-[8px] bg-[#FFF3F0] text-[16px] flex justify-center items-center text-[#FF4802] font-bold">
-                        협업온도 98'
+                        협업온도🔥 98°
                     </div>
                 </div>
 

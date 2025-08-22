@@ -31,11 +31,11 @@ export default function SelectableButtonGroup({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-row gap-2 justify-start items-center">
+      <div className="flex flex-row gap-2 items-center">
         <b>{title}</b>
         <span className="text-red-500 text-xs">{subtitle ? subtitle : ""}</span>
       </div>
-      <div className="flex flex-wrap w-full gap-3">
+      <div className="flex flex-row flex-wrap w-full gap-3">
         {Object.keys(options).map((part) => (
           <ToggleButton
             key={part}

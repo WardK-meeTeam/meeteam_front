@@ -3,6 +3,10 @@
 import ToggleSwitchButton from "@/components/ToggleSwitchButton";
 import { IoIosStar } from "react-icons/io";
 import { useState } from "react";
+import { useRef } from "react";
+import { IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowBack } from "react-icons/io";
+import { SlArrowRight } from "react-icons/sl";
 
 export default function myPofile() {
 
@@ -68,6 +72,16 @@ export default function myPofile() {
     };
     
     const [selected, setSelected] = useState(false);
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const STEP = 365 + 20;
+
+    const scrollLeft = () => {
+        scrollRef.current?.scrollBy({left: -STEP, behavior: "smooth"});
+    };
+
+    const scrollRight = () => {
+        scrollRef.current?.scrollBy({left: STEP, behavior: "smooth"});
+    };
 
     return (
         <div className="flex justify-center gap-x-11">
@@ -160,7 +174,10 @@ export default function myPofile() {
                     </div>
 
                     <div className="w-[753px] h-[2px] bg-black"></div>
-                    <div className="w-[753px] flex overflow-x-auto gap-x-5">
+                    <div 
+                    ref={scrollRef} 
+                    className="w-[753px] flex overflow-x-auto scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden gap-x-5"
+                    >
                         {dummyReviews.map((idx, key) => (
                             <div
                             key={key} 
@@ -175,6 +192,15 @@ export default function myPofile() {
                                 <div className="m-5 px-1 text-[16px]">{idx.review}</div>
                             </div>
                         ))}
+                    </div>
+                    <div className="flex gap-x-3">
+                        <button type="button" onClick={scrollLeft} className="w-[40px] h-[40px] rounded-[50%] border border-[1px] border-[#CFCFCF] flex justify-center items-center cursor-pointer">
+                            <IoIosArrowBack className="w-[30px] h-[30px] text-[#CFCFCF] "/>
+                            
+                        </button>
+                        <button type="button" onClick={scrollRight} className="w-[40px] h-[40px] rounded-[50%] border border-[1px] border-[#CFCFCF] flex justify-center items-center cursor-pointer">
+                            <IoIosArrowForward className="w-[30px] h-[30px] text-[#CFCFCF] "/>
+                        </button>
                     </div>
                 </div>
 

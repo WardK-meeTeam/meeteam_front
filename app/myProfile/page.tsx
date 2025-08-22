@@ -1,22 +1,71 @@
 "use client";
 
 import ToggleSwitchButton from "@/components/ToggleSwitchButton";
+import { IoIosStar } from "react-icons/io";
 import { useState } from "react";
 
 export default function myPofile() {
 
-    const partGroups = [
+    const dummyPartGroups = [
         ["디자인", "uiux디자인"], 
         ["디자인", "3d 그래픽"], 
         ["프론트엔드", "웹 프론트엔드"]
     ];
-    const stacksImg = ["/images/Ps.png", "/images/Figma.png", "/images/Ps.png"];
-    const reviews = [
+    const dummyStacksImg = ["/images/Ps.png", "/images/Figma.png", "/images/Ps.png"];
+    const dummyReviews = [
         {name: "박서현", star: 4.5, review: "디자인 감각이 뛰어나고 세부적인 디테일까지 꼼꼼하게 챙기는 모습이 인상적입니다. 아이디어 회의 때는 다른 사람의 생각을 잘 경청하며...."},
         {name: "박서현", star: 4.0, review: "디자인 감각이 뛰어나고 세부적인 디테일까지 꼼꼼하게 챙기는 모습이 인상적입니다. 아이디어 회의 때는 다른 사람의 생각을 잘 경청하며...."},
         {name: "박서현", star: 4.5, review: "디자인 감각이 뛰어나고 세부적인 디테일까지 꼼꼼하게 챙기는 모습이 인상적입니다. 아이디어 회의 때는 다른 사람의 생각을 잘 경청하며...."},
         {name: "박서현", star: 4.0, review: "디자인 감각이 뛰어나고 세부적인 디테일까지 꼼꼼하게 챙기는 모습이 인상적입니다. 아이디어 회의 때는 다른 사람의 생각을 잘 경청하며...."},
     ]
+
+    const dummyProjects = [
+        {
+            category: "Healthcare",
+            state: "InProgress", 
+            endDate: {year: "2025", month: "8", day: "12",},
+            title: "스마트 호흡 트레커를 통한 천식 모니터링 앱",
+            bgImg: "/images/HealthCare.png",
+        },
+        {
+            category: "Pet",
+            state: "InProgress", 
+            endDate: {year: "2025", month: "8", day: "12",},
+            title: "스마트 호흡 트레커를 통한 천식 모니터링 앱",
+            bgImg: "/images/Pet.png",
+        },
+        {
+            category: "Healthcare",
+            state: "InProgress", 
+            endDate: {year: "2025", month: "8", day: "12",},
+            title: "스마트 호흡 트레커를 통한 천식 모니터링 앱",
+            bgImg: "/images/HealthCare.png",
+        },
+        {
+            category: "Productivity",
+            state: "Complete", 
+            endDate: {year: "2025", month: "8", day: "12",},
+            title: "스마트 호흡 트레커를 통한 천식 모니터링 앱",
+            bgImg: "/images/Productivity.png",
+        },
+        {
+            category: "Education",
+            state: "Complete", 
+            endDate: {year: "2025", month: "8", day: "12",},
+            title: "스마트 호흡 트레커를 통한 천식 모니터링 앱",
+            bgImg: "/images/Education.png",
+        },
+    ];
+
+    // 순서대로 [textColor, boxColor, (gradient colors 3개)]
+    const CategoryColors : { [key: string] : [string, string, string, string] } = {
+        Beauty: ["#DB6893", "#FFF0F9", "#F3D8E6", "#F2CAD2"],          
+        Eco: ["#71B04E", "#E5FFD6", "#AAEBE0", "#CBE8BA"],
+        Education: ["#A27DC2", "#F5E9FF", "#C7C9EE", "#DDCCEA"],
+        Pet: ["#F1A800", "#FFFCE9", "#F4D2BD", "#F4EDBF"],
+        Productivity: ["#3A84BC", "#D9FBFF", "#CCDEFF", "#B5E7ED"],
+        Healthcare: ["#EE7366", "#FFEAE8", "#FFCAC1", "#F7E2DC"],
+    };
     
     const [selected, setSelected] = useState(false);
 
@@ -51,7 +100,7 @@ export default function myPofile() {
                         <div className="text-[16px]">여성</div>
                         <div className="text-[16px] flex items-center">volunteer.24@gmail.com</div>
                         <div className="flex flex-col">
-                            {partGroups.map(([left, right], idx) => (
+                            {dummyPartGroups.map(([left, right], idx) => (
                                 <div key={idx} className="flex gap-x-2">
                                     <span className="after:content-[','] last:after:content-['']">{left}</span>
                                     <span className="after:content-[','] last:after:content-['']">{right}</span>
@@ -64,7 +113,7 @@ export default function myPofile() {
                 <div className="flex flex-col gap-y-3">
                     <div className="text-[16px] font-bold">기술 스택</div>
                     <div className="flex gap-x-3">
-                        {stacksImg.map((stack, idx) => (
+                        {dummyStacksImg.map((stack, idx) => (
                             <img key={idx} src={stack} className="w-[40px] h-[40px] rounded-[50%]"/>
                         ))}
                     </div>
@@ -109,21 +158,64 @@ export default function myPofile() {
                         <div className="text-[20px] font-extrabold flex justify-center items-center">Review</div>
                         <div className="flex justify-center items-center">4개</div>
                     </div>
+
                     <div className="w-[753px] h-[2px] bg-black"></div>
                     <div className="w-[753px] flex overflow-x-auto gap-x-5">
-                        {reviews.map((idx, key) => (
+                        {dummyReviews.map((idx, key) => (
                             <div
                             key={key} 
-                            className="w-[365px] h-[169px] rounded-[8px] shrink-0 bg-[#F8F8F8] border">
-                                <div className="flex  justify-between">
-                                    <div>{idx.name}</div>
-                                    <div>{idx.star}</div>
+                            className="w-[365px] h-[169px] rounded-[8px] shrink-0 bg-[#F8F8F8]">
+                                <div className="flex justify-between px-6 pt-5">
+                                    <div className="text-[#474747] text-[16px] font-bold">{idx.name}</div>
+                                    <div className="flex justify-center items-center gap-x-1">
+                                        <IoIosStar className="w-[15.3px] h-[14.62px] text-[#00E457]"/>
+                                        <div className="text-[16px] text-[#474747]">{idx.star.toFixed(1)}</div>
+                                    </div>
                                 </div>
+                                <div className="m-5 px-1 text-[16px]">{idx.review}</div>
                             </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="flex flex-col gap-y-5 my-12">
+                    <div className="flex items-center gap-x-5">
+                            <div className="text-[20px] font-extrabold flex justify-center items-center">Project</div>
+                            <div className="flex justify-center items-center">5개</div>
+                    </div>
+                    <div className="w-[753px] h-[2px] bg-black mb-5"></div>
+
+                    <div className="grid grid-cols-3 gap-x-3 gap-y-5">
+                        {dummyProjects.map((idx, key) => (
+                            <div 
+                            key={key}
+                            className="aspect-[4/3] w-[244px] rounded-[8px] bg-cover bg-center flex flex-col justify-between"
+                            style={{ backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 2%, rgba(0, 0, 0, 0.4) 83%), url(${idx.bgImg}) ` }}
+                            >
+                               <div className="flex flex-col items-end justify- p-4">
+                                    <div 
+                                    className="w-[58px] h-[18px] rounded-[10px] flex justify-center items-center"
+                                    style={{ backgroundColor: CategoryColors[idx.category][1]}}
+                                    >
+                                        <div
+                                        style={{color: CategoryColors[idx.category][0]}}
+                                        className="text-[8px] font-semibold"
+                                        >{idx.state}</div>
+                                    </div>
+                               </div> 
+                               <div className="flex flex-col justify-end p-3">
+                                        <div className="flex text-white gap-x-2">
+                                            <div className="text-[10px] font-semibold">프로젝트 완료일</div>
+                                            <div className="text-[10px]">{idx.endDate.year}년 {idx.endDate.month}월 {idx.endDate.day}일</div>
+                                        </div>
+                                        <div className="text-[16px] font-extrabold text-white w-[164px]">{idx.title}</div>
+                                </div>
+                            </div>  
                         ))}
                     </div>
                 </div>
             </main>
         </div>
+        
     )
 };

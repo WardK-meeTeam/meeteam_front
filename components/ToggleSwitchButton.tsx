@@ -9,9 +9,8 @@ interface ToggleSwitchButtonProps {
 
 export default function ToggleSwitchButton({isSelected, onClick,} : ToggleSwitchButtonProps) {
 
-    const bgColor = isSelected ? "bg-[#D5D5D5]" : "bg-[#474747]";
-    
-    const color = isSelected ? "text-[#FFFFFF]" : "text-[#474747]";
+    const bgColor = isSelected ? "bg-[#3395F9]" : "bg-[#474747]";
+    const color = isSelected ? "text-[#3395F9]" : "text-[#FFFFFF]";
 
     return (
        <div 

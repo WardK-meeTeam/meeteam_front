@@ -5,8 +5,8 @@ import RecruitRow from "./RecruitRow";
 export default function Recruit() {
   const [count, setCount] = useState<number[]>([1]);
 
-  const onClickButton = (e) => {
-    const value = e.target.value;
+  const onClickButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const value = e.currentTarget.value;
     if (value === "추가") {
       setCount((prev) => [...prev, prev.length + 1]);
     } else if (value === "삭제" && count.length != 1) {

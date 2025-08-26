@@ -20,9 +20,45 @@ export default function myPofile() {
         {name: "박서현", star: 4.0, review: "디자인 감각이 뛰어나고 세부적인 디테일까지 꼼꼼하게 챙기는 모습이 인상적입니다. 아이디어 회의 때는 다른 사람의 생각을 잘 경청하며...."},
         {name: "박서현", star: 4.5, review: "디자인 감각이 뛰어나고 세부적인 디테일까지 꼼꼼하게 챙기는 모습이 인상적입니다. 아이디어 회의 때는 다른 사람의 생각을 잘 경청하며...."},
         {name: "박서현", star: 4.0, review: "디자인 감각이 뛰어나고 세부적인 디테일까지 꼼꼼하게 챙기는 모습이 인상적입니다. 아이디어 회의 때는 다른 사람의 생각을 잘 경청하며...."},
+
     ]
 
     const dummyProjects = [
+        {
+            category: "Healthcare",
+            state: "InProgress", 
+            endDate: {year: "2025", month: "8", day: "12",},
+            title: "스마트 호흡 트레커를 통한 천식 모니터링 앱",
+            bgImg: "/images/HealthCare.png",
+        },
+        {
+            category: "Pet",
+            state: "InProgress", 
+            endDate: {year: "2025", month: "8", day: "12",},
+            title: "스마트 호흡 트레커를 통한 천식 모니터링 앱",
+            bgImg: "/images/Pet.png",
+        },
+        {
+            category: "Healthcare",
+            state: "InProgress", 
+            endDate: {year: "2025", month: "8", day: "12",},
+            title: "스마트 호흡 트레커를 통한 천식 모니터링 앱",
+            bgImg: "/images/HealthCare.png",
+        },
+        {
+            category: "Productivity",
+            state: "Complete", 
+            endDate: {year: "2025", month: "8", day: "12",},
+            title: "스마트 호흡 트레커를 통한 천식 모니터링 앱",
+            bgImg: "/images/Productivity.png",
+        },
+        {
+            category: "Education",
+            state: "Complete", 
+            endDate: {year: "2025", month: "8", day: "12",},
+            title: "스마트 호흡 트레커를 통한 천식 모니터링 앱",
+            bgImg: "/images/Education.png",
+        },
         {
             category: "Healthcare",
             state: "InProgress", 
@@ -209,34 +245,35 @@ export default function myPofile() {
                             <div className="flex justify-center items-center">5개</div>
                     </div>
                     <div className="w-[753px] h-[2px] bg-black mb-5"></div>
-
-                    <div className="grid grid-cols-3 gap-x-3 gap-y-5">
-                        {dummyProjects.map((idx, key) => (
-                            <div 
-                            key={key}
-                            className="aspect-[4/3] w-[244px] rounded-[8px] bg-cover bg-center flex flex-col justify-between"
-                            style={{ backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 2%, rgba(0, 0, 0, 0.4) 83%), url(${idx.bgImg}) ` }}
-                            >
-                               <div className="flex flex-col items-end justify- p-4">
-                                    <div 
-                                    className="w-[58px] h-[18px] rounded-[10px] flex justify-center items-center"
-                                    style={{ backgroundColor: CategoryColors[idx.category][1]}}
-                                    >
-                                        <div
-                                        style={{color: CategoryColors[idx.category][0]}}
-                                        className="text-[8px] font-semibold"
-                                        >{idx.state}</div>
-                                    </div>
-                               </div> 
-                               <div className="flex flex-col justify-end p-3">
-                                        <div className="flex text-white gap-x-2">
-                                            <div className="text-[10px] font-semibold">프로젝트 완료일</div>
-                                            <div className="text-[10px]">{idx.endDate.year}년 {idx.endDate.month}월 {idx.endDate.day}일</div>
+                    <div className="h-[386px] overflow-y-auto scrollbar-thin scrollbar-thumb-black">
+                        <div className="grid grid-cols-3 gap-x-3 gap-y-5">
+                            {dummyProjects.map((idx, key) => (
+                                <div 
+                                key={key}
+                                className="aspect-[4/3] w-[244px] rounded-[8px] bg-cover bg-center flex flex-col justify-between"
+                                style={{ backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 2%, rgba(0, 0, 0, 0.4) 83%), url(${idx.bgImg}) ` }}
+                                >
+                                   <div className="flex flex-col items-end justify- p-4">
+                                        <div 
+                                        className="w-[58px] h-[18px] rounded-[10px] flex justify-center items-center"
+                                        style={{ backgroundColor: CategoryColors[idx.category][1]}}
+                                        >
+                                            <div
+                                            style={{color: CategoryColors[idx.category][0]}}
+                                            className="text-[8px] font-semibold"
+                                            >{idx.state}</div>
                                         </div>
-                                        <div className="text-[16px] font-extrabold text-white w-[164px]">{idx.title}</div>
-                                </div>
-                            </div>  
-                        ))}
+                                   </div> 
+                                   <div className="flex flex-col justify-end p-3">
+                                            <div className="flex text-white gap-x-2">
+                                                <div className="text-[10px] font-semibold">프로젝트 완료일</div>
+                                                <div className="text-[10px]">{idx.endDate.year}년 {idx.endDate.month}월 {idx.endDate.day}일</div>
+                                            </div>
+                                            <div className="text-[16px] font-extrabold text-white w-[164px]">{idx.title}</div>
+                                    </div>
+                                </div>  
+                            ))}
+                        </div>
                     </div>
                 </div>
             </main>

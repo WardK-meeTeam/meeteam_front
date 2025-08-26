@@ -17,5 +17,7 @@ module.exports = {
       rotate: ["hover"],
     },
   },
-  plugins: [],
+  plugins: [
+    require("tailwind-scrollbar")({ nocompatible: true }),
+  ],
 };

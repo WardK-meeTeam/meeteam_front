@@ -245,7 +245,7 @@ export default function myPofile() {
                             <div className="flex justify-center items-center">5개</div>
                     </div>
                     <div className="w-[753px] h-[2px] bg-black mb-5"></div>
-                    <div className="h-[386px] overflow-y-auto scrollbar-thin scrollbar-thumb-black">
+                    <div className="h-[386px] overflow-y-auto scrollbar scrollbar-thin scrollbar-thumb-black scrollbar-track-[#EDEDED]">
                         <div className="grid grid-cols-3 gap-x-3 gap-y-5">
                             {dummyProjects.map((idx, key) => (
                                 <div 

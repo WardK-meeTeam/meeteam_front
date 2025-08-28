@@ -6,12 +6,13 @@ export default function SelectableButtonGroup({
   title,
   subtitle,
   optionList,
+  onChangeOptions,
 }: {
   title: string;
   subtitle?: string;
   optionList: string[];
+  onChangeOptions?: (op: string[]) => void;
 }) {
-  const [selectedOption, setSelectedOption] = useState<string[]>([]);
   const [options, setOptions] = useState<Record<string, boolean>>(
     Object.fromEntries(optionList.map((opt) => [opt, false])),
   );
@@ -24,10 +25,10 @@ export default function SelectableButtonGroup({
   }
 
   useEffect(() => {
-    setSelectedOption(Object.keys(options).filter((part) => options[part]));
+    // props로 handle함수를 넘겨받았을 때만 해당 함수 작동하도록
+    const selected = Object.keys(options).filter((part) => options[part]);
+    onChangeOptions?.(selected);
   }, [options]); // part : true인 애들만 뽑아서 selected에 넣음 -> 전체를 다시 넣는거라 성능 최적화 고려하면 나중에 로직 다시 짜야하긴 할듯
-
-  // console.log("현재 선택된 옵션들 : ", selectedOption);
 
   return (
     <div className="flex flex-col gap-4">

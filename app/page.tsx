@@ -21,7 +21,7 @@ export default function HomePage() {
     };
 
     return (
-        <main className="flex flex-col  justify-center items-center">
+        <main className="flex flex-col justify-center items-center gap-y-5">
             {/**광고 자리 */}
             <div className="w-[88%] h-[180px] bg-[#F8F8F8] my-3">
             </div>
@@ -48,37 +48,37 @@ export default function HomePage() {
                             </div>
                         ))}
                     </div>
-
-                    <div className="w-auto flex flex-col">
-                        <div className="px-5 py-3 text-[26px] font-bold mt-2" >프로젝트</div>
-                        <div 
-                        ref={scrollRef}
-                        className="h-[440px] my-1 overflow-x-auto overflow-y-hidden
-                        [scrollbar-width: none] [&::-webkit-scrollbar]:hidden">
-                            <CardList />
-                        </div>
-                        <div className="w-full h-3 flex gap-x-3 px-5">
-                            <button 
-                            type="button" 
-                            onClick={scrollLeft} 
-                            className="w-[40px] h-[40px] rounded-[50%] border border-[1px] border-[#CFCFCF] flex justify-center items-center cursor-pointer"
-                            >
-                                <IoIosArrowBack className="w-[30px] h-[30px] text-[#CFCFCF] "/>
-                            </button>
-                            <button 
-                            type="button" 
-                            className="w-[40px] h-[40px] rounded-[50%] border border-[1px] border-[#CFCFCF] flex justify-center items-center cursor-pointer"
-                            >
-                                <IoIosArrowForward onClick={scrollRight} className="w-[30px] h-[30px] text-[#CFCFCF] "/>
-                            </button>
-                        </div>
-                    </div>
                 </div>
-                
             </div>
 
-            <div>
+            <div className="w-[88%] flex flex-col">
+                <div className="px-8 py-3 text-[26px] font-bold mt-2" >프로젝트</div>
+                <div 
+                ref={scrollRef}
+                className="h-[440px] my-1 overflow-x-auto overflow-y-hidden
+                [scrollbar-width: none] [&::-webkit-scrollbar]:hidden">
+                    <CardList />
+                </div>
+                <div className="w-full h-3 flex gap-x-3 px-5">
+                    <button 
+                    type="button" 
+                    onClick={scrollLeft} 
+                    className="w-[40px] h-[40px] rounded-[50%] border border-[1px] border-[#CFCFCF] flex justify-center items-center cursor-pointer"
+                    >
+                        <IoIosArrowBack className="w-[30px] h-[30px] text-[#CFCFCF] "/>
+                    </button>
+                    <button 
+                    type="button" 
+                    className="w-[40px] h-[40px] rounded-[50%] border border-[1px] border-[#CFCFCF] flex justify-center items-center cursor-pointer"
+                    >
+                        <IoIosArrowForward onClick={scrollRight} className="w-[30px] h-[30px] text-[#CFCFCF] "/>
+                    </button>
+                </div>
+            </div>
 
+            <div className="w-[88%] flex flex-col my-5">
+                <div className="px-8 py-3 text-[26px] font-bold mt-2">팀을 구해요!</div>
+                <div></div>
             </div>
         </main>
     )

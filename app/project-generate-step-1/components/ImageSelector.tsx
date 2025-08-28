@@ -1,15 +1,41 @@
 import Image from "next/image";
 import CameraIcon from "@/public/images/camera.svg";
 
-export default function ImageSelector() {
+export default function ImageSelector({
+  value,
+  onChange,
+}: {
+  value: string | null;
+  onChange: (str: string) => void;
+}) {
   return (
     <div className="flex flex-row gap-5 justify-start items-center">
       <label htmlFor="project-cover-img-upload">
-        <div className="flex justify-center items-center w-20 h-20 bg-[#F8F8F8] rounded-full cursor-pointer">
-          <Image width={20} height={20} alt="카메라 아이콘" src={CameraIcon} />
+        <div className="flex relative justify-center items-center w-20 h-20 bg-[#F8F8F8] rounded-full cursor-pointer">
+          {value ? (
+            <Image
+              className="rounded-full"
+              fill
+              alt="선택된 사진"
+              src={value}
+            />
+          ) : (
+            <Image
+              width={20}
+              height={20}
+              alt="카메라 아이콘"
+              src={CameraIcon}
+            />
+          )}
         </div>
       </label>
-      <input type="file" id="project-cover-img-upload" className="hidden" />
+      <input
+        type="file"
+        id="project-cover-img-upload"
+        accept=".jpg,.jpeg,.png"
+        onChange={(e) => onChange(URL.createObjectURL(e.target.files![0]))}
+        className="hidden"
+      />
       <div className="flex flex-col">
         <b>프로젝트 커버 이미지</b>
         <span className="text-mtm-main-blue text-[12px]">

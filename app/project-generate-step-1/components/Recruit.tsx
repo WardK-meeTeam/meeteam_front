@@ -20,16 +20,16 @@ export default function Recruit() {
       {count.map((_, idx) => (
         <RecruitRow key={`프로젝트생성-모집분야-${idx}`} />
       ))}
-      <span className="text-end">
+      <span className="flex flex-row gap-2 justify-end items-center">
         <button
-          className="py-2 px-4 cursor-pointer bg-[#F8F8F8] rounded-xl border border-[#9D9D9D]"
+          className="flex justify-center items-center py-2 px-4 cursor-pointer bg-[#F8F8F8] rounded-lg border border-[#9D9D9D] text-[14px]"
           onClick={onClickButton}
           value="삭제"
         >
           삭제
         </button>
         <button
-          className="py-2 px-4 cursor-pointer bg-mtm-light-blue rounded-xl border border-mtm-main-blue"
+          className="flex justify-center items-center py-2 px-4 cursor-pointer bg-mtm-light-blue rounded-lg border border-mtm-main-blue text-[14px]"
           onClick={onClickButton}
           value="추가"
         >

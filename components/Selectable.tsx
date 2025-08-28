@@ -4,19 +4,22 @@ import ArrowDown from "@/public/images/ArrowDown.svg";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 export default function Selectable({
-  options,
-  disabled,
+  options = [],
+  disabled = false,
+  value,
+  onChangeOption,
 }: {
-  options: string[];
+  options?: string[] | null;
   disabled?: boolean;
+  value?: string | null;
+  onChangeOption: (item: any) => void;
 }) {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState<string | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
 
   const handleClickoption = (item: string) => {
     setOpen(false);
-    setSelected(item);
+    onChangeOption(item);
   };
 
   // 컴포넌트 외부 클릭하면 닫히는 로직
@@ -46,7 +49,7 @@ export default function Selectable({
         `}
       >
         <span className={`${disabled ? "text-gray-300" : "text-gray-700"}`}>
-          {selected !== null ? `${selected}` : "선택하세요"}
+          {value ?? "선택하세요"}
         </span>
         {/* 아래 화살표 아이콘 */}
         {disabled ? (
@@ -75,7 +78,7 @@ export default function Selectable({
           {/* 여기 키도 수정 한번 해야함 */}
           {options.map((item) => (
             <li
-              key={`나중에 키 수정해주세요 - ${item}`}
+              key={`options - ${item}`}
               onClick={() => handleClickoption(item)}
               value={item}
               className="px-3 py-2 rounded-lg cursor-pointer hover:bg-[#F4F9FF]"

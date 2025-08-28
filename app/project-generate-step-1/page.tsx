@@ -71,11 +71,20 @@ export default function Page() {
 
   function checkField() {}
 
-  useEffect(() => {
-    console.log(platform);
-    console.log(projectImage);
-    console.log(mustOffline);
-  }, [platform, projectCategories, projectImage, mustOffline]);
+  // useEffect(() => {
+  //   console.log("플랫폼 : ", platform);
+  //   console.log("카테고리 : ", projectCategories);
+  //   console.log("이미지 주소 : ", projectImage);
+  //   console.log("오프라인 필참 : ", mustOffline);
+  //   console.log("나의 포지션 : ", myField);
+  // }, [
+  //   platform,
+  //   projectCategories,
+  //   projectImage,
+  //   mustOffline,
+  //   myField,
+  //   recruitField,
+  // ]);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -108,7 +117,7 @@ export default function Page() {
           />
           <div className="flex flex-col gap-4 w-full">
             <b>나의 포지션</b>
-            <FieldSelector />
+            <FieldSelector onChangeOptions={setMyField} />
           </div>
           <Recruit />
           <TechSearch />

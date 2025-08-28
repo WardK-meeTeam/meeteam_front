@@ -3,7 +3,13 @@
 import ArrowDown from "@/public/images/ArrowDown.svg";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-export default function Selectable({ options }: { options: string[] }) {
+export default function Selectable({
+  options,
+  disabled,
+}: {
+  options: string[];
+  disabled?: boolean;
+}) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -31,24 +37,29 @@ export default function Selectable({ options }: { options: string[] }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="
+        disabled={disabled}
+        className={`
           border rounded-xl text-[14px] p-3
           w-full flex items-center justify-between gap-2
-          border-mtm-light-gray hover:border-mtm-main-blue
-          bg-white
-        "
+          ${disabled ? "border-gray-200" : "hover:border-mtm-main-blue border-mtm-light-gray "}
+          bg-white 
+        `}
       >
-        <span className="text-gray-700">
+        <span className={`${disabled ? "text-gray-300" : "text-gray-700"}`}>
           {selected !== null ? `${selected}` : "선택하세요"}
         </span>
         {/* 아래 화살표 아이콘 */}
-        <Image
-          className={`transition-transform duration-150 ease-out ${open ? "rotate-180" : ""}`}
-          width={16}
-          height={16}
-          src={ArrowDown}
-          alt="아래 화살표"
-        />
+        {disabled ? (
+          ""
+        ) : (
+          <Image
+            className={`transition-transform duration-150 ease-out ${open ? "rotate-180" : ""}`}
+            width={16}
+            height={16}
+            src={ArrowDown}
+            alt="아래 화살표"
+          />
+        )}
       </button>
       {open && (
         <ul

@@ -30,11 +30,11 @@ export default function DateSelector() {
           className="outline-0 text-end"
         />
         <span>년</span>
-        <span>/</span>
+        <span className="mr-2">/</span>
       </span>
       <span className="flex flex-row gap-2">
         <input
-          size={2}
+          size={3}
           maxLength={2}
           placeholder="MM"
           value={month}
@@ -43,11 +43,11 @@ export default function DateSelector() {
           className="outline-0 text-end"
         />
         <span>월</span>
-        <span>/</span>
+        <span className="mr-2">/</span>
       </span>
       <span className="flex flex-row gap-2">
         <input
-          size={2}
+          size={3}
           maxLength={2}
           value={date}
           onChange={(e) => handleChange(e, "date")}

@@ -28,12 +28,14 @@ const dummyCard = {
 
 export default function CardList() {
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className="ml-6 flex items-center justify-start w-[90%] overflow-hidden">
-        {Array(4)
+    <div className="w-full h-full">
+      <div className="flex items-start h-full justify-start w-full">
+        {Array(8)
           .fill(0)
-          .map((idx) => (
-            <Card key={idx} {...dummyCard} />
+          .map((_,idx) => (
+            <div  key={idx} className="shrink-0">
+              <Card {...dummyCard} />
+            </div>
           ))}
       </div>
     </div>

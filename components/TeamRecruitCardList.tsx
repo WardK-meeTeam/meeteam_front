@@ -30,12 +30,18 @@ interface Skill {
 
 export default function TeamRecruitCardList() {
   return (
-    <div className="ml-6 flex items-center justify-start w-[90%] overflow-hidden gap-x-3">
-      {Array(4)
-        .fill(0)
-        .map((idx) => (
-          <TeamRecruitCard key={idx} {...dummyCard} />
-        ))}
+    <div className="h-full w-full">
+      <div className="flex items-start h-full justify-start w-full gap-x-7">
+          {Array(8)
+          .fill(0)
+          .map((_, i) => (
+            <TeamRecruitCard  
+            key={i} 
+            {...dummyCard} 
+            className="shrink-0"
+            />
+          ))}
+      </div>
     </div>
   );
 }

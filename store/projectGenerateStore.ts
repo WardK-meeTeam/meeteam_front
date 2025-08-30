@@ -1,7 +1,8 @@
 import { create } from "zustand";
 
 export interface recruitFieldItem {
-  field: string;
+  id: number;
+  field: string | null;
   numOfPeople: number;
 }
 
@@ -11,9 +12,10 @@ export interface ProjectGenerateState {
   platform: string[];
   projectImage: string | null;
   mustOffline: "필수" | "선택";
-  myField: string;
+  myField: string | null;
   recruitField: recruitFieldItem[];
-  projectDeadline: string;
+  skills: string[];
+  projectDeadline: string | null;
   projectDescription: string;
 
   setProjectName: (pn: string) => void;
@@ -21,9 +23,10 @@ export interface ProjectGenerateState {
   setPlatform: (p: string[]) => void;
   setProjectImage: (pi: string) => void;
   setMustOffline: (o: "필수" | "선택") => void;
-  setMyField: (mf: string) => void;
+  setMyField: (mf: string | null) => void;
   setRecruitField: (rf: recruitFieldItem[]) => void;
-  setProjectDeadline: (pd: string) => void;
+  setSkills: (sk: string[]) => void;
+  setProjectDeadline: (pd: string | null) => void;
   setProjectDescription: (pd: string) => void;
   reset: () => void;
 }
@@ -35,8 +38,9 @@ export const useProjectGenerateStore = create<ProjectGenerateState>((set) => ({
   projectImage: null,
   mustOffline: "필수",
   myField: "",
-  recruitField: [],
-  projectDeadline: "",
+  recruitField: [{ id: 0, field: null, numOfPeople: 1 }],
+  skills: [],
+  projectDeadline: null,
   projectDescription: "",
 
   // set 함수 모음
@@ -47,6 +51,7 @@ export const useProjectGenerateStore = create<ProjectGenerateState>((set) => ({
   setMustOffline: (o) => set({ mustOffline: o }),
   setMyField: (mf) => set({ myField: mf }),
   setRecruitField: (rf) => set({ recruitField: rf }),
+  setSkills: (sk) => set({ skills: sk }),
   setProjectDeadline: (pd) => set({ projectDeadline: pd }),
   setProjectDescription: (pd) => set({ projectDescription: pd }),
 
@@ -59,8 +64,9 @@ export const useProjectGenerateStore = create<ProjectGenerateState>((set) => ({
       projectImage: null,
       mustOffline: "필수",
       myField: "",
-      recruitField: [],
-      projectDeadline: "",
+      recruitField: [{ id: 0, field: null, numOfPeople: 1 }],
+      skills: [],
+      projectDeadline: null,
       projectDescription: "",
     }),
 }));

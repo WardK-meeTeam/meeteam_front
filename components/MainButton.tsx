@@ -9,8 +9,6 @@ export interface MainButtonProps {
 export default function MainButton({
   buttonName,
   disabled,
-  width,
-  height,
   onClick,
 }: MainButtonProps) {
   return (

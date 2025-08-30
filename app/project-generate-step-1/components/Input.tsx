@@ -13,6 +13,7 @@ export default function Input({
     <div className="flex flex-col gap-4">
       <b>{title}</b>
       <input
+        type="text"
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
         value={value}

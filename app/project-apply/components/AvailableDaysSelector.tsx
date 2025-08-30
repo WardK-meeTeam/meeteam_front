@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 function AvailableDaysSelector() {
   const day = ["월", "화", "수", "목", "금", "토", "일"]; // 요일 담는 배열
   const [daySelection, setDaySelection] = useState<boolean[]>(
-    new Array(7).fill(false)
+    new Array(7).fill(false),
   ); // day 배열과 매핑될 배열, daySelection[0] = false의 의미는 월요일이 현재 선택되지 않았음을 의미
 
   const [selectedDay, setSelectedDay] = useState<string[]>([]); // true인 요일만 필터링 -> data 보낼 용도
@@ -26,15 +26,14 @@ function AvailableDaysSelector() {
     });
   }
   return (
-    <div className="flex flex-col gap-2.5">
+    <div className="flex flex-col gap-2.5 w-full">
       <b>주당 투자 가능 요일</b>
-      <div className="flex justify-between items-center ">
+      <div className="flex justify-start gap-3 items-center w-full">
         {day.map((day, idx) => (
           <ToggleButton
             key={day}
             content={day}
-            width={45}
-            height={41}
+            isDay={true}
             isSelected={daySelection[idx]}
             onClick={() => handleClickButton(idx)}
           />

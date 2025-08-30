@@ -42,7 +42,10 @@ export default function Chat({ id }: { id: string }) {
         {/* 채팅 메세지 영역 -> 스크롤 되는 부분*/}
         <div className="flex flex-col gap-10 w-full h-full max-w-[1200px]">
           {nowMessages.map((message) => (
-            <MessageBox key={`${id}-${message.timestamp}-${message.content}`} {...message} />
+            <MessageBox
+              key={`${id}-${message.timestamp}-${message.content}`}
+              {...message}
+            />
           ))}
         </div>
       </div>
@@ -51,7 +54,7 @@ export default function Chat({ id }: { id: string }) {
       <div className="px-20 w-full flex justify-center">
         <form
           className={`w-full max-w-[1200px] flex items-center justify-between rounded-[8px] border mb-5 ${
-            isOnChat ? "border-[#6BB4FF]" : "border-[#D9D9D9]"
+            isOnChat ? "border-mtm-main-blue" : "border-mtm-light-gray"
           }`}
         >
           <textarea

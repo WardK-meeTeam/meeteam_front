@@ -56,24 +56,24 @@ export default function NumberStepper({
       <div className="flex items-center border-collapse">
         <button
           onClick={handleClickMinusButton}
-          className="w-[40px] h-[40px] box-border border border-[#D9D9D9] border-r-0 flex justify-center items-center cursor-pointer"
+          className="w-[40px] h-[40px] box-border border border-mtm-light-gray border-r-0 flex justify-center items-center cursor-pointer"
         >
           -
         </button>
         <input
           value={number}
           onChange={handleInputNumberChange}
-          className="w-[40px] h-[40px] box-border border border-[#6BB4FF] text-center outline-0 bg-[#EDF6FF]"
+          className="w-[40px] h-[40px] box-border border border-mtm-main-blue text-center outline-0 bg-mtm-light-blue"
         />
         <button
           onClick={handleClickPlusButton}
-          className="w-[40px] h-[40px] box-border border border-[#D9D9D9] border-l-0 flex justify-center items-center cursor-pointer"
+          className="w-[40px] h-[40px] box-border border border-mtm-light-gray border-l-0 flex justify-center items-center cursor-pointer"
         >
           +
         </button>
       </div>
       <span
-        className={`text-[12px] text-[#6BB4FF] ${overNumber ? "" : "hidden"}`}
+        className={`text-[12px] text-mtm-main-blue ${overNumber ? "" : "hidden"}`}
       >
         {warningMessage}
       </span>

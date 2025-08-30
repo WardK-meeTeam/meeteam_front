@@ -51,25 +51,19 @@ export default function ProjectGenerateFooter({ step }: { step: number }) {
     recruitField,
     skills,
     projectDeadline,
+    projectDescription,
   ]);
   return (
     <footer className="flex flex-row justify-end gap-2 w-full border-t border-mtm-light-gray py-3 px-16">
       <SubButton
         buttonName={step === 1 ? "다음" : "이전"}
-        width={4}
-        height={4}
         onClick={
           step === 1
             ? () => router.push("/project-generate-step-2")
             : () => router.back()
         }
       />
-      <MainButton
-        buttonName="등록하기"
-        disabled={!isValid}
-        width={4}
-        height={4}
-      />
+      <MainButton buttonName="등록하기" disabled={!isValid} />
     </footer>
   );
 }

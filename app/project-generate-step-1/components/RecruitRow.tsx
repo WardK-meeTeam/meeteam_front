@@ -1,49 +1,53 @@
 "use client";
-import { useEffect, useState } from "react";
 import FieldSelector from "./FieldSelector";
 import { recruitFieldItem } from "@/store/projectGenerateStore";
 
-// 일단 최소인원 1명, 최대인원 9명으로 해둠
-
 export default function RecruitRow({
-  onFieldChange,
+  value,
+  onChange,
 }: {
-  onFieldChange: (payload: recruitFieldItem) => void;
+  value: recruitFieldItem;
+  onChange: (payload: recruitFieldItem) => void;
 }) {
-  const [field, setField] = useState<string | null>(null);
-  const [number, setNumber] = useState<number>(1);
-  const onClickButton = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (e.currentTarget.value === "+" && number < 9) {
-      setNumber((prev) => prev + 1);
-    } else if (e.currentTarget.value === "-" && number > 1) {
-      setNumber((prev) => prev - 1);
+  const handleFieldChange = (newField: string | null) => {
+    onChange({ ...value, field: newField });
+  };
+
+  const handleNumberChange = (newNumber: number) => {
+    if (newNumber >= 1 && newNumber <= 9) {
+      onChange({ ...value, numOfPeople: newNumber });
     }
   };
 
-  useEffect(() => {
-    if (field !== null) {
-      onFieldChange({
-        field: field,
-        numOfPeople: number,
-      });
+  const onClickButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const operation = e.currentTarget.value;
+    if (operation === "+") {
+      handleNumberChange(value.numOfPeople + 1);
+    } else if (operation === "-") {
+      handleNumberChange(value.numOfPeople - 1);
     }
-  }, [field, number]);
+  };
+
   return (
     <div className="w-full flex flex-row flex-1 gap-2 items-center">
-      <FieldSelector onChangeOptions={setField} />
+      <FieldSelector value={value.field} onChange={handleFieldChange} />
       <div className="flex items-center">
         <button
+          type="button"
           className="w-[40px] h-[40px] box-border flex justify-center items-center cursor-pointer"
           onClick={onClickButton}
           value="-"
+          disabled={value.numOfPeople <= 1}
         >
           -
         </button>
-        <span>{number}</span>
+        <span className="text-mtm-main-blue">{value.numOfPeople}</span>
         <button
+          type="button"
           className="w-[40px] h-[40px] box-border border-l-0 flex justify-center items-center cursor-pointer"
           onClick={onClickButton}
           value="+"
+          disabled={value.numOfPeople >= 9}
         >
           +
         </button>

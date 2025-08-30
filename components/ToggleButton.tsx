@@ -3,13 +3,15 @@ interface ToggleButtonProps {
   content: string;
   isDay?: boolean;
   isSelected: boolean;
-  onClick: () => void;
+  value?: string;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 // 기본 스타일 border-radius:20px, font-size : 14px
 export default function ToggleButton({
   content,
   isDay,
   isSelected,
+  value,
   onClick,
 }: ToggleButtonProps) {
   const buttonStyle = isSelected
@@ -18,6 +20,7 @@ export default function ToggleButton({
   return (
     <button
       type="button"
+      value={value}
       onClick={onClick}
       className={`border rounded-full text-[14px] inline-flex justify-center border-box items-center cursor-pointer 
         ${isDay ? "py-3 px-4" : "py-3 px-8"}

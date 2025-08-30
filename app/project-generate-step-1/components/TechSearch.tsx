@@ -4,44 +4,41 @@ import { useEffect, useRef, useState } from "react";
 import * as icons from "simple-icons";
 import SelectedTech from "./SelectedTech";
 
-export default function TechSearch() {
+export default function TechSearch({
+  value,
+  onChange,
+}: {
+  value: string[];
+  onChange: (skills: string[]) => void;
+}) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLInputElement>(null);
-
-  // 검색창 입력값에 따라서 뜨는 기술 스택, 선택된 기술 스택을 따로 담아줘야함
   const [search, setSearch] = useState<string>("");
-  const [searchedStacks, setSearchedStacks] =
-    useState<TechStackOption[]>(techStackOptions);
-  const [selectedStacks, setSelectedStacks] = useState<TechStackOption[]>([]);
 
-  // 검색했을 때 입력한 결과로 필터링된 기술스택들 보여줌
-  // 대소문자 구분 X, 영문,한글 검색 다됨
+  const searchedStacks = techStackOptions.filter(
+    (stack) =>
+      stack.kor.includes(search) ||
+      stack.eng.toLowerCase().includes(search.toLowerCase()),
+  );
+
+  const selectedStacks = techStackOptions.filter((option) =>
+    value.includes(option.eng),
+  );
+
   const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearch(value);
-    setSearchedStacks(
-      techStackOptions.filter(
-        (stack) =>
-          stack.kor.includes(value) ||
-          stack.eng.toLowerCase().includes(value.toLowerCase()),
-      ),
-    );
+    setSearch(e.target.value);
   };
 
-  // 기술스택 누르면 추가
   const handleAddStack = (stack: TechStackOption) => {
-    // 객체 하나른 받고, 객체 자체를 추가하는 것
-
-    setSelectedStacks((prev) => [...prev, stack]);
+    if (!value.includes(stack.eng)) {
+      onChange([...value, stack.eng]);
+    }
   };
 
-  // 기술스택 누르면 삭제
-  const handleDelteStack = (stack: TechStackOption) => {
-    // 객체로 비교, 어차피 기술 스택은 중복해서 넣지 않으니까 이렇게 간단히 해도 될거같음
-    setSelectedStacks((prev) => prev.filter((item) => stack !== item));
+  const handleDeleteStack = (stack: TechStackOption) => {
+    onChange(value.filter((item) => item !== stack.eng));
   };
 
-  // 요소 외불 누르면 기술선택하는 창 닫히는 로직 구현
   useEffect(() => {
     if (!open) return;
     const onDown = (e: MouseEvent) => {
@@ -74,7 +71,7 @@ export default function TechSearch() {
             flex flex-col gap-1
             w-full
             absolute
-            left-0 
+            left-0
             max-h-48 overflow-auto
             rounded-xl border-none bg-white shadow-[0_4px_22px_rgba(0,0,0,0.15)]
             p-1 z-50
@@ -83,17 +80,15 @@ export default function TechSearch() {
             {searchedStacks.map((item) => {
               const icon = (icons as any)[item.iconName];
               if (!icon) return null;
-              const selected = selectedStacks.find(
-                (stack) => stack.eng === item.eng,
-              );
+              const isSelected = value.includes(item.eng);
               return (
                 <li
                   key={`TechStacks-${item.eng}`}
                   value={item.eng}
                   onClick={() => {
-                    if (!selected) handleAddStack(item);
+                    if (!isSelected) handleAddStack(item);
                   }}
-                  className={`px-3 py-2 rounded-lg ${selected ? "cursor-not-allowed text-gray-400" : "hover:bg-mtm-light-blue cursor-pointer"}`}
+                  className={`px-3 py-2 rounded-lg ${isSelected ? "cursor-not-allowed text-gray-400" : "hover:bg-mtm-light-blue cursor-pointer"}`}
                 >
                   <span className="flex flex-row gap-4">
                     <svg
@@ -124,7 +119,7 @@ export default function TechSearch() {
             <SelectedTech
               key={`SelectedTechStack-${item.eng}`}
               icon={icon}
-              onClick={() => handleDelteStack(item)}
+              onClick={() => handleDeleteStack(item)}
             />
           );
         })}

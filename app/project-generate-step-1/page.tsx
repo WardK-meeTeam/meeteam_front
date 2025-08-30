@@ -9,9 +9,9 @@ import MainButton from "@/components/MainButton";
 import SubButton from "@/components/SubButton";
 import { useRouter } from "next/navigation";
 import Input from "./components/Input";
-import { useEffect } from "react";
 import { useProjectGenerateStore } from "@/store/projectGenerateStore";
 import FieldSelector from "./components/FieldSelector";
+import { useEffect, useState } from "react";
 
 const categories = [
   "친환경☘️",
@@ -25,6 +25,7 @@ const platforms = ["iOS", "Android", "Web"];
 
 export default function Page() {
   const router = useRouter();
+  const [isValid, setIsValid] = useState(false);
 
   // 상태 꺼내오는 코드들
   const projectName = useProjectGenerateStore((state) => state.projectName);
@@ -36,6 +37,7 @@ export default function Page() {
   const mustOffline = useProjectGenerateStore((state) => state.mustOffline);
   const myField = useProjectGenerateStore((state) => state.myField);
   const recruitField = useProjectGenerateStore((state) => state.recruitField);
+  const skills = useProjectGenerateStore((state) => state.skills);
   const projectDeadline = useProjectGenerateStore(
     (state) => state.projectDeadline,
   );
@@ -61,33 +63,56 @@ export default function Page() {
   const setRecruitField = useProjectGenerateStore(
     (state) => state.setRecruitField,
   );
+  const setSkills = useProjectGenerateStore((state) => state.setSkills);
   const setProjectDeadline = useProjectGenerateStore(
     (state) => state.setProjectDeadline,
   );
-  const setProjectDescription = useProjectGenerateStore(
-    (state) => state.setProjectDescription,
-  );
-  const reset = useProjectGenerateStore((state) => state.reset);
 
-  function checkField() {}
+  // const reset = useProjectGenerateStore((state) => state.reset);
 
-  // useEffect(() => {
-  //   console.log("플랫폼 : ", platform);
-  //   console.log("카테고리 : ", projectCategories);
-  //   console.log("이미지 주소 : ", projectImage);
-  //   console.log("오프라인 필참 : ", mustOffline);
-  //   console.log("나의 포지션 : ", myField);
-  // }, [
-  //   platform,
-  //   projectCategories,
-  //   projectImage,
-  //   mustOffline,
-  //   myField,
-  //   recruitField,
-  // ]);
+  function checkField() {
+    if (projectName === "") return false;
+    if (projectCategories.length === 0) return false;
+    if (platform.length === 0) return false;
+    // 이미지는 선택
+    if (myField === "") return false;
+    if (recruitField.length === 0) return false;
+    if (skills.length === 0) return false;
+    if (projectDeadline === "") return false;
+    if (projectDescription === "") return false;
+
+    return true;
+  }
+
+  useEffect(() => {
+    const newValid = checkField();
+    setIsValid(newValid);
+  }, [
+    projectName,
+    projectCategories,
+    platform,
+    myField,
+    recruitField,
+    skills,
+    projectDeadline,
+  ]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // api 요청 보낼거임 나중에
+    console.log("프로젝트 명 : ", projectName);
+    console.log("카테고리 : ", projectCategories);
+    console.log("플랫폼 : ", platform);
+    console.log("이미지 주소 : ", projectImage);
+    console.log("오프라인 필참 : ", mustOffline);
+    console.log("나의 포지션 : ", myField);
+    console.log("모집분야", recruitField);
+    console.log("선택된 스킬", skills);
+    console.log("데드라인", projectDeadline);
+  };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <form className="min-h-screen flex flex-col" onSubmit={handleSubmit}>
       <div className="w-[430px] m-auto justify-start flex flex-col flex-1 py-10 ">
         <b className="text-[26px] mb-10">프로젝트 등록</b>
         <div className="flex flex-col gap-16">
@@ -101,29 +126,35 @@ export default function Page() {
             title={"프로젝트 카테고리"}
             subtitle="프로젝트 카테고리를 선택해주세요!"
             optionList={categories}
-            onChangeOptions={setProjectCategories}
+            value={projectCategories}
+            onChange={setProjectCategories}
           />
           <SelectableButtonGroup
             title={"플랫폼"}
             optionList={platforms}
-            onChangeOptions={setPlatform}
+            value={platform}
+            onChange={setPlatform}
           />
           <ImageSelector value={projectImage} onChange={setProjectImage} />
           <BinaryOptionSelector<"필수" | "선택">
             title={"오프라인 정기모임 필수 여부"}
             option1={"필수"}
             option2={"선택"}
-            onClickOption={setMustOffline}
+            value={mustOffline}
+            onChange={setMustOffline}
           />
           <div className="flex flex-col gap-4 w-full">
             <b>나의 포지션</b>
-            <FieldSelector onChangeOptions={setMyField} />
+            <FieldSelector value={myField} onChange={setMyField} />
           </div>
-          <Recruit />
-          <TechSearch />
+          <Recruit value={recruitField} onChange={setRecruitField} />
+          <TechSearch value={skills} onChange={setSkills} />
           <div className="flex flex-col gap-4">
             <b>프로젝트 마감일</b>
-            <DateSelector />
+            <DateSelector
+              value={projectDeadline}
+              onChange={setProjectDeadline}
+            />
           </div>
         </div>
       </div>
@@ -136,11 +167,11 @@ export default function Page() {
         />
         <MainButton
           buttonName="등록하기"
-          disabled={false}
+          disabled={!isValid}
           width={4}
           height={4}
         />
       </footer>
-    </div>
+    </form>
   );
 }

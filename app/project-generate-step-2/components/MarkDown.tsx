@@ -3,7 +3,7 @@ import { ICommand, commands } from "@uiw/react-md-editor";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useProjectGenerateStore } from "@/store/projectGenerateStore";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
@@ -97,8 +97,11 @@ const customCommands: ICommand[] = [
 ];
 
 export default function MarkDown() {
-  const [text, setText] = useState<string>("");
   const maxSize = 800;
+  const text = useProjectGenerateStore((state) => state.projectDescription);
+  const setText = useProjectGenerateStore(
+    (state) => state.setProjectDescription,
+  );
 
   return (
     <div data-color-mode="light" className="mdx-modern flex flex-col gap-2">

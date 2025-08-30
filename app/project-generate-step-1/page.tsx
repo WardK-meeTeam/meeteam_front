@@ -5,13 +5,10 @@ import ImageSelector from "./components/ImageSelector";
 import Recruit from "./components/Recruit";
 import TechSearch from "./components/TechSearch";
 import DateSelector from "@/components/DateSelector";
-import MainButton from "@/components/MainButton";
-import SubButton from "@/components/SubButton";
-import { useRouter } from "next/navigation";
 import Input from "./components/Input";
 import { useProjectGenerateStore } from "@/store/projectGenerateStore";
 import FieldSelector from "./components/FieldSelector";
-import { useEffect, useState } from "react";
+import ProjectGenerateFooter from "@/components/ProjectGenerateFooter";
 
 const categories = [
   "친환경☘️",
@@ -24,9 +21,6 @@ const categories = [
 const platforms = ["iOS", "Android", "Web"];
 
 export default function Page() {
-  const router = useRouter();
-  const [isValid, setIsValid] = useState(false);
-
   // 상태 꺼내오는 코드들
   const projectName = useProjectGenerateStore((state) => state.projectName);
   const projectCategories = useProjectGenerateStore(
@@ -40,9 +34,6 @@ export default function Page() {
   const skills = useProjectGenerateStore((state) => state.skills);
   const projectDeadline = useProjectGenerateStore(
     (state) => state.projectDeadline,
-  );
-  const projectDescription = useProjectGenerateStore(
-    (state) => state.projectDescription,
   );
 
   // setter 함수들
@@ -69,33 +60,6 @@ export default function Page() {
   );
 
   // const reset = useProjectGenerateStore((state) => state.reset);
-
-  function checkField() {
-    if (projectName === "") return false;
-    if (projectCategories.length === 0) return false;
-    if (platform.length === 0) return false;
-    // 이미지는 선택
-    if (myField === "") return false;
-    if (recruitField.length === 0) return false;
-    if (skills.length === 0) return false;
-    if (projectDeadline === "") return false;
-    if (projectDescription === "") return false;
-
-    return true;
-  }
-
-  useEffect(() => {
-    const newValid = checkField();
-    setIsValid(newValid);
-  }, [
-    projectName,
-    projectCategories,
-    platform,
-    myField,
-    recruitField,
-    skills,
-    projectDeadline,
-  ]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -158,20 +122,7 @@ export default function Page() {
           </div>
         </div>
       </div>
-      <footer className="flex flex-row justify-end gap-2 w-full border-t border-mtm-light-gray py-3 px-16">
-        <SubButton
-          buttonName="다음"
-          width={4}
-          height={4}
-          onClick={() => router.push("/project-generate-step-2")}
-        />
-        <MainButton
-          buttonName="등록하기"
-          disabled={!isValid}
-          width={4}
-          height={4}
-        />
-      </footer>
+      <ProjectGenerateFooter step={1} />
     </form>
   );
 }

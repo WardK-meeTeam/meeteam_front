@@ -57,10 +57,10 @@ export default function Navbar() {
             />
           </button>
         </form>
-        <ul className="flex divide-x-1 divide-[#9C9C9C]">
+        <ul className="flex divide-x-1 divide-mtm-text-gray">
           {isLoggedIn ? (
             <li
-              className="text-[#9C9C9C] pl-2"
+              className="text-mtm-text-gray pl-2"
               onClick={() => setIsLoggedIn(false)}
             >
               <span className="font-bold">{userName}님! </span>
@@ -69,13 +69,13 @@ export default function Navbar() {
           ) : (
             <Fragment>
               <li
-                className="text-[#9C9C9C] cursor-pointer px-2"
+                className="text-mtm-text-gray cursor-pointer px-2"
                 onClick={() => alert("회원가입 이동")}
               >
                 회원가입
               </li>
               <li
-                className="text-[#9C9C9C] cursor-pointer px-2"
+                className="text-mtm-text-gray cursor-pointer px-2"
                 onClick={() => {
                   setIsLoggedIn(true);
                 }}

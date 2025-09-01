@@ -78,12 +78,12 @@ export default function ProjectRecruitInfo({
           })}
         </div>
       </div>
-      <div className="flex flex-row gap-8">
-        <span className="font-bold">오프라인 정기 모임 필수 여부</span>
-        {mustOffline}
+      <div className="flex gap-8">
+        <span className="w-56 font-bold">오프라인 정기 모임 필수 여부</span>
+        <span>{mustOffline}</span>
       </div>
-      <div className="flex flex-row gap-16">
-        <span className="font-bold">프로젝트 마감 기한</span>
+      <div className="flex gap-8">
+        <span className="w-56 font-bold">프로젝트 마감 기한</span>
         <span>{deadline}</span>
       </div>
     </div>

@@ -1,5 +1,4 @@
 export default function ApplyButton({ disabled }: { disabled: boolean }) {
-  console.log(disabled);
   return (
     <button
       disabled={disabled}

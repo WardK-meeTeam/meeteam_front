@@ -1,4 +1,6 @@
+import { techStackOptions } from "@/mocks/techs";
 import RecruitCurrentRow from "./RecruitCurrentRow";
+import * as icons from "simple-icons";
 
 const recruitStatus = [
   {
@@ -23,11 +25,19 @@ const recruitStatus = [
   },
 ];
 
-const skills = ["Next.js", "javascript"];
+const skillsText = ["Next.js", "JavaScript", "Spring Boot"];
 const mustOffline = "필수";
 const deadline = "2025년 6월 12일~2025년 6월 30일";
 
-export default function ProjectRecruitInfo() {
+const skillsIcon = techStackOptions.filter((stack) =>
+  skillsText.includes(stack.eng),
+);
+
+export default function ProjectRecruitInfo({
+  projectId,
+}: {
+  projectId: string;
+}) {
   return (
     <div className="flex flex-col gap-10">
       <span className="text-[26px] font-bold">프로젝트 모집 정보</span>
@@ -40,7 +50,7 @@ export default function ProjectRecruitInfo() {
         <div className="flex flex-col gap-5">
           {recruitStatus.map((item) => (
             <RecruitCurrentRow
-              key={`recruit-status-${item.field}-${item.recruited}/${item.capacity}`}
+              key={`project-${projectId}-recruit-status-${item.field}-${item.recruited}/${item.capacity}`}
               {...item}
             />
           ))}
@@ -48,7 +58,25 @@ export default function ProjectRecruitInfo() {
       </section>
       <div className="flex flex-col gap-6">
         <span className="font-bold">기술 스택</span>
-        {skills.map((skill) => skill)}
+        <div className="flex flex-row flex-wrap gap-3 max-w-[500px]">
+          {skillsIcon.map((item) => {
+            const icon = (icons as any)[item.iconName];
+            if (!icon) return null;
+            return (
+              <svg
+                key={`project-${projectId}-${item.iconName}`}
+                xmlns="http://www.w3.org/2000/svg"
+                role="img"
+                viewBox="0 0 24 24"
+                width="40"
+                height="40"
+                fill={`#${icon.hex}`}
+              >
+                <path d={icon.path} />
+              </svg>
+            );
+          })}
+        </div>
       </div>
       <div className="flex flex-row gap-8">
         <span className="font-bold">오프라인 정기 모임 필수 여부</span>

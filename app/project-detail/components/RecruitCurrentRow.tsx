@@ -12,7 +12,7 @@ export default function RecruitCurrentRow({
   capacity,
 }: RecruitCurrentRowProps) {
   return (
-    <div className="flex flex-row gap-4 justify-around items-center min-w-[430px]">
+    <div className="flex flex-row gap-8 justify-around items-center min-w-[460px]">
       <span className="flex-1">{field}</span>
       <span>
         {recruited}/{capacity}

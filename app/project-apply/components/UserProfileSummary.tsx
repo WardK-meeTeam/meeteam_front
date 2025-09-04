@@ -1,4 +1,4 @@
-import { userProfile } from "@/types/userProfile";
+import { UserProfile } from "@/types/userProfile";
 import ModifyButton from "./ModifyButton";
 
 export default function UserProfileSummary({
@@ -7,12 +7,12 @@ export default function UserProfileSummary({
   sex = "none",
   email = "none",
   techStack = [],
-}: userProfile) {
+}: UserProfile) {
   return (
     <div className="flex flex-col gap-5">
       <span className="flex justify-between items-center ">
         <b>기본 정보</b>
-        <ModifyButton />
+        {/* <ModifyButton /> */}
       </span>
       <hr className="border-4 border-[#F8F8F8]" />
       <div className="flex flex-col gap-6">

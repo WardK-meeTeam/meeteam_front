@@ -23,7 +23,7 @@ export default function ToggleButton({
       value={value}
       onClick={onClick}
       className={`border rounded-full text-[14px] inline-flex justify-center border-box items-center cursor-pointer 
-        ${isDay ? "py-3 px-4" : "py-3 px-8"}
+        ${isDay ? "py-3 px-4 w-[45px] h-[41px]" : "py-3 px-8"}
         ${buttonStyle}`}
     >
       {content}

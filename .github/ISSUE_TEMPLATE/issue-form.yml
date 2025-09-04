@@ -1,0 +1,75 @@
+name: "meeTeam Front 이슈 생성"
+description: "meeTeam_front Repo에 이슈를 생성하며, 생성된 이슈는 Jira와 연동됩니다."
+labels: [order]
+title: "이슈 이름을 컨벤션에 맞게 작성해주세요, [Feat/Bug/Refactor/Docs/Test/Chore/Style/Build/CI/Other]"
+body:
+  - type: input
+    id: relatedTicket
+    attributes:
+      label: "연결된 티켓 번호"
+      description: "이 이슈와 연관된 기존 티켓이 있다면 Ticket Number를 기입해주세요"
+      placeholder: "MTM-00"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: issueType
+    attributes:
+      label: "이슈 유형(Type)"
+      description: "이슈 유형을 선택해주세요"
+      options:
+        - Feature Request
+        - Bug Report
+        - Refactoring
+        - Documentation
+        - Chore
+        - Test/QA
+    validations:
+      required: true
+
+  - type: input
+    id: branch
+    attributes:
+      label: "브랜치명 (Branch)"
+      description: "영어로 브랜치명을 작성해주세요"
+    validations:
+      required: true
+
+  - type: input
+    id: description
+    attributes:
+      label: "이슈 내용(Description)"
+      description: "이슈에 대해서 간략히 설명해주세요"
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: "상세 내용(Details)"
+      description: "이슈에 대해서 자세히 설명해주세요"
+      value: |
+        - About Details
+    validations:
+      required: true
+
+  - type: textarea
+    id: tasks
+    attributes:
+      label: "체크리스트(Tasks)"
+      description: "해당 이슈에 대해 필요한 작업목록을 작성해주세요"
+      value: |
+        - [ ] Task1
+        - [ ] Task2
+    validations:
+      required: true
+
+  - type: textarea
+    id: references
+    attributes:
+      label: "참조(References)"
+      description: "해당 이슈과 관련된 레퍼런스를 참조해주세요"
+      value: |
+        - Reference1
+    validations:
+      required: false

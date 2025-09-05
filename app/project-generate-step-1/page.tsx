@@ -6,7 +6,10 @@ import Recruit from "./components/Recruit";
 import TechSearch from "./components/TechSearch";
 import DateSelector from "@/components/DateSelector";
 import Input from "./components/Input";
-import { useProjectGenerateStore } from "@/store/projectGenerateStore";
+import {
+  recruitFieldItem,
+  useProjectGenerateStore,
+} from "@/store/projectGenerateStore";
 import FieldSelector from "./components/FieldSelector";
 import ProjectGenerateFooter from "@/components/ProjectGenerateFooter";
 
@@ -111,8 +114,16 @@ export default function Page() {
             <b>나의 포지션</b>
             <FieldSelector value={myField} onChange={setMyField} />
           </div>
-          <Recruit value={recruitField} onChange={setRecruitField} />
-          <TechSearch value={skills} onChange={setSkills} />
+          <Recruit
+            title={"모집 분야"}
+            value={recruitField}
+            onChange={setRecruitField}
+          />
+          <TechSearch
+            title="필요 기술 스택"
+            value={skills}
+            onChange={setSkills}
+          />
           <div className="flex flex-col gap-4">
             <b>프로젝트 마감일</b>
             <DateSelector

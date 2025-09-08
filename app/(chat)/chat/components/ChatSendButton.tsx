@@ -4,7 +4,9 @@ export default function ChatSendButton({ isOnChat }: { isOnChat: boolean }) {
   return (
     <div
       className={`w-[33px] h-[33px] mr-6 rounded-full flex justify-center items-center ${
-        isOnChat ? "bg-linear-to-r from-[#6BB4FF] to-[#D9B5FF]" : "bg-[#D9D9D9]"
+        isOnChat
+          ? "bg-linear-to-r from-mtm-main-blue to-[#D9B5FF]"
+          : "bg-mtm-light-gray"
       }`}
     >
       <button disabled={!isOnChat}>

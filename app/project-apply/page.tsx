@@ -27,6 +27,8 @@ export default function Page() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!checkField) return;
     // api post 보내기
     // console.log(introduction, canOffline, useTime, days);
   };

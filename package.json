@@ -16,7 +16,7 @@
     "@uiw/react-md-editor": "^4.0.8",
     "bcrypt": "^5.1.1",
     "iron-session": "^8.0.4",
-    "next": "15.3.5",
+    "next": "15.4.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.4.0",

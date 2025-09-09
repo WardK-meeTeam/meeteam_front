@@ -49,7 +49,7 @@ export default function ProjectInfo({ projectId }: { projectId: string }) {
         {like}
         <Image
           onClick={() => setIsLiked((prev) => !prev)}
-          className="cursor-pointer"
+          className="cursor-pointer transition-all duration-300 hover:scale-110 active:scale-125"
           alt="하트 이미지"
           src={isLiked ? HeartFill : HeartNonFill}
           width={20}

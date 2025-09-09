@@ -1,7 +1,7 @@
 "use client";
 
 import Input from "@/app/project-generate-step-1/components/Input";
-import ImageUploader from "./ImageUploader";
+import ImageUploader from "./components/ImageUploader";
 import BinaryOptionSelector from "@/components/BinaryOptionSelector";
 import TechSearch from "@/app/project-generate-step-1/components/TechSearch";
 import { useSignUpStore } from "@/store/signupDataStore";

@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useRef } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
+import Image from "next/image";
 
 export default function myPofile() {
 
@@ -124,7 +125,8 @@ export default function myPofile() {
             {/*왼쪽 정보 */}
             <aside className="flex flex-col gap-y-12 mr-5">
                 <div className="flex flex-col gap-y-4 items-center">
-                    <img 
+                    <Image 
+                    alt="사용자 프로필 이미지"
                     src="/images/userImg1.png"
                     className="w-[194px] h-[194px] rounded-[50%]"
                     />
@@ -163,7 +165,7 @@ export default function myPofile() {
                     <div className="text-[16px] font-bold">기술 스택</div>
                     <div className="flex gap-x-3">
                         {dummyStacksImg.map((stack, idx) => (
-                            <img key={idx} src={stack} className="w-[40px] h-[40px] rounded-[50%]"/>
+                            <Image alt="기술 스택 아이콘" key={idx} src={stack} className="w-[40px] h-[40px] rounded-[50%]"/>
                         ))}
                     </div>
                     <div className="flex gap-x-3 mt-7">
@@ -253,7 +255,7 @@ export default function myPofile() {
                                 className="aspect-[4/3] w-[244px] rounded-[8px] bg-cover bg-center flex flex-col justify-between"
                                 style={{ backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 2%, rgba(0, 0, 0, 0.4) 83%), url(${idx.bgImg}) ` }}
                                 >
-                                   <div className="flex flex-col items-end justify- p-4">
+                                   <div className="flex flex-col items-end justify p-4">
                                         <div 
                                         className="w-[58px] h-[18px] rounded-[10px] flex justify-center items-center"
                                         style={{ backgroundColor: CategoryColors[idx.category][1]}}

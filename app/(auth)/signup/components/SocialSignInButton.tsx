@@ -12,7 +12,7 @@ type Props = {
 
 export default function SocialSignInButton({
   platform,
-  text = "Google로 로그인하기",
+  text = "Google로 시작하기",
   disabled,
   className,
   onClick,
@@ -95,7 +95,6 @@ export default function SocialSignInButton({
           {text}
         </span>
 
-        {/* 시각적 숨김 텍스트 (접근성 유지) */}
         <span className="sr-only">{text}</span>
       </span>
     </button>

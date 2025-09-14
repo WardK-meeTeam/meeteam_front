@@ -26,7 +26,7 @@ export default function Input({
 
   return (
     <div className="flex flex-col gap-4">
-      <b>{title ?? ""}</b>
+      {title && <h1 className="font-bold">{title}</h1>}
       <input
         placeholder={placeholder ?? ""}
         value={value}

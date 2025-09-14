@@ -32,7 +32,7 @@ export default function CreateAccount() {
       <h1 className="text-2xl font-bold text-mtm-main-blue">meeTeam</h1>
       <div className="flex flex-col w-full justify-start items-center gap-3 ">
         <SocialSignInButton platform="google" />
-        <SocialSignInButton platform="github" text="Github로 로그인하기" />
+        <SocialSignInButton platform="github" text="Github로 시작하기" />
       </div>
 
       <span className="flex flex-row justify-center items-center w-full box-border">
@@ -41,45 +41,44 @@ export default function CreateAccount() {
         <div className="bg-mtm-light-gray h-px flex-1" />
       </span>
       <form action={action} className="flex flex-col gap-3 w-full">
-        <span className="text-md -mb-2">이름</span>
-        <Input
-          name="username"
-          type="text"
-          value={form.username}
-          required={true}
-          errors={state?.fieldErrors?.username}
-          onChange={handleChange}
-        />
-        <span className="text-md -mb-2">Email</span>
-        <Input
-          name="email"
-          type="email"
-          value={form.email}
-          required={true}
-          errors={state?.fieldErrors?.email}
-          onChange={handleChange}
-        />
-        <span className="text-md -mb-2">비밀번호</span>
-        <Input
-          name="password"
-          type="password"
-          value={form.password}
-          required={true}
-          errors={state?.fieldErrors?.password}
-          minLength={PASSWORD_MIN_LENGTH}
-          onChange={handleChange}
-        />
-        <span className="text-md -mb-2">비밀번호 확인</span>
-        <Input
-          name="confirm_password"
-          type="password"
-          value={form.confirm_password}
-          required={true}
-          errors={state?.fieldErrors?.confirm_password}
-          minLength={PASSWORD_MIN_LENGTH}
-          onChange={handleChange}
-        />
-        <MainButton buttonName="확인" disabled={isAnyEmpty} />
+        <div className="flex flex-col">
+          <span className="text-md">Email</span>
+          <Input
+            name="email"
+            type="email"
+            value={form.email}
+            required={true}
+            errors={state?.fieldErrors?.email}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <span className="text-md">비밀번호</span>
+          <Input
+            name="password"
+            type="password"
+            value={form.password}
+            required={true}
+            errors={state?.fieldErrors?.password}
+            minLength={PASSWORD_MIN_LENGTH}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <span className="text-md">비밀번호 확인</span>
+          <Input
+            name="confirm_password"
+            type="password"
+            value={form.confirm_password}
+            required={true}
+            errors={state?.fieldErrors?.confirm_password}
+            minLength={PASSWORD_MIN_LENGTH}
+            onChange={handleChange}
+          />
+        </div>
+        <MainButton buttonName="확인" disabled={!isAnyEmpty} />
       </form>
     </div>
   );

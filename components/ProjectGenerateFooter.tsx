@@ -56,6 +56,7 @@ export default function ProjectGenerateFooter({ step }: { step: number }) {
   return (
     <footer className="flex flex-row justify-end gap-2 w-full border-t border-mtm-light-gray py-3 px-16">
       <SubButton
+        type="button"
         buttonName={step === 1 ? "다음" : "이전"}
         onClick={
           step === 1
@@ -63,7 +64,7 @@ export default function ProjectGenerateFooter({ step }: { step: number }) {
             : () => router.back()
         }
       />
-      <MainButton buttonName="등록하기" disabled={!isValid} />
+      <MainButton buttonName="등록하기" type="submit" disabled={!isValid} />
     </footer>
   );
 }

@@ -46,7 +46,7 @@ export const useSignUpStore = create<SignUpState>((set) => ({
       userName: "",
       birthDate: "",
       gender: "남성",
-      field: [],
+      field: [{ id: 0, field: null }],
       skills: [],
       profileImg: null,
       introduction: "",

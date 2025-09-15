@@ -9,9 +9,9 @@ import {
 import { z } from "zod";
 import { redirect } from "next/navigation";
 
-function checkUsername(username: string) {
-  return !username.includes("admin");
-}
+// function checkUsername(username: string) {
+//   return !username.includes("admin");
+// }
 
 const checkPasswords = ({
   password,
@@ -23,16 +23,10 @@ const checkPasswords = ({
 
 const formSchema = z
   .object({
-    username: z
-      .string({
-        invalid_type_error: "Username must be a string",
-        required_error: "Username is required",
-      })
-      .toLowerCase()
-      .trim()
-      //.transform((username) => `${username}🇰🇷`)
-      .refine(checkUsername, "Username cannot contain 'admin'"),
-    email: z.string().email().toLowerCase(),
+    email: z
+      .string()
+      .email({ message: "올바른 이메일 형식이 아닙니다." })
+      .toLowerCase(),
     password: z
       .string()
       .min(PASSWORD_MIN_LENGTH)
@@ -43,13 +37,12 @@ const formSchema = z
   // .superRefine(async ({ username }, ctx) => { ... })
   // .superRefine(async ({ email }, ctx) => { ... })
   .refine(checkPasswords, {
-    message: "Passwords do not match",
+    message: "비밀번호가 일치하지 않습니다",
     path: ["confirm_password"],
   });
 
 export async function createAccount(prevState: unknown, formData: FormData) {
   const data = {
-    username: formData.get("username"),
     email: formData.get("email"),
     password: formData.get("password"),
     confirm_password: formData.get("confirm_password"),

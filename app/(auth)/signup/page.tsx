@@ -8,7 +8,7 @@ import MainButton from "@/components/MainButton";
 import Input from "@/components/Input";
 
 export default function CreateAccount() {
-  const [state, action] = useActionState(createAccount, null);
+  const [state, action, pending] = useActionState(createAccount, null);
 
   // 입력값 상태 추가
   const [form, setForm] = useState({
@@ -76,7 +76,10 @@ export default function CreateAccount() {
             onChange={handleChange}
           />
         </div>
-        <MainButton buttonName="확인" disabled={isAnyEmpty} />
+        <MainButton
+          buttonName={pending ? "처리 중..." : "확인"}
+          disabled={isAnyEmpty || pending}
+        />
       </form>
     </div>
   );

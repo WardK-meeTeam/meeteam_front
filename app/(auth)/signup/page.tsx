@@ -25,11 +25,18 @@ export default function CreateAccount() {
   // 하나라도 비어 있으면 true
   const isAnyEmpty = Object.values(form).some((v) => !v);
 
+  const API = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  const handleClickSignUp = () => {
+    const next = encodeURIComponent(`${window.location.origin}/auth/callback`);
+    window.location.href = `${API}/oauth2/authorization/google?next=${next}`;
+  };
+
   return (
     <div className="w-[340px] m-auto box-border justify-start items-center flex flex-col flex-1 gap-8">
       <h1 className="text-2xl font-bold text-mtm-main-blue">meeTeam</h1>
       <div className="flex flex-col w-full justify-start items-center gap-3 ">
-        <SocialSignInButton platform="google" />
+        <SocialSignInButton platform="google" onClick={handleClickSignUp} />
         <SocialSignInButton platform="github" text="Github로 시작하기" />
       </div>
 

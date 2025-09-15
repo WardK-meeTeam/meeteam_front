@@ -39,6 +39,9 @@ export default function SettingAfterSignup() {
 
     if (!userName?.trim()) errs.userName = ["이름을 입력해주세요."];
     if (!birthDate) errs.birthDate = ["생년월일을 입력해주세요."];
+    else if (!/^\d{4}-\d{2}-\d{2}$/.test(birthDate)) {
+      errs.birthDate = ["생년월일 형식이 올바르지 않습니다."];
+    }
 
     if (!field?.length) {
       errs.field = ["분야를 1개 이상 선택해주세요."];

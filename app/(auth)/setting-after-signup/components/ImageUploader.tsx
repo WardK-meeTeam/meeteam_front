@@ -16,16 +16,33 @@ export default function ImageUploader({
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        onUploadImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+    // 파일 없으면 return
+    if (!file) return;
+
+    // 이미지 파일이 아닌 경우 처리
+    if (!file.type.startsWith("image/")) {
+      console.warn("이미지 파일만 업로드 가능합니다.");
+      e.currentTarget.value = "";
+      return;
     }
+
+    // 파일 최대용량 10MB 설정
+    const MAX_BYTES = 10 * 1024 * 1024; // 10MB
+    if (file.size > MAX_BYTES) {
+      console.warn("10MB 이내의 이미지 파일만 업로드 해주세요.");
+      e.currentTarget.value = "";
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      onUploadImage(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+    //파일 재선택 가능하도록 초기화
+    e.currentTarget.value = "";
   };
 
-  console.log(value);
   return (
     <>
       {/*프로필 사진*/}
@@ -61,7 +78,7 @@ export default function ImageUploader({
           </div>
 
           {/*업로드 버튼*/}
-          <label className="w-[148px] h-[35px] border border-[#D9D9D9] rounded-[22px] flex justify-center items-center gap-x-1 cursor-pointer">
+          <label className="w-[148px] h-[35px] border border-mtm-light-gray rounded-[22px] flex justify-center items-center gap-x-1 cursor-pointer">
             <LiaUploadSolid className="text-[12.63px]" />
             <span className="text-[12.63px]">프로필 사진 업로드</span>
             <input

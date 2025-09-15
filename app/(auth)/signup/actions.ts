@@ -52,6 +52,6 @@ export async function createAccount(prevState: unknown, formData: FormData) {
   if (!result.success) {
     return result.error.flatten();
   } else {
-    redirect("/profile");
+    redirect("/setting-after-signup");
   }
 }

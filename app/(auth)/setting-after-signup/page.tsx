@@ -1,6 +1,5 @@
 "use client";
 
-import Input from "@/app/project-generate-step-1/components/Input";
 import ImageUploader from "./components/ImageUploader";
 import BinaryOptionSelector from "@/components/BinaryOptionSelector";
 import TechSearch from "@/app/project-generate-step-1/components/TechSearch";
@@ -10,6 +9,7 @@ import MainButton from "@/components/MainButton";
 import Recruit from "@/app/project-generate-step-1/components/Recruit";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Input from "@/components/Input";
 
 export default function SettingAfterSignup() {
   // 상태 꺼내오기
@@ -93,7 +93,7 @@ export default function SettingAfterSignup() {
             title="이름"
             placeholder="홍길동"
             value={userName}
-            onChange={setUserName}
+            onValueChange={setUserName}
           />
           <div className="flex flex-col gap-4">
             <b>나이</b>

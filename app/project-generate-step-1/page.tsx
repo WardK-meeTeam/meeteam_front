@@ -5,7 +5,7 @@ import ImageSelector from "./components/ImageSelector";
 import Recruit from "./components/Recruit";
 import TechSearch from "./components/TechSearch";
 import DateSelector from "@/components/DateSelector";
-import Input from "./components/Input";
+import Input from "../../components/Input";
 import { useProjectGenerateStore } from "@/store/projectGenerateStore";
 import FieldSelector from "./components/FieldSelector";
 import ProjectGenerateFooter from "@/components/ProjectGenerateFooter";
@@ -88,7 +88,7 @@ export default function Page() {
             title="프로젝트 명"
             placeholder="프로젝트 이름을 입력해주세요"
             value={projectName}
-            onChange={setProjectName}
+            onValueChange={setProjectName}
           />
           <SelectableButtonGroup
             title={"프로젝트 카테고리"}

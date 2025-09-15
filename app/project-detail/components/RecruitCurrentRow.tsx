@@ -17,7 +17,7 @@ export default function RecruitCurrentRow({
       <span>
         {recruited}/{capacity}
       </span>
-      <ApplyButton disabled={recruited === capacity} />
+      <ApplyButton disabled={recruited >= capacity} />
     </div>
   );
 }

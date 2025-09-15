@@ -2,24 +2,29 @@
 import { useCallback } from "react";
 import RecruitRow from "./RecruitRow";
 import { recruitFieldItem } from "@/store/projectGenerateStore";
+import { userFieldItem } from "@/store/signupDataStore";
 
-export default function Recruit({
-  value,
-  onChange,
-}: {
-  value: recruitFieldItem[];
-  onChange: (fields: recruitFieldItem[]) => void;
-}) {
+interface RecruitProps {
+  title: string;
+  value: recruitFieldItem[] | userFieldItem[];
+  onChange: (field: any) => void;
+}
+
+// onChange부분 파라미터 any로 받기 싫었는데.. 어떻게 해결해야할지 몰라서 일단 이렇게 둠
+// 파라미터가 recruitFieldItem[] or userFieldItem[] 이렇게 들어오는데, 자꾸 프로젝트 생성페이지
+// 파라미터 넘기는 부분에서 오류떠서 일단 any로 둘게요
+
+export default function Recruit({ title, value, onChange }: RecruitProps) {
+  const hasPeopleCount = value.some((v) => "numOfPeople" in v);
+
   const onClickButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     const buttonValue = e.currentTarget.value;
     if (buttonValue === "추가") {
       const newId =
         value.length > 0 ? Math.max(...value.map((item) => item.id)) + 1 : 0;
-      const newField: recruitFieldItem = {
-        id: newId,
-        field: null,
-        numOfPeople: 1,
-      };
+      let newField: recruitFieldItem | userFieldItem;
+      if (hasPeopleCount) newField = { id: newId, field: null, numOfPeople: 1 };
+      else newField = { id: newId, field: null };
       onChange([...value, newField]);
     } else if (buttonValue === "삭제" && value.length > 1) {
       onChange(value.slice(0, -1));
@@ -27,7 +32,7 @@ export default function Recruit({
   };
 
   const handleRowChange = useCallback(
-    (updatedRow: recruitFieldItem) => {
+    (updatedRow: recruitFieldItem | userFieldItem) => {
       const newFields = value.map((row) =>
         row.id === updatedRow.id ? updatedRow : row,
       );
@@ -38,7 +43,8 @@ export default function Recruit({
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      <b>모집 분야</b>
+      {title !== "" ? <b>{title}</b> : ""}
+
       {value.map((item) => (
         <RecruitRow key={item.id} value={item} onChange={handleRowChange} />
       ))}

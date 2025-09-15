@@ -107,6 +107,7 @@ export default function SettingAfterSignup() {
           <ImageUploader value={profileImg} onUploadImage={setProfileImg} />
         </div>
         <MainButton
+          type="submit"
           buttonName="확인"
           disabled={Object.keys(errors).length !== 0}
         />

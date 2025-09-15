@@ -1,9 +1,8 @@
 "use client";
 
 import { createAccount } from "./actions";
-import { useActionState, useEffect } from "react";
+import { useActionState, useState } from "react";
 import { PASSWORD_MIN_LENGTH } from "@/app/lib/constants";
-import React, { useState } from "react";
 import SocialSignInButton from "./components/SocialSignInButton";
 import MainButton from "@/components/MainButton";
 import Input from "@/components/Input";

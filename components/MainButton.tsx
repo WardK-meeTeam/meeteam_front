@@ -3,7 +3,7 @@ export interface MainButtonProps {
   disabled: boolean;
   width?: number;
   height?: number;
-  type: "button" | "submit" | "reset" | undefined;
+  type?: "button" | "submit" | "reset" | undefined;
 
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }

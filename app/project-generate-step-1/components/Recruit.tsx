@@ -15,7 +15,7 @@ interface RecruitProps {
 // 파라미터 넘기는 부분에서 오류떠서 일단 any로 둘게요
 
 export default function Recruit({ title, value, onChange }: RecruitProps) {
-  const isIncludeNumOfPeople: boolean = "numOfPeople" in value[0];
+  const hasPeopleCount = value.some((v) => "numOfPeople" in v);
 
   const onClickButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     const buttonValue = e.currentTarget.value;
@@ -23,8 +23,7 @@ export default function Recruit({ title, value, onChange }: RecruitProps) {
       const newId =
         value.length > 0 ? Math.max(...value.map((item) => item.id)) + 1 : 0;
       let newField: recruitFieldItem | userFieldItem;
-      if (isIncludeNumOfPeople)
-        newField = { id: newId, field: null, numOfPeople: 1 };
+      if (hasPeopleCount) newField = { id: newId, field: null, numOfPeople: 1 };
       else newField = { id: newId, field: null };
       onChange([...value, newField]);
     } else if (buttonValue === "삭제" && value.length > 1) {

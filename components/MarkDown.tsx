@@ -3,7 +3,6 @@ import { ICommand, commands } from "@uiw/react-md-editor";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
-import { useProjectGenerateStore } from "@/store/projectGenerateStore";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
@@ -96,20 +95,24 @@ const customCommands: ICommand[] = [
   commands.codeBlock,
 ];
 
-export default function MarkDown() {
-  const maxSize = 800;
-  const text = useProjectGenerateStore((state) => state.projectDescription);
-  const setText = useProjectGenerateStore(
-    (state) => state.setProjectDescription,
-  );
+interface MarkDownProps {
+  maxSize: number;
+  text: string;
+  onChangeText: (str: string) => void;
+}
 
+export default function MarkDown({
+  maxSize = 100,
+  text,
+  onChangeText,
+}: MarkDownProps) {
   return (
     <div data-color-mode="light" className="mdx-modern flex flex-col gap-2">
       <MDEditor
         className="rounded-2xl border border-mtm-light-gray resize-none"
         value={text}
         onChange={(val) => {
-          if ((val ?? "").length <= maxSize) setText(val ?? "");
+          if ((val ?? "").length <= maxSize) onChangeText(val ?? "");
         }}
         commands={customCommands}
         height={400}

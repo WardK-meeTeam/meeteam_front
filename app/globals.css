@@ -6,6 +6,10 @@
   --color-mtm-light-gray: #d9d9d9;
   --color-mtm-text-gray: #9c9c9c;
   --color-mtm-button-disabled: #d5d5d5;
+  --color-mtm-google-signin-gray: #acacac;
+  --color-mtm-github-black: #1a1e24;
+  --color-mtm-purple: #ad5fff;
+  --color-mtm-light-purple: #f8f2ff;
 }
 
 .backface-hidden {

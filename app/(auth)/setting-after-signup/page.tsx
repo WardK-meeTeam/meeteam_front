@@ -1,121 +1,124 @@
 "use client";
-import { useState } from "react";
-import { LiaUploadSolid } from "react-icons/lia";
+
+import ImageUploader from "./components/ImageUploader";
+import BinaryOptionSelector from "@/components/BinaryOptionSelector";
+import TechSearch from "@/app/project-generate-step-1/components/TechSearch";
+import { useSignUpStore } from "@/store/signupDataStore";
+import DateSelector from "@/components/DateSelector";
+import MainButton from "@/components/MainButton";
+import Recruit from "@/app/project-generate-step-1/components/Recruit";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Input from "@/components/Input";
 
 export default function SettingAfterSignup() {
-  const [selectedPart, setSelectedPart] = useState<string[]>([]);
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  // 상태 꺼내오기
+  const userName = useSignUpStore((state) => state.userName);
+  const birthDate = useSignUpStore((state) => state.birthDate);
+  const gender = useSignUpStore((state) => state.gender);
+  const field = useSignUpStore((state) => state.field);
+  const skills = useSignUpStore((state) => state.skills);
+  const profileImg = useSignUpStore((state) => state.profileImg);
+  const introduction = useSignUpStore((state) => state.introduction);
+  // setter 꺼내오기
+  const setUserName = useSignUpStore((state) => state.setUserName);
+  const setBirthDate = useSignUpStore((state) => state.setBirthDate);
+  const setGender = useSignUpStore((state) => state.setGender);
+  const setField = useSignUpStore((state) => state.setField);
+  const setSkills = useSignUpStore((state) => state.setSkills);
+  const setProfileImg = useSignUpStore((state) => state.setProfileImg);
 
-  const togglePart = (part: string) => {
-    setSelectedPart((prev) =>
-      prev.includes(part) ? prev.filter((p) => p !== part) : [...prev, part],
-    );
-  };
+  const router = useRouter();
 
-  const partGroups = [
-    ["디자이너", "프론트", "백엔드"],
-    ["PM", "APP", "WEB"],
-  ];
+  const [errors, setErrors] = useState<Record<string, string[]>>(() =>
+    validateProfileForm(),
+  );
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  function validateProfileForm() {
+    const errs: Record<string, string[]> = {};
 
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+    if (!userName?.trim()) errs.userName = ["이름을 입력해주세요."];
+    if (!birthDate) errs.birthDate = ["생년월일을 입력해주세요."];
+    else if (!/^\d{4}-\d{2}-\d{2}$/.test(birthDate)) {
+      errs.birthDate = ["생년월일 형식이 올바르지 않습니다."];
     }
+
+    if (!field?.length) {
+      errs.field = ["분야를 1개 이상 선택해주세요."];
+    } else {
+      const invalid = field.find((f) => !f.field);
+      if (invalid) errs.field = ["분야에 공백이 있습니다."];
+    }
+
+    // 이거는 선택
+    // if (!skills?.length) errs.skills = ["기술 스택을 1개 이상 선택해주세요."];
+    // if (introduction && introduction.length < 10) errs.introduction = ["소개글은 최소 10자 이상 입력해주세요."];
+
+    return errs;
+  }
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const v = validateProfileForm();
+    setErrors(v);
+    if (Object.keys(v).length) {
+      console.warn("폼 검증 오류:", v);
+      return;
+    }
+
+    router.push("/setting-after-signup-introduce");
+    // 나중에 API 요청할 부분
+    console.log("이름:", userName);
+    console.log("생년월일:", birthDate);
+    console.log("성별:", gender);
+    console.log("분야:", field);
+    console.log("기술 스택:", skills);
+    console.log("프로필 이미지:", profileImg);
+    console.log("소개:", introduction);
   };
 
+  useEffect(() => {
+    const next = validateProfileForm();
+    setErrors(next);
+  }, [userName, birthDate, gender, field, skills, profileImg, introduction]);
   return (
-    <main className="">
-      <div className="border border-2 border-black flex flex-col justify-center items-center h-screen">
-        {/*logo*/}
-        <div>
-          <h1 className="text-[24px] text-[#6BB4FF] font-bold">Meeteam</h1>
-        </div>
-
-        {/*직무 선택*/}
-        <div className="flex flex-col justify-between items-start mt-10 w-[330px]">
-          <div className="flex flex-col justify-start items-start py-3">
-            <span className="text-[15px] font-semibold w-full">직무 선택</span>
-            <span className="text-[12px] font-normal text-[#757575] w-full">
-              중복 선택이 가능합니다.
-            </span>
+    <form className="min-h-screen flex flex-col" onSubmit={handleSubmit}>
+      <div className="w-[430px] m-auto justify-start flex flex-col flex-1 py-10 ">
+        <h1 className="text-2xl text-center font-bold text-mtm-main-blue mb-14">
+          meeTeam
+        </h1>
+        <b className="text-[26px] mb-10">기본정보</b>
+        <div className="flex flex-col gap-5">
+          <Input
+            title="이름"
+            placeholder="홍길동"
+            value={userName}
+            onValueChange={setUserName}
+          />
+          <div className="flex flex-col gap-4">
+            <b>나이</b>
+            <DateSelector value={birthDate} onChange={setBirthDate} />
           </div>
-          {partGroups.map((group, idx) => (
-            <div
-              key={idx}
-              className="w-[100%] flex justify-between items-center py-2"
-            >
-              {group.map((part) => (
-                <button
-                  key={part}
-                  type="button"
-                  onClick={() => togglePart(part)}
-                  className={`w-[102px] h-[40px] border border-[0.91px] rounded-[25px] flex justify-center items-center text-[14px] cursor-pointer
-                                    ${
-                                      selectedPart.includes(part)
-                                        ? "bg-[rgba(128,191,255,0.14)] border-[#6BB4FF]"
-                                        : "border-[#D9D9D9]"
-                                    }
-                                    hover:bg-[rgba(128,191,255,0.14)] hover:border-[#6BB4FF]
-                                    `}
-                >
-                  {part}
-                </button>
-              ))}
-            </div>
-          ))}
-        </div>
-
-        {/*프로필 사진*/}
-        <div className="flex flex-col justify-between items-start mt-4 mb-6 w-[330px]">
-          <div className="flex flex-col justify-start items-start py-3">
-            <span className="text-[15px] font-semibold w-full">
-              프로필 사진
-            </span>
-            <span className="text-[12px] font-normal text-[#757575]">
-              10MB 이내의 이미지 파일을 업로드 해주세요.
-            </span>
+          <BinaryOptionSelector<"여성" | "남성">
+            title={"성별"}
+            option1={"여성"}
+            option2={"남성"}
+            value={gender}
+            onChange={setGender}
+          />
+          <Recruit title={"분야"} value={field} onChange={setField} />
+          <div className="flex flex-col">
+            <span className="text-xs text-mtm-main-blue">*복수 선택 가능</span>
+            <TechSearch title="" value={skills} onChange={setSkills} />
           </div>
-
-          <div className="flex justify-center items-center gap-x-7 py-3">
-            {/*프로필 이미지 박스*/}
-            <div className="w-[87px] h-[87px] border border-none rounded-[50%] bg-[#F8F8F8] overflow-hidden">
-              {previewImage ? (
-                <img
-                  src={previewImage}
-                  alt="프로필 이미지"
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <span className=""></span>
-              )}
-            </div>
-
-            {/*업로드 버튼*/}
-            <label className="w-[148px] h-[35px] border border-[#D9D9D9] rounded-[22px] flex justify-center items-center gap-x-1 cursor-pointer">
-              <LiaUploadSolid className="text-[12.63px]" />
-              <span className="text-[12.63px]">프로필 사진 업로드</span>
-              <input
-                type="file"
-                id="profileUpload"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="hidden"
-              />
-            </label>
-          </div>
+          <ImageUploader value={profileImg} onUploadImage={setProfileImg} />
         </div>
-
-        {/*확인버튼*/}
-        <button className="m-2 cursor-pointer w-[330px] h-[44px] border border-none rounded-[7.89px] bg-[#6BB4FF] flex justify-center items-center text-[12.63px] text-[#FFFFFF]">
-          확인
-        </button>
+        <MainButton
+          type="submit"
+          buttonName="확인"
+          disabled={Object.keys(errors).length !== 0}
+        />
       </div>
-    </main>
+    </form>
   );
 }

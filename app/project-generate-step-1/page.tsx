@@ -5,7 +5,7 @@ import ImageSelector from "./components/ImageSelector";
 import Recruit from "./components/Recruit";
 import TechSearch from "./components/TechSearch";
 import DateSelector from "@/components/DateSelector";
-import Input from "./components/Input";
+import Input from "../../components/Input";
 import { useProjectGenerateStore } from "@/store/projectGenerateStore";
 import FieldSelector from "./components/FieldSelector";
 import ProjectGenerateFooter from "@/components/ProjectGenerateFooter";
@@ -34,6 +34,9 @@ export default function Page() {
   const skills = useProjectGenerateStore((state) => state.skills);
   const projectDeadline = useProjectGenerateStore(
     (state) => state.projectDeadline,
+  );
+  const projectDescription = useProjectGenerateStore(
+    (state) => state.projectDescription,
   );
 
   // setter 함수들
@@ -73,6 +76,7 @@ export default function Page() {
     console.log("모집분야", recruitField);
     console.log("선택된 스킬", skills);
     console.log("데드라인", projectDeadline);
+    console.log("프로젝트 설명 : ", projectDescription);
   };
 
   return (
@@ -84,7 +88,7 @@ export default function Page() {
             title="프로젝트 명"
             placeholder="프로젝트 이름을 입력해주세요"
             value={projectName}
-            onChange={setProjectName}
+            onValueChange={setProjectName}
           />
           <SelectableButtonGroup
             title={"프로젝트 카테고리"}
@@ -111,8 +115,16 @@ export default function Page() {
             <b>나의 포지션</b>
             <FieldSelector value={myField} onChange={setMyField} />
           </div>
-          <Recruit value={recruitField} onChange={setRecruitField} />
-          <TechSearch value={skills} onChange={setSkills} />
+          <Recruit
+            title={"모집 분야"}
+            value={recruitField}
+            onChange={setRecruitField}
+          />
+          <TechSearch
+            title="필요 기술 스택"
+            value={skills}
+            onChange={setSkills}
+          />
           <div className="flex flex-col gap-4">
             <b>프로젝트 마감일</b>
             <DateSelector

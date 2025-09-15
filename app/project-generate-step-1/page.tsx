@@ -6,10 +6,7 @@ import Recruit from "./components/Recruit";
 import TechSearch from "./components/TechSearch";
 import DateSelector from "@/components/DateSelector";
 import Input from "./components/Input";
-import {
-  recruitFieldItem,
-  useProjectGenerateStore,
-} from "@/store/projectGenerateStore";
+import { useProjectGenerateStore } from "@/store/projectGenerateStore";
 import FieldSelector from "./components/FieldSelector";
 import ProjectGenerateFooter from "@/components/ProjectGenerateFooter";
 
@@ -37,6 +34,9 @@ export default function Page() {
   const skills = useProjectGenerateStore((state) => state.skills);
   const projectDeadline = useProjectGenerateStore(
     (state) => state.projectDeadline,
+  );
+  const projectDescription = useProjectGenerateStore(
+    (state) => state.projectDescription,
   );
 
   // setter 함수들
@@ -76,6 +76,7 @@ export default function Page() {
     console.log("모집분야", recruitField);
     console.log("선택된 스킬", skills);
     console.log("데드라인", projectDeadline);
+    console.log("프로젝트 설명 : ", projectDescription);
   };
 
   return (

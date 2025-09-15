@@ -27,18 +27,20 @@ export default function Input({
   return (
     <div className="flex flex-col gap-4">
       {title && <h1 className="font-bold">{title}</h1>}
-      <input
-        placeholder={placeholder ?? ""}
-        value={value}
-        onChange={handleChange}
-        className="rounded-xl py-3 px-5 box-border border border-mtm-light-gray focus:border-mtm-main-blue hover:border-mtm-main-blue outline-0"
-        {...rest}
-      />
-      {errors.map((error, index) => (
-        <span key={index} className="text-red-500 font-medium">
-          {error}
-        </span>
-      ))}
+      <div className="flex flex-col gap-1">
+        <input
+          placeholder={placeholder ?? ""}
+          value={value}
+          onChange={handleChange}
+          className="rounded-xl py-3 px-5 box-border border border-mtm-light-gray focus:border-mtm-main-blue hover:border-mtm-main-blue outline-0"
+          {...rest}
+        />
+        {errors.map((error, index) => (
+          <span key={index} className="text-red-500 font-medium text-sm">
+            {error}
+          </span>
+        ))}
+      </div>
     </div>
   );
 }

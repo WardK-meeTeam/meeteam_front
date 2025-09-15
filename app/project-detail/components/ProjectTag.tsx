@@ -1,4 +1,4 @@
-export default function ProjectCategoryIcon({
+export default function ProjectTag({
   category,
   isPlatform,
 }: {
@@ -6,12 +6,12 @@ export default function ProjectCategoryIcon({
   isPlatform: boolean;
 }) {
   return (
-    <div
+    <span
       className={`py-2 px-4 rounded-full
     ${isPlatform ? "bg-mtm-light-blue text-mtm-main-blue" : "bg-mtm-light-purple text-mtm-purple"}
      text-[14px] font-semibold`}
     >
       {category}
-    </div>
+    </span>
   );
 }

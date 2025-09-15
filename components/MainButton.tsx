@@ -5,7 +5,7 @@ export interface MainButtonProps {
   height?: number;
   type: "button" | "submit" | "reset" | undefined;
 
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export default function MainButton({

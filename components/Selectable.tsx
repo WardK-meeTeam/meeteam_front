@@ -9,7 +9,7 @@ export default function Selectable({
   value,
   onChangeOption,
 }: {
-  options?: string[] | null;
+  options: string[];
   disabled?: boolean;
   value?: string | null;
   onChangeOption: (item: any) => void;

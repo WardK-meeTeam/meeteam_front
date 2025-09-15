@@ -35,6 +35,9 @@ export default function Page() {
   const projectDeadline = useProjectGenerateStore(
     (state) => state.projectDeadline,
   );
+  const projectDescription = useProjectGenerateStore(
+    (state) => state.projectDescription,
+  );
 
   // setter 함수들
   const setProjectName = useProjectGenerateStore(
@@ -73,6 +76,7 @@ export default function Page() {
     console.log("모집분야", recruitField);
     console.log("선택된 스킬", skills);
     console.log("데드라인", projectDeadline);
+    console.log("프로젝트 설명 : ", projectDescription);
   };
 
   return (
@@ -111,8 +115,16 @@ export default function Page() {
             <b>나의 포지션</b>
             <FieldSelector value={myField} onChange={setMyField} />
           </div>
-          <Recruit value={recruitField} onChange={setRecruitField} />
-          <TechSearch value={skills} onChange={setSkills} />
+          <Recruit
+            title={"모집 분야"}
+            value={recruitField}
+            onChange={setRecruitField}
+          />
+          <TechSearch
+            title="필요 기술 스택"
+            value={skills}
+            onChange={setSkills}
+          />
           <div className="flex flex-col gap-4">
             <b>프로젝트 마감일</b>
             <DateSelector

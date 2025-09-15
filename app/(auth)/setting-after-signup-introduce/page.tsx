@@ -10,16 +10,15 @@ export default function Page() {
   const setText = useSignUpStore((state) => state.setIntroduction);
   const router = useRouter();
 
-  const handleClickRegister = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // 건너뛰기 버튼 클릭
 
     // api 요청해야함
     router.push("/");
   };
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="min-h-screen flex flex-col">
         <div className="w-[1000px] m-auto flex flex-col justify-start py-10 flex-1">
           <b className="text-[26px] mb-10">자기 소개</b>
@@ -29,7 +28,6 @@ export default function Page() {
           <MainButton
             buttonName="소개 등록하기"
             type="submit"
-            onClick={handleClickRegister}
             disabled={false}
           />
         </footer>

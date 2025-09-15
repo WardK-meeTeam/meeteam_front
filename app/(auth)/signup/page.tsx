@@ -13,7 +13,6 @@ export default function CreateAccount() {
 
   // 입력값 상태 추가
   const [form, setForm] = useState({
-    username: "",
     email: "",
     password: "",
     confirm_password: "",
@@ -78,7 +77,7 @@ export default function CreateAccount() {
             onChange={handleChange}
           />
         </div>
-        <MainButton buttonName="확인" disabled={!isAnyEmpty} />
+        <MainButton buttonName="확인" disabled={isAnyEmpty} />
       </form>
     </div>
   );

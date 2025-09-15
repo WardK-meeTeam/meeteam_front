@@ -9,6 +9,7 @@ import DateSelector from "@/components/DateSelector";
 import MainButton from "@/components/MainButton";
 import Recruit from "@/app/project-generate-step-1/components/Recruit";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function SettingAfterSignup() {
   // 상태 꺼내오기
@@ -26,6 +27,8 @@ export default function SettingAfterSignup() {
   const setField = useSignUpStore((state) => state.setField);
   const setSkills = useSignUpStore((state) => state.setSkills);
   const setProfileImg = useSignUpStore((state) => state.setProfileImg);
+
+  const router = useRouter();
 
   const [errors, setErrors] = useState<Record<string, string[]>>(() =>
     validateProfileForm(),
@@ -60,6 +63,7 @@ export default function SettingAfterSignup() {
       return;
     }
 
+    router.push("/setting-after-signup-introduce");
     // 나중에 API 요청할 부분
     console.log("이름:", userName);
     console.log("생년월일:", birthDate);

@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function MemberRow({
   imgUrl,
   userName,
@@ -6,11 +8,13 @@ export default function MemberRow({
   userName: string;
 }) {
   return (
-    <div className="flex flex-row gap-2 justify-start items-center">
-      <img
+    <div className="flex flex-row gap-2 justify-start items-center cursor-pointer">
+      <Image
         src={imgUrl}
         alt="프로필 이미지"
-        className="w-[42px] h-[45px] rounded-full"
+        width={42}
+        height={45}
+        className="rounded-full"
       />
       <span className="text-[14px]">{userName}</span>
     </div>

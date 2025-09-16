@@ -4,7 +4,7 @@ import MainButton from "@/components/MainButton";
 import SocialSignInButton from "@/components/SocialSignInButton";
 import { useRouter } from "next/navigation";
 
-export default function CreateAccount() {
+export default function Page() {
   const router = useRouter();
 
   const API = process.env.NEXT_PUBLIC_API_BASE_URL;

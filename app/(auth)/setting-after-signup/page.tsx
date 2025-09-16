@@ -130,8 +130,6 @@ export default function SettingAfterSignup() {
       introduce: "",
     };
 
-    console.log(registerRequest);
-
     // email로 회원가입이면 이멜,패스워드 보냄
     if (signUpType === "email") {
       registerRequest.email = store.email ?? "";

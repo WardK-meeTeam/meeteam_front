@@ -4,9 +4,9 @@ import { recruitFieldItem } from "./projectGenerateStore";
 export interface userFieldItem extends Pick<recruitFieldItem, "id" | "field"> {}
 
 export interface SignUpState {
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
+  email: string | null;
+  password: string | null;
+  confirmPassword: string;
   userName: string;
   birthDate: string | null;
   gender: "남성" | "여성";
@@ -15,8 +15,8 @@ export interface SignUpState {
   profileImg: string | null;
   introduction: string;
 
-  setEmail: (email: string) => void;
-  setPassword: (password: string) => void;
+  setEmail: (email: string | null) => void;
+  setPassword: (password: string | null) => void;
   setConfirmPassword: (password: string) => void;
   setUserName: (un: string) => void;
   setBirthDate: (bd: string | null) => void;
@@ -29,8 +29,8 @@ export interface SignUpState {
 }
 
 export const useSignUpStore = create<SignUpState>((set) => ({
-  email: "",
-  password: "",
+  email: null,
+  password: null,
   confirmPassword: "",
   userName: "",
   birthDate: "",
@@ -55,8 +55,8 @@ export const useSignUpStore = create<SignUpState>((set) => ({
   // reset 함수
   reset: () =>
     set({
-      email: "",
-      password: "",
+      email: null,
+      password: null,
       confirmPassword: "",
       userName: "",
       birthDate: "",

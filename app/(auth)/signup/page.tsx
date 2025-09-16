@@ -1,7 +1,7 @@
 "use client";
 
-import SocialSignInButton from "./components/SocialSignInButton";
 import MainButton from "@/components/MainButton";
+import SocialSignInButton from "@/components/SocialSignInButton";
 import { useRouter } from "next/navigation";
 
 export default function CreateAccount() {

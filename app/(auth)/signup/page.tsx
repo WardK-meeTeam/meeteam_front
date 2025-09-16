@@ -57,7 +57,7 @@ export default function CreateAccount() {
       <MainButton
         buttonName="이메일로 시작하기"
         disabled={false}
-        onClick={() => router.push("/setting-after-signup")}
+        onClick={() => router.push("/setting-after-signup?type=email")}
       />
     </div>
   );

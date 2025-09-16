@@ -27,17 +27,23 @@ export default function CreateAccount() {
 
   const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-  const handleClickSignUp = () => {
-    const next = encodeURIComponent(`${window.location.origin}/auth/callback`);
-    window.location.href = `${API}/oauth2/authorization/google?next=${next}`;
+  const handleClickSignUp = (type: "google" | "github") => {
+    window.location.href = `${API}/oauth2/authorization/${type}`;
   };
 
   return (
     <div className="w-[340px] m-auto box-border justify-start items-center flex flex-col flex-1 gap-8">
       <h1 className="text-2xl font-bold text-mtm-main-blue">meeTeam</h1>
       <div className="flex flex-col w-full justify-start items-center gap-3 ">
-        <SocialSignInButton platform="google" onClick={handleClickSignUp} />
-        <SocialSignInButton platform="github" text="Github로 시작하기" />
+        <SocialSignInButton
+          platform="google"
+          onClick={() => handleClickSignUp("google")}
+        />
+        <SocialSignInButton
+          platform="github"
+          text="Github로 시작하기"
+          onClick={() => handleClickSignUp("github")}
+        />
       </div>
 
       <span className="flex flex-row justify-center items-center w-full box-border">

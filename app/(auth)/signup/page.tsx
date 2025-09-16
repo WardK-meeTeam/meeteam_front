@@ -1,31 +1,11 @@
 "use client";
 
-// import { createAccount } from "./actions";
-// import { useActionState, useState } from "react";
-// import { PASSWORD_MIN_LENGTH } from "@/app/lib/constants";
 import SocialSignInButton from "./components/SocialSignInButton";
 import MainButton from "@/components/MainButton";
-// import Input from "@/components/Input";
 import { useRouter } from "next/navigation";
 
 export default function CreateAccount() {
-  // const [state, action, pending] = useActionState(createAccount, null);
   const router = useRouter();
-
-  // 입력값 상태 추가
-  // const [form, setForm] = useState({
-  //   email: "",
-  //   password: "",
-  //   confirm_password: "",
-  // });
-
-  // 입력값 변경 핸들러
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setForm({ ...form, [e.target.name]: e.target.value });
-  // };
-
-  // 하나라도 비어 있으면 true
-  // const isAnyEmpty = Object.values(form).some((v) => !v);
 
   const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 

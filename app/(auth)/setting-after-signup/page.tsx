@@ -9,81 +9,20 @@ import MainButton from "@/components/MainButton";
 import Recruit from "@/app/project-generate-step-1/components/Recruit";
 import { useRouter, useSearchParams } from "next/navigation";
 import Input from "@/components/Input";
-import {
-  PASSWORD_MIN_LENGTH,
-  PASSWORD_REGEX,
-  PASSWORD_REGEX_ERROR,
-} from "@/app/lib/constants";
-import { z } from "zod";
+import { PASSWORD_MIN_LENGTH } from "@/app/lib/constants";
+
 import { useState } from "react";
 import { createAccount } from "../signup/createAccount";
-import { email } from "zod/v4";
-
-// zod 유효성 검증
-
-// baseSchema는 Oauth 로그인, 일반 이메일 로그인 둘다 받아야하는 input들
-const baseSchema = z.object({
-  userName: z.string().min(1, { message: "이름을 입력해주세요." }),
-  birthDate: z
-    .string()
-    .nullable()
-    .refine((val) => val, {
-      message: "생년월일을 입력해주세요.",
-    }),
-  gender: z.enum(["여성", "남성"]),
-  field: z
-    .array(z.object({ id: z.number(), field: z.string().nullable() }))
-    .min(1, { message: "분야를 1개 이상 선택해주세요." })
-    .refine((fields) => fields.every((f) => f.field), {
-      message: "분야에 공백이 있습니다.",
-    }),
-  skills: z.array(z.string()).optional(),
-  profileImg: z.string().nullable().optional(),
-});
-
-// 일반 이메일 로그인시 추가로 받아야 하는 이메일,비번,비번 확인
-const emailSchema = z
-  .object({
-    email: z.string().email({ message: "올바른 이메일 형식이 아닙니다." }),
-    password: z
-      .string()
-      .min(PASSWORD_MIN_LENGTH, {
-        message: `비밀번호는 최소 ${PASSWORD_MIN_LENGTH}자 이상이어야 합니다.`,
-      })
-      .regex(PASSWORD_REGEX, { message: PASSWORD_REGEX_ERROR }),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "비밀번호가 일치하지 않습니다.",
-    path: ["confirmPassword"],
-  });
-
-// 뭔말이야 이건
-const dataURLtoFile = (dataurl: string, filename: string) => {
-  const arr = dataurl.split(",");
-  if (arr.length < 2) {
-    return null;
-  }
-  const mimeMatch = arr[0].match(/:(.*?);/);
-  if (!mimeMatch || mimeMatch.length < 2) {
-    return null;
-  }
-  const mime = mimeMatch[1];
-  const bstr = atob(arr[1]);
-  let n = bstr.length;
-  const u8arr = new Uint8Array(n);
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
-  }
-  return new File([u8arr], filename, { type: mime });
-};
+import { dataURLtoFile } from "@/utils/dataURLtoFile";
+import { baseSchema, emailSchema } from "@/types/auth";
 
 export default function SettingAfterSignup() {
   const store = useSignUpStore();
   const router = useRouter();
   const [errors, setErrors] = useState<any>({});
+  const [isLoading, setIsLoading] = useState<boolean>(false); // 버튼 연속 클릭 방지
 
-  // oauth로그인 하면 type 없음
+  // Oauth로그인 하면 type 없음
   const searchParams = useSearchParams();
   const signUpType = searchParams.get("type");
 
@@ -112,6 +51,7 @@ export default function SettingAfterSignup() {
     setErrors({});
 
     // 생년월일을 나이로 바꿔줘야함
+    // 지금은 단순히 현재년도 - 태어난 년도 + 1임
     const age = store.birthDate
       ? new Date().getFullYear() - new Date(store.birthDate).getFullYear() + 1
       : 0;
@@ -150,13 +90,21 @@ export default function SettingAfterSignup() {
       }
     }
 
-    // 성공 여부와 데이터 또는 에러메세지가 actionResult에 저장됨
-    const actionResult = await createAccount(formData);
+    setIsLoading(true);
+    try {
+      // 성공 여부와 데이터 또는 에러메세지가 actionResult에 저장됨
+      const actionResult = await createAccount(formData);
+      setIsLoading(false);
 
-    if (actionResult.success) {
-      router.push("/setting-after-signup-introduce");
-    } else {
-      alert(`회원가입 실패: ${actionResult.error?.message}`);
+      if (actionResult.success) {
+        router.push("/setting-after-signup-introduce");
+      } else {
+        alert(`회원가입 실패: ${actionResult.error?.message}`);
+      }
+    } catch (error) {
+      alert("예상치 못한 오류가 발생했습니다. 다시 시도해주세요.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -245,7 +193,7 @@ export default function SettingAfterSignup() {
             onUploadImage={store.setProfileImg}
           />
         </div>
-        <MainButton type="submit" buttonName="가입하기" disabled={false} />
+        <MainButton type="submit" buttonName="가입하기" disabled={isLoading} />
       </div>
     </form>
   );

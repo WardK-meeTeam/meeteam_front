@@ -9,7 +9,7 @@ export interface SignUpState {
   confirmPassword?: string;
   userName: string;
   birthDate: string | null;
-  gender: "MALE" | "FEMALE";
+  gender: "남성" | "여성";
   field: userFieldItem[];
   skills: string[];
   profileImg: string | null;
@@ -20,7 +20,7 @@ export interface SignUpState {
   setConfirmPassword: (password: string) => void;
   setUserName: (un: string) => void;
   setBirthDate: (bd: string | null) => void;
-  setGender: (g: "MALE" | "FEMALE") => void;
+  setGender: (g: "남성" | "여성") => void;
   setField: (f: userFieldItem[]) => void;
   setSkills: (sk: string[]) => void;
   setProfileImg: (img: string | null) => void;
@@ -34,7 +34,7 @@ export const useSignUpStore = create<SignUpState>((set) => ({
   confirmPassword: "",
   userName: "",
   birthDate: "",
-  gender: "MALE",
+  gender: "남성",
   field: [{ id: 0, field: null }],
   skills: [],
   profileImg: null,
@@ -60,7 +60,7 @@ export const useSignUpStore = create<SignUpState>((set) => ({
       confirmPassword: "",
       userName: "",
       birthDate: "",
-      gender: "MALE",
+      gender: "남성",
       field: [{ id: 0, field: null }],
       skills: [],
       profileImg: null,

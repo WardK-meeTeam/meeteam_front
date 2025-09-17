@@ -16,7 +16,7 @@ export default function TechSearch({
   errors?: string[];
 }) {
   const [open, setOpen] = useState(false);
-  const rootRef = useRef<HTMLInputElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   const [search, setSearch] = useState<string>("");
 
   const searchedStacks = techStackOptions.filter(
@@ -97,10 +97,11 @@ export default function TechSearch({
                     onClick={() => {
                       if (!isSelected) handleAddStack(item);
                     }}
-                    className={`px-3 py-2 rounded-lg ${isSelected
+                    className={`px-3 py-2 rounded-lg ${
+                      isSelected
                         ? "cursor-not-allowed text-gray-400"
                         : "hover:bg-mtm-light-blue cursor-pointer"
-                      }`}
+                    }`}
                   >
                     <span className="flex flex-row gap-4">
                       <svg

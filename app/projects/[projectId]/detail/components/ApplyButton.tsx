@@ -16,6 +16,7 @@ export default function ApplyButton({
   return (
     <button
       disabled={disabled}
+      type="button"
       onClick={() =>
         router.push(
           `/projects/${projectId}/apply?category=${convertSubCategory(subCategory)}`,

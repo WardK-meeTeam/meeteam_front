@@ -21,7 +21,7 @@ export interface ProjectGenerateState {
   setProjectName: (pn: string) => void;
   setProjectCategories: (pc: string) => void;
   setPlatform: (p: string) => void;
-  setProjectImage: (pi: string) => void;
+  setProjectImage: (pi: string | null) => void;
   setMustOffline: (o: "필수" | "선택") => void;
   setMyField: (mf: string | null) => void;
   setRecruitField: (rf: recruitFieldItem[]) => void;

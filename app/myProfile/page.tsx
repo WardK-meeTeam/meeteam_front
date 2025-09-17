@@ -128,7 +128,9 @@ export default function myPofile() {
                     <Image 
                     alt="사용자 프로필 이미지"
                     src="/images/userImg1.png"
-                    className="w-[194px] h-[194px] rounded-[50%]"
+                    width={194}
+                    height={194}
+                    className="rounded-[50%]"
                     />
                     <div className="flex justify-center items-center gap-x-4">
                         <div className="text-[36px] font-extrabold">김성림</div>
@@ -165,7 +167,7 @@ export default function myPofile() {
                     <div className="text-[16px] font-bold">기술 스택</div>
                     <div className="flex gap-x-3">
                         {dummyStacksImg.map((stack, idx) => (
-                            <Image alt="기술 스택 아이콘" key={idx} src={stack} className="w-[40px] h-[40px] rounded-[50%]"/>
+                            <Image alt="기술 스택 아이콘" key={idx} src={stack} width={40} height={40} className="rounded-[50%]"/>
                         ))}
                     </div>
                     <div className="flex gap-x-3 mt-7">

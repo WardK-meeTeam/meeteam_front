@@ -1,4 +1,4 @@
-import { RecruitStatus } from "../[projectId]/ProjectPageClient";
+import { RecruitStatus } from "../ProjectPageClient";
 import ApplyButton from "./ApplyButton";
 
 export default function RecruitCurrentRow({

@@ -1,12 +1,14 @@
 "use client";
 import { projectApplyUserData } from "@/mocks/projectApplyUserData";
 import AvailableDaysSelector from "./components/AvailableDaysSelector";
-import BinaryOptionSelector from "../../components/BinaryOptionSelector";
+
 import SelfIntroductionInput from "./components/SelfIntroductionInput";
 import UserProfileSummary from "./components/UserProfileSummary";
-import NumberStepper from "../../components/NumberStepper";
+
 import { useEffect, useState } from "react";
 import MainButton from "@/components/MainButton";
+import NumberStepper from "@/components/NumberStepper";
+import BinaryOptionSelector from "@/components/BinaryOptionSelector";
 
 export default function Page() {
   const [introduction, setIntroduction] = useState<string>("");

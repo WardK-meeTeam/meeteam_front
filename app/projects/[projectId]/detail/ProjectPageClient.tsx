@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import MemberList from "../components/MemberList";
-import ProjectInfo from "../components/ProjectInfo";
-import ProjectRecruitInfo from "../components/ProjectRecruitInfo";
+import MemberList from "./components/MemberList";
+import ProjectInfo from "./components/ProjectInfo";
+import ProjectRecruitInfo from "./components/ProjectRecruitInfo";
 import {
   Member,
   ProjectInfoItem,

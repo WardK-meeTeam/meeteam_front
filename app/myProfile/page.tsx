@@ -128,7 +128,9 @@ export default function myPofile() {
                     <Image 
                     alt="사용자 프로필 이미지"
                     src="/images/userImg1.png"
-                    className="w-[194px] h-[194px] rounded-[50%]"
+                    width={194}
+                    height={194}
+                    className="rounded-[50%]"
                     />
                     <div className="flex justify-center items-center gap-x-4">
                         <div className="text-[36px] font-extrabold">김성림</div>

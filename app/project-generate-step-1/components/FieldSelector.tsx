@@ -19,9 +19,11 @@ const options = [
 export default function FieldSelector({
   value,
   onChange,
+  errors = [],
 }: {
   value: string | null;
   onChange: (str: string | null) => void;
+  errors?: string[];
 }) {
   // value로 받아온 "대분류-소뷴류" 형태를 쪼개서 구조분해할당으로 받아옴
   const [majorFromProp, subFromProp] = value ? value.split("-") : [null, null];
@@ -52,18 +54,25 @@ export default function FieldSelector({
   }
 
   return (
-    <div className="w-full flex flex-1 flex-row gap-2">
-      <Selectable
-        options={majors}
-        value={selectedMajor}
-        onChangeOption={handleMajorChange}
-      />
-      <Selectable
-        options={subs}
-        disabled={!selectedMajor}
-        value={subFromProp}
-        onChangeOption={handleSubChange}
-      />
+    <div className="flex flex-col gap-1 w-full flex-1">
+      <div className="w-full flex flex-1 flex-row gap-2">
+        <Selectable
+          options={majors}
+          value={selectedMajor}
+          onChangeOption={handleMajorChange}
+        />
+        <Selectable
+          options={subs}
+          disabled={!selectedMajor}
+          value={subFromProp}
+          onChangeOption={handleSubChange}
+        />
+      </div>
+      {errors.map((error, index) => (
+        <span key={index} className="text-red-500 font-medium text-sm">
+          {error}
+        </span>
+      ))}
     </div>
   );
 }

@@ -14,13 +14,6 @@ function AvailableDaysSelector({
 }) {
   const days = ["월", "화", "수", "목", "금", "토", "일"]; // 요일 담는 배열
 
-  const [selectedDay, setSelectedDay] = useState<string[]>([]); // true인 요일만 필터링 -> data 보낼 용도
-  // console.log("현재 선택된 요일 : ", selectedDay);
-
-  // useEffect(() => {
-  //   setSelectedDay(day.filter((_, idx) => daySelection[idx] === true));
-  // }, [daySelection]);
-
   function handleClickButton(day: string) {
     if (value.includes(day)) {
       // 클릭했는데, 이미 선택이 되어있음

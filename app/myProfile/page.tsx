@@ -167,7 +167,7 @@ export default function myPofile() {
                     <div className="text-[16px] font-bold">기술 스택</div>
                     <div className="flex gap-x-3">
                         {dummyStacksImg.map((stack, idx) => (
-                            <Image alt="기술 스택 아이콘" key={idx} src={stack} className="w-[40px] h-[40px] rounded-[50%]"/>
+                            <Image alt="기술 스택 아이콘" key={idx} src={stack} width={40} height={40} className="rounded-[50%]"/>
                         ))}
                     </div>
                     <div className="flex gap-x-3 mt-7">

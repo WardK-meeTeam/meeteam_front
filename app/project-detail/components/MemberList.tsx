@@ -1,19 +1,38 @@
+import { Member } from "@/types/projectInfo";
 import MemberRow from "./MemberRow";
 
-export default function MemberList() {
+const NUM_OF_USERIMG = 7; // 프로필 이미지 없을 때 기본 이미지 넣어주는 용도
+
+export default function MemberList({ members }: { members: Member[] }) {
+  const leaders = members.filter((member) => member.creator === true);
+  const teamMembers = members.filter((member) => member.creator !== true);
   return (
     <div className="flex flex-col gap-8 box-border border border-mtm-light-gray py-5 px-7 rounded-xl">
       <div className="flex flex-col gap-3">
         <span className="font-bold text-lg">팀장</span>
-        <MemberRow imgUrl="/images/userImg1.png" userName="정연준" />
-        <MemberRow imgUrl="/images/userImg1.png" userName="정연준" />
+        {leaders.map((person, idx) => (
+          <MemberRow
+            key={`project-detail-leader-${person.memberId}`}
+            imgUrl={
+              person.imageUrl ??
+              `/images/userImg${(idx + 1) % NUM_OF_USERIMG}.png`
+            }
+            userName={person.name}
+          />
+        ))}
       </div>
       <div className="flex flex-col gap-3">
         <span className="font-bold text-lg">팀원</span>
-        <MemberRow imgUrl="/images/userImg1.png" userName="정연준" />
-        <MemberRow imgUrl="/images/userImg2.png" userName="정연준" />
-        <MemberRow imgUrl="/images/userImg3.png" userName="정연준" />
-        <MemberRow imgUrl="/images/userImg4.png" userName="정연준" />
+        {teamMembers.map((person, idx) => (
+          <MemberRow
+            key={`project-detail-memeber-${person.memberId}`}
+            imgUrl={
+              person.imageUrl ??
+              `/images/userImg${(idx + 1) % NUM_OF_USERIMG}.png`
+            }
+            userName={person.name}
+          />
+        ))}
       </div>
     </div>
   );

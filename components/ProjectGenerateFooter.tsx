@@ -60,7 +60,7 @@ export default function ProjectGenerateFooter({ step }: { step: number }) {
         buttonName={step === 1 ? "다음" : "이전"}
         onClick={
           step === 1
-            ? () => router.push("/project-generate-step-2")
+            ? () => router.push("/projects/create?step=2")
             : () => router.back()
         }
       />

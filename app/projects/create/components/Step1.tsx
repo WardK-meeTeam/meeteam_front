@@ -3,16 +3,16 @@ import BinaryOptionSelector from "@/components/BinaryOptionSelector";
 import SelectableButtonGroup, {
   Option,
 } from "@/components/SelectableButtonGroup";
-import ImageSelector from "./components/ImageSelector";
-import Recruit from "./components/Recruit";
-import TechSearch from "./components/TechSearch";
+import ImageSelector from "./ImageSelector";
+import Recruit from "./Recruit";
+import TechSearch from "./TechSearch";
 import DateSelector from "@/components/DateSelector";
-import Input from "../../components/Input";
+import Input from "../../../../components/Input";
 import { useProjectGenerateStore } from "@/store/projectGenerateStore";
-import FieldSelector from "./components/FieldSelector";
+import FieldSelector from "./FieldSelector";
 import ProjectGenerateFooter from "@/components/ProjectGenerateFooter";
 import { projectGenerateSchema } from "@/types/projectGenerate";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { dataURLtoFile } from "@/utils/dataURLtoFile";
 
 const categories: Option[] = [

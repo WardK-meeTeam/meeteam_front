@@ -21,7 +21,7 @@ export const techStackOptions: TechStackOption[] = [
   // ⚙️ 백엔드
   { kor: "노드", eng: "Node.js", iconName: "siNodedotjs" },
   { kor: "익스프레스", eng: "Express.js", iconName: "siExpress" },
-  { kor: "스프링부트", eng: "Spring Boot", iconName: "siSpringboot" },
+  { kor: "스프링부트", eng: "Spring", iconName: "siSpringboot" },
   { kor: "자바", eng: "Java", iconName: "siOpenjdk" },
   { kor: "코틀린", eng: "Kotlin", iconName: "siKotlin" },
   { kor: "파이썬", eng: "Python", iconName: "siPython" },

@@ -2,11 +2,11 @@
 
 import ImageUploader from "./components/ImageUploader";
 import BinaryOptionSelector from "@/components/BinaryOptionSelector";
-import TechSearch from "@/app/project-generate-step-1/components/TechSearch";
+import TechSearch from "@/app/projects/create/components/TechSearch";
 import { useSignUpStore } from "@/store/signupDataStore";
 import DateSelector from "@/components/DateSelector";
 import MainButton from "@/components/MainButton";
-import Recruit from "@/app/project-generate-step-1/components/Recruit";
+import Recruit from "@/app/projects/create/components/Recruit";
 import { useRouter, useSearchParams } from "next/navigation";
 import Input from "@/components/Input";
 import { PASSWORD_MIN_LENGTH } from "@/app/lib/constants";

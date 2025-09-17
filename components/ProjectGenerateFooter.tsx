@@ -64,7 +64,7 @@ export default function ProjectGenerateFooter({ step }: { step: number }) {
             : () => router.back()
         }
       />
-      <MainButton buttonName="등록하기" type="submit" disabled={!isValid} />
+      <MainButton buttonName="등록하기" type="submit" disabled={false} />
     </footer>
   );
 }

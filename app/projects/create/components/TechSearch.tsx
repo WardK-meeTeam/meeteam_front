@@ -69,7 +69,7 @@ export default function TechSearch({
             placeholder="기술 스택을 검색해주세요"
             className={`w-full rounded-xl py-3 px-5 box-border border 
             ${open ? "border-mtm-main-blue" : "border-mtm-light-gray "}
-            ${errors ? "border-red-500" : ""}
+            ${errors?.length ? "border-red-500" : ""}
 
             focus:border-mtm-main-blue hover:border-mtm-main-blue outline-0`}
           />
@@ -138,7 +138,9 @@ export default function TechSearch({
           })}
         </div>
       </div>
-      {errors && <span className="text-red-500 text-sm">{errors[0]}</span>}
+      {errors?.length ? (
+        <span className="text-red-500 text-sm">{errors[0]}</span>
+      ) : null}
     </div>
   );
 }

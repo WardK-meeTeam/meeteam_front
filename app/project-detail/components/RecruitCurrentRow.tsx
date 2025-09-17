@@ -1,23 +1,20 @@
+import { RecruitStatus } from "../[projectId]/ProjectPageClient";
 import ApplyButton from "./ApplyButton";
 
-interface RecruitCurrentRowProps {
-  field: string;
-  recruited: number;
-  capacity: number;
-}
-
 export default function RecruitCurrentRow({
-  field,
-  recruited,
-  capacity,
-}: RecruitCurrentRowProps) {
+  bigCategory,
+  subCategory,
+  recruitmentCount,
+  currentCount,
+  closed,
+}: RecruitStatus) {
   return (
     <div className="flex flex-row gap-8 justify-around items-center min-w-[460px]">
-      <span className="flex-1">{field}</span>
+      <span className="flex-1">{`${bigCategory}(${subCategory})`}</span>
       <span>
-        {recruited}/{capacity}
+        {currentCount}/{recruitmentCount}
       </span>
-      <ApplyButton disabled={recruited >= capacity} />
+      <ApplyButton disabled={closed} />
     </div>
   );
 }

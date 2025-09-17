@@ -5,16 +5,19 @@ export default function TextArea({
   maxSize,
   value,
   onChange,
+  onValueChange,
 }: {
   maxSize: number;
   value: string;
-  onChange: (str: string) => void;
+  onValueChange?: (str: string) => void;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }) {
   function handleInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     const text = e.target.value;
     if (text.length <= maxSize) {
       // maxLength 속성 안쓰고 직접 제어 글자수가 maxSize 이하일 때만 입력되도록
-      onChange(text);
+      onChange?.(e); // 기존 html input태그 그대로 사용시는 이거
+      onValueChange?.(e.target.value); // Zustand로 제어 컴포넌트 만들기 위함은 이거
     }
   }
   return (

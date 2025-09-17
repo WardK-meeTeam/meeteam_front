@@ -44,6 +44,7 @@ export default function ProjectRecruitInfo({
             <RecruitCurrentRow
               key={`project-${projectId}-recruit-status-${item.subCategory}-${item.currentCount}/${item.recruitmentCount}`}
               {...item}
+              projectId={projectId}
             />
           ))}
         </div>

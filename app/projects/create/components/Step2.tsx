@@ -1,7 +1,7 @@
 "use client";
 
 import { useProjectGenerateStore } from "@/store/projectGenerateStore";
-import MarkDown from "../../components/MarkDown";
+import MarkDown from "../../../../components/MarkDown";
 import ProjectGenerateFooter from "@/components/ProjectGenerateFooter";
 
 export default function Page() {

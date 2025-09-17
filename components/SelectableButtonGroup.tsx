@@ -1,6 +1,7 @@
 "use client";
 import ToggleButton from "@/components/ToggleButton";
 
+export type Option = string | { value: string; label: string };
 export default function SelectableButtonGroup({
   title,
   errors,
@@ -12,7 +13,7 @@ export default function SelectableButtonGroup({
 }: {
   title: string;
   errors?: string;
-  optionList: string[];
+  optionList: Option[];
   value: string[] | string;
   onChange?: (selected: string[]) => void;
   onChangeOne?: (selected: string) => void;
@@ -39,14 +40,20 @@ export default function SelectableButtonGroup({
         <span className="text-red-500 text-xs">{errors ? errors : ""}</span>
       </div>
       <div className="flex flex-row flex-wrap w-full gap-3">
-        {optionList.map((part) => (
-          <ToggleButton
-            key={part}
-            content={part}
-            isSelected={value.includes(part)}
-            onClick={() => handleClickPartButton(part)}
-          />
-        ))}
+        {optionList.map((option) => {
+          const optionValue =
+            typeof option === "string" ? option : option.value;
+          const optionLabel =
+            typeof option === "string" ? option : option.label;
+          return (
+            <ToggleButton
+              key={optionValue}
+              content={optionLabel}
+              isSelected={value.includes(optionValue)}
+              onClick={() => handleClickPartButton(optionValue)}
+            />
+          );
+        })}
       </div>
     </div>
   );

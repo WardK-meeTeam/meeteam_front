@@ -5,7 +5,7 @@ import {
   PASSWORD_REGEX,
   PASSWORD_REGEX_ERROR,
 } from "@/app/lib/constants";
-import z from "zod";
+import { z } from "zod";
 
 // baseSchema는 Oauth 로그인, 일반 이메일 로그인 둘다 받아야하는 input들
 export const baseSchema = z.object({

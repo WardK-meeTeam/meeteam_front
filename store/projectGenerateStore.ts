@@ -8,8 +8,8 @@ export interface recruitFieldItem {
 
 export interface ProjectGenerateState {
   projectName: string;
-  projectCategories: string[];
-  platform: string[];
+  projectCategories: string;
+  platform: string;
   projectImage: string | null;
   mustOffline: "필수" | "선택";
   myField: string | null;
@@ -19,9 +19,9 @@ export interface ProjectGenerateState {
   projectDescription: string;
 
   setProjectName: (pn: string) => void;
-  setProjectCategories: (pc: string[]) => void;
-  setPlatform: (p: string[]) => void;
-  setProjectImage: (pi: string) => void;
+  setProjectCategories: (pc: string) => void;
+  setPlatform: (p: string) => void;
+  setProjectImage: (pi: string | null) => void;
   setMustOffline: (o: "필수" | "선택") => void;
   setMyField: (mf: string | null) => void;
   setRecruitField: (rf: recruitFieldItem[]) => void;
@@ -33,8 +33,8 @@ export interface ProjectGenerateState {
 
 export const useProjectGenerateStore = create<ProjectGenerateState>((set) => ({
   projectName: "",
-  projectCategories: [],
-  platform: [],
+  projectCategories: "",
+  platform: "",
   projectImage: null,
   mustOffline: "필수",
   myField: "",
@@ -59,8 +59,8 @@ export const useProjectGenerateStore = create<ProjectGenerateState>((set) => ({
   reset: () =>
     set({
       projectName: "",
-      projectCategories: [],
-      platform: [],
+      projectCategories: "",
+      platform: "",
       projectImage: null,
       mustOffline: "필수",
       myField: "",

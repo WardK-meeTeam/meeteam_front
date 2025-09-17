@@ -1,3 +1,2 @@
+#!/usr/bin/env sh
 npx --no-install jira-prepare-commit-msg "$1"
-
-

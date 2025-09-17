@@ -5,7 +5,7 @@ export default function SelfIntroductionInput({
   onChange,
 }: {
   value: string;
-  onChange: (str: string) => void;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }) {
   return (
     <div className="flex flex-col gap-4">

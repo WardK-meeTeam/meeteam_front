@@ -1,56 +1,48 @@
 import { techStackOptions } from "@/mocks/techs";
 import RecruitCurrentRow from "./RecruitCurrentRow";
 import * as icons from "simple-icons";
+import { ProjectRecruitInfoItem } from "@/types/projectInfo";
 
-const recruitStatus = [
-  {
-    field: "백엔드(웹 서버)",
-    recruited: 1,
-    capacity: 2,
-  },
-  {
-    field: "프론트엔드(웹)",
-    recruited: 0,
-    capacity: 2,
-  },
-  {
-    field: "프론트엔드(iOS)",
-    recruited: 2,
-    capacity: 2,
-  },
-  {
-    field: "디자인(UI/UX)",
-    recruited: 1,
-    capacity: 2,
-  },
-];
-
-const skillsText = ["Next.js", "JavaScript", "Spring Boot"];
-const mustOffline = "필수";
-const deadline = "2025년 6월 12일~2025년 6월 30일";
-
-const skillsIcon = techStackOptions.filter((stack) =>
-  skillsText.includes(stack.eng),
-);
+interface ProjectRecruitInfoProps extends ProjectRecruitInfoItem {
+  projectId: string;
+}
 
 export default function ProjectRecruitInfo({
   projectId,
-}: {
-  projectId: string;
-}) {
+  offlineRequired,
+  endDate,
+  skills,
+  recruitments,
+}: ProjectRecruitInfoProps) {
+  const [year, month, date] = endDate.split("-");
+
+  const skillsIcon = techStackOptions.filter((skill) =>
+    skills.includes(skill.eng),
+  );
+  const recuitingBigCategory = recruitments.map((item) => item.bigCategory);
+  // 중복 제거
+  const uniqueRecuitingBigCategory = Array.from(new Set(recuitingBigCategory));
+
   return (
     <div className="flex flex-col gap-10">
       <span className="text-[26px] font-bold">프로젝트 모집 정보</span>
       <section className="flex flex-row gap-15 items-baseline">
         <span className="font-bold">모집 분야</span>
-        백엔드,프론트엔드,디자인,기획,마케팅
+        <div>
+          {uniqueRecuitingBigCategory.map((item, idx) => (
+            <span key={`detail-${projectId}-${item}`}>
+              {item}
+              {idx !== uniqueRecuitingBigCategory.length - 1 ? "," : ""}
+            </span>
+          ))}
+        </div>
       </section>
       <section className="flex flex-row gap-15 items-baseline">
         <span className="font-bold">모집 현황</span>
         <div className="flex flex-col gap-5">
-          {recruitStatus.map((item) => (
+          {recruitments.map((item) => (
             <RecruitCurrentRow
-              key={`project-${projectId}-recruit-status-${item.field}-${item.recruited}/${item.capacity}`}
+              key={`project-${projectId}-recruit-status-${item.subCategory}-${item.currentCount}/${item.recruitmentCount}`}
               {...item}
             />
           ))}
@@ -80,11 +72,11 @@ export default function ProjectRecruitInfo({
       </div>
       <div className="flex gap-8">
         <span className="w-56 font-bold">오프라인 정기 모임 필수 여부</span>
-        <span>{mustOffline}</span>
+        <span>{offlineRequired === true ? "필수" : "선택"}</span>
       </div>
       <div className="flex gap-8">
         <span className="w-56 font-bold">프로젝트 마감 기한</span>
-        <span>{deadline}</span>
+        <span>{`${year}년 ${month}월 ${date}일`}</span>
       </div>
     </div>
   );

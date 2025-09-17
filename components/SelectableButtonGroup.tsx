@@ -6,25 +6,27 @@ export default function SelectableButtonGroup({
   errors,
   optionList,
   value,
-  onChange,
+  onChange = () => {},
   onlySelectOne = false,
+  onChangeOne,
 }: {
   title: string;
   errors?: string;
   optionList: string[];
-  value: string[];
-  onChange: (selected: string[]) => void;
+  value: string[] | string;
+  onChange?: (selected: string[]) => void;
+  onChangeOne?: (selected: string) => void;
   onlySelectOne?: boolean;
 }) {
   function handleClickPartButton(part: string) {
-    if (onlySelectOne) {
+    if (onlySelectOne && onChangeOne) {
       // 그룹 중에서 1개만 선택되어야 하기 떄문에 그냥 기존거 무시하고 자기만 들어가면 됨
-      onChange([part]);
+      onChangeOne(part);
       return;
     }
     const isSelected = value.includes(part);
     if (isSelected) {
-      onChange(value.filter((item) => item !== part));
+      onChange((value as string[]).filter((item) => item !== part));
     } else {
       onChange([...value, part]);
     }

@@ -10,27 +10,69 @@ import MainButton from "@/components/MainButton";
 import NumberStepper from "@/components/NumberStepper";
 import BinaryOptionSelector from "@/components/BinaryOptionSelector";
 
+interface ApplyFormData {
+  introduction: string;
+  canOffline: "가능" | "불가능";
+  useTime: number;
+  days: string[];
+}
+
 export default function Page() {
-  const [introduction, setIntroduction] = useState<string>("");
-  const [canOffline, setCanOffline] = useState<"가능" | "불가능">("불가능");
-  const [useTime, setUseTime] = useState<number>(1);
-  const [days, setDays] = useState<string[]>([]);
+  const [formData, setFormData] = useState<ApplyFormData>({
+    introduction: "",
+    canOffline: "가능",
+    useTime: 1,
+    days: [],
+  });
+
+  const handleIntroductionChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    const { value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      introduction: value,
+    }));
+  };
+
+  const handleDaysChange = (newDays: string[]) => {
+    setFormData((prev) => ({
+      ...prev,
+      days: newDays,
+    }));
+  };
+
+  const handleTimeChange = (newTime: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      useTime: newTime,
+    }));
+  };
+
+  const handleCanOfflineChange = (newOffline: "가능" | "불가능") => {
+    setFormData((prev) => ({
+      ...prev,
+      canOffline: newOffline,
+    }));
+  };
+
   const [isValid, setIsValid] = useState<boolean>(false);
 
   function checkField() {
-    if (introduction === "") return false;
-    if (days.length === 0) return false;
+    if (formData.introduction === "") return false;
+    if (formData.days.length === 0) return false;
     return true;
   }
 
   useEffect(() => {
-    setIsValid(checkField());
-  }, [introduction, days]);
+    console.log(formData);
+  }, [formData]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    console.log(formData);
     if (!checkField) return;
+
     // api post 보내기
     // console.log(introduction, canOffline, useTime, days);
   };
@@ -40,24 +82,27 @@ export default function Page() {
         <b className="text-[26px] mb-10">프로젝트 지원</b>
         <div className="flex flex-col gap-16">
           <SelfIntroductionInput
-            value={introduction}
-            onChange={setIntroduction}
+            value={formData.introduction}
+            onChange={handleIntroductionChange}
           />
           <NumberStepper
             title={"주당 투자 가능 시간"}
-            value={useTime}
-            onChange={setUseTime}
+            value={formData.useTime}
+            onChange={handleTimeChange}
             min={0}
             max={168}
             warningMessage={"시간은 0시간 이상 168시간 이하로 입력해주세요!"}
           />
-          <AvailableDaysSelector value={days} onChange={setDays} />
+          <AvailableDaysSelector
+            value={formData.days}
+            onChange={handleDaysChange}
+          />
           <BinaryOptionSelector<"가능" | "불가능">
             title={"오프라인 참여 가능 여부"}
             option1={"가능"}
             option2={"불가능"}
-            value={canOffline}
-            onChange={setCanOffline}
+            value={formData.canOffline}
+            onChange={handleCanOfflineChange}
           />
           <UserProfileSummary {...projectApplyUserData} />
         </div>

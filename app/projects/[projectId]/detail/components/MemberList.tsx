@@ -15,7 +15,7 @@ export default function MemberList({ members }: { members: Member[] }) {
             key={`project-detail-leader-${person.memberId}`}
             imgUrl={
               person.imageUrl ??
-              `/images/userImg${(idx + 1) % NUM_OF_USERIMG}.png`
+              `/images/userImg${(idx % NUM_OF_USERIMG) + 1}.png`
             }
             userName={person.name}
           />
@@ -28,7 +28,7 @@ export default function MemberList({ members }: { members: Member[] }) {
             key={`project-detail-memeber-${person.memberId}`}
             imgUrl={
               person.imageUrl ??
-              `/images/userImg${(idx + 1) % NUM_OF_USERIMG}.png`
+              `/images/userImg${(idx % NUM_OF_USERIMG) + 1}.png`
             }
             userName={person.name}
           />

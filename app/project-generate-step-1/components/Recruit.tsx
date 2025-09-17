@@ -8,13 +8,10 @@ interface RecruitProps {
   title: string;
   value: recruitFieldItem[] | userFieldItem[];
   onChange: (field: any) => void;
+  errors?: any;
 }
 
-// onChange부분 파라미터 any로 받기 싫었는데.. 어떻게 해결해야할지 몰라서 일단 이렇게 둠
-// 파라미터가 recruitFieldItem[] or userFieldItem[] 이렇게 들어오는데, 자꾸 프로젝트 생성페이지
-// 파라미터 넘기는 부분에서 오류떠서 일단 any로 둘게요
-
-export default function Recruit({ title, value, onChange }: RecruitProps) {
+export default function Recruit({ title, value, onChange, errors }: RecruitProps) {
   const hasPeopleCount = value.some((v) => "numOfPeople" in v);
 
   const onClickButton = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -34,38 +31,41 @@ export default function Recruit({ title, value, onChange }: RecruitProps) {
   const handleRowChange = useCallback(
     (updatedRow: recruitFieldItem | userFieldItem) => {
       const newFields = value.map((row) =>
-        row.id === updatedRow.id ? updatedRow : row,
+        row.id === updatedRow.id ? updatedRow : row
       );
       onChange(newFields);
     },
-    [value, onChange],
+    [value, onChange]
   );
 
   return (
-    <div className="flex flex-col gap-4 w-full">
-      {title !== "" ? <b>{title}</b> : ""}
+    <div className="flex flex-col gap-1 w-full">
+      <div className="flex flex-col gap-4">
+        {title !== "" ? <b>{title}</b> : ""}
 
-      {value.map((item) => (
-        <RecruitRow key={item.id} value={item} onChange={handleRowChange} />
-      ))}
-      <span className="flex flex-row gap-2 justify-end items-center">
-        <button
-          type="button"
-          className="flex justify-center items-center py-2 px-4 cursor-pointer bg-[#F8F8F8] rounded-lg border border-[#9D9D9D] text-[14px]"
-          onClick={onClickButton}
-          value="삭제"
-        >
-          삭제
-        </button>
-        <button
-          type="button"
-          className="flex justify-center items-center py-2 px-4 cursor-pointer bg-mtm-light-blue rounded-lg border border-mtm-main-blue text-[14px]"
-          onClick={onClickButton}
-          value="추가"
-        >
-          추가
-        </button>
-      </span>
+        {value.map((item) => (
+          <RecruitRow key={item.id} value={item} onChange={handleRowChange} />
+        ))}
+        <span className="flex flex-row gap-2 justify-end items-center">
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-4 cursor-pointer bg-[#F8F8F8] rounded-lg border border-[#9D9D9D] text-[14px]"
+            onClick={onClickButton}
+            value="삭제"
+          >
+            삭제
+          </button>
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-4 cursor-pointer bg-mtm-light-blue rounded-lg border border-mtm-main-blue text-[14px]"
+            onClick={onClickButton}
+            value="추가"
+          >
+            추가
+          </button>
+        </span>
+      </div>
+      {errors && <span className="text-red-500 text-sm">{errors}</span>}
     </div>
   );
 }

@@ -1,5 +1,5 @@
 // zod 유효성 검증
-import z from "zod";
+import { z } from "zod";
 
 export const projectGenerateSchema = z.object({
   projectName: z.string().min(1, { message: "프로젝트명을 입력해주세요." }),

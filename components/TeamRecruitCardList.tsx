@@ -23,11 +23,6 @@ const dummyCard = {
   ],
 };
 
-interface Skill {
-  skillName: string;
-  percent: number;
-}
-
 export default function TeamRecruitCardList() {
   return (
     <div className="ml-6 flex items-center justify-start w-[90%] overflow-hidden gap-x-3">

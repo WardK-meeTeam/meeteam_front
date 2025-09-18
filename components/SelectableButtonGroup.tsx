@@ -12,7 +12,7 @@ export default function SelectableButtonGroup({
   onChangeOne,
 }: {
   title: string;
-  errors?: string;
+  errors?: string[];
   optionList: Option[];
   value: string[] | string;
   onChange?: (selected: string[]) => void;

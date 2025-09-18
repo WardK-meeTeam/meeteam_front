@@ -1,27 +1,54 @@
 "use client";
 import ToggleButton from "@/components/ToggleButton";
-import { useEffect, useState } from "react";
 
-// 지원분야랑 투자 가능 요일 Toggle Button 사용법은 동일한데, 여기서는 Record 안쓰고 배열 2개 매핑하는 걸로함
-// 요일 개수는 변하지 않으니까 배열로 해도 될 것 같다는 생각..
-
-function AvailableDaysSelector({
+export default function AvailableDaysSelector({
   value,
   onChange,
 }: {
   value: string[];
   onChange: (day: string[]) => void;
 }) {
-  const days = ["월", "화", "수", "목", "금", "토", "일"]; // 요일 담는 배열
+  const days = [
+    {
+      label: "월",
+      eng: "MONDAY",
+    },
+    {
+      label: "화",
+      eng: "TUESDAY",
+    },
+    {
+      label: "수",
+      eng: "WEDNESDAY",
+    },
+    {
+      label: "목",
+      eng: "THURSDAY",
+    },
+    {
+      label: "금",
+      eng: "FRIDAY",
+    },
+    {
+      label: "토",
+      eng: "SATURDAY",
+    },
+    {
+      label: "일",
+      eng: "SUNDAY",
+    },
+  ];
 
-  function handleClickButton(day: string) {
-    if (value.includes(day)) {
+  function handleClickButton(dayEng: string) {
+    if (value.includes(dayEng)) {
       // 클릭했는데, 이미 선택이 되어있음
-      const newDays = value.filter((item) => item !== day);
+      const newDays = value.filter((item) => item !== dayEng);
+      console.log(newDays);
       onChange(newDays);
     } else {
       // 새로 추가
-      const newDays = [...value, day];
+      const newDays = [...value, dayEng];
+      console.log(newDays);
       onChange(newDays);
     }
   }
@@ -31,16 +58,14 @@ function AvailableDaysSelector({
       <div className="flex justify-start gap-3 items-center w-full">
         {days.map((day) => (
           <ToggleButton
-            key={day}
-            content={day}
+            key={day.eng}
+            content={day.label}
             isDay={true}
-            isSelected={value.includes(day)}
-            onClick={() => handleClickButton(day)}
+            isSelected={value.includes(day.eng)}
+            onClick={() => handleClickButton(day.eng)}
           />
         ))}
       </div>
     </div>
   );
 }
-
-export default AvailableDaysSelector;

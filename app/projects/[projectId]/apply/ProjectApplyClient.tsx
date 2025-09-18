@@ -85,7 +85,7 @@ export default function ProjectApplyClient({
     const dataForApi = {
       motivation: formData.introduction,
       offlineAvailable: formData.canOffline === "가능" ? "true" : "false",
-      availableDay: formData.availableDays.join(","), // 배열로 되어있는 애를 문자열 나열식으로 바꿈
+      availableDays: formData.availableDays.join(","), // 배열로 되어있는 애를 문자열 나열식으로 바꿈
       availableHoursPerWeek: formData.useTime.toString(),
       projectId: projectId,
       subCategory: convertSubCategory(subCategory ?? ""),

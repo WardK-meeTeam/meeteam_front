@@ -4,9 +4,11 @@ import ToggleButton from "@/components/ToggleButton";
 export default function AvailableDaysSelector({
   value,
   onChange,
+  errors,
 }: {
   value: string[];
   onChange: (day: string[]) => void;
+  errors?: string[];
 }) {
   const days = [
     {
@@ -64,6 +66,9 @@ export default function AvailableDaysSelector({
           />
         ))}
       </div>
+      {errors?.length ? (
+        <span className="text-red-500 text-sm">{errors[0]}</span>
+      ) : null}
     </div>
   );
 }

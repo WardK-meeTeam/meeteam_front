@@ -1,16 +1,15 @@
-"use client";
-import { useState } from "react";
-
 export default function TextArea({
   maxSize,
   value,
   onChange,
   onValueChange,
+  errors,
 }: {
   maxSize: number;
   value: string;
   onValueChange?: (str: string) => void;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  errors?: string[];
 }) {
   function handleInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     const text = e.target.value;
@@ -25,9 +24,10 @@ export default function TextArea({
       <textarea
         value={value}
         onChange={handleInputChange}
-        className="w-full h-[215px] border border-mtm-light-gray p-5 rounded-xl overflow-x-hidden overflow-y-auto resize-none 
+        className={`w-full h-[215px] border border-mtm-light-gray p-5 rounded-xl overflow-x-hidden overflow-y-auto resize-none 
         outline-none focus:outline-mtm-main-blue hover:border-mtm-main-blue
-        transition-colors duration-500 ease-in-out"
+        ${errors ? "border-red-500 hover:border-red-500" : ""}
+        transition-colors duration-500 ease-in-out`}
       />
       <div className="flex gap-1 text-[12px] justify-end">
         <span>{value.length}</span>

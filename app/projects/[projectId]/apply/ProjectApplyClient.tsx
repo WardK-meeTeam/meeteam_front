@@ -1,5 +1,4 @@
 "use client";
-import { projectApplyUserData } from "@/mocks/projectApplyUserData";
 import AvailableDaysSelector from "./components/AvailableDaysSelector";
 
 import SelfIntroductionInput from "./components/SelfIntroductionInput";
@@ -152,7 +151,7 @@ export default function ProjectApplyClient({
             value={formData.canOffline}
             onChange={handleCanOfflineChange}
           />
-          <UserProfileSummary {...projectApplyUserData} />
+          <UserProfileSummary />
         </div>
       </div>
       <footer className="flex flex-row justify-end gap-2 w-full border-t border-mtm-light-gray py-3 px-16">

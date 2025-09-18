@@ -25,7 +25,7 @@ export default function Input({
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 flex-1">
       {title && <h1 className="font-bold">{title}</h1>}
       <div className="flex flex-col gap-1">
         <input

@@ -1,10 +1,10 @@
 "use client";
 
 // 구글, 깃헙 인증 성공 후 리다이렉트 처리할 페이지
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function OAuthRedirectPage() {
+function RedirectLogic() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -32,5 +32,13 @@ export default function OAuthRedirectPage() {
       <h1>로그인 중입니다...</h1>
       <p>잠시만 기다려주세요.</p>
     </div>
+  );
+}
+
+export default function OAuthRedirectPage() {
+  return (
+    <Suspense>
+      <RedirectLogic />
+    </Suspense>
   );
 }

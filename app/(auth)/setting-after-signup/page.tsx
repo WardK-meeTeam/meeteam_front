@@ -67,7 +67,6 @@ export default function SettingAfterSignup() {
         subcategory: f.field?.split("-")[1] ?? "",
       })),
       skills: store.skills.map((s) => ({ skillName: s })),
-      introduce: "",
     };
 
     // email로 회원가입이면 이멜,패스워드 보냄

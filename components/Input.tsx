@@ -32,7 +32,8 @@ export default function Input({
           placeholder={placeholder ?? ""}
           value={value}
           onChange={handleChange}
-          className="rounded-xl py-3 px-5 box-border border border-mtm-light-gray focus:border-mtm-main-blue hover:border-mtm-main-blue outline-0"
+          className="rounded-xl py-3 px-5 box-border border border-mtm-light-gray focus:border-mtm-main-blue hover:border-mtm-main-blue outline-0
+          transition-colors duration-500 ease-in-out"
           {...rest}
         />
         {errors.map((error, index) => (

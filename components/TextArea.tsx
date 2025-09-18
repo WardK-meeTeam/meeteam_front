@@ -25,7 +25,9 @@ export default function TextArea({
       <textarea
         value={value}
         onChange={handleInputChange}
-        className="w-full h-[215px] border border-mtm-light-gray p-5 rounded-xl overflow-x-hidden overflow-y-auto resize-none focus:outline-mtm-main-blue"
+        className="w-full h-[215px] border border-mtm-light-gray p-5 rounded-xl overflow-x-hidden overflow-y-auto resize-none 
+        outline-none focus:outline-mtm-main-blue hover:border-mtm-main-blue
+        transition-colors duration-500 ease-in-out"
       />
       <div className="flex gap-1 text-[12px] justify-end">
         <span>{value.length}</span>

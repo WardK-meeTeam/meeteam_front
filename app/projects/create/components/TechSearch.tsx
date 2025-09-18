@@ -68,6 +68,7 @@ export default function TechSearch({
             onChange={handleChangeSearch}
             placeholder="기술 스택을 검색해주세요"
             className={`w-full rounded-xl py-3 px-5 box-border border 
+              transition-colors duration-500 ease-in-out
             ${open ? "border-mtm-main-blue" : "border-mtm-light-gray "}
             ${errors?.length ? "border-red-500" : ""}
 

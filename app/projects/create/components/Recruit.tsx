@@ -4,14 +4,19 @@ import RecruitRow from "./RecruitRow";
 import { recruitFieldItem } from "@/store/projectGenerateStore";
 import { userFieldItem } from "@/store/signupDataStore";
 
-interface RecruitProps {
+interface RecruitProps<T extends recruitFieldItem | userFieldItem> {
   title: string;
-  value: recruitFieldItem[] | userFieldItem[];
-  onChange: (field: any) => void;
-  errors?: any;
+  value: T[];
+  onChange: (field: T[]) => void;
+  errors?: string[];
 }
 
-export default function Recruit({ title, value, onChange, errors }: RecruitProps) {
+export default function Recruit<T extends recruitFieldItem | userFieldItem>({
+  title,
+  value,
+  onChange,
+  errors,
+}: RecruitProps<T>) {
   const hasPeopleCount = value.some((v) => "numOfPeople" in v);
 
   const onClickButton = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -19,9 +24,12 @@ export default function Recruit({ title, value, onChange, errors }: RecruitProps
     if (buttonValue === "추가") {
       const newId =
         value.length > 0 ? Math.max(...value.map((item) => item.id)) + 1 : 0;
-      let newField: recruitFieldItem | userFieldItem;
-      if (hasPeopleCount) newField = { id: newId, field: null, numOfPeople: 1 };
-      else newField = { id: newId, field: null };
+      let newField: T;
+      if (hasPeopleCount) {
+        newField = { id: newId, field: null, numOfPeople: 1 } as T;
+      } else {
+        newField = { id: newId, field: null } as T;
+      }
       onChange([...value, newField]);
     } else if (buttonValue === "삭제" && value.length > 1) {
       onChange(value.slice(0, -1));
@@ -31,11 +39,11 @@ export default function Recruit({ title, value, onChange, errors }: RecruitProps
   const handleRowChange = useCallback(
     (updatedRow: recruitFieldItem | userFieldItem) => {
       const newFields = value.map((row) =>
-        row.id === updatedRow.id ? updatedRow : row
+        row.id === updatedRow.id ? (updatedRow as T) : row,
       );
       onChange(newFields);
     },
-    [value, onChange]
+    [value, onChange],
   );
 
   return (

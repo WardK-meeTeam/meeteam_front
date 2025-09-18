@@ -82,7 +82,7 @@ export default function StepOne() {
     }
 
     // API 호출부
-    const good = async () => {
+    const fetchCreateProjects = async () => {
       const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
       const accessToken = localStorage.getItem("accessToken");
@@ -126,7 +126,7 @@ export default function StepOne() {
       }
     };
 
-    good();
+    fetchCreateProjects();
   };
 
   return (

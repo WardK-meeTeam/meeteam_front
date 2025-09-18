@@ -1,15 +1,23 @@
 "use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 
 export default function Navbar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인시 디자인 확인용
-  const [userName, setUserName] = useState("길동"); // 임시 유저명
+  const isLoggedIn = true;
+  const router = useRouter();
   const [search, setSearch] = useState("");
+  const [name, setName] = useState<string | null>(null);
 
   function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearch(e.target.value);
   }
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user-storage");
+    if (!savedUser) return;
+    setName(JSON.parse(savedUser).state.user.name);
+  }, []);
   return (
     <header className="flex gap-8 justify-between items-baseline w-full pt-9 pb-9 pl-8 pr-8">
       <div className="flex gap-7 items-baseline">
@@ -59,26 +67,21 @@ export default function Navbar() {
         </form>
         <ul className="flex divide-x-1 divide-mtm-text-gray">
           {isLoggedIn ? (
-            <li
-              className="text-mtm-text-gray pl-2"
-              onClick={() => setIsLoggedIn(false)}
-            >
-              <span className="font-bold">{userName}님! </span>
+            <li className="text-mtm-text-gray pl-2" onClick={() => {}}>
+              <span className="font-bold">{name ?? ""}님! </span>
               안녕하세요
             </li>
           ) : (
             <Fragment>
               <li
                 className="text-mtm-text-gray cursor-pointer px-2"
-                onClick={() => alert("회원가입 이동")}
+                onClick={() => router.push("/signup")}
               >
                 회원가입
               </li>
               <li
                 className="text-mtm-text-gray cursor-pointer px-2"
-                onClick={() => {
-                  setIsLoggedIn(true);
-                }}
+                onClick={() => router.push("/signin")}
               >
                 로그인
               </li>

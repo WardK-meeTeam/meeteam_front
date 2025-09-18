@@ -43,12 +43,10 @@ export default function AvailableDaysSelector({
     if (value.includes(dayEng)) {
       // 클릭했는데, 이미 선택이 되어있음
       const newDays = value.filter((item) => item !== dayEng);
-      console.log(newDays);
       onChange(newDays);
     } else {
       // 새로 추가
       const newDays = [...value, dayEng];
-      console.log(newDays);
       onChange(newDays);
     }
   }

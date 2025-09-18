@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 interface CardProps {
   category: string;
   tool: string;
@@ -42,8 +44,7 @@ const CategoryColors: { [key: string]: [string, string, string, string] } = {
 
 export default function Card({
   category,
-  tool,
-  tools,
+
   teamName,
   date,
   title,
@@ -84,11 +85,13 @@ export default function Card({
               <div className="flex items-center justify-start gap-x-2 px-6 mt-4">
                 <div className="flex gap-x-1">
                   {[1, 2, 3].map((tool, idx) => (
-                    <img
+                    <Image
                       key={idx}
-                      className="w-[23px] h-[23px] rounded-[4px]"
+                      className="rounded-[4px]"
                       src={ToolImgs[tool] || "/images/Figma.png"}
                       alt="tool"
+                      width={23}
+                      height={23}
                     />
                   ))}
                 </div>
@@ -167,21 +170,25 @@ export default function Card({
             <div className="flex flex-col my-3 gap-y-2">
               <div className="flex justify-center items-center gap-x-2">
                 {userImg.slice(0, 4).map((img, idx) => (
-                  <img
+                  <Image
                     key={idx}
-                    className="w-[56px] h-[56px] rounded-full object-cover"
+                    className="rounded-full object-cover"
                     src={img}
                     alt={`user-${idx}`}
+                    width={56}
+                    height={56}
                   />
                 ))}
               </div>
               <div className="flex justify-center items-center gap-x-2">
                 {userImg.slice(4, 7).map((img, idx) => (
-                  <img
+                  <Image
                     key={idx}
-                    className="w-[56px] h-[56px] rounded-full object-cover"
+                    className="rounded-full object-cover"
                     src={img}
                     alt={`user-${idx}`}
+                    width={56}
+                    height={56}
                   />
                 ))}
               </div>
@@ -197,7 +204,7 @@ export default function Card({
               </div>
             </div>
 
-            <div className="w-[243px] border border-1 border-[#D9D9D9] my-5"></div>
+            <div className="w-[243px] border border-[#D9D9D9] my-5"></div>
 
             <div className="flex gap-x-2 mt-3">
               <div className="text-[16px] font-bold text-[#757575]">

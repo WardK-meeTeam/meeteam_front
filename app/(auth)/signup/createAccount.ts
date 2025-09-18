@@ -26,6 +26,9 @@ export async function createAccount(formData: FormData) {
       return { success: false, error: errorData };
     }
   } catch (error) {
-    return { success: false, error: { message: "An unknown error occurred." } };
+    return {
+      success: false,
+      error: { message: "알 수 없는 오류가 발생했습니다." },
+    };
   }
 }

@@ -45,6 +45,7 @@ export default function Selectable({
           border rounded-xl text-[14px] p-3
           w-full flex items-center justify-between gap-2
           ${disabled ? "border-gray-200" : "hover:border-mtm-main-blue border-mtm-light-gray "}
+          transition-colors duration-500 ease-in-out
           bg-white 
         `}
       >

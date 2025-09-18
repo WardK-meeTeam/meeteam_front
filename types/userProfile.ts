@@ -1,7 +1,27 @@
-export type UserProfile = {
+interface Category {
+  bigCategory: string;
+  smallCategory: string;
+}
+
+interface Project {
+  localDate: string;
+  title: string;
+  status: string;
+}
+
+// 아직 리뷰 타입 존재 X
+
+export interface UserProfile {
   name: string;
   age: number;
-  sex: string;
+  gender: "MALE" | "FEMALE";
   email: string;
-  techStack: string[];
-};
+  categories: Category[];
+  skills: { skill: string }[];
+  isParticipating: boolean;
+  projectCount: number;
+  reviewCount: number;
+  introduce: string;
+  reviewList?: [];
+  projectList: Project[];
+}

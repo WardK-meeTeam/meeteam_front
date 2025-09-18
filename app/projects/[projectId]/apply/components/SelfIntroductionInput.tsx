@@ -3,19 +3,26 @@ import TextArea from "@/components/TextArea";
 export default function SelfIntroductionInput({
   value,
   onChange,
+  errors,
 }: {
   value: string;
-  onChange: (str: string) => void;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  errors?: string[];
 }) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col">
         <b>지원 사유 및 자기소개</b>
-        <span className="text-mtm-main-blue">
-          설명글은 800자 이내로 작성해 주세요!
-        </span>
+        {errors?.length ? (
+          <span className="text-red-500 text-sm">{errors[0]}</span>
+        ) : null}
       </div>
-      <TextArea maxSize={800} value={value} onChange={onChange} />
+      <TextArea
+        maxSize={800}
+        value={value}
+        onChange={onChange}
+        errors={errors}
+      />
     </div>
   );
 }

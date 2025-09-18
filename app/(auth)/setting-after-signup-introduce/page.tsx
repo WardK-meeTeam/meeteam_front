@@ -2,6 +2,7 @@
 
 import MainButton from "@/components/MainButton";
 import MarkDown from "@/components/MarkDown";
+import SubButton from "@/components/SubButton";
 import { useSignUpStore } from "@/store/signupDataStore";
 import { useRouter } from "next/navigation";
 
@@ -25,6 +26,11 @@ export default function Page() {
           <MarkDown maxSize={600} text={text} onChangeText={setText} />
         </div>
         <footer className="flex flex-row justify-end gap-2 w-full border-t border-mtm-light-gray py-3 px-16">
+          <SubButton
+            buttonName="건너뛰기"
+            type="button"
+            onClick={() => router.push("/")}
+          />
           <MainButton
             buttonName="소개 등록하기"
             type="submit"

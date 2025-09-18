@@ -25,14 +25,15 @@ export default function Input({
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 flex-1">
       {title && <h1 className="font-bold">{title}</h1>}
       <div className="flex flex-col gap-1">
         <input
           placeholder={placeholder ?? ""}
           value={value}
           onChange={handleChange}
-          className="rounded-xl py-3 px-5 box-border border border-mtm-light-gray focus:border-mtm-main-blue hover:border-mtm-main-blue outline-0"
+          className="rounded-xl py-3 px-5 box-border border border-mtm-light-gray focus:border-mtm-main-blue hover:border-mtm-main-blue outline-0
+          transition-colors duration-500 ease-in-out"
           {...rest}
         />
         {errors.map((error, index) => (

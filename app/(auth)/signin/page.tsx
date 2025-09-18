@@ -3,6 +3,7 @@
 import Input from "@/components/Input";
 import MainButton from "@/components/MainButton";
 import SocialSignInButton from "@/components/SocialSignInButton";
+import { useUserStore } from "@/store/userStore";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -39,8 +40,9 @@ export default function Page() {
 
       // 성공/실패 분기
       if (response.ok) {
-        // const data = await response.json();
-        // console.log("성공", data);
+        const data = await response.json();
+        const userId = data.result.memberId;
+        if (!userId) console.log("userId 조회 실패");
         const receivedAcessToken = response.headers
           .get("Authorization")
           ?.slice(7); // Bearer 토큰 이런식으로 와서 앞에 7자리 자르고 액세스 토큰만 저장
@@ -50,6 +52,10 @@ export default function Page() {
 
         // 토큰 받아왔으면 localStorage에 넣어주자
         localStorage.setItem("accessToken", receivedAcessToken);
+
+        //내 정보 불러오가
+        await useUserStore.getState().fetchUser(userId.toString());
+
         router.push("/"); // 토큰 저장했으면 메인화면 이동까지
       } else {
         const errorData = await response.json();

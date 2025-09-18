@@ -21,14 +21,48 @@ export default function SettingAfterSignup() {
   const router = useRouter();
   const [errors, setErrors] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(false); // 버튼 연속 클릭 방지
+  const [isOkEmai, setIsOkEmail] = useState<boolean>(false); // 이메일 중복확인
 
   // Oauth로그인 하면 type 없음
   const searchParams = useSearchParams();
   const signUpType = searchParams.get("type");
 
+  const handleCheckEmail = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    if (store.email === "") return;
+    const API = process.env.NEXT_PUBLIC_API_BASE_URL;
+    try {
+      const response = await fetch(
+        `${API}/api/auth/email?email=${store.email}`,
+        {
+          method: "POST",
+        },
+      );
+      if (response.ok) {
+        const data = await response.json();
+
+        const exists: boolean = data.result.exsists;
+        console.log(exists);
+        const message = data.result.message;
+        setIsOkEmail(!exists);
+        alert(message);
+      } else {
+        const errorData = await response.json();
+        alert(`${errorData.message}`);
+      }
+    } catch (error) {
+      alert(`알 수 없는 오류가 발생했습니다 (${error})`);
+    }
+  };
+
   // 회원가입 요청 보내는 작업
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!isOkEmai) {
+      alert("이메일 중복 확인 실시 바람");
+      return;
+    }
 
     // 요기는 Zod를 이용해서 Zustand에 있는 상태들이 올바른 형태인지 검증하는 작업
 
@@ -67,7 +101,6 @@ export default function SettingAfterSignup() {
         subcategory: f.field?.split("-")[1] ?? "",
       })),
       skills: store.skills.map((s) => ({ skillName: s })),
-      introduce: "",
     };
 
     // email로 회원가입이면 이멜,패스워드 보냄
@@ -102,7 +135,7 @@ export default function SettingAfterSignup() {
         alert(`회원가입 실패: ${actionResult.error?.message}`);
       }
     } catch (error) {
-      alert("예상치 못한 오류가 발생했습니다. 다시 시도해주세요.");
+      alert(`예상치 못한 오류가 발생했습니다. 다시 시도해주세요. (${error})`);
     } finally {
       setIsLoading(false);
     }
@@ -118,15 +151,25 @@ export default function SettingAfterSignup() {
         <div className="flex flex-col gap-5">
           {signUpType && (
             <>
-              <Input
-                title="이메일"
-                name="email"
-                type="email"
-                value={store.email || ""}
-                onValueChange={store.setEmail}
-                errors={errors.email}
-                required
-              />
+              <div className="flex items-baseline-last">
+                <Input
+                  title="이메일"
+                  name="email"
+                  type="email"
+                  value={store.email || ""}
+                  onValueChange={store.setEmail}
+                  errors={errors.email}
+                  required
+                />
+                <button
+                  type="button"
+                  className="rounded-xl py-3 px-2 
+                  border border-mtm-light-gray cursor-pointer text-mtm-text-gray ml-2"
+                  onClick={handleCheckEmail}
+                >
+                  중복 확인
+                </button>
+              </div>
               <Input
                 title="비밀번호"
                 name="password"

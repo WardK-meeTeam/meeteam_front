@@ -31,7 +31,7 @@ const platforms: Option[] = [
   { value: "WEB", label: "Web" },
 ];
 
-export default function Page() {
+export default function StepOne() {
   const store = useProjectGenerateStore();
   const [errors, setErrors] = useState<any>({});
 
@@ -82,7 +82,7 @@ export default function Page() {
     }
 
     // API 호출부
-    const good = async () => {
+    const fetchCreateProjects = async () => {
       const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
       const accessToken = localStorage.getItem("accessToken");
@@ -126,7 +126,7 @@ export default function Page() {
       }
     };
 
-    good();
+    fetchCreateProjects();
   };
 
   return (

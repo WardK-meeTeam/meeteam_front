@@ -43,10 +43,3 @@ export const convertSubCategory = (term: string): string => {
   // 매칭되는 값이 없으면 원본을 그대로 반환
   return term;
 };
-
-// --- 사용 예시 ---
-console.log(convertSubCategory("웹서버")); // "webServer"
-console.log(convertSubCategory("uiUxDesign")); // "UI/UX디자인"
-console.log(convertSubCategory("크로스플랫폼")); // "crossPlatform"
-console.log(convertSubCategory("productManager")); // "프로덕트 매니저/오너"
-console.log(convertSubCategory("없는 값")); // "없는 값" (매칭 안될 시 원본 반환)

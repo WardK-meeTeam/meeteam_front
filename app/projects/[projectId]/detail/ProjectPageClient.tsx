@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import MemberList from "./components/MemberList";
 import ProjectInfo from "./components/ProjectInfo";
 import ProjectRecruitInfo from "./components/ProjectRecruitInfo";
@@ -34,7 +34,7 @@ export default function ProjectPageClient({
 
   const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-  const fetchProjectDetail = async () => {
+  const fetchProjectDetail = useCallback(async () => {
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) return;
     const response = await fetch(`${API}/api/projects/V2/${projectId}`, {
@@ -70,11 +70,11 @@ export default function ProjectPageClient({
       const errorData = await response.json();
       alert(errorData.message);
     }
-  };
+  }, [API, projectId]);
 
   useEffect(() => {
     fetchProjectDetail();
-  }, [projectId]);
+  }, [fetchProjectDetail]);
 
   return (
     <div className="flex flex-row gap-16 max-w-7xl mx-auto pb-24">

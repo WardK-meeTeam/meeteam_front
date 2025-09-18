@@ -1,7 +1,9 @@
 import { MainButtonProps } from "./MainButton";
 
-interface SubButtonProps
-  extends Pick<MainButtonProps, "buttonName" | "onClick" | "type"> {}
+type SubButtonProps = Pick<
+  MainButtonProps,
+  "buttonName" | "onClick" | "type"
+>;
 
 export default function SubButton({
   buttonName,

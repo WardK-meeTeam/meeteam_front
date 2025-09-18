@@ -1,13 +1,16 @@
-import { UserProfile } from "@/types/userProfile";
-import ModifyButton from "./ModifyButton";
+"use client";
 
-export default function UserProfileSummary({
-  name = "이름",
-  age = 0,
-  sex = "none",
-  email = "none",
-  techStack = [],
-}: UserProfile) {
+import { UserProfile } from "@/types/userProfile";
+import { Fragment, useEffect, useState } from "react";
+
+export default function UserProfileSummary() {
+  const [user, setUser] = useState<UserProfile | null>(null);
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user-storage");
+    if (!savedUser) return;
+    setUser(JSON.parse(savedUser).state.user);
+  }, []);
   return (
     <div className="flex flex-col gap-5">
       <span className="flex justify-between items-center ">
@@ -17,22 +20,26 @@ export default function UserProfileSummary({
       <hr className="border-4 border-[#F8F8F8]" />
       <div className="flex flex-col gap-6">
         <span>
-          <b className="mr-3">이름</b> {name}
+          <b className="mr-3">이름</b> {user?.name ?? "-"}
         </span>
         <span>
-          <b className="mr-3">나이</b> {age}세 <b className="ml-4 mr-3">성별</b>{" "}
-          {sex}
+          <b className="mr-3">나이</b> {user?.age ?? "-"}세
+          <b className="ml-4 mr-3">성별</b>
+          {user?.gender === "MALE" ? "남성" : "여성"}
         </span>
         <span>
-          <b className="mr-3">이메일</b> {email}
+          <b className="mr-3">이메일</b> {user?.email ?? "-"}
         </span>
-        <span>
-          {/* 순회 하면서 기술스택 나열 -> 마지막 요소만 쉼표 없이 렌더링 */}
-          <b className="mr-3">기술스택</b>
-          {techStack.map((tech, idx) => {
-            if (idx !== techStack.length - 1) return `${tech},`;
-            else return `${tech}`;
-          })}
+        <span className="flex flex-row items-center justify-start">
+          <h1 className="mr-3 font-semibold">기술스택</h1>
+          <div>
+            {user &&
+              user.skills.map((item, idx) => (
+                <Fragment key={`${user.name}-${item.skill}`}>
+                  {`${item.skill}${idx !== user.skills.length - 1 ? "," : ""}`}
+                </Fragment>
+              ))}
+          </div>
         </span>
       </div>
     </div>

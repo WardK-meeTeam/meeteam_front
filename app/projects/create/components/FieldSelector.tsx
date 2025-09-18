@@ -62,7 +62,7 @@ export default function FieldSelector({
           onChangeOption={handleMajorChange}
         />
         <Selectable
-          options={subs}
+          options={subs ?? []}
           disabled={!selectedMajor}
           value={subFromProp}
           onChangeOption={handleSubChange}

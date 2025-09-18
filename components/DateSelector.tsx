@@ -39,15 +39,17 @@ export default function DateSelector({
   // blur 시 월/일 보정 + 2자리 패딩
   const handleBlur = (type: "month" | "day") => () => {
     if (type === "month" && month) {
-      let m = clamp(parseInt(month, 10) || 1, 1, 12);
+      const m = clamp(parseInt(month, 10) || 1, 1, 12);
       const y = year.length === 4 ? parseInt(year, 10) : 2000;
-      let d = day ? clamp(parseInt(day, 10) || 1, 1, daysInMonth(y, m)) : null;
+      const d = day
+        ? clamp(parseInt(day, 10) || 1, 1, daysInMonth(y, m))
+        : null;
       update(year, pad2(m), d !== null ? pad2(d) : "");
     }
     if (type === "day" && day) {
       const y = year.length === 4 ? parseInt(year, 10) : 2000;
       const m = clamp(parseInt(month || "1", 10) || 1, 1, 12);
-      let d = clamp(parseInt(day, 10) || 1, 1, daysInMonth(y, m));
+      const d = clamp(parseInt(day, 10) || 1, 1, daysInMonth(y, m));
       update(year, month ? pad2(m) : month, pad2(d));
     }
   };

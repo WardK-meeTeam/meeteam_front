@@ -31,7 +31,7 @@ const platforms: Option[] = [
   { value: "WEB", label: "Web" },
 ];
 
-export default function Page() {
+export default function StepOne() {
   const store = useProjectGenerateStore();
   const [errors, setErrors] = useState<any>({});
 

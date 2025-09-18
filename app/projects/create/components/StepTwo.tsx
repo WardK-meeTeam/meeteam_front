@@ -4,7 +4,7 @@ import { useProjectGenerateStore } from "@/store/projectGenerateStore";
 import MarkDown from "../../../../components/MarkDown";
 import ProjectGenerateFooter from "@/components/ProjectGenerateFooter";
 
-export default function Page() {
+export default function StepTwo() {
   const text = useProjectGenerateStore((state) => state.projectDescription);
   const setText = useProjectGenerateStore(
     (state) => state.setProjectDescription,

@@ -1,8 +1,8 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import Step1 from "./components/Step1";
-import Step2 from "./components/Step2";
+import StepOne from "./components/StepOne";
+import StepTwo from "./components/StepTwo";
 
 export default function CreateProjectPage() {
   const searchParams = useSearchParams();
@@ -11,8 +11,8 @@ export default function CreateProjectPage() {
 
   return (
     <div>
-      {step === "1" && <Step1 />}
-      {step === "2" && <Step2 />}
+      {step === "1" && <StepOne />}
+      {step === "2" && <StepTwo />}
     </div>
   );
 }

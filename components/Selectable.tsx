@@ -12,7 +12,7 @@ export default function Selectable({
   options: string[];
   disabled?: boolean;
   value?: string | null;
-  onChangeOption: (item: any) => void;
+  onChangeOption: (item: string) => void;
 }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);

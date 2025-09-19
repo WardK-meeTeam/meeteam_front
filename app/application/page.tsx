@@ -2,90 +2,211 @@
 
 import MainButton from "@/components/MainButton";
 import Modal from "@/components/Modal";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import userImg from "@/public/images/userImg1.png";
+import { useEffect, useState } from "react";
+import { weekDayEngToKr } from "@/utils/weekDayEngToKr";
+
+interface ApplicationInfo {
+  applicationId: number;
+  applicantId: number;
+  applicantName: string;
+  subCategoryName: string;
+  age: number;
+  gender: "MALE" | "FEMALE";
+  applicantEmail: string;
+  motivation: string;
+  availableHoursPerWeek: number;
+  weekDay: string[];
+  offlineAvailable: boolean;
+}
 
 export default function ApplicationModal() {
-  const applicationId = useSearchParams().get("applicationId");
+  const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-  const handleApprove = () => {
-    // TODO: API POST 요청 보내기
-    console.log(`Approving application ${applicationId}`);
-    // router.back(); 또는 성공 페이지로 이동
+  const applicationId = useSearchParams().get("applicationId");
+  const projectId = useSearchParams().get("projectId");
+  const router = useRouter();
+
+  // null이면 아직 data fetch 안된 상태
+  const [applicationInfo, setApplicationInfo] =
+    useState<ApplicationInfo | null>(null);
+
+  const fetchApplicationInfo = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!applicationId || !projectId) {
+      alert("잘못된 접근입니다.");
+      return;
+    }
+
+    if (!accessToken) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${API}/api/projects-application/${projectId}/${applicationId}`,
+        { headers: { Authorization: `Bearer ${accessToken}` } },
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setApplicationInfo(data.result);
+      } else {
+        const errorData = await response.json();
+        console.log(errorData);
+      }
+    } catch (error) {
+      alert(`알 수 없는 오류가 발생했습니다. (${error})`);
+    }
   };
 
-  const handleReject = () => {
-    // TODO: API POST 요청 보내기
-    console.log(`Rejecting application ${applicationId}`); // router.back();
+  useEffect(() => {
+    fetchApplicationInfo();
+  }, []);
+
+  const handleApprove = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    const accessToken = localStorage.getItem("accessToken");
+    try {
+      const response = await fetch(`${API}/api/projects-application/decide`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          applicationId: applicationId,
+          decision: "ACCEPTED",
+        }),
+      });
+
+      if (response.ok) {
+        alert("승인되었습니다.");
+        router.back();
+      } else {
+        const errorData = await response.json();
+        alert(errorData.message);
+      }
+    } catch (error) {
+      alert(`알 수 없는 오류가 발생했습니다. (${error})`);
+    }
+  };
+
+  const handleReject = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    const accessToken = localStorage.getItem("accessToken");
+    try {
+      const response = await fetch(`${API}/api/projects-application/decide`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          applicationId: applicationId,
+          decision: "REJECTED",
+        }),
+      });
+
+      if (response.ok) {
+        alert("거절하였습니다.");
+        router.back();
+      } else {
+        const errorData = await response.json();
+        alert(errorData.message);
+      }
+    } catch (error) {
+      alert(`알 수 없는 오류가 발생했습니다. (${error})`);
+    }
   };
 
   return (
     <Modal>
-      <div className="flex flex-col justify-start gap-12">
-        <div className="flex flex-row justify-start items-center gap-12">
-          <div className="flex flex-col items-center">
-            <Image
-              src={userImg}
-              width={100}
-              height={120}
-              className="rounded-full"
-              alt="사용자"
-            />
-            <span>정연준</span>
+      {applicationInfo && (
+        <div className="flex flex-col justify-start gap-12">
+          <div className="flex flex-row justify-start items-center gap-12">
+            <div className="flex flex-col items-center gap-2">
+              <Image
+                src={userImg}
+                width={100}
+                height={120}
+                className="rounded-full"
+                alt="사용자"
+              />
+              <span className="font-semibold text-xl">
+                {applicationInfo.applicantName}
+              </span>
+            </div>
+
+            <table className="border-spacing-5 border-separate">
+              <tbody>
+                <tr>
+                  <th className="text-start">지원 분야</th>
+                  <td>{applicationInfo.subCategoryName}</td>
+                </tr>
+                <tr>
+                  <th className="text-start">나이</th>
+                  <td>{applicationInfo.age}세</td>
+                </tr>
+                <tr>
+                  <th className="text-start">성별</th>
+                  <td>{applicationInfo.gender === "MALE" ? "남성" : "여성"}</td>
+                </tr>
+                <tr>
+                  <th className="text-start">이메일</th>
+                  <td>{applicationInfo.applicantEmail}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="flex flex-col gap-4">
+            <span className="text-xl font-semibold">지원 사유 및 자기소개</span>
+            <p>{applicationInfo.motivation}</p>
           </div>
 
-          <table className="border-spacing-5 border-separate">
-            <tbody>
-              <tr>
-                <th className="text-start">지원 분야</th>
-                <td>디자인</td>
-              </tr>
-              <tr>
-                <th className="text-start">나이</th>
-                <td>22세</td>
-              </tr>
-              <tr>
-                <th className="text-start">성별</th>
-                <td>여성</td>
-              </tr>
-              <tr>
-                <th className="text-start">이메일</th>
-                <td>jhje5595@naver.com</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className="flex flex-col gap-4">
-          <span className="text-xl font-semibold">지원 사유 및 자기소개</span>
-          <p>
-            저는 건강과 삶의 질 향상에 직접적으로 기여할 수 있다는 점에서
-            헬스케어 분야에 큰 관심을 가지고 있습니다. 단순한 기술 개발을 넘어,
-            실제 사용자들의 생활 습관 개선과 질환 예방에 도움을 줄 수 있는
-            프로젝트에 참여하고 싶습니다. 특히 데이터 기반 분석과 사용자 경험을
-            결합하여 더 나은 서비스를 제공하는 과정에 적극 기여할 수 있다고
-            생각합니다. 이번 프로젝트를 통해 사회적으로 의미 있는 성과를
-            만들어내고, 동시에 헬스케어 서비스에 필요한 문제 해결 능력과 협업
-            경험을 쌓으며 성장하고 싶습니다.
-          </p>
-        </div>
+          <div className="flex flex-col gap-4">
+            <span className="text-xl font-semibold">
+              주당 투자 가능 시간 및 요일
+            </span>
+            <span>
+              {`${applicationInfo.availableHoursPerWeek}시간 `}
+              {applicationInfo.weekDay.map(
+                (item, idx) =>
+                  `${weekDayEngToKr(item)}${applicationInfo.weekDay.length - 1 !== idx ? "," : ""}`,
+              )}
+            </span>
+          </div>
 
-        <div className="flex flex-col gap-4">
-          <span className="text-xl font-semibold">
-            주당 투자 가능 시간 및 요일
-          </span>
-          <span>7시간 화,금,토</span>
+          <div className="flex flex-col gap-4">
+            <span className="text-xl font-semibold">
+              오프라인 참여 가능 여부
+            </span>
+            <span>
+              {applicationInfo.offlineAvailable === true ? "가능" : "불가능"}
+            </span>
+          </div>
+          <div className="flex flex-col gap-4">
+            <MainButton
+              buttonName="승인하기"
+              type="button"
+              disabled={false}
+              onClick={handleApprove}
+            />
+            <MainButton
+              buttonName="거절하기"
+              type="button"
+              disabled={false}
+              invertedColor={true}
+              onClick={handleReject}
+            />
+          </div>
         </div>
-
-        <div className="flex flex-col gap-4">
-          <span className="text-xl font-semibold">오프라인 참여 가능 여부</span>
-          <span>가능</span>
-        </div>
-        <div className="flex flex-col gap-4">
-          <MainButton buttonName="승인하기" type="button" disabled={false} />
-          <MainButton buttonName="거절하기" type="button" disabled={false} />
-        </div>
-      </div>
+      )}
     </Modal>
   );
 }

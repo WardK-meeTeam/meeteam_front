@@ -15,7 +15,7 @@ export default function ChatSideBar() {
     if (unReadChat.length !== 0) {
       setIsExistNew(true);
     }
-  });
+  }, [unReadChat]);
   return (
     <aside className="flex flex-col w-[258px] h-full min-h-0 bg-[#F9FAFA] py-6">
       <div className={isExistNew ? "" : "hidden"}>

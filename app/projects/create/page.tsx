@@ -3,10 +3,10 @@
 import { useSearchParams } from "next/navigation";
 import StepOne from "./components/StepOne";
 import StepTwo from "./components/StepTwo";
+import { Suspense } from "react";
 
-export default function CreateProjectPage() {
+function CreateProjectSteps() {
   const searchParams = useSearchParams();
-
   const step = searchParams.get("step") || "1";
 
   return (
@@ -14,5 +14,13 @@ export default function CreateProjectPage() {
       {step === "1" && <StepOne />}
       {step === "2" && <StepTwo />}
     </div>
+  );
+}
+
+export default function CreateProjectPage() {
+  return (
+    <Suspense>
+      <CreateProjectSteps />
+    </Suspense>
   );
 }

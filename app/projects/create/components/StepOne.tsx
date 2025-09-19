@@ -33,7 +33,9 @@ const platforms: Option[] = [
 
 export default function StepOne() {
   const store = useProjectGenerateStore();
-  const [errors, setErrors] = useState<any>({});
+  const [errors, setErrors] = useState<Record<string, string[] | undefined>>(
+    {},
+  );
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -121,7 +123,7 @@ export default function StepOne() {
       } catch (error) {
         return {
           success: false,
-          error: { message: "An unknown error occurred." },
+          error: { message: `알 수 없는 오류가 발생했습니다. (${error})` },
         };
       }
     };

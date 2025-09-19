@@ -1,8 +1,9 @@
 "use client";
 import { TechStackOption, techStackOptions } from "@/mocks/techs";
 import { useEffect, useRef, useState } from "react";
-import * as icons from "simple-icons";
+import * as simpleIcons from "simple-icons";
 import SelectedTech from "./SelectedTech";
+import type { SimpleIcon } from "simple-icons";
 
 export default function TechSearch({
   title,
@@ -18,6 +19,8 @@ export default function TechSearch({
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const [search, setSearch] = useState<string>("");
+
+  const ICONS = simpleIcons as unknown as Record<string, SimpleIcon>;
 
   const searchedStacks = techStackOptions.filter(
     (stack) =>
@@ -88,7 +91,7 @@ export default function TechSearch({
           "
             >
               {searchedStacks.map((item) => {
-                const icon = (icons as any)[item.iconName];
+                const icon = ICONS[item.iconName];
                 if (!icon) return null;
                 const isSelected = value.includes(item.eng);
                 return (
@@ -127,7 +130,7 @@ export default function TechSearch({
         {/* 선택된 기술 스택 보여줄 곳 */}
         <div className="flex flex-row flex-wrap justify-start gap-4">
           {selectedStacks.map((item) => {
-            const icon = (icons as any)[item.iconName];
+            const icon = ICONS[item.iconName];
             if (!icon) return null;
             return (
               <SelectedTech

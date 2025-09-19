@@ -11,15 +11,17 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Input from "@/components/Input";
 import { PASSWORD_MIN_LENGTH } from "@/app/lib/constants";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { createAccount } from "../signup/createAccount";
 import { dataURLtoFile } from "@/utils/dataURLtoFile";
 import { baseSchema, emailSchema } from "@/types/auth";
 
-export default function SettingAfterSignup() {
+function SettingAfterSignupForm() {
   const store = useSignUpStore();
   const router = useRouter();
-  const [errors, setErrors] = useState<any>({});
+  const [errors, setErrors] = useState<Record<string, string[] | undefined>>(
+    {},
+  );
   const [isLoading, setIsLoading] = useState<boolean>(false); // 버튼 연속 클릭 방지
   const [isOkEmai, setIsOkEmail] = useState<boolean>(false); // 이메일 중복확인
 
@@ -239,5 +241,13 @@ export default function SettingAfterSignup() {
         <MainButton type="submit" buttonName="가입하기" disabled={isLoading} />
       </div>
     </form>
+  );
+}
+
+export default function SettingAfterSignup() {
+  return (
+    <Suspense>
+      <SettingAfterSignupForm />
+    </Suspense>
   );
 }

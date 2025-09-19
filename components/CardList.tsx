@@ -1,7 +1,6 @@
 "use client";
 
 import Card from "./Card";
-import TeamRecruitCard from "./TeamRecruitCard";
 
 const dummyCard = {
   category: "Healthcare",

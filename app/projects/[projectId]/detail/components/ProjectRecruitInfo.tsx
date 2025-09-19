@@ -1,7 +1,8 @@
 import { techStackOptions } from "@/mocks/techs";
 import RecruitCurrentRow from "./RecruitCurrentRow";
-import * as icons from "simple-icons";
+import * as simpleIcons from "simple-icons";
 import { ProjectRecruitInfoItem } from "@/types/projectInfo";
+import type { SimpleIcon } from "simple-icons";
 
 interface ProjectRecruitInfoProps extends ProjectRecruitInfoItem {
   projectId: string;
@@ -15,6 +16,7 @@ export default function ProjectRecruitInfo({
   recruitments,
 }: ProjectRecruitInfoProps) {
   const [year, month, date] = endDate.split("-");
+  const ICONS = simpleIcons as unknown as Record<string, SimpleIcon>;
 
   const skillsIcon = techStackOptions.filter((skill) =>
     skills.includes(skill.eng),
@@ -53,7 +55,7 @@ export default function ProjectRecruitInfo({
         <span className="font-bold">기술 스택</span>
         <div className="flex flex-row flex-wrap gap-3 max-w-[500px]">
           {skillsIcon.map((item) => {
-            const icon = (icons as any)[item.iconName];
+            const icon = ICONS[item.iconName];
             if (!icon) return null;
             return (
               <svg

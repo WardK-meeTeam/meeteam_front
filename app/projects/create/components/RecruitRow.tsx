@@ -5,10 +5,7 @@ import { recruitFieldItem } from "@/store/projectGenerateStore";
 
 interface RecruitRowProps {
   value: recruitFieldItem | userFieldItem;
-  onChange: {
-    (payload: recruitFieldItem): void;
-    (payload: userFieldItem): void;
-  };
+  onChange: (payload: recruitFieldItem | userFieldItem) => void;
 }
 
 export default function RecruitRow({ value, onChange }: RecruitRowProps) {

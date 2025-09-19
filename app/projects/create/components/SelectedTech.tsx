@@ -1,3 +1,4 @@
+import type { SimpleIcon } from "simple-icons";
 import Image from "next/image";
 import CancleIcon from "@/public/images/cancle_icon.svg";
 
@@ -5,7 +6,7 @@ export default function SelectedTech({
   icon,
   onClick,
 }: {
-  icon: any;
+  icon: SimpleIcon;
   onClick: () => void;
 }) {
   return (

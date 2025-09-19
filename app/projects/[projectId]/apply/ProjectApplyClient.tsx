@@ -30,7 +30,9 @@ export default function ProjectApplyClient({
     useTime: 1,
     availableDays: [],
   });
-  const [errors, setErrors] = useState<any>({});
+  const [errors, setErrors] = useState<Record<string, string[] | undefined>>(
+    {},
+  );
   const [isLoading, setIsLoading] = useState<boolean>(false);
   // url 파라미터로부터 지원할 분야 소분류 가져오기
   const searchParams = useSearchParams();
@@ -116,47 +118,53 @@ export default function ProjectApplyClient({
         alert(errorData.message);
       }
     } catch (error) {
-      alert("알 수 없는 오류가 발생했습니다.");
+      alert(`알 수 없는 오류가 발생했습니다. (${error})`);
     } finally {
       setIsLoading(false);
     }
   };
   return (
-    <form className="min-h-screen flex flex-col" onSubmit={handleSubmit}>
-      <div className="w-[430px] m-auto justify-start flex flex-col flex-1 py-10 ">
-        <b className="text-[26px] mb-10">프로젝트 지원</b>
-        <div className="flex flex-col gap-16">
-          <SelfIntroductionInput
-            value={formData.introduction}
-            onChange={handleIntroductionChange}
-            errors={errors.introduction}
-          />
-          <NumberStepper
-            title={"주당 투자 가능 시간"}
-            value={formData.useTime}
-            onChange={handleTimeChange}
-            min={0}
-            max={168}
-            warningMessage={"시간은 0시간 이상 168시간 이하로 입력해주세요!"}
-          />
-          <AvailableDaysSelector
-            value={formData.availableDays}
-            onChange={handleDaysChange}
-            errors={errors.availableDays}
-          />
-          <BinaryOptionSelector<"가능" | "불가능">
-            title={"오프라인 참여 가능 여부"}
-            option1={"가능"}
-            option2={"불가능"}
-            value={formData.canOffline}
-            onChange={handleCanOfflineChange}
-          />
-          <UserProfileSummary />
+    <>
+      <form className="min-h-screen flex flex-col" onSubmit={handleSubmit}>
+        <div className="w-[430px] m-auto justify-start flex flex-col flex-1 py-10 ">
+          <b className="text-[26px] mb-10">프로젝트 지원</b>
+          <div className="flex flex-col gap-16">
+            <SelfIntroductionInput
+              value={formData.introduction}
+              onChange={handleIntroductionChange}
+              errors={errors.introduction}
+            />
+            <NumberStepper
+              title={"주당 투자 가능 시간"}
+              value={formData.useTime}
+              onChange={handleTimeChange}
+              min={0}
+              max={168}
+              warningMessage={"시간은 0시간 이상 168시간 이하로 입력해주세요!"}
+            />
+            <AvailableDaysSelector
+              value={formData.availableDays}
+              onChange={handleDaysChange}
+              errors={errors.availableDays}
+            />
+            <BinaryOptionSelector<"가능" | "불가능">
+              title={"오프라인 참여 가능 여부"}
+              option1={"가능"}
+              option2={"불가능"}
+              value={formData.canOffline}
+              onChange={handleCanOfflineChange}
+            />
+            <UserProfileSummary />
+          </div>
         </div>
-      </div>
-      <footer className="flex flex-row justify-end gap-2 w-full border-t border-mtm-light-gray py-3 px-16">
-        <MainButton buttonName="지원하기" type="submit" disabled={isLoading} />
-      </footer>
-    </form>
+        <footer className="flex flex-row justify-end gap-2 w-full border-t border-mtm-light-gray py-3 px-16">
+          <MainButton
+            buttonName="지원하기"
+            type="submit"
+            disabled={isLoading}
+          />
+        </footer>
+      </form>
+    </>
   );
 }

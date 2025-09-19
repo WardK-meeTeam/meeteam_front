@@ -1,4 +1,5 @@
 import ProjectApplyClient from "./ProjectApplyClient";
+import { Suspense } from "react";
 
 export default async function Page({
   params,
@@ -8,8 +9,8 @@ export default async function Page({
   const { projectId } = await params;
 
   return (
-    <div>
+    <Suspense>
       <ProjectApplyClient projectId={projectId} />
-    </div>
+    </Suspense>
   );
 }

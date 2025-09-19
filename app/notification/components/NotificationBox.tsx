@@ -29,7 +29,7 @@ export default function NotificationBox({
         <span>{description}</span>
         {buttonName && (
           <Link
-            href={"/application?applicationId=2"}
+            href={"/application?applicationId=14&projectId=90"}
             className="cursor-pointer text-mtm-purple py-2 px-3 bg-mtm-light-purple
           rounded-lg"
           >

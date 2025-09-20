@@ -31,7 +31,7 @@ export function NotificationToast({
   if (!show) return null;
 
   return (
-    <div className="absolute top-full right-0 mt-2 w-96 bg-card border-mtm-light-gray rounded-xl shadow-lg z-50 animate-in slide-in-from-top-2 duration-300">
+    <div className="absolute top-full right-0 mt-2 w-96 bg-card bg-white border-mtm-light-gray rounded-xl shadow-lg z-50 animate-in slide-in-from-top-2 duration-300">
       <div className="p-3">
         <div className="flex justify-between items-center mb-2 px-2">
           <h3 className="text-lg font-semibold">알림</h3>

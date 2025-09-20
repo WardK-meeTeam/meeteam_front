@@ -16,6 +16,7 @@
     "@types/bcrypt": "^5.0.2",
     "@uiw/react-md-editor": "^4.0.8",
     "bcrypt": "^5.1.1",
+    "event-source-polyfill": "^1.0.31",
     "iron-session": "^8.0.4",
     "next": "15.4.7",
     "react": "^19.0.0",

@@ -14,12 +14,11 @@ export default function Navbar() {
   const [search, setSearch] = useState("");
   const [name, setName] = useState<string | null>(null);
 
-  const [showNotification, setShowNotification] = useState(false);
+  const [showNotification, setShowNotification] = useState<boolean>(false);
   const [notifications, setNotifications] = useState<any[]>([]);
 
   const handleNotificationClick = () => {
-    if (notifications.length === 0) router.push("/notification");
-    else setShowNotification(true);
+    setShowNotification((prev) => !prev);
   };
 
   function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -161,13 +160,13 @@ export default function Navbar() {
           {notifications.length !== 0 && (
             <>
               <span className="absolute -top-2 -right-1 h-2 w-2 bg-red-500 rounded-full"></span>
-              <NotificationToast
-                show={showNotification}
-                onClose={() => setShowNotification(false)}
-                notifications={notifications}
-              />
             </>
           )}
+          <NotificationToast
+            show={showNotification}
+            onClose={() => setShowNotification(false)}
+            notifications={notifications}
+          />
         </div>
       </div>
     </header>

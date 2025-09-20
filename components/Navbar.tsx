@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 
@@ -21,12 +22,9 @@ export default function Navbar() {
   return (
     <header className="flex gap-8 justify-between items-baseline w-full pt-9 pb-9 pl-8 pr-8">
       <div className="flex gap-7 items-baseline">
-        <h1
-          className="text-2xl font-bold cursor-pointer"
-          onClick={() => alert("MainPage 이동")}
-        >
+        <Link className="text-2xl font-bold cursor-pointer" href={"/"}>
           meeTeam
-        </h1>
+        </Link>
         <h2
           className="font-semibold cursor-pointer"
           onClick={() => alert("포폴 이동")}
@@ -67,7 +65,7 @@ export default function Navbar() {
         </form>
         <ul className="flex divide-x-1 divide-mtm-text-gray">
           {isLoggedIn ? (
-            <li className="text-mtm-text-gray pl-2" onClick={() => {}}>
+            <li className="text-mtm-text-gray pl-2 min-w-50" onClick={() => {}}>
               <span className="font-bold">{name ?? ""}님! </span>
               안녕하세요
             </li>

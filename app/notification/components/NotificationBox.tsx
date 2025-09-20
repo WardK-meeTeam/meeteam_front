@@ -8,7 +8,6 @@ import { Notification } from "@/types/notification";
 export default function NotificationBox({
   applicationId,
   createdAt,
-  id,
   message,
   payload,
   read,

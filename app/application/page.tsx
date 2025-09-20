@@ -57,6 +57,7 @@ export default function ApplicationModal() {
       } else {
         const errorData = await response.json();
         alert(errorData.message);
+        router.back();
         return;
       }
     } catch (error) {

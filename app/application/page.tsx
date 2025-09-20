@@ -56,7 +56,8 @@ export default function ApplicationModal() {
         setApplicationInfo(data.result);
       } else {
         const errorData = await response.json();
-        console.log(errorData);
+        alert(errorData.message);
+        return;
       }
     } catch (error) {
       alert(`알 수 없는 오류가 발생했습니다. (${error})`);

@@ -23,7 +23,6 @@ export default function Page() {
         if (response.ok) {
           const data = await response.json();
           setNotifications(data.result.content);
-          console.log(data.result.content);
         } else {
           const errorData = await response.json();
           alert(errorData.message);

@@ -7,6 +7,16 @@ import Bell from "@/public/images/Bell.svg";
 import { NotificationToast } from "./NotificationToast";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import { connectSSE } from "@/utils/connectSSE";
+import {
+  ProjectApplyDecision,
+  ProjectApplyNotification,
+  ProjectMyApplyNotification,
+} from "@/types/notification";
+
+type SSENotification =
+  | ProjectApplyNotification
+  | ProjectMyApplyNotification
+  | ProjectApplyDecision;
 
 export default function Navbar() {
   const isLoggedIn = true;
@@ -15,7 +25,7 @@ export default function Navbar() {
   const [name, setName] = useState<string | null>(null);
 
   const [showNotification, setShowNotification] = useState<boolean>(false);
-  const [notifications, setNotifications] = useState<any[]>([]);
+  const [notifications, setNotifications] = useState<SSENotification[]>([]);
 
   const handleNotificationClick = () => {
     setShowNotification((prev) => !prev);
@@ -36,7 +46,7 @@ export default function Navbar() {
     const accessToken = localStorage.getItem("accessToken");
 
     if (!accessToken) {
-      alert("로그인이 필요합니다.");
+      console.log("로그인 필요함");
       return; // 토큰이 없으면 즉시 effect 종료
     }
 
@@ -76,9 +86,6 @@ export default function Navbar() {
     };
   }, []); // 마운트 시 한 번만 실행
 
-  useEffect(() => {
-    console.log(notifications);
-  }, [notifications]);
   return (
     <header className="flex gap-8 justify-between items-baseline w-full pt-9 pb-9 pl-8 pr-8">
       <div className="flex gap-7 items-baseline">

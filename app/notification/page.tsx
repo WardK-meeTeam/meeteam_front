@@ -1,28 +1,46 @@
 "use client";
 
-import NotificationBox, { Notification } from "./components/NotificationBox";
-
-const mockNotification: Notification[] = [
-  {
-    title: "마감일 기준 자동 우선순위 정렬 TODO 앱",
-    description: "지원이 완료되었습니다!",
-    time: "어제 오전 10:12",
-  },
-  {
-    title: "새 지원",
-    description: "🙋‍♂️ 정연준님이 지원했어요",
-    time: "어제 오전 10:12",
-    buttonName: "지원서 보기",
-  },
-];
+import { useEffect, useState } from "react";
+import NotificationBox from "./components/NotificationBox";
+import { Notification } from "@/types/notification";
 
 export default function Page() {
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  useEffect(() => {
+    const API = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      alert("로그인이 필요합니다!");
+      return;
+    }
+
+    const fetchNotifications = async () => {
+      try {
+        const response = await fetch(`${API}/api/notifications`, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setNotifications(data.result.content);
+          console.log(data.result.content);
+        } else {
+          const errorData = await response.json();
+          alert(errorData.message);
+        }
+      } catch (error) {
+        alert(`알 수 없는 오류가 발생했습니다. (${error})`);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
   return (
     <div className="flex flex-col gap-14 w-5xl mx-auto mt-10">
       <h1 className="text-4xl font-extrabold">알림</h1>
       <div className="flex flex-col gap-3 w-full">
-        {mockNotification.map((noti, idx) => (
-          <NotificationBox key={idx} {...noti} />
+        {notifications.map((noti) => (
+          <NotificationBox key={noti.id} {...noti} />
         ))}
       </div>
     </div>

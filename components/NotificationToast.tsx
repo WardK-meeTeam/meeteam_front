@@ -31,7 +31,7 @@ export function NotificationToast({
   if (!show) return null;
 
   return (
-    <div className="absolute top-full right-0 mt-2 w-96 bg-card border rounded-xl shadow-lg z-50 animate-in slide-in-from-top-2 duration-300">
+    <div className="absolute top-full right-0 mt-2 w-96 bg-card border-mtm-light-gray rounded-xl shadow-lg z-50 animate-in slide-in-from-top-2 duration-300">
       <div className="p-3">
         <div className="flex justify-between items-center mb-2 px-2">
           <h3 className="text-lg font-semibold">알림</h3>
@@ -40,7 +40,7 @@ export function NotificationToast({
 
         <div className="max-h-96 overflow-y-auto">
           {notifications.length > 0 ? (
-            <ul className="divide-y divide-border">
+            <ul className="">
               {notifications.map((item, idx) => (
                 <li
                   key={idx}
@@ -75,7 +75,7 @@ export function NotificationToast({
               ))}
             </ul>
           ) : (
-            <div className="text-center py-12">
+            <div className="text-center py-2">
               <p className="text-muted-foreground">새로운 알림이 없습니다.</p>
             </div>
           )}
@@ -83,8 +83,11 @@ export function NotificationToast({
 
         <div className="mt-2 text-center border-t border-border pt-2">
           <button
-            onClick={() => router.push("/notification")}
-            className="text-sm font-semibold text-primary hover:underline w-full py-1"
+            onClick={() => {
+              router.push("/notification");
+              onClose();
+            }}
+            className="text-sm font-semibold text-primary hover:underline w-full py-1 cursor-pointer"
           >
             모든 알림 보기
           </button>

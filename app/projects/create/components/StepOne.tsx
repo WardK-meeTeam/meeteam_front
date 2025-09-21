@@ -13,7 +13,7 @@ import FieldSelector from "./FieldSelector";
 import ProjectGenerateFooter from "@/components/ProjectGenerateFooter";
 import { projectGenerateSchema } from "@/types/projectGenerate";
 import { useState } from "react";
-import { dataURLtoFile } from "@/utils/dataURLtoFile";
+import { urlToFile } from "@/utils/urlToFile";
 
 const categories: Option[] = [
   { value: "ENVIRONMENT", label: "친환경🍀" },
@@ -37,7 +37,7 @@ export default function StepOne() {
     {},
   );
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // Zod로 정의해놓은 형식과 같은 형식의 입력값인지 확인
@@ -77,9 +77,11 @@ export default function StepOne() {
 
     // 플젝 사진 있으면 사진 넣어주기
     if (store.projectImage) {
-      const file = dataURLtoFile(store.projectImage, "projectImage.jpg");
-      if (file) {
-        formData.append("file", file);
+      try {
+        const file = await urlToFile(store.projectImage, "project.png");
+        formData.append("file", file, file.name); // 파일명도 같이
+      } catch (e) {
+        console.error("이미지 변환 실패:", e);
       }
     }
 

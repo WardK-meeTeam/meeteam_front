@@ -146,7 +146,7 @@ export default function Page() {
       {/*메인 정보 부분 */}
       <main className="flex flex-col gap-y-12 mt-10 ml-10 pl-10">
         <div>
-          {introduce === "" || introduce == null ? (
+          {!introduce || introduce.trim() === "" ? (
             <>
               <span>소개글이 존재하지 않습니다.</span>
               <br />

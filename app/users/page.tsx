@@ -10,20 +10,24 @@ import Link from "next/link";
 import * as simpleIcons from "simple-icons";
 import type { SimpleIcon } from "simple-icons";
 import { techStackOptions } from "@/mocks/techs";
+import { fetchUser } from "@/api/user";
 
 export default function Page() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const rawResult = localStorage.getItem("user-storage");
-    if (!rawResult) return;
+    const getData = async () => {
+      setLoading(true);
+      try {
+        const response = await fetchUser();
+        setProfile(response.result);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    const parsedResult = JSON.parse(rawResult);
-    const user = parsedResult.state.user;
-
-    setProfile(user);
-    setLoading(false);
+    getData();
   }, []);
 
   if (loading) {

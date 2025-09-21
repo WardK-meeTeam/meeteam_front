@@ -5,10 +5,10 @@ import SubButton from "../../../../components/SubButton";
 
 export default function ProjectGenerateFooter({
   step,
-  isSubmitting,
+  isSubmitting = false,
 }: {
   step: number;
-  isSubmitting: boolean;
+  isSubmitting?: boolean;
 }) {
   const router = useRouter();
 

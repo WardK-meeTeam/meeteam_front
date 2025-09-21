@@ -26,7 +26,7 @@ export default function RootLayout({
   modal: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full min-w-6xl">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen flex flex-col`}
       >

@@ -44,7 +44,7 @@ export interface ProjectMyApplyNotification {
 export interface ProjectApplyDecision {
   receiverId: number;
   projectId: number;
-  approvalResult: "APPROVED" | "REJECTED";
+  approvalResult: "ACCEPTED" | "REJECTED";
   message: string;
   date: string;
 }

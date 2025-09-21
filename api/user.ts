@@ -1,4 +1,4 @@
-export const fetchUser = async (userId: string) => {
+export const fetchUser = async () => {
   const API = process.env.NEXT_PUBLIC_API_BASE_URL;
   const accessToken = localStorage.getItem("accessToken");
 
@@ -6,7 +6,7 @@ export const fetchUser = async (userId: string) => {
     throw new Error("로그인이 필요합니다.");
   }
 
-  const response = await fetch(`${API}/api/members/${userId}`, {
+  const response = await fetch(`${API}/api/members`, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 

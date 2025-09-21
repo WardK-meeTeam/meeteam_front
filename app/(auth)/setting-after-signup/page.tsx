@@ -132,7 +132,9 @@ function SettingAfterSignupForm() {
       setIsLoading(false);
 
       if (actionResult.success) {
-        router.push("/setting-after-signup-introduce");
+        // router.push("/setting-after-signup-introduce");
+        // 일단 자기소개 없앤다고 가정하고 로그인 페이지로 바로 보냄
+        router.push("/signin");
       } else {
         alert(`회원가입 실패: ${actionResult.error?.message}`);
       }

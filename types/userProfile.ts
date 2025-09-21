@@ -1,12 +1,13 @@
-interface Category {
+export interface Category {
   bigCategory: string;
   smallCategory: string;
 }
 
-interface Project {
+export interface Project {
   localDate: string;
   title: string;
   status: string;
+  projectId?: number;
 }
 
 // 아직 리뷰 타입 존재 X

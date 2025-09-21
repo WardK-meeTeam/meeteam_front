@@ -133,7 +133,9 @@ export default function Navbar() {
         <ul className="flex divide-x-1 divide-mtm-text-gray">
           {isLoggedIn ? (
             <li className="text-mtm-text-gray pl-2 min-w-50" onClick={() => {}}>
-              <span className="font-bold">{name ?? ""}님! </span>
+              <Link href={"/users"} className="font-bold">
+                {name ?? ""}님!
+              </Link>
               안녕하세요
             </li>
           ) : (

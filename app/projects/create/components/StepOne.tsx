@@ -10,10 +10,10 @@ import DateSelector from "@/components/DateSelector";
 import Input from "../../../../components/Input";
 import { useProjectGenerateStore } from "@/store/projectGenerateStore";
 import FieldSelector from "./FieldSelector";
-import ProjectGenerateFooter from "@/components/ProjectGenerateFooter";
+import ProjectGenerateFooter from "@/app/projects/create/components/ProjectGenerateFooter";
 import { projectGenerateSchema } from "@/types/projectGenerate";
 import { useState } from "react";
-import { urlToFile } from "@/utils/urlToFile";
+import { useRouter } from "next/navigation";
 
 const categories: Option[] = [
   { value: "ENVIRONMENT", label: "친환경🍀" },
@@ -36,6 +36,7 @@ export default function StepOne() {
   const [errors, setErrors] = useState<Record<string, string[] | undefined>>(
     {},
   );
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,93 +45,13 @@ export default function StepOne() {
     const result = projectGenerateSchema.safeParse(store);
     if (!result.success) {
       setErrors(result.error.flatten().fieldErrors);
+      alert("입력을 확인해주세요!");
       return;
     }
 
     // 에러 초기화
     setErrors({});
-
-    // request 보낼 가입 데이터
-    const projectGenerateRequestBody = {
-      endDate: store.projectDeadline,
-      offlineRequired: store.mustOffline === "필수" ? true : false,
-      platformCategory: store.platform,
-      projectCategory: store.projectCategories,
-      projectName: store.projectName,
-      projectSkills: store.skills.map((s) => ({ skillName: s })),
-      recruitments: store.recruitField.map((f) => ({
-        subCategory: f.field?.split("-")[1] ?? "",
-        recruitmentCount: f.numOfPeople,
-      })),
-
-      subCategory: store.myField?.split("-")[1],
-      description: "",
-    };
-
-    const formData = new FormData();
-    formData.append(
-      "projectPostRequest",
-      new Blob([JSON.stringify(projectGenerateRequestBody)], {
-        type: "application/json",
-      }),
-    );
-
-    // 플젝 사진 있으면 사진 넣어주기
-    if (store.projectImage) {
-      try {
-        const file = await urlToFile(store.projectImage, "project.png");
-        formData.append("file", file, file.name); // 파일명도 같이
-      } catch (e) {
-        console.error("이미지 변환 실패:", e);
-      }
-    }
-
-    // API 호출부
-    const fetchCreateProjects = async () => {
-      const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-
-      const accessToken = localStorage.getItem("accessToken");
-      if (!accessToken) {
-        alert("로그인이 필요합니다!");
-        return;
-      }
-
-      try {
-        const response = await fetch(`${API}/api/projects`, {
-          method: "POST",
-          headers: { Authorization: `Bearer ${accessToken}` },
-          body: formData,
-        });
-
-        if (response.ok) {
-          //   {
-          //     "code": "COMMON200",
-          //     "message": "요청에 성공했습니다.",
-          //     "result": {
-          //         "id": 82,
-          //         "title": "test",
-          //         "createdAt": "2025-09-17T08:13:20.823746145"
-          //     }
-          // }
-          const data = await response.json();
-          alert("성공!" + data.message);
-        } else {
-          //   {
-          //     "code": "PROJECT400",
-          //     "message": "종료일은 시작일 이후여야 합니다."
-          // }
-          const errorData = await response.json();
-          alert(errorData.message);
-        }
-      } catch (error) {
-        return {
-          success: false,
-          error: { message: `알 수 없는 오류가 발생했습니다. (${error})` },
-        };
-      }
-    };
-
-    fetchCreateProjects();
+    router.push("/projects/create?step=2");
   };
 
   return (

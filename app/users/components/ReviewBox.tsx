@@ -68,7 +68,7 @@ const ReviewBox = ({ reviews = [] }: ReviewBoxProps) => {
             <button
               type="button"
               onClick={scrollLeft}
-              className="w-[40px] h-[40px] rounded-[50%] borderborder-[#CFCFCF] flex justify-center items-center cursor-pointer"
+              className="w-[40px] h-[40px] rounded-[50%] border border-[#CFCFCF] flex justify-center items-center cursor-pointer"
             >
               <IoIosArrowBack className="w-[30px] h-[30px] text-[#CFCFCF] " />
             </button>

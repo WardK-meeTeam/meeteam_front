@@ -7,7 +7,7 @@ export interface UserState {
   user: UserProfile | null;
   isLoading: boolean;
   error: string | null;
-  fetchUser: (userId: string) => Promise<void>;
+  fetchUser: () => Promise<void>;
   setUser: (user: UserProfile) => void;
   reset: () => void;
 }
@@ -20,10 +20,10 @@ export const useUserStore = create<UserState>()(
         isLoading: false,
         error: null,
 
-        fetchUser: async (userId: string) => {
+        fetchUser: async () => {
           set({ isLoading: true, error: null }, false, "fetchUser/pending");
           try {
-            const data = await fetchUserApi(userId);
+            const data = await fetchUserApi();
             const userData = data.result;
             set(
               { user: userData, isLoading: false },

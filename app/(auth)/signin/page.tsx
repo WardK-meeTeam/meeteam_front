@@ -54,7 +54,7 @@ export default function Page() {
         localStorage.setItem("accessToken", receivedAcessToken);
 
         //내 정보 불러오가
-        await useUserStore.getState().fetchUser(userId.toString());
+        await useUserStore.getState().fetchUser();
 
         router.push("/"); // 토큰 저장했으면 메인화면 이동까지
       } else {

@@ -13,8 +13,9 @@ import { PASSWORD_MIN_LENGTH } from "@/app/lib/constants";
 
 import { Suspense, useState } from "react";
 import { createAccount } from "../signup/createAccount";
-import { dataURLtoFile } from "@/utils/dataURLtoFile";
+
 import { baseSchema, emailSchema } from "@/types/auth";
+import { urlToFile } from "@/utils/urlToFile";
 
 function SettingAfterSignupForm() {
   const store = useSignUpStore();
@@ -119,9 +120,11 @@ function SettingAfterSignupForm() {
     );
 
     if (store.profileImg) {
-      const file = dataURLtoFile(store.profileImg, "profile.jpg");
-      if (file) {
-        formData.append("file", file);
+      try {
+        const file = await urlToFile(store.profileImg, "profileImg.png");
+        formData.append("file", file, file.name); // 파일명도 같이
+      } catch (e) {
+        console.error("이미지 변환 실패:", e);
       }
     }
 

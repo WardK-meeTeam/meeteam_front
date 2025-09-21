@@ -22,7 +22,6 @@ export default function Page() {
     const parsedResult = JSON.parse(rawResult);
     const user = parsedResult.state.user;
 
-    console.log(user);
     setProfile(user);
     setLoading(false);
   }, []);

@@ -32,6 +32,7 @@ export default function ApplicationClient() {
   // null이면 아직 data fetch 안된 상태
   const [applicationInfo, setApplicationInfo] =
     useState<ApplicationInfo | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const fetchApplicationInfo = async () => {
     const accessToken = localStorage.getItem("accessToken");
@@ -73,6 +74,12 @@ export default function ApplicationClient() {
     e.preventDefault();
 
     const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+    if (submitting) return;
+    setSubmitting(true);
     try {
       const response = await fetch(`${API}/api/projects-application/decide`, {
         method: "POST",
@@ -95,6 +102,8 @@ export default function ApplicationClient() {
       }
     } catch (error) {
       alert(`알 수 없는 오류가 발생했습니다. (${error})`);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -102,6 +111,12 @@ export default function ApplicationClient() {
     e.preventDefault();
 
     const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+    if (submitting) return;
+    setSubmitting(true);
     try {
       const response = await fetch(`${API}/api/projects-application/decide`, {
         method: "POST",
@@ -124,6 +139,8 @@ export default function ApplicationClient() {
       }
     } catch (error) {
       alert(`알 수 없는 오류가 발생했습니다. (${error})`);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -157,9 +174,7 @@ export default function ApplicationClient() {
                 </tr>
                 <tr>
                   <th className="text-start">성별</th>
-                  <td>
-                    {applicationInfo.gender === "MALE" ? "남성" : "여성"}
-                  </td>
+                  <td>{applicationInfo.gender === "MALE" ? "남성" : "여성"}</td>
                 </tr>
                 <tr>
                   <th className="text-start">이메일</th>
@@ -169,9 +184,7 @@ export default function ApplicationClient() {
             </table>
           </div>
           <div className="flex flex-col gap-4">
-            <span className="text-xl font-semibold">
-              지원 사유 및 자기소개
-            </span>
+            <span className="text-xl font-semibold">지원 사유 및 자기소개</span>
             <p>{applicationInfo.motivation}</p>
           </div>
 
@@ -202,13 +215,13 @@ export default function ApplicationClient() {
             <MainButton
               buttonName="승인하기"
               type="button"
-              disabled={false}
+              disabled={submitting}
               onClick={handleApprove}
             />
             <MainButton
               buttonName="거절하기"
               type="button"
-              disabled={false}
+              disabled={submitting}
               invertedColor={true}
               onClick={handleReject}
             />

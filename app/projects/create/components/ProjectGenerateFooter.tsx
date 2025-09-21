@@ -3,7 +3,13 @@ import { useRouter } from "next/navigation";
 import MainButton from "../../../../components/MainButton";
 import SubButton from "../../../../components/SubButton";
 
-export default function ProjectGenerateFooter({ step }: { step: number }) {
+export default function ProjectGenerateFooter({
+  step,
+  isSubmitting,
+}: {
+  step: number;
+  isSubmitting: boolean;
+}) {
   const router = useRouter();
 
   return (
@@ -14,7 +20,11 @@ export default function ProjectGenerateFooter({ step }: { step: number }) {
         onClick={step === 1 ? () => {} : () => router.back()}
       />
       {step === 2 && (
-        <MainButton buttonName="등록하기" type="submit" disabled={false} />
+        <MainButton
+          buttonName="등록하기"
+          type="submit"
+          disabled={isSubmitting}
+        />
       )}
     </footer>
   );

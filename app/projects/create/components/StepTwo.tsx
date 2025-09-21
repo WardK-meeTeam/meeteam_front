@@ -5,6 +5,7 @@ import MarkDown from "../../../../components/MarkDown";
 import ProjectGenerateFooter from "@/app/projects/create/components/ProjectGenerateFooter";
 import { urlToFile } from "@/utils/urlToFile";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function StepTwo() {
   const text = useProjectGenerateStore((state) => state.projectDescription);
@@ -14,6 +15,8 @@ export default function StepTwo() {
   const router = useRouter();
 
   const store = useProjectGenerateStore();
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -100,7 +103,12 @@ export default function StepTwo() {
       }
     };
 
-    fetchCreateProjects();
+    setIsSubmitting(true);
+    try {
+      await fetchCreateProjects();
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   return (
     <form className="min-h-screen flex flex-col" onSubmit={handleSubmit}>
@@ -109,7 +117,7 @@ export default function StepTwo() {
           <b className="text-[26px] mb-10">프로젝트 등록</b>
           <MarkDown maxSize={800} text={text} onChangeText={setText} />
         </div>
-        <ProjectGenerateFooter step={2} />
+        <ProjectGenerateFooter step={2} isSubmitting={isSubmitting} />
       </div>
     </form>
   );

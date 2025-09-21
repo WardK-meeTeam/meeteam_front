@@ -15,6 +15,6 @@ export function weekDayEngToKr(day: string) {
     case "SUNDAY":
       return "일";
     default:
-      break;
+      return "";
   }
 }

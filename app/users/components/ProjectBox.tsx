@@ -21,16 +21,18 @@ const ProjectBox = ({ projects }: ProjectBoxProps) => {
           {projects.length}개
         </div>
       </div>
-      <div className="w-[753px] h-[2px] bg-black mb-5"></div>
-      <div className="h-[386px] overflow-y-auto scrollbar scrollbar-thin scrollbar-thumb-black scrollbar-track-[#EDEDED]">
-        <div className="grid grid-cols-3 gap-x-3 gap-y-5">
+      <div className="w-full h-[2px] bg-black mb-5"></div>
+      <div className="h-96 overflow-y-auto scrollbar scrollbar-thin scrollbar-thumb-black scrollbar-track-[#EDEDED]">
+        <div className="grid grid-cols-3 gap-x-5 gap-y-5 p-3">
           {projects.map((project, key) => {
             const [year, month, day] = project.localDate.split("-");
             const bgImg = project.imageUrl ?? BgDefault.src;
             return (
               <div
                 key={key}
-                className="aspect-[4/3] w-[244px] rounded-[8px] bg-cover bg-center flex flex-col justify-between cursor-pointer"
+                className="aspect-[4/3] w-[244px] rounded-[8px] bg-cover bg-center flex flex-col justify-between cursor-pointer
+                transition-all duration-200 ease-in-out transform hover:scale-104
+                "
                 onClick={() =>
                   router.push(
                     `/projects/${!project.projectId ? -1 : project.projectId}/detail`,

@@ -11,6 +11,8 @@ import * as simpleIcons from "simple-icons";
 import type { SimpleIcon } from "simple-icons";
 import { techStackOptions } from "@/mocks/techs";
 import { fetchUser } from "@/api/user";
+import ModifyButton from "../projects/[projectId]/apply/components/ModifyButton";
+import ProfileDefaultImg from "@/public/images/userImg2.png";
 
 export default function Page() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -51,7 +53,10 @@ export default function Page() {
     introduce,
     // reviewList,
     projectList,
+    profileImageUrl,
   } = profile;
+
+  console.log(profileImageUrl);
 
   const newSkills = skills.map((sk) => sk.skill);
   const ICONS = simpleIcons as unknown as Record<string, SimpleIcon>;
@@ -61,20 +66,23 @@ export default function Page() {
   );
 
   return (
-    <div className="flex justify-center gap-x-11 mx-auto">
+    <div className="flex justify-center gap-x-11 mx-auto mt-10">
       {/*왼쪽 정보 */}
       <aside className="flex flex-col gap-y-12 mr-5">
         <div className="flex flex-col gap-y-4 items-center">
-          <Image
-            alt="사용자 프로필 이미지"
-            src="/images/userImg1.png"
-            width={194}
-            height={194}
-            className="rounded-[50%]"
-          />
+          <div className="w-[194px] h-[194px] rounded-full overflow-hidden">
+            <Image
+              alt="사용자 프로필 이미지"
+              src={profileImageUrl ?? ProfileDefaultImg}
+              width={194}
+              height={194}
+              className="w-full h-full object-cover object-center"
+              priority
+            />
+          </div>
           <div className="flex justify-center items-center gap-x-4">
             <div className="text-[36px] font-extrabold">{name}</div>
-            <div className="text-[14px] text-mtm-purple">정보 수정하기</div>
+            <ModifyButton />
           </div>
           {/* <div className="w-[148px] h-[45px] rounded-[8px] bg-[#FFF3F0]  flex justify-center items-center text-[#FF4802] font-bold">
             협업온도🔥 98°

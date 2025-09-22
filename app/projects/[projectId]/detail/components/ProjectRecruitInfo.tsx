@@ -79,7 +79,7 @@ export default function ProjectRecruitInfo({
                         transition-opacity duration-200 ease-in-out
                       text-[6px] mt-1"
                 >
-                  {icon.title}
+                  {item.eng}
                 </div>
               </div>
             );

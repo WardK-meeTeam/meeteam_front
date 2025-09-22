@@ -117,7 +117,7 @@ export default function Page() {
 
         <div className="flex flex-col gap-y-3 w-full">
           <div className=" font-bold">기술 스택</div>
-          <div className="flex flex-row flex-wrap gap-3 max-w-[500px]">
+          <div className="flex flex-row flex-wrap gap-3 max-w-2xs">
             {skillsIcon.map((item) => {
               const icon = ICONS[item.iconName];
               if (!icon) return null;
@@ -143,7 +143,7 @@ export default function Page() {
                             transition-opacity duration-200 ease-in-out
                           text-[6px] mt-1"
                   >
-                    {icon.title}
+                    {item.eng}
                   </div>
                 </div>
               );

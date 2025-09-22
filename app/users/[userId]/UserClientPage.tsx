@@ -80,10 +80,10 @@ export default function UserClientPage({ userId }: { userId: string }) {
   );
 
   return (
-    <div className="flex justify-center gap-x-11 mx-auto mt-10">
+    <div className="flex justify-center gap-x-8 mx-auto mt-10 px-6">
       {/*왼쪽 정보 */}
-      <aside className="flex flex-col gap-y-12 mr-5">
-        <div className="flex flex-col gap-y-4 items-center">
+      <aside className="flex flex-col gap-y-12 min-w-2xs items-start justify-start">
+        <div className="flex flex-col gap-y-10 items-start w-full">
           <div className="w-[194px] h-[194px] rounded-full overflow-hidden">
             <Image
               alt="사용자 프로필 이미지"
@@ -94,12 +94,15 @@ export default function UserClientPage({ userId }: { userId: string }) {
               priority
             />
           </div>
-          <div className="flex justify-center items-center gap-x-4">
-            <div className="text-[36px] font-extrabold">{name}</div>
-          </div>
+
+          <span className="text-4xl font-extrabold">{name}</span>
+
+          {/* <div className="w-[148px] h-[45px] rounded-[8px] bg-[#FFF3F0]  flex justify-center items-center text-[#FF4802] font-bold">
+            협업온도🔥 98°
+          </div> */}
         </div>
 
-        <div className="flex justify-center items-between gap-x-9 mt-10">
+        <div className="flex justify-start gap-x-4 w-full">
           <div className="flex flex-col gap-y-3">
             <div className="font-bold">나이</div>
             <div className="font-bold">성별</div>
@@ -125,7 +128,7 @@ export default function UserClientPage({ userId }: { userId: string }) {
           </div>
         </div>
 
-        <div className="flex flex-col gap-y-3">
+        <div className="flex flex-col gap-y-3 w-full">
           <div className=" font-bold">기술 스택</div>
           <div className="flex flex-row flex-wrap gap-3 max-w-[500px]">
             {skillsIcon.map((item) => {
@@ -140,6 +143,7 @@ export default function UserClientPage({ userId }: { userId: string }) {
                   width="40"
                   height="40"
                   fill={`#${icon.hex}`}
+                  className="transition-all duration-100 ease-in-out hover:scale-106 transform"
                 >
                   <path d={icon.path} />
                 </svg>
@@ -157,11 +161,15 @@ export default function UserClientPage({ userId }: { userId: string }) {
             <div className=" font-bold">프로젝트 참여 수</div>
             <div className=" font-bold">{projectCount}개</div>
           </div>
+          {/* <div className="flex gap-x-3">
+            <div className=" font-bold">리뷰 개수</div>
+            <div className=" font-bold">{reviewCount}개</div>
+          </div> */}
         </div>
       </aside>
 
       {/*메인 정보 부분 */}
-      <main className="flex flex-col gap-y-12 mt-10 ml-10 pl-10">
+      <main className="flex flex-col gap-y-12 mt-10 min-w-2xl">
         <div>
           {!introduce || introduce.trim() === "" ? (
             <>

@@ -69,7 +69,7 @@ export default function Page() {
     <div className="flex justify-center gap-x-8 mx-auto mt-10 px-6">
       {/*왼쪽 정보 */}
       <aside className="flex flex-col gap-y-12 min-w-2xs items-start justify-start">
-        <div className="flex flex-col gap-y-4 items-start w-full">
+        <div className="flex flex-col gap-y-10 items-start w-full">
           <div className="w-[194px] h-[194px] rounded-full overflow-hidden">
             <Image
               alt="사용자 프로필 이미지"
@@ -89,7 +89,7 @@ export default function Page() {
           </div> */}
         </div>
 
-        <div className="flex justify-start gap-x-4 mt-10 w-full">
+        <div className="flex justify-start gap-x-4 w-full">
           <div className="flex flex-col gap-y-3">
             <div className="font-bold">나이</div>
             <div className="font-bold">성별</div>

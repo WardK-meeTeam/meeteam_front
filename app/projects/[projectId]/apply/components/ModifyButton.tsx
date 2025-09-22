@@ -1,5 +1,4 @@
 "use client";
-``;
 import Image from "next/image";
 import ArrowIcon from "@/public/images/right_arrow_icon.svg";
 import Link from "next/link";

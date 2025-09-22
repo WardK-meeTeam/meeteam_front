@@ -4,7 +4,7 @@ import ToggleSwitchButton from "@/components/ToggleSwitchButton";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { UserProfile } from "@/types/userProfile";
-import Link from "next/link";
+// import Link from "next/link";
 import * as simpleIcons from "simple-icons";
 import type { SimpleIcon } from "simple-icons";
 import { techStackOptions } from "@/mocks/techs";
@@ -187,12 +187,12 @@ export default function UserClientPage({ userId }: { userId: string }) {
             <>
               <span>소개글이 존재하지 않습니다.</span>
               <br />
-              <Link
+              {/* <Link
                 href={"/setting-after-signup-introduce"}
                 className="text-mtm-main-blue"
               >
                 작성하러가기
-              </Link>
+              </Link> */}
             </>
           ) : (
             introduce

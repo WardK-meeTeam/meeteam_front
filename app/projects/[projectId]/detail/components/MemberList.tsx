@@ -13,6 +13,7 @@ export default function MemberList({ members }: { members: Member[] }) {
         {leaders.map((person, idx) => (
           <MemberRow
             key={`project-detail-leader-${person.memberId}`}
+            userId={person.memberId.toString()}
             imgUrl={
               person.imageUrl ??
               `/images/userImg${(idx % NUM_OF_USERIMG) + 1}.png`
@@ -26,6 +27,7 @@ export default function MemberList({ members }: { members: Member[] }) {
         {teamMembers.map((person, idx) => (
           <MemberRow
             key={`project-detail-memeber-${person.memberId}`}
+            userId={person.memberId.toString()}
             imgUrl={
               person.imageUrl ??
               `/images/userImg${(idx % NUM_OF_USERIMG) + 1}.png`

@@ -77,7 +77,7 @@ export default function ProjectRecruitInfo({
                 <div
                   className="opacity-0 group-hover:opacity-100
                         transition-opacity duration-200 ease-in-out
-                      text-[6px] mt-1"
+                      text-[10px] mt-1"
                 >
                   {item.eng}
                 </div>

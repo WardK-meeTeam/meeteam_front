@@ -37,12 +37,12 @@ const ReviewBox = ({ reviews = [] }: ReviewBoxProps) => {
         </div>
       </div>
 
-      <div className="w-[753px] h-[2px] bg-black"></div>
+      <div className="w-full h-[2px] bg-black"></div>
       {reviews.length > 0 ? (
         <>
           <div
             ref={scrollRef}
-            className="w-[753px] flex overflow-x-auto scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden gap-x-5"
+            className="w-full flex overflow-x-auto scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden gap-x-5"
           >
             {reviews.map((review, key) => (
               <div
@@ -82,7 +82,7 @@ const ReviewBox = ({ reviews = [] }: ReviewBoxProps) => {
           </div>
         </>
       ) : (
-        <div className="w-[753px] h-[169px] flex justify-center items-center bg-[#F8F8F8] rounded-[8px]">
+        <div className="w-full h-[169px] flex justify-center items-center bg-[#F8F8F8] rounded-[8px]">
           <p className="text-[#474747]">아직 받은 리뷰가 없습니다.</p>
         </div>
       )}

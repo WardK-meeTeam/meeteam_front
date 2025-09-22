@@ -3,27 +3,43 @@
 import ToggleSwitchButton from "@/components/ToggleSwitchButton";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import ReviewBox from "./components/ReviewBox";
-import ProjectBox from "./components/ProjectBox";
 import { UserProfile } from "@/types/userProfile";
 import Link from "next/link";
 import * as simpleIcons from "simple-icons";
 import type { SimpleIcon } from "simple-icons";
 import { techStackOptions } from "@/mocks/techs";
-import { fetchUser } from "@/api/user";
-import ModifyButton from "../projects/[projectId]/apply/components/ModifyButton";
 import ProfileDefaultImg from "@/public/images/userImg2.png";
+import ReviewBox from "../components/ReviewBox";
+import ProjectBox from "../components/ProjectBox";
 
-export default function Page() {
+export default function UserClientPage({ userId }: { userId: string }) {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getData = async () => {
       setLoading(true);
+      const API = process.env.NEXT_PUBLIC_API_BASE_URL;
+      const accessToken = localStorage.getItem("accessToken");
       try {
-        const response = await fetchUser();
-        setProfile(response.result);
+        if (!accessToken) {
+          alert("로그인이 필요합니다!");
+          return;
+        }
+
+        const response = await fetch(`${API}/api/members/${userId}`, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setProfile(data.result);
+        } else {
+          const errorData = await response.json();
+          alert(errorData.message);
+        }
+      } catch (error) {
+        alert(`알 수 없는 오류가 발생했습니다 (${error})`);
       } finally {
         setLoading(false);
       }
@@ -56,8 +72,6 @@ export default function Page() {
     profileImageUrl,
   } = profile;
 
-  console.log(profileImageUrl);
-
   const newSkills = skills.map((sk) => sk.skill);
   const ICONS = simpleIcons as unknown as Record<string, SimpleIcon>;
 
@@ -82,11 +96,7 @@ export default function Page() {
           </div>
           <div className="flex justify-center items-center gap-x-4">
             <div className="text-[36px] font-extrabold">{name}</div>
-            <ModifyButton />
           </div>
-          {/* <div className="w-[148px] h-[45px] rounded-[8px] bg-[#FFF3F0]  flex justify-center items-center text-[#FF4802] font-bold">
-            협업온도🔥 98°
-          </div> */}
         </div>
 
         <div className="flex justify-center items-between gap-x-9 mt-10">
@@ -147,10 +157,6 @@ export default function Page() {
             <div className=" font-bold">프로젝트 참여 수</div>
             <div className=" font-bold">{projectCount}개</div>
           </div>
-          {/* <div className="flex gap-x-3">
-            <div className=" font-bold">리뷰 개수</div>
-            <div className=" font-bold">{reviewCount}개</div>
-          </div> */}
         </div>
       </aside>
 

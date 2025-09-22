@@ -9,13 +9,15 @@ export default function MemberRow({
 }) {
   return (
     <div className="flex flex-row gap-2 justify-start items-center cursor-pointer">
-      <Image
-        src={imgUrl}
-        alt="프로필 이미지"
-        width={42}
-        height={45}
-        className="rounded-full"
-      />
+      <div className="w-[42px] h-[45px] rounded-full overflow-hidden">
+        <Image
+          src={imgUrl}
+          alt="프로필 이미지"
+          width={42}
+          height={45}
+          className="object-none object-center"
+        />
+      </div>
       <span className="text-[14px]">{userName}</span>
     </div>
   );

@@ -22,20 +22,24 @@ export default function MemberList({ members }: { members: Member[] }) {
           />
         ))}
       </div>
-      <div className="flex flex-col gap-3">
-        <span className="font-bold text-lg">팀원</span>
-        {teamMembers.map((person, idx) => (
-          <MemberRow
-            key={`project-detail-memeber-${person.memberId}`}
-            userId={person.memberId.toString()}
-            imgUrl={
-              person.imageUrl ??
-              `/images/userImg${(idx % NUM_OF_USERIMG) + 1}.png`
-            }
-            userName={person.name}
-          />
-        ))}
-      </div>
+      {teamMembers.length > 0 && (
+        <>
+          <div className="flex flex-col gap-3">
+            <span className="font-bold text-lg">팀원</span>
+            {teamMembers.map((person, idx) => (
+              <MemberRow
+                key={`project-detail-memeber-${person.memberId}`}
+                userId={person.memberId.toString()}
+                imgUrl={
+                  person.imageUrl ??
+                  `/images/userImg${(idx % NUM_OF_USERIMG) + 1}.png`
+                }
+                userName={person.name}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }

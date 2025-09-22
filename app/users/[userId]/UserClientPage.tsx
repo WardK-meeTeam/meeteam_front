@@ -33,7 +33,6 @@ export default function UserClientPage({ userId }: { userId: string }) {
 
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
           setProfile(data.result);
         } else {
           const errorData = await response.json();
@@ -72,8 +71,6 @@ export default function UserClientPage({ userId }: { userId: string }) {
     projectList,
     profileImageUrl,
   } = profile;
-
-  console.log(profileImageUrl);
 
   const newSkills = skills.map((sk) => sk.skill);
   const ICONS = simpleIcons as unknown as Record<string, SimpleIcon>;

@@ -10,6 +10,7 @@ type ProjectBoxProps = {
 
 const ProjectBox = ({ projects }: ProjectBoxProps) => {
   const router = useRouter();
+
   return (
     <div className="flex flex-col gap-y-5 my-12">
       <div className="flex items-center gap-x-5">
@@ -25,17 +26,18 @@ const ProjectBox = ({ projects }: ProjectBoxProps) => {
         <div className="grid grid-cols-3 gap-x-3 gap-y-5">
           {projects.map((project, key) => {
             const [year, month, day] = project.localDate.split("-");
+            const bgImg = project.imageUrl ?? BgDefault.src;
             return (
               <div
                 key={key}
-                className="aspect-[4/3] w-[244px] rounded-[8px] bg-cover bg-center flex flex-col justify-between"
+                className="aspect-[4/3] w-[244px] rounded-[8px] bg-cover bg-center flex flex-col justify-between cursor-pointer"
                 onClick={() =>
                   router.push(
                     `/projects/${!project.projectId ? -1 : project.projectId}/detail`,
                   )
                 }
                 style={{
-                  backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 2%, rgba(0, 0, 0, 0.4) 83%), url(${BgDefault.src}) `,
+                  backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 2%, rgba(0, 0, 0, 0.4) 83%), url(${bgImg}) `,
                 }}
               >
                 <div className="flex flex-col items-end justify p-4">

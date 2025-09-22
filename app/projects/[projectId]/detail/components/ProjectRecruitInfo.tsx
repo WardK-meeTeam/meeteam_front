@@ -66,6 +66,7 @@ export default function ProjectRecruitInfo({
                 width="40"
                 height="40"
                 fill={`#${icon.hex}`}
+                className="transition-all duration-100 ease-in-out hover:scale-106 transform"
               >
                 <path d={icon.path} />
               </svg>

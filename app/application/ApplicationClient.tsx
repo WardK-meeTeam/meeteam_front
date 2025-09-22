@@ -7,6 +7,7 @@ import Image from "next/image";
 import userImg from "@/public/images/userImg1.png";
 import { useEffect, useState } from "react";
 import { weekDayEngToKr } from "@/utils/weekDayEngToKr";
+import Link from "next/link";
 
 interface ApplicationInfo {
   applicationId: number;
@@ -149,18 +150,23 @@ export default function ApplicationClient() {
       {applicationInfo && (
         <div className="flex flex-col justify-start gap-12">
           <div className="flex flex-row justify-start items-center gap-12">
-            <div className="flex flex-col items-center gap-2">
-              <Image
-                src={userImg}
-                width={100}
-                height={120}
-                className="rounded-full"
-                alt="사용자"
-              />
-              <span className="font-semibold text-xl">
+            <Link
+              href={`/users/${applicationInfo.applicantId}`}
+              className="flex flex-col items-center gap-2 group cursor-pointer"
+            >
+              <div className="w-[100px] h-[100px] rounded-full overflow-hidden">
+                <Image
+                  src={userImg}
+                  width={100}
+                  height={100}
+                  className="w-full h-full object-cover object-center"
+                  alt="사용자"
+                />
+              </div>
+              <span className="font-semibold text-xl group-hover:underline">
                 {applicationInfo.applicantName}
               </span>
-            </div>
+            </Link>
 
             <table className="border-spacing-5 border-separate">
               <tbody>

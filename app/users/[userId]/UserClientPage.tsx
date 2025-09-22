@@ -135,18 +135,30 @@ export default function UserClientPage({ userId }: { userId: string }) {
               const icon = ICONS[item.iconName];
               if (!icon) return null;
               return (
-                <svg
+                <div
+                  className="group flex flex-col items-center"
                   key={`project-${email}-${item.iconName}`}
-                  xmlns="http://www.w3.org/2000/svg"
-                  role="img"
-                  viewBox="0 0 24 24"
-                  width="40"
-                  height="40"
-                  fill={`#${icon.hex}`}
-                  className="transition-all duration-100 ease-in-out hover:scale-106 transform"
                 >
-                  <path d={icon.path} />
-                </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    role="img"
+                    viewBox="0 0 24 24"
+                    width="40"
+                    height="40"
+                    fill={`#${icon.hex}`}
+                    className="transition-transform duration-200 ease-in-out hover:scale-106"
+                  >
+                    <path d={icon.path} />
+                  </svg>
+
+                  <div
+                    className="opacity-0 group-hover:opacity-100
+                            transition-opacity duration-200 ease-in-out
+                          text-[6px] mt-1"
+                  >
+                    {icon.title}
+                  </div>
+                </div>
               );
             })}
           </div>

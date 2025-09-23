@@ -71,7 +71,7 @@ export default function Card({
             <div>
               <div className="flex items-center justify-between mx-6 mt-6">
                 <div
-                  className="w-[104px] h-[25px] border border-none rounded-[16px] text-[14px] font-semibold text-[#EE7366] flex justify-center items-center"
+                  className="w-[104px] h-[25px]  border-none rounded-[16px] text-[14px] font-semibold text-[#EE7366] flex justify-center items-center"
                   style={{
                     color: `${CategoryColors[category]?.[0] || "#EE7366"}`,
                     backgroundColor: `${CategoryColors[category]?.[1] || "#FFEAE8"}`,

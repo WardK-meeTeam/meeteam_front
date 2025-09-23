@@ -2,17 +2,17 @@
 
 import ImageUploader from "./components/ImageUploader";
 import BinaryOptionSelector from "@/components/BinaryOptionSelector";
-import TechSearch from "@/app/projects/create/components/TechSearch";
+import TechSearch from "@/app/(navbar)/projects/create/components/TechSearch";
 import { useSignUpStore } from "@/store/signupDataStore";
 import DateSelector from "@/components/DateSelector";
 import MainButton from "@/components/MainButton";
-import Recruit from "@/app/projects/create/components/Recruit";
+import Recruit from "@/app/(navbar)/projects/create/components/Recruit";
 import { useRouter, useSearchParams } from "next/navigation";
 import Input from "@/components/Input";
 import { PASSWORD_MIN_LENGTH } from "@/app/lib/constants";
 
 import { Suspense, useState } from "react";
-import { createAccount } from "../signup/createAccount";
+import { createAccount } from "../../../api/createAccount";
 
 import { baseSchema, emailSchema } from "@/types/auth";
 import { urlToFile } from "@/utils/urlToFile";
@@ -46,7 +46,6 @@ function SettingAfterSignupForm() {
         const data = await response.json();
 
         const exists: boolean = data.result.exsists;
-        console.log(exists);
         const message = data.result.message;
         setIsOkEmail(!exists);
         alert(message);
@@ -62,7 +61,7 @@ function SettingAfterSignupForm() {
   // 회원가입 요청 보내는 작업
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!isOkEmai) {
+    if (signUpType && !isOkEmai) {
       alert("이메일 중복 확인 실시 바람");
       return;
     }
@@ -94,35 +93,43 @@ function SettingAfterSignupForm() {
       : 0;
 
     // request 보낼 가입 데이터
+    // Email 가입이면 조건부로 email,password 넣어줌
     const registerRequest = {
-      age: age,
+      age,
       name: store.userName,
-      email: "",
-      password: "",
       gender: store.gender === "남성" ? "MALE" : "FEMALE",
-      subCategories: store.field.map((f) => ({
-        subcategory: f.field?.split("-")[1] ?? "",
-      })),
-      skills: store.skills.map((s) => ({ skillName: s })),
+      subCategories:
+        signUpType === "email"
+          ? store.field.map((f) => ({
+              subcategory: f.field?.split("-")[1] ?? "",
+            }))
+          : store.field.map((f) => f.field?.split("-")[1] ?? ""),
+      skills:
+        signUpType === "email"
+          ? store.skills.map((s) => ({ skillName: s }))
+          : store.skills,
+      ...(signUpType === "email" && {
+        email: store.email ?? "",
+        password: store.password ?? "",
+        isParticipating: true,
+      }),
     };
-
-    // email로 회원가입이면 이멜,패스워드 보냄
-    if (signUpType === "email") {
-      registerRequest.email = store.email ?? "";
-      registerRequest.password = store.password ?? "";
-    }
 
     // request body key값 request로 일치시킴
     const formData = new FormData();
     formData.append(
-      "request",
+      signUpType === "email" ? "request" : "memberInfo",
       new Blob([JSON.stringify(registerRequest)], { type: "application/json" }),
     );
 
     if (store.profileImg) {
       try {
         const file = await urlToFile(store.profileImg, "profileImg.png");
-        formData.append("file", file, file.name); // 파일명도 같이
+        formData.append(
+          signUpType === "email" ? "file" : "profileImage",
+          file,
+          file.name,
+        ); // 파일명도 같이
       } catch (e) {
         console.error("이미지 변환 실패:", e);
       }
@@ -130,17 +137,44 @@ function SettingAfterSignupForm() {
 
     setIsLoading(true);
     try {
-      // 성공 여부와 데이터 또는 에러메세지가 actionResult에 저장됨
-      const actionResult = await createAccount(formData);
-      setIsLoading(false);
+      // Oauth 회원가입일 때는 PUT 요청을 보내도록 함
 
-      if (actionResult.success) {
-        // router.push("/setting-after-signup-introduce");
-        // 일단 자기소개 없앤다고 가정하고 로그인 페이지로 바로 보냄
-        router.push("/signin");
-      } else {
-        alert(`회원가입 실패: ${actionResult.error?.message}`);
+      if (!signUpType) {
+        const API = process.env.NEXT_PUBLIC_API_BASE_URL;
+        const accessToken = localStorage.getItem("accessToken"); // 이거 가입용이라 끝나고 삭제해야 될거같음
+        const response = await fetch(`${API}/api/members`, {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: formData,
+        });
+
+        if (response.ok) {
+          // 가입 및 로그인 동시 진행
+          alert("가입되었습니다.");
+          router.push("/");
+        } else {
+          const errorData = await response.json();
+          alert(errorData.message);
+        }
       }
+
+      //
+      else {
+        // 일반 이메일 회원가입
+        // 성공 여부와 데이터 또는 에러메세지가 actionResult에 저장됨
+        const actionResult = await createAccount(formData);
+
+        if (actionResult.success) {
+          alert("가입되었습니다.");
+          router.push("/signin");
+        } else {
+          alert(`회원가입 실패: ${actionResult.error?.message}`);
+        }
+      }
+
+      setIsLoading(false);
     } catch (error) {
       alert(`예상치 못한 오류가 발생했습니다. 다시 시도해주세요. (${error})`);
     } finally {

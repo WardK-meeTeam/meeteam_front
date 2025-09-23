@@ -20,7 +20,7 @@ export default function TextArea({
     }
   }
   return (
-    <div>
+    <>
       <textarea
         value={value}
         onChange={handleInputChange}
@@ -33,6 +33,6 @@ export default function TextArea({
         <span>{value.length}</span>
         <span className="text-mtm-text-gray">/ {maxSize}자</span>
       </div>
-    </div>
+    </>
   );
 }

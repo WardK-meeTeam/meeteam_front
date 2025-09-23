@@ -14,17 +14,22 @@ interface TeamCardProps {
   skills: Skill[];
 }
 
+type TeamRecruitCardProps = React.ComponentPropsWithoutRef<"div"> & TeamCardProps;
+
 export default function TeamRecruitCard({
   profileImg,
   name,
   temp,
   sideProjectCount,
   skills,
-}: TeamCardProps) {
+  className,
+  ...rest
+}: TeamRecruitCardProps) {
   return (
-    <div className="w-[305px] h-[239px] bg-[#F5F7F9] rounded-[16px]">
+    <div className={`w-[305px] h-[239px] bg-[#F5F7F9] rounded-[16px] flex-none ${className ?? ""}`}
+    {...rest}>
       {/* 위칸 */}
-      <div className="flex justify-left items-center p-5 gap-x-6">
+      <div className="flex justify-start items-center p-5 gap-x-6">
         <div className="flex flex-col justify-center items-center gap-y-2">
           <Image
             className="rounded-[50%]"
@@ -58,7 +63,7 @@ export default function TeamRecruitCard({
               </div>
             ))}
           </div>
-          <div className="flex flex-col justify-center items-left gap-y-5">
+          <div className="flex flex-col justify-center items-start gap-y-5">
             {skills.map((skill, idx) => (
               <div
                 key={idx}

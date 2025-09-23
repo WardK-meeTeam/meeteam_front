@@ -7,7 +7,8 @@ export interface Project {
   localDate: string;
   title: string;
   status: string;
-  projectId?: number;
+  projectId: number;
+  imageUrl: string | null;
 }
 
 // 아직 리뷰 타입 존재 X
@@ -25,4 +26,7 @@ export interface UserProfile {
   introduce: string;
   reviewList?: [];
   projectList: Project[];
+  // 프로필 이미지는 없을때 아래 둘다 null로 전달받음
+  profileImageName: string | null;
+  profileImageUrl: string | null;
 }

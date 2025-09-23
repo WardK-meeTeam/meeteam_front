@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 import Bell from "@/public/images/Bell.svg";
-import { NotificationToast } from "./NotificationToast";
+import { NotificationToast } from "../../../components/NotificationToast";
 import { EventSourcePolyfill } from "event-source-polyfill";
 import { connectSSE } from "@/utils/connectSSE";
 import {

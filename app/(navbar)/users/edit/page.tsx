@@ -1,12 +1,12 @@
 "use client";
 
 import { fetchUser } from "@/api/user";
-import Recruit from "@/app/projects/create/components/Recruit";
+import Recruit from "@/app/(navbar)/projects/create/components/Recruit";
 import { userFieldItem } from "@/store/signupDataStore";
 import { UserProfile } from "@/types/userProfile";
 import { useEffect, useState } from "react";
 import KeyValueRow from "./components/KeyValueRow";
-import TechSearch from "@/app/projects/create/components/TechSearch";
+import TechSearch from "@/app/(navbar)/projects/create/components/TechSearch";
 import ToggleSwitchButton from "@/components/ToggleSwitchButton";
 import TextArea from "@/components/TextArea";
 import MainButton from "@/components/MainButton";

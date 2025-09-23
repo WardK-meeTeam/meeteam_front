@@ -1,8 +1,8 @@
 "use client";
 
 import { useProjectGenerateStore } from "@/store/projectGenerateStore";
-import MarkDown from "../../../../components/MarkDown";
-import ProjectGenerateFooter from "@/app/projects/create/components/ProjectGenerateFooter";
+import MarkDown from "../../../../../components/MarkDown";
+import ProjectGenerateFooter from "@/app/(navbar)/projects/create/components/ProjectGenerateFooter";
 import { urlToFile } from "@/utils/urlToFile";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

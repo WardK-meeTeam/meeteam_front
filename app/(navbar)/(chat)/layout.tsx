@@ -1,4 +1,4 @@
-import ChatSideBar from "@/app/(chat)/chat/components/ChatSidebar";
+import ChatSideBar from "@/app/(navbar)/(chat)/chat/components/ChatSidebar";
 import { ReactNode } from "react";
 
 export default function Layout({ children }: { children: ReactNode }) {

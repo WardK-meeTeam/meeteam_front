@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
-import MainButton from "../../../../components/MainButton";
-import SubButton from "../../../../components/SubButton";
+import MainButton from "../../../../../components/MainButton";
+import SubButton from "../../../../../components/SubButton";
 
 export default function ProjectGenerateFooter({
   step,

@@ -5,10 +5,17 @@ import TeamRecruitCardList from "@/components/TeamRecruitCardList";
 import { useRef } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
+import { useState } from "react";
 
 export default function HomePage() {
 
-    const category = ["Eco", "Beauty", "Education", "Pet", "Productivity", "Healthcare"];
+    const category = ["친환경", "반려동물", "헬스케어", "교육/학습", "AI테크", "패션/뷰티", "금융/생산성", "기타"];
+
+    const [selectedCategory, setSelectedCategory] = useState<string>("");
+
+    const handleCategory = (cat: string) => {
+       setSelectedCategory(cat);
+    }
 
     const scrollRef = useRef<HTMLDivElement>(null);
     const scrollRefTeam = useRef<HTMLDivElement>(null);
@@ -38,24 +45,33 @@ export default function HomePage() {
             <div className="flex flex-col w-[88%]">
                 <div className="flex flex-col relative ">
                     {/**회색 바 */}
-                    <div className="w-full h-[1.5px] absolute top-13 bg-[#E8E8E8] mt-2"></div>
+                    <div className="w-full h-[1.7px] absolute bottom-0 bg-[#E8E8E8] mt-2"></div>
 
                     <div className="px-5 py-5 flex gap-x-7 justify-start items-center">
-                        {category.map((idx, key) => (
-                            <div 
-                            key={key} 
-                            className="w-auto flex flex-col gap-x-1 justify-center items-center font-semibold"
-                            >
-                                <div className="text-[18px] text-[#A5A5A5]">{idx}</div>
-
-                                {/**파란색 바 */}
-                                <div 
-                                style={{ width: `${idx.length*10}px`}}
-                                className="h-[1.5px] bg-[#6BB4FF] absolute top-13 mt-2"
-                                ></div>
+                    {category.map((name) => {
+                        const isSelected = selectedCategory === name;
+                        return (
+                        <button
+                        key={name}
+                        type="button"
+                        onClick={() => handleCategory(name)}
+                        className="relative w-auto flex flex-col items-center font-semibold cursor-pointer select-none"
+                        
+                        >
+                            <span className={`text-[18px] ${isSelected ? "text-black" : "text-[#A5A5A5]"}`}>
+                                {name}
+                            </span>
                             
-                            </div>
-                        ))}
+                            {/* 파란색 바*/}
+                            {isSelected && (
+                                <div
+                                style={{ width: `${name.length * 19}px` }}
+                                className="h-[1.7px] bg-[#6BB4FF] absolute top-9 mt-2"
+                                />
+                                )}
+                        </button>
+                        );
+                    })}
                     </div>
                 </div>
             </div>

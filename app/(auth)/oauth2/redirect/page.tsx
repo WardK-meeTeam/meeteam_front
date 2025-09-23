@@ -10,15 +10,21 @@ function RedirectLogic() {
 
   useEffect(() => {
     const accessToken = searchParams.get("token");
+    const memberId = searchParams.get("memberId");
+    const type = searchParams.get("type");
+    // type은 login or register
 
-    if (accessToken) {
+    if (accessToken && memberId && type) {
       localStorage.setItem("accessToken", accessToken);
 
-      // To-Do
-      // 액세스 토큰 확인하고 이미 존재하는 사용자인지 확인해야함
-      // 이미 존재하는 사용자면 "계정이 이미 존재합니다." 이런문구 띄우면서 로그인  + 메인페이지 리다이렉트 진행
-
-      router.replace("/setting-after-signup");
+      // 이미 가입된 사용자면 메인 페이지로 보냄
+      if (type === "login") {
+        router.push("/");
+      }
+      // 회원가입 필요한 사용자면 회원가입 페이지로
+      else {
+        router.replace("/setting-after-signup");
+      }
     } else {
       alert("회원가입에 실패하였습니다.");
       router.replace("/signup");

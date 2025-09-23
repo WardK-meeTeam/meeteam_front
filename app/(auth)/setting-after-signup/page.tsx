@@ -94,35 +94,36 @@ function SettingAfterSignupForm() {
       : 0;
 
     // request 보낼 가입 데이터
+    // Email 가입이면 조건부로 email,password 넣어줌
     const registerRequest = {
-      age: age,
+      age,
       name: store.userName,
-      email: "",
-      password: "",
       gender: store.gender === "남성" ? "MALE" : "FEMALE",
       subCategories: store.field.map((f) => ({
         subcategory: f.field?.split("-")[1] ?? "",
       })),
       skills: store.skills.map((s) => ({ skillName: s })),
+      ...(signUpType === "email" && {
+        email: store.email ?? "",
+        password: store.password ?? "",
+      }),
     };
-
-    // email로 회원가입이면 이멜,패스워드 보냄
-    if (signUpType === "email") {
-      registerRequest.email = store.email ?? "";
-      registerRequest.password = store.password ?? "";
-    }
 
     // request body key값 request로 일치시킴
     const formData = new FormData();
     formData.append(
-      "request",
+      signUpType === "email" ? "request" : "memberInfo",
       new Blob([JSON.stringify(registerRequest)], { type: "application/json" }),
     );
 
     if (store.profileImg) {
       try {
         const file = await urlToFile(store.profileImg, "profileImg.png");
-        formData.append("file", file, file.name); // 파일명도 같이
+        formData.append(
+          signUpType === "email" ? "file" : "profileImage",
+          file,
+          file.name,
+        ); // 파일명도 같이
       } catch (e) {
         console.error("이미지 변환 실패:", e);
       }
@@ -130,17 +131,43 @@ function SettingAfterSignupForm() {
 
     setIsLoading(true);
     try {
-      // 성공 여부와 데이터 또는 에러메세지가 actionResult에 저장됨
-      const actionResult = await createAccount(formData);
-      setIsLoading(false);
+      // Oauth 회원가입일 때는 PUT 요청을 보내도록 함
 
-      if (actionResult.success) {
-        // router.push("/setting-after-signup-introduce");
-        // 일단 자기소개 없앤다고 가정하고 로그인 페이지로 바로 보냄
-        router.push("/signin");
-      } else {
-        alert(`회원가입 실패: ${actionResult.error?.message}`);
+      if (!signUpType) {
+        const API = process.env.NEXT_PUBLIC_API_BASE_URL;
+        const accessToken = localStorage.getItem("accessToken");
+        const response = await fetch(`${API}/api/members`, {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: formData,
+        });
+
+        if (response.ok) {
+          alert("가입되었습니다.");
+          router.push("/signin");
+        } else {
+          const errorData = await response.json();
+          alert(errorData.message);
+        }
       }
+
+      //
+      else {
+        // 일반 이메일 회원가입
+        // 성공 여부와 데이터 또는 에러메세지가 actionResult에 저장됨
+        const actionResult = await createAccount(formData);
+
+        if (actionResult.success) {
+          alert("가입되었습니다.");
+          router.push("/signin");
+        } else {
+          alert(`회원가입 실패: ${actionResult.error?.message}`);
+        }
+      }
+
+      setIsLoading(false);
     } catch (error) {
       alert(`예상치 못한 오류가 발생했습니다. 다시 시도해주세요. (${error})`);
     } finally {

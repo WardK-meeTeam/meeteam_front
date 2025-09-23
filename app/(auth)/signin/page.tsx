@@ -4,6 +4,7 @@ import Input from "@/components/Input";
 import MainButton from "@/components/MainButton";
 import SocialSignInButton from "@/components/SocialSignInButton";
 import { useUserStore } from "@/store/userStore";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -19,6 +20,10 @@ export default function Page() {
     email: "",
     password: "",
   });
+
+  const handleClickSignUp = (type: "google" | "github") => {
+    window.location.href = `${API}/oauth2/authorization/${type}`;
+  };
 
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const key = e.target.name as "email" | "password";
@@ -73,15 +78,14 @@ export default function Page() {
         <SocialSignInButton
           platform="google"
           text="Google로 로그인하기"
-          onClick={() => console.log("미완성")}
+          onClick={() => handleClickSignUp("google")}
         />
         <SocialSignInButton
           platform="github"
           text="Github로 로그인하기"
-          onClick={() => console.log("미완성")}
+          onClick={() => handleClickSignUp("github")}
         />
       </div>
-
       <span className="flex flex-row justify-center items-center w-full box-border">
         <div className="bg-mtm-light-gray h-px flex-1" />
         <span className="px-4 text-xs">or</span>
@@ -111,6 +115,16 @@ export default function Page() {
         </div>
         <MainButton buttonName={"로그인"} type="submit" disabled={false} />
       </form>
+      <div className="mt-10">
+        아직 meeTeam 계정이 없으신가요?
+        <Link
+          href={"/setting-after-signup?type=email"}
+          className="text-mtm-main-blue cursor-pointer"
+        >
+          {" "}
+          가입하기
+        </Link>
+      </div>
     </div>
   );
 }

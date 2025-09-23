@@ -12,7 +12,7 @@ import Input from "@/components/Input";
 import { PASSWORD_MIN_LENGTH } from "@/app/lib/constants";
 
 import { Suspense, useState } from "react";
-import { createAccount } from "../signup/createAccount";
+import { createAccount } from "../../../api/createAccount";
 
 import { baseSchema, emailSchema } from "@/types/auth";
 import { urlToFile } from "@/utils/urlToFile";
@@ -46,7 +46,6 @@ function SettingAfterSignupForm() {
         const data = await response.json();
 
         const exists: boolean = data.result.exsists;
-        console.log(exists);
         const message = data.result.message;
         setIsOkEmail(!exists);
         alert(message);
@@ -139,11 +138,10 @@ function SettingAfterSignupForm() {
     setIsLoading(true);
     try {
       // Oauth 회원가입일 때는 PUT 요청을 보내도록 함
-      console.log(registerRequest);
 
       if (!signUpType) {
         const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-        const accessToken = localStorage.getItem("accessToken");
+        const accessToken = localStorage.getItem("accessToken"); // 이거 가입용이라 끝나고 삭제해야 될거같음
         const response = await fetch(`${API}/api/members`, {
           method: "PUT",
           headers: {
@@ -153,8 +151,9 @@ function SettingAfterSignupForm() {
         });
 
         if (response.ok) {
+          // 가입 및 로그인 동시 진행
           alert("가입되었습니다.");
-          router.push("/signin");
+          router.push("/");
         } else {
           const errorData = await response.json();
           alert(errorData.message);

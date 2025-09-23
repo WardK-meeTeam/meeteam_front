@@ -12,6 +12,7 @@ import {
   ProjectApplyNotification,
   ProjectMyApplyNotification,
 } from "@/types/notification";
+import { fetchUser } from "@/api/user";
 
 type SSENotification =
   | ProjectApplyNotification
@@ -19,10 +20,9 @@ type SSENotification =
   | ProjectApplyDecision;
 
 export default function Navbar() {
-  const isLoggedIn = true;
-  const router = useRouter();
   const [search, setSearch] = useState("");
   const [name, setName] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const [showNotification, setShowNotification] = useState<boolean>(false);
   const [notifications, setNotifications] = useState<SSENotification[]>([]);
@@ -36,10 +36,31 @@ export default function Navbar() {
   }
 
   useEffect(() => {
-    const savedUser = localStorage.getItem("user-storage");
-    if (!savedUser) return;
-    setName(JSON.parse(savedUser).state.user.name);
-  }, []);
+    const onTokenChange = () => {
+      const token = localStorage.getItem("accessToken");
+      if (!token) return;
+      (async () => {
+        setLoading(true);
+        try {
+          const res = await fetchUser(); // 캐시 사용 중이면 no-store 옵션 권장
+          setName(res.result.name ?? null);
+        } finally {
+          setLoading(false);
+        }
+      })();
+    };
+
+    onTokenChange();
+
+    // 같은 탭에서의 갱신은 storage 이벤트가 안 떠서 커스텀 이벤트도 함께 사용
+    window.addEventListener("storage", onTokenChange);
+    window.addEventListener("accessToken-updated", onTokenChange);
+
+    return () => {
+      window.removeEventListener("storage", onTokenChange);
+      window.removeEventListener("accessToken-updated", onTokenChange);
+    };
+  }, []); // <-- [name] 의존성 제거
 
   useEffect(() => {
     const API = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -131,8 +152,10 @@ export default function Navbar() {
           </button>
         </form>
         <ul className="flex divide-x-1 divide-mtm-text-gray">
-          {isLoggedIn ? (
-            <li className="text-mtm-text-gray pl-2 min-w-50" onClick={() => {}}>
+          {loading ? (
+            "로딩중"
+          ) : name ? (
+            <li className="text-mtm-text-gray pl-2 min-w-50">
               <Link href={"/users"} className="font-bold">
                 {name ?? ""}님!
               </Link>
@@ -140,17 +163,8 @@ export default function Navbar() {
             </li>
           ) : (
             <Fragment>
-              <li
-                className="text-mtm-text-gray cursor-pointer px-2"
-                onClick={() => router.push("/signup")}
-              >
-                회원가입
-              </li>
-              <li
-                className="text-mtm-text-gray cursor-pointer px-2"
-                onClick={() => router.push("/signin")}
-              >
-                로그인
+              <li className="text-mtm-text-gray cursor-pointer px-2">
+                <Link href={"/signin"}>로그인</Link>
               </li>
             </Fragment>
           )}

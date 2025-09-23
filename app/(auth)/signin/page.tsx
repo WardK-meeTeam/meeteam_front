@@ -72,7 +72,7 @@ export default function Page() {
   };
 
   return (
-    <div className="w-[340px] m-auto box-border justify-start items-center flex flex-col flex-1 gap-8">
+    <div className="w-[340px] m-auto box-border justify-start items-center flex flex-col flex-1 gap-8 mt-20">
       <h1 className="text-2xl font-bold text-mtm-main-blue">meeTeam</h1>
       <div className="flex flex-col w-full justify-start items-center gap-3 ">
         <SocialSignInButton

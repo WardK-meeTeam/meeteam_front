@@ -134,6 +134,7 @@ function SettingAfterSignupForm() {
       // Oauth 회원가입일 때는 PUT 요청을 보내도록 함
 
       if (!signUpType) {
+        console.log("Oauth 회원가입 진행", formData);
         const API = process.env.NEXT_PUBLIC_API_BASE_URL;
         const accessToken = localStorage.getItem("accessToken");
         const response = await fetch(`${API}/api/members`, {
@@ -157,6 +158,7 @@ function SettingAfterSignupForm() {
       else {
         // 일반 이메일 회원가입
         // 성공 여부와 데이터 또는 에러메세지가 actionResult에 저장됨
+        console.log("일반 회원가입 진행", formData);
         const actionResult = await createAccount(formData);
 
         if (actionResult.success) {

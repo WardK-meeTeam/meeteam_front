@@ -160,6 +160,14 @@ export default function Page() {
             <div className=" font-bold">프로젝트 참여 수</div>
             <div className=" font-bold">{projectCount}개</div>
           </div>
+          {/*임시 로그아웃 */}
+          <Link
+            href={"/signin"}
+            className="text-red-400 cursor-pointer"
+            onClick={() => localStorage.removeItem("accessToken")}
+          >
+            로그아웃
+          </Link>
           {/* <div className="flex gap-x-3">
             <div className=" font-bold">리뷰 개수</div>
             <div className=" font-bold">{reviewCount}개</div>

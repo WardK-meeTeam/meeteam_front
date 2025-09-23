@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 import Bell from "@/public/images/Bell.svg";
 import { NotificationToast } from "../../../components/NotificationToast";

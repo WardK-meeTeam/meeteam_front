@@ -16,3 +16,32 @@
 .backface-hidden {
   backface-visibility: hidden;
 }
+
+@layer utilities {
+  @keyframes spinner-rotate {
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes spinner-dash {
+    0% {
+      stroke-dasharray: 1, 150;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: 90, 150;
+      stroke-dashoffset: -35;
+    }
+    100% {
+      stroke-dasharray: 90, 150;
+      stroke-dashoffset: -124;
+    }
+  }
+
+  .animate-spinner-rotate {
+    animation: spinner-rotate 2s linear infinite;
+  }
+
+  .animate-spinner-dash {
+    animation: spinner-dash 1.5s ease-in-out infinite;
+  }
+}

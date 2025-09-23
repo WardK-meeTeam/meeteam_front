@@ -62,7 +62,7 @@ function SettingAfterSignupForm() {
   // 회원가입 요청 보내는 작업
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!isOkEmai) {
+    if (signUpType && !isOkEmai) {
       alert("이메일 중복 확인 실시 바람");
       return;
     }

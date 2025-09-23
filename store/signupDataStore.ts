@@ -1,0 +1,69 @@
+import { create } from "zustand";
+import { recruitFieldItem } from "./projectGenerateStore";
+
+export interface userFieldItem extends Pick<recruitFieldItem, "id" | "field"> {}
+
+export interface SignUpState {
+  email: string | null;
+  password: string | null;
+  confirmPassword: string;
+  userName: string;
+  birthDate: string | null;
+  gender: "남성" | "여성";
+  field: userFieldItem[];
+  skills: string[];
+  profileImg: string | null;
+  introduction: string;
+
+  setEmail: (email: string | null) => void;
+  setPassword: (password: string | null) => void;
+  setConfirmPassword: (password: string) => void;
+  setUserName: (un: string) => void;
+  setBirthDate: (bd: string | null) => void;
+  setGender: (g: "남성" | "여성") => void;
+  setField: (f: userFieldItem[]) => void;
+  setSkills: (sk: string[]) => void;
+  setProfileImg: (img: string | null) => void;
+  setIntroduction: (intro: string) => void;
+  reset: () => void;
+}
+
+export const useSignUpStore = create<SignUpState>((set) => ({
+  email: null,
+  password: null,
+  confirmPassword: "",
+  userName: "",
+  birthDate: "",
+  gender: "남성",
+  field: [{ id: 0, field: null }],
+  skills: [],
+  profileImg: null,
+  introduction: "",
+
+  // setter 함수 모음
+  setEmail: (email) => set({ email }),
+  setPassword: (password) => set({ password }),
+  setConfirmPassword: (confirmPassword) => set({ confirmPassword }),
+  setUserName: (un) => set({ userName: un }),
+  setBirthDate: (bd) => set({ birthDate: bd }),
+  setGender: (g) => set({ gender: g }),
+  setField: (f) => set({ field: f }),
+  setSkills: (sk) => set({ skills: sk }),
+  setProfileImg: (img) => set({ profileImg: img }),
+  setIntroduction: (intro) => set({ introduction: intro }),
+
+  // reset 함수
+  reset: () =>
+    set({
+      email: null,
+      password: null,
+      confirmPassword: "",
+      userName: "",
+      birthDate: "",
+      gender: "남성",
+      field: [{ id: 0, field: null }],
+      skills: [],
+      profileImg: null,
+      introduction: "",
+    }),
+}));

@@ -23,11 +23,6 @@ const dummyCard = {
   ],
 };
 
-interface Skill {
-  skillName: string;
-  percent: number;
-}
-
 export default function TeamRecruitCardList() {
   return (
     <div className="h-full w-full">

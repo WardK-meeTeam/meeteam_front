@@ -4,36 +4,41 @@ import { useState } from "react";
 
 export default function NumberStepper({
   title,
-  initValue,
   min,
   max,
   warningMessage,
+  value,
+  onChange,
 }: {
   title: string;
-  initValue: number;
   min: number;
   max: number;
   warningMessage: string;
+  value: number;
+  onChange: (num: number) => void;
 }) {
-  const [number, setNumber] = useState(initValue);
   const [overNumber, setOverNumber] = useState(false);
 
   function isValid(value: number) {
     return value >= min && value <= max;
   }
 
-  function handleClickPlusButton() {
+  function handleClickPlusButton(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
     // + 버튼 이벤트 핸들러
-    if (number < max) {
-      setNumber((prev) => prev + 1);
+    if (value < max) {
+      onChange(value + 1);
+      setOverNumber(false);
     } else {
       setOverNumber(true);
     }
   }
-  function handleClickMinusButton() {
+  function handleClickMinusButton(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
     // - 버튼 이벤트 핸들러
-    if (number > min) {
-      setNumber((prev) => prev - 1);
+    if (value > min) {
+      onChange(value - 1);
+      setOverNumber(false);
     } else {
       setOverNumber(true);
     }
@@ -43,10 +48,10 @@ export default function NumberStepper({
     const value = e.target.value;
     const num = parseInt(value);
     if (!isNaN(num) && isValid(num)) {
-      setNumber(num);
+      onChange(num);
     }
     // 백스페이스로 값 지웠을 때 NaN이 되는 것을 방지해서 min으로 만듦
-    else if (value === "") setNumber(min);
+    else if (value === "") onChange(min);
     // 숫자가 min과 max 사이가 아닐 때 경고 메세지 띄워주기 -> 한 번 뜨면 안 사자리게 해놨음
     else setOverNumber(true);
   }
@@ -55,25 +60,26 @@ export default function NumberStepper({
       <b>{title}</b>
       <div className="flex items-center border-collapse">
         <button
+          type="button"
           onClick={handleClickMinusButton}
-          className="w-[40px] h-[40px] box-border border border-[#D9D9D9] border-r-0 flex justify-center items-center cursor-pointer"
+          className="w-[40px] h-[40px] box-border border border-mtm-light-gray border-r-0 flex justify-center items-center cursor-pointer"
         >
           -
         </button>
         <input
-          value={number}
+          value={value}
           onChange={handleInputNumberChange}
-          className="w-[40px] h-[40px] box-border border border-[#6BB4FF] text-center outline-0 bg-[#EDF6FF]"
+          className="w-[40px] h-[40px] box-border border border-mtm-main-blue text-center outline-0 bg-mtm-light-blue"
         />
         <button
           onClick={handleClickPlusButton}
-          className="w-[40px] h-[40px] box-border border border-[#D9D9D9] border-l-0 flex justify-center items-center cursor-pointer"
+          className="w-[40px] h-[40px] box-border border border-mtm-light-gray border-l-0 flex justify-center items-center cursor-pointer"
         >
           +
         </button>
       </div>
       <span
-        className={`text-[12px] text-[#6BB4FF] ${overNumber ? "" : "hidden"}`}
+        className={`text-[12px] text-mtm-main-blue ${overNumber ? "" : "hidden"}`}
       >
         {warningMessage}
       </span>

@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 interface Skill {
   skillName: string;
   percent: number;
@@ -29,10 +31,12 @@ export default function TeamRecruitCard({
       {/* 위칸 */}
       <div className="flex justify-start items-center p-5 gap-x-6">
         <div className="flex flex-col justify-center items-center gap-y-2">
-          <img
-            className="w-[63px] h-[63px] rounded-[50%]"
+          <Image
+            className="rounded-[50%]"
             src={`${profileImg}`}
             alt="profileImage"
+            width={63}
+            height={63}
           />
           <div className="text-[12px] font-bold">{name}</div>
         </div>

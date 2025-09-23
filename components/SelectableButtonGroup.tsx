@@ -1,46 +1,59 @@
 "use client";
 import ToggleButton from "@/components/ToggleButton";
-import { useEffect, useState } from "react";
 
+export type Option = string | { value: string; label: string };
 export default function SelectableButtonGroup({
   title,
+  errors,
   optionList,
+  value,
+  onChange = () => {},
+  onlySelectOne = false,
+  onChangeOne,
 }: {
   title: string;
-  optionList: string[];
+  errors?: string[];
+  optionList: Option[];
+  value: string[] | string;
+  onChange?: (selected: string[]) => void;
+  onChangeOne?: (selected: string) => void;
+  onlySelectOne?: boolean;
 }) {
-  const [selectedOption, setSelectedOption] = useState<string[]>([]);
-  const [options, setOptions] = useState<Record<string, boolean>>(
-    Object.fromEntries(optionList.map((opt) => [opt, false]))
-  );
-  // Object.fromEntries = 배열을 객체화 시켜줌
-  // partList에 있는 문자열들을 map을 통해서 객체의 Key로 넣고, Value는 false로 초기화함
-  // 따라서 useState로 선언한 options는 {"프론트" : false,"백" : false ....} 이런 형태로 초기화 됨
-
   function handleClickPartButton(part: string) {
-    setOptions((prev) => ({ ...prev, [part]: !prev[part] }));
+    if (onlySelectOne && onChangeOne) {
+      // 그룹 중에서 1개만 선택되어야 하기 떄문에 그냥 기존거 무시하고 자기만 들어가면 됨
+      onChangeOne(part);
+      return;
+    }
+    const isSelected = value.includes(part);
+    if (isSelected) {
+      onChange((value as string[]).filter((item) => item !== part));
+    } else {
+      onChange([...value, part]);
+    }
   }
-
-  useEffect(() => {
-    setSelectedOption(Object.keys(options).filter((part) => options[part]));
-  }, [options]); // part : true인 애들만 뽑아서 selected에 넣음 -> 전체를 다시 넣는거라 성능 최적화 고려하면 나중에 로직 다시 짜야하긴 할듯
-
-  // console.log("현재 선택된 옵션들 : ", selectedOption);
 
   return (
     <div className="flex flex-col gap-4">
-      <b>{title}</b>
-      <div className="grid grid-cols-3 w-[350px] gap-4">
-        {Object.keys(options).map((part) => (
-          <ToggleButton
-            key={part}
-            content={part}
-            width={101}
-            height={41}
-            isSelected={options[part]}
-            onClick={() => handleClickPartButton(part)}
-          />
-        ))}
+      <div className="flex flex-row gap-2 items-center">
+        <b>{title}</b>
+        <span className="text-red-500 text-xs">{errors ? errors : ""}</span>
+      </div>
+      <div className="flex flex-row flex-wrap w-full gap-3">
+        {optionList.map((option) => {
+          const optionValue =
+            typeof option === "string" ? option : option.value;
+          const optionLabel =
+            typeof option === "string" ? option : option.label;
+          return (
+            <ToggleButton
+              key={optionValue}
+              content={optionLabel}
+              isSelected={value.includes(optionValue)}
+              onClick={() => handleClickPartButton(optionValue)}
+            />
+          );
+        })}
       </div>
     </div>
   );

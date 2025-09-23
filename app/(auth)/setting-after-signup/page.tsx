@@ -1,121 +1,258 @@
 "use client";
-import { useState } from "react";
-import { LiaUploadSolid } from "react-icons/lia";
 
-export default function SettingAfterSignup() {
-  const [selectedPart, setSelectedPart] = useState<string[]>([]);
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
+import ImageUploader from "./components/ImageUploader";
+import BinaryOptionSelector from "@/components/BinaryOptionSelector";
+import TechSearch from "@/app/projects/create/components/TechSearch";
+import { useSignUpStore } from "@/store/signupDataStore";
+import DateSelector from "@/components/DateSelector";
+import MainButton from "@/components/MainButton";
+import Recruit from "@/app/projects/create/components/Recruit";
+import { useRouter, useSearchParams } from "next/navigation";
+import Input from "@/components/Input";
+import { PASSWORD_MIN_LENGTH } from "@/app/lib/constants";
 
-  const togglePart = (part: string) => {
-    setSelectedPart((prev) =>
-      prev.includes(part) ? prev.filter((p) => p !== part) : [...prev, part],
-    );
+import { Suspense, useState } from "react";
+import { createAccount } from "../signup/createAccount";
+
+import { baseSchema, emailSchema } from "@/types/auth";
+import { urlToFile } from "@/utils/urlToFile";
+
+function SettingAfterSignupForm() {
+  const store = useSignUpStore();
+  const router = useRouter();
+  const [errors, setErrors] = useState<Record<string, string[] | undefined>>(
+    {},
+  );
+  const [isLoading, setIsLoading] = useState<boolean>(false); // 버튼 연속 클릭 방지
+  const [isOkEmai, setIsOkEmail] = useState<boolean>(false); // 이메일 중복확인
+
+  // Oauth로그인 하면 type 없음
+  const searchParams = useSearchParams();
+  const signUpType = searchParams.get("type");
+
+  const handleCheckEmail = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    if (store.email === "") return;
+    const API = process.env.NEXT_PUBLIC_API_BASE_URL;
+    try {
+      const response = await fetch(
+        `${API}/api/auth/email?email=${store.email}`,
+        {
+          method: "POST",
+        },
+      );
+      if (response.ok) {
+        const data = await response.json();
+
+        const exists: boolean = data.result.exsists;
+        console.log(exists);
+        const message = data.result.message;
+        setIsOkEmail(!exists);
+        alert(message);
+      } else {
+        const errorData = await response.json();
+        alert(`${errorData.message}`);
+      }
+    } catch (error) {
+      alert(`알 수 없는 오류가 발생했습니다 (${error})`);
+    }
   };
 
-  const partGroups = [
-    ["디자이너", "프론트", "백엔드"],
-    ["PM", "APP", "WEB"],
-  ];
+  // 회원가입 요청 보내는 작업
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!isOkEmai) {
+      alert("이메일 중복 확인 실시 바람");
+      return;
+    }
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    // 요기는 Zod를 이용해서 Zustand에 있는 상태들이 올바른 형태인지 검증하는 작업
 
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+    // 일단 공통 폼이 올바른 입력값인지 확인
+    const baseResult = baseSchema.safeParse(store);
+    if (!baseResult.success) {
+      setErrors(baseResult.error.flatten().fieldErrors);
+      return;
+    }
+
+    // 만약 일반 이메일 회원가입이면 이메일,비번,비번확인까지 검증하도록 함
+    if (signUpType === "email") {
+      const result = emailSchema.safeParse(store);
+      if (!result.success) {
+        setErrors(result.error.flatten().fieldErrors);
+        return;
+      }
+    }
+
+    setErrors({});
+
+    // 생년월일을 나이로 바꿔줘야함
+    // 지금은 단순히 현재년도 - 태어난 년도 + 1임
+    const age = store.birthDate
+      ? new Date().getFullYear() - new Date(store.birthDate).getFullYear() + 1
+      : 0;
+
+    // request 보낼 가입 데이터
+    const registerRequest = {
+      age: age,
+      name: store.userName,
+      email: "",
+      password: "",
+      gender: store.gender === "남성" ? "MALE" : "FEMALE",
+      subCategories: store.field.map((f) => ({
+        subcategory: f.field?.split("-")[1] ?? "",
+      })),
+      skills: store.skills.map((s) => ({ skillName: s })),
+    };
+
+    // email로 회원가입이면 이멜,패스워드 보냄
+    if (signUpType === "email") {
+      registerRequest.email = store.email ?? "";
+      registerRequest.password = store.password ?? "";
+    }
+
+    // request body key값 request로 일치시킴
+    const formData = new FormData();
+    formData.append(
+      "request",
+      new Blob([JSON.stringify(registerRequest)], { type: "application/json" }),
+    );
+
+    if (store.profileImg) {
+      try {
+        const file = await urlToFile(store.profileImg, "profileImg.png");
+        formData.append("file", file, file.name); // 파일명도 같이
+      } catch (e) {
+        console.error("이미지 변환 실패:", e);
+      }
+    }
+
+    setIsLoading(true);
+    try {
+      // 성공 여부와 데이터 또는 에러메세지가 actionResult에 저장됨
+      const actionResult = await createAccount(formData);
+      setIsLoading(false);
+
+      if (actionResult.success) {
+        // router.push("/setting-after-signup-introduce");
+        // 일단 자기소개 없앤다고 가정하고 로그인 페이지로 바로 보냄
+        router.push("/signin");
+      } else {
+        alert(`회원가입 실패: ${actionResult.error?.message}`);
+      }
+    } catch (error) {
+      alert(`예상치 못한 오류가 발생했습니다. 다시 시도해주세요. (${error})`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <main className="">
-      <div className="border border-2 border-black flex flex-col justify-center items-center h-screen">
-        {/*logo*/}
-        <div>
-          <h1 className="text-[24px] text-[#6BB4FF] font-bold">Meeteam</h1>
-        </div>
-
-        {/*직무 선택*/}
-        <div className="flex flex-col justify-between items-start mt-10 w-[330px]">
-          <div className="flex flex-col justify-start items-start py-3">
-            <span className="text-[15px] font-semibold w-full">직무 선택</span>
-            <span className="text-[12px] font-normal text-[#757575] w-full">
-              중복 선택이 가능합니다.
-            </span>
-          </div>
-          {partGroups.map((group, idx) => (
-            <div
-              key={idx}
-              className="w-[100%] flex justify-between items-center py-2"
-            >
-              {group.map((part) => (
-                <button
-                  key={part}
-                  type="button"
-                  onClick={() => togglePart(part)}
-                  className={`w-[102px] h-[40px] border border-[0.91px] rounded-[25px] flex justify-center items-center text-[14px] cursor-pointer
-                                    ${
-                                      selectedPart.includes(part)
-                                        ? "bg-[rgba(128,191,255,0.14)] border-[#6BB4FF]"
-                                        : "border-[#D9D9D9]"
-                                    }
-                                    hover:bg-[rgba(128,191,255,0.14)] hover:border-[#6BB4FF]
-                                    `}
-                >
-                  {part}
-                </button>
-              ))}
-            </div>
-          ))}
-        </div>
-
-        {/*프로필 사진*/}
-        <div className="flex flex-col justify-between items-start mt-4 mb-6 w-[330px]">
-          <div className="flex flex-col justify-start items-start py-3">
-            <span className="text-[15px] font-semibold w-full">
-              프로필 사진
-            </span>
-            <span className="text-[12px] font-normal text-[#757575]">
-              10MB 이내의 이미지 파일을 업로드 해주세요.
-            </span>
-          </div>
-
-          <div className="flex justify-center items-center gap-x-7 py-3">
-            {/*프로필 이미지 박스*/}
-            <div className="w-[87px] h-[87px] border border-none rounded-[50%] bg-[#F8F8F8] overflow-hidden">
-              {previewImage ? (
-                <img
-                  src={previewImage}
-                  alt="프로필 이미지"
-                  className="w-full h-full object-cover"
+    <form className="min-h-screen flex flex-col" onSubmit={handleSubmit}>
+      <div className="w-[430px] m-auto justify-start flex flex-col flex-1 py-10 ">
+        <h1 className="text-2xl text-center font-bold text-mtm-main-blue mb-14">
+          meeTeam
+        </h1>
+        <b className="text-[26px] mb-10">기본정보</b>
+        <div className="flex flex-col gap-5">
+          {signUpType && (
+            <>
+              <div className="flex items-baseline-last">
+                <Input
+                  title="이메일"
+                  name="email"
+                  type="email"
+                  value={store.email || ""}
+                  onValueChange={store.setEmail}
+                  errors={errors.email}
+                  required
                 />
-              ) : (
-                <span className=""></span>
-              )}
-            </div>
-
-            {/*업로드 버튼*/}
-            <label className="w-[148px] h-[35px] border border-[#D9D9D9] rounded-[22px] flex justify-center items-center gap-x-1 cursor-pointer">
-              <LiaUploadSolid className="text-[12.63px]" />
-              <span className="text-[12.63px]">프로필 사진 업로드</span>
-              <input
-                type="file"
-                id="profileUpload"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="hidden"
+                <button
+                  type="button"
+                  className="rounded-xl py-3 px-2 
+                  border border-mtm-light-gray cursor-pointer text-mtm-text-gray ml-2"
+                  onClick={handleCheckEmail}
+                >
+                  중복 확인
+                </button>
+              </div>
+              <Input
+                title="비밀번호"
+                name="password"
+                type="password"
+                value={store.password || ""}
+                onValueChange={store.setPassword}
+                minLength={PASSWORD_MIN_LENGTH}
+                errors={errors.password}
+                required
               />
-            </label>
-          </div>
-        </div>
+              <Input
+                title="비밀번호 확인"
+                name="confirmPassword"
+                type="password"
+                value={store.confirmPassword || ""}
+                onValueChange={store.setConfirmPassword}
+                minLength={PASSWORD_MIN_LENGTH}
+                errors={errors.confirmPassword}
+                required
+              />
+            </>
+          )}
 
-        {/*확인버튼*/}
-        <button className="m-2 cursor-pointer w-[330px] h-[44px] border border-none rounded-[7.89px] bg-[#6BB4FF] flex justify-center items-center text-[12.63px] text-[#FFFFFF]">
-          확인
-        </button>
+          <Input
+            title="이름"
+            placeholder="홍길동"
+            value={store.userName}
+            onValueChange={store.setUserName}
+            errors={errors.userName}
+            required
+          />
+          <div className="flex flex-col gap-4">
+            <b>생년월일</b>
+            <DateSelector
+              value={store.birthDate}
+              onChange={store.setBirthDate}
+              errors={errors.birthDate}
+            />
+          </div>
+          <BinaryOptionSelector<"여성" | "남성">
+            title={"성별"}
+            option1={"여성"}
+            option2={"남성"}
+            value={store.gender}
+            onChange={store.setGender}
+          />
+          <Recruit
+            title={"분야"}
+            value={store.field}
+            onChange={store.setField}
+            errors={errors.field}
+          />
+          <div className="flex flex-col">
+            <span className="text-xs text-mtm-main-blue">*복수 선택 가능</span>
+            <TechSearch
+              title=""
+              value={store.skills}
+              onChange={store.setSkills}
+              errors={errors.skills}
+            />
+          </div>
+          <ImageUploader
+            value={store.profileImg}
+            onUploadImage={store.setProfileImg}
+          />
+        </div>
+        <MainButton type="submit" buttonName="가입하기" disabled={isLoading} />
       </div>
-    </main>
+    </form>
+  );
+}
+
+export default function SettingAfterSignup() {
+  return (
+    <Suspense>
+      <SettingAfterSignupForm />
+    </Suspense>
   );
 }

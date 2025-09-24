@@ -9,6 +9,8 @@ import {
   ProjectInfoItem,
   ProjectRecruitInfoItem,
 } from "@/types/projectInfo";
+import HalfPopupButton from "./components/ConnectGithubButton";
+import ConnectRepo from "./components/ConnectRepo";
 
 export default function ProjectPageClient({
   projectId,
@@ -82,6 +84,8 @@ export default function ProjectPageClient({
         <div className="sticky top-20 z-10 flex flex-col gap-3">
           <span className="text-[14px]">프로젝트를 함께할 사람들</span>
           <MemberList members={projectMembers} />
+          <HalfPopupButton />
+          <ConnectRepo projectId={projectId} />
         </div>
       </aside>
       <main className="max-w-[830px] flex flex-col gap-16">

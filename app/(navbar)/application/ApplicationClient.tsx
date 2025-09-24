@@ -13,6 +13,7 @@ interface ApplicationInfo {
   applicationId: number;
   applicantId: number;
   applicantName: string;
+  imageUrl: string | null;
   subCategoryName: string;
   age: number;
   gender: "MALE" | "FEMALE";
@@ -156,7 +157,7 @@ export default function ApplicationClient() {
             >
               <div className="w-[100px] h-[100px] rounded-full overflow-hidden">
                 <Image
-                  src={userImg}
+                  src={applicationInfo.imageUrl ?? userImg}
                   width={100}
                   height={100}
                   className="w-full h-full object-cover object-center"

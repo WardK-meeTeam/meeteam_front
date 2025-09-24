@@ -43,6 +43,11 @@ export const bigCategoryOptions: Option[] = [
   { value: "기타", label: "기타" },
 ];
 
+const sortOptions: Option[] = [
+  { value: "desc", label: "최신순" },
+  { value: "asc", label: "오래된순" },
+];
+
 // value값이 options에 있는 값인지 확인
 const validateValue = <T extends string>(options: Option[], value: string | undefined): T | undefined => {
   return value && options.map(opt => opt.value).includes(value) ? (value as T) : undefined;
@@ -75,7 +80,7 @@ export default async function ProjectsPage({ searchParams }: { searchParams: Pro
         platformOptions={platformOptions}
         bigCategoryOptions={bigCategoryOptions}
       />
-      <ProjectSortBar />
+      <ProjectSortBar sortOptions={sortOptions} />
       <ProjectList projects={projects}/>
     </main>
   );

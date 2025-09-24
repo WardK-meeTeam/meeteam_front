@@ -25,7 +25,7 @@ const dummyCard = {
   passionLevel: 99,
 };
 
-function ProjectList({projects}: {projects: any[]}) { //임시 타입 - 수정 필요
+export default function ProjectList({projects}: {projects: any[]}) { //임시 타입 - 수정 필요
   return (
       <>
         <div className="grid grid-cols-4 gap-0">
@@ -42,5 +42,3 @@ function ProjectList({projects}: {projects: any[]}) { //임시 타입 - 수정 �
       </>
     );
 }
-
-export default ProjectList;

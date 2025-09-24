@@ -13,7 +13,7 @@ interface TagSelectorProps {
   multiSelect?: boolean;
 }
 
-function TagSelector({ tagGroups, multiSelect = false }: TagSelectorProps) {
+export default function TagSelector({ tagGroups, multiSelect = false }: TagSelectorProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   
@@ -109,7 +109,7 @@ function TagSelector({ tagGroups, multiSelect = false }: TagSelectorProps) {
       {/* 그룹별 선택 가능 태그들 표시 */}
       {tagGroups.map((group) => (
         <div key={group.paramsKey} className="flex items-center mb-4">
-          <h3 className="w-20 text-base font-bold text-mtm-black">{group.title}</h3>
+          <h3 className="w-20 text-base font-bold text-black">{group.title}</h3>
           <div className="flex flex-wrap gap-2">
             {group.options.map((option) => {
               const selectedValues = getSelectedValuesForGroup(group.paramsKey);
@@ -123,7 +123,7 @@ function TagSelector({ tagGroups, multiSelect = false }: TagSelectorProps) {
                   onClick={() => handleTagClick(option.value, group.paramsKey)}
                   className={`mr-5 text-base font-medium cursor-pointer ${
                     isSelected
-                      ? 'text-mtm-black'
+                      ? 'text-black'
                       : 'text-mtm-text-gray'
                   }`}
                 >
@@ -159,5 +159,3 @@ function TagSelector({ tagGroups, multiSelect = false }: TagSelectorProps) {
     </div>
   );
 }
-
-export default TagSelector;

@@ -1,6 +1,6 @@
 import QuerySyncSelect from "@/app/(navbar)/projects/components/QuerySyncSelect";
 import TagSelector from "./TagSelector";
-import { Option } from "@/constants/projectOption";
+import { Option } from "@/constants/projectOptions";
 
 interface ProjectFilterBarProps {
   projectCategoryOptions: Option[];

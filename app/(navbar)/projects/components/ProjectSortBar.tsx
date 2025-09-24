@@ -1,14 +1,7 @@
-"use client";
-
 import QuerySyncSelect from "./QuerySyncSelect";
-import { Option } from "@/constants/projectOption";
+import { Option } from "@/constants/projectOptions";
 
-const sortOptions: Option[] = [
-  { value: "desc", label: "최신순" },
-  { value: "asc", label: "오래된순" },
-];
-
-export default function ProjectSortBar() {
+export default function ProjectSortBar({ sortOptions }: { sortOptions: Option[] }) {
   return (
     <div className="flex justify-between items-center mb-6">
       <div className="text-gray-500">

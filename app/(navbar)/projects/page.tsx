@@ -2,7 +2,7 @@ import ProjectFilterBar from "./components/ProjectFilterBar";
 import ProjectSortBar from "./components/ProjectSortBar";
 import ProjectList from "./components/ProjectList";
 import { ProjectSearchParams } from "@/types/projectInfo";
-import { projectCategoryOptions, recruitmentOptions, platformOptions, bigCategoryOptions } from "@/constants/projectOption";
+import { projectCategoryOptions, recruitmentOptions, platformOptions, bigCategoryOptions, sortOptions } from "@/constants/projectOptions";
 import { validateSearchParams } from "@/utils/validateSearchParams";
 
 async function fetchInitialProjects(searchParams: ProjectSearchParams) {
@@ -29,7 +29,7 @@ export default async function ProjectsPage({
         platformOptions={platformOptions}
         bigCategoryOptions={bigCategoryOptions}
       />
-      <ProjectSortBar />
+      <ProjectSortBar sortOptions={sortOptions} />
       <ProjectList projects={projects}/>
     </main>
   );

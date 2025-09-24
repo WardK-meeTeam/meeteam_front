@@ -36,3 +36,8 @@ export const bigCategoryOptions: Option[] = [
   { value: "기획", label: "기획" },
   { value: "기타", label: "기타" },
 ];
+
+export const sortOptions: Option[] = [
+  { value: "desc", label: "최신순" },
+  { value: "asc", label: "오래된순" },
+];

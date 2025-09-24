@@ -6,12 +6,12 @@ function validateValue<T extends string>(options: Option[], value: string | unde
   return value && options.map(opt => opt.value).includes(value) ? (value as T) : undefined;
 }
 
-export function validateSearchParams(params: ProjectSearchParams) {
+export function validateSearchParams(params: ProjectSearchParams): ProjectSearchParams {
   return {
     projectCategory: validateValue<ProjectCategory>(projectCategoryOptions, params.projectCategory),
     recruitment: validateValue<Recruitment>(recruitmentOptions, params.recruitment),
     platformCategory: validateValue<PlatformCategory>(platformOptions, params.platformCategory),
     bigCategory: validateValue<BigCategory>(bigCategoryOptions, params.bigCategory),
-    sort: ["desc", "asc"].includes(params.sort) ? params.sort : "desc"
+    sort: ["desc", "asc"].includes(params.sort || "desc") ? params.sort : "desc"
   };
 }

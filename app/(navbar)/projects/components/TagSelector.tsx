@@ -1,6 +1,6 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Option } from "../page";
+import { Option } from "@/constants/projectOption";
 
 interface TagGroup {
   title: string;

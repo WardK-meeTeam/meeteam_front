@@ -8,7 +8,7 @@ export interface ProjectSearchParams {
   recruitment?: Recruitment;
   platformCategory?: PlatformCategory;
   bigCategory?: BigCategory;
-  sort: 'desc' | 'asc';
+  sort?: 'desc' | 'asc';
 }
 
 export interface Member {

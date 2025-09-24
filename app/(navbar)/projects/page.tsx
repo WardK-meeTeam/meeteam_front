@@ -5,13 +5,19 @@ import { ProjectSearchParams } from "@/types/projectInfo";
 import { projectCategoryOptions, recruitmentOptions, platformOptions, bigCategoryOptions } from "@/constants/projectOption";
 import { validateSearchParams } from "@/utils/validateSearchParams";
 
+async function fetchInitialProjects(searchParams: ProjectSearchParams) {
+  console.log("api 요청", searchParams);
+  return [];
+}
+
 export default async function ProjectsPage({ 
   searchParams 
 }: { 
-  searchParams: ProjectSearchParams 
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }> 
 }) {
   // 처음 프로젝트 데이터 요청
-  const validatedParams = validateSearchParams(searchParams);
+  const params = await searchParams;
+  const validatedParams = validateSearchParams(params as ProjectSearchParams);
   const projects = await fetchInitialProjects(validatedParams);
   
   return (
@@ -24,12 +30,7 @@ export default async function ProjectsPage({
         bigCategoryOptions={bigCategoryOptions}
       />
       <ProjectSortBar />
-      <ProjectList />
+      <ProjectList projects={projects}/>
     </main>
   );
-}
-
-async function fetchInitialProjects(searchParams: ProjectSearchParams) {
-  console.log("api 요청", searchParams);
-  return [];
 }

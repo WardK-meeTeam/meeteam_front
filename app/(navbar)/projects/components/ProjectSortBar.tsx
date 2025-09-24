@@ -12,7 +12,6 @@ export default function ProjectSortBar({ sortOptions }: { sortOptions: Option[] 
           options={sortOptions}
           paramKey="sort"
           placeholder="정렬"
-          variant="listControl"
         />
       </div>
     </div>

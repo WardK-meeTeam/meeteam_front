@@ -1,4 +1,3 @@
-import CardList from "@/components/CardList";
 import ProjectFilterBar from "./components/ProjectFilterBar";
 import ProjectSortBar from "./components/ProjectSortBar";
 import ProjectList from "./components/ProjectList";

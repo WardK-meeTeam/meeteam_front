@@ -25,7 +25,7 @@ const dummyCard = {
   passionLevel: 99,
 };
 
-export default function ProjectList({projects}: {projects: any[]}) { //임시 타입 - 수정 필요
+export default function ProjectList() { // projects prop은 나중에 실제 데이터를 사용할 때 추가
   return (
       <>
         <div className="grid grid-cols-4 gap-0">

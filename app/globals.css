@@ -38,10 +38,10 @@
   }
 
   .animate-spinner-rotate {
-    animation: spinner-rotate 2s linear infinite;
+    animation: spinner-rotate 1.5s linear infinite;
   }
 
   .animate-spinner-dash {
-    animation: spinner-dash 1.5s ease-in-out infinite;
+    animation: spinner-dash 1s ease-in-out infinite;
   }
 }

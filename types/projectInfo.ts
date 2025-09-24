@@ -1,15 +1,13 @@
-export type ProjectCategory = "ENVIRONMENT" | "PET" | "HEALTHCARE" | "EDUCATION" | "AI_TECH" | "FASHION_BEAUTY" | "FINANCE_PRODUCTIVITY" | "ETC";
+export type ProjectCategory ="ENVIRONMENT" | "PET" | "HEALTHCARE" | "EDUCATION" | "AI_TECH" | "FASHION_BEAUTY" | "FINANCE_PRODUCTIVITY" | "ETC";
 export type Recruitment = "RECRUITING" | "CLOSED";
 export type PlatformCategory = "IOS" | "ANDROID" | "WEB";
 export type BigCategory = "기획" | "디자인" | "프론트엔드" | "백엔드" | "기타";
 
-export interface ProjectFilterOptions {
-  projectCategory: ProjectCategory;
-  recruitment: Recruitment;
-  platformCategory: PlatformCategory;
-  bigCategory: BigCategory;
-}
-export interface ProjectSearchParams extends ProjectFilterOptions {
+export interface ProjectSearchParams {
+  projectCategory?: ProjectCategory;
+  recruitment?: Recruitment;
+  platformCategory?: PlatformCategory;
+  bigCategory?: BigCategory;
   sort: 'desc' | 'asc';
 }
 

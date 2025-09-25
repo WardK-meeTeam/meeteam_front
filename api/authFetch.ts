@@ -16,6 +16,7 @@ async function refreshAccessToken(): Promise<string | null> {
     if (!response.ok) {
       //리프레시 토큰 만료 = 세션 아웃  -> 다시 로그인 시키게 해야함
       console.log("세션이 만료되었습니다. 로그인 후 시도하세요");
+      return null;
     }
 
     const data = await response.json();

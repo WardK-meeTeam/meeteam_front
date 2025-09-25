@@ -11,6 +11,7 @@ import BinaryOptionSelector from "@/components/BinaryOptionSelector";
 import { projectApplySchema } from "@/types/projectApply";
 import { useRouter, useSearchParams } from "next/navigation";
 import { convertSubCategory } from "@/utils/subCategoryMap";
+import { authFetch } from "@/api/authFetch";
 
 interface ApplyFormData {
   introduction: string;
@@ -96,17 +97,12 @@ export default function ProjectApplyClient({
     const urlEncodedData = new URLSearchParams(dataForApi);
 
     const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-    const accessToken = localStorage.getItem("accessToken");
-    if (!accessToken) {
-      alert("로그인이 필요합니다!");
-      return;
-    }
 
     setIsLoading(true);
     try {
-      const response = await fetch(`${API}/api/projects-application`, {
+      const response = await authFetch(`${API}/api/projects-application`, {
         method: "POST",
-        headers: { Authorization: `Bearer ${accessToken}` },
+
         body: urlEncodedData,
       });
 

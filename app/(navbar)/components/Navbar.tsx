@@ -118,12 +118,9 @@ export default function Navbar() {
         >
           포트폴리오
         </h2>
-        <h2
-          className="font-semibold cursor-pointer"
-          onClick={() => alert("플젝 이동")}
-        >
+        <Link href={"/projects"} className='font-semibold cursor-pointer"'>
           프로젝트
-        </h2>
+        </Link>
       </div>
       <div className="flex gap-5 items-center">
         <form

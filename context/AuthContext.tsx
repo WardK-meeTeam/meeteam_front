@@ -25,13 +25,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // localStorage는 브라우저에만 존재하는데, useEffect 자체가 클라이언트에서만 실행되니까 localStorage를 useEffect안에 넣으면 됨
   useEffect(() => {
-    // 3번의 확인을 헤야함
-    // 1. 로컬 스토리지에 accessToken이 존재하는지
-    // 2. 해당 accessToken의 유효기간이 만료되지 않았는지
-    // 3. refresh 토큰이 만료되지 않았는지
-
     const checkUserData = async () => {
       // 먼저 액세스 토큰이 있으면 그 토큰 기반으로 유저 데이터를 다시 불러옴
       try {

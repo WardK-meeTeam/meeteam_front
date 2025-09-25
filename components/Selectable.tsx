@@ -8,11 +8,15 @@ export default function Selectable({
   disabled = false,
   value,
   onChangeOption,
+  placeholder = "선택하세요",
+  variant = "default",
 }: {
   options: string[];
   disabled?: boolean;
   value?: string | null;
   onChangeOption: (item: string) => void;
+  placeholder?: string;
+  variant?: "default" | "listControl";
 }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -36,7 +40,7 @@ export default function Selectable({
   }, [open]);
 
   return (
-    <div ref={rootRef} className="relative inline-block flex-1">
+    <div ref={rootRef} className="inline-block relative flex-1">
       <button
         type="button"
         onClick={() => setOpen(true)}
@@ -44,13 +48,14 @@ export default function Selectable({
         className={`
           border rounded-xl text-[14px] p-3
           w-full flex items-center justify-between gap-2
-          ${disabled ? "border-gray-200" : "hover:border-mtm-main-blue border-mtm-light-gray "}
+          ${disabled ? "border-gray-200" : "hover:border-mtm-main-blue border-mtm-light-gray"}
+          ${variant === 'listControl' ? '!rounded !text-base !px-3 !py-2 !gap-3' : ''}
           transition-colors duration-500 ease-in-out
-          bg-white 
+          bg-white
         `}
       >
-        <span className={`${disabled ? "text-gray-300" : "text-gray-700"}`}>
-          {value ?? "선택하세요"}
+        <span className={`leading-none ${disabled ? "text-gray-300" : "text-gray-700"}`}>
+          {value ?? placeholder}
         </span>
         {/* 아래 화살표 아이콘 */}
         {disabled ? (
@@ -67,14 +72,14 @@ export default function Selectable({
       </button>
       {open && (
         <ul
-          className="
-          w-full
+          className={`
+            w-full
             absolute left-0
             max-h-48 overflow-auto
             rounded-xl border-none bg-white shadow-[0_4px_22px_rgba(0,0,0,0.15)]
             p-1 z-50
-
-          "
+            ${variant === 'listControl' ? '!rounded !text-base':''}
+          `}
         >
           {/* 여기 키도 수정 한번 해야함 */}
           {options.map((item) => (

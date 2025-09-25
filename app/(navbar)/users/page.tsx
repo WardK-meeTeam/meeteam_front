@@ -142,13 +142,9 @@ export default function Page() {
             <div className=" font-bold">{projectCount}개</div>
           </div>
           {/*임시 로그아웃 */}
-          <Link
-            href={"/signin"}
-            className="text-red-400 cursor-pointer"
-            onClick={logout}
-          >
+          <button className="text-red-400 cursor-pointer" onClick={logout}>
             로그아웃
-          </Link>
+          </button>
           {/* <div className="flex gap-x-3">
             <div className=" font-bold">리뷰 개수</div>
             <div className=" font-bold">{reviewCount}개</div>

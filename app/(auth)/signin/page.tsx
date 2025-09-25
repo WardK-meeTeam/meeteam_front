@@ -1,7 +1,7 @@
 "use client";
 
 import { loginWithEmail } from "@/api/auth";
-import { fetchUser } from "@/api/user";
+import { getUserProfile } from "@/api/user";
 import Input from "@/components/Input";
 import MainButton from "@/components/MainButton";
 import SocialSignInButton from "@/components/SocialSignInButton";
@@ -48,7 +48,7 @@ export default function Page() {
 
       // 2단계는 유저정보 가져오기
       //로그인이 정상적으로 되었다면 유저정보 가져오는 API 호출
-      const user: UserProfile = await fetchUser();
+      const user: UserProfile = await getUserProfile();
 
       if (user) {
         setUser(user);

@@ -15,7 +15,7 @@ async function refreshAccessToken(): Promise<string | null> {
 
     if (!response.ok) {
       //리프레시 토큰 만료 = 세션 아웃  -> 다시 로그인 시키게 해야함
-      alert("세션이 만료되었습니다. 로그인 후 시도하세요");
+      console.log("세션이 만료되었습니다. 로그인 후 시도하세요");
     }
 
     const data = await response.json();
@@ -41,7 +41,6 @@ export const authFetch = async (
 
   const headers = {
     ...options.headers,
-    "Content-Type": "application/json",
     Authorization: `Bearer ${accessToken}`,
   };
 
@@ -65,7 +64,7 @@ export const authFetch = async (
       // 리프레시 토큰으로 액세스 토큰 발급이 실패함 -> 리프레시 토큰도 만료되었다는 뜻
       // 로그아웃 시킴
       localStorage.removeItem("accessToken");
-      alert("세션이 만료되었습니다. 로그인 후 시도하세요?");
+      alert("세션이 만료되었습니다. 로그인 후 시도하세요");
       window.location.href = "/signin";
     }
   }

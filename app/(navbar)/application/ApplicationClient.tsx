@@ -8,6 +8,7 @@ import userImg from "@/public/images/userImg1.png";
 import { useEffect, useState } from "react";
 import { weekDayEngToKr } from "@/utils/weekDayEngToKr";
 import Link from "next/link";
+import { authFetch } from "@/api/authFetch";
 
 interface ApplicationInfo {
   applicationId: number;
@@ -37,21 +38,14 @@ export default function ApplicationClient() {
   const [submitting, setSubmitting] = useState(false);
 
   const fetchApplicationInfo = async () => {
-    const accessToken = localStorage.getItem("accessToken");
     if (!applicationId || !projectId) {
       alert("잘못된 접근입니다.");
       return;
     }
 
-    if (!accessToken) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
-
     try {
-      const response = await fetch(
+      const response = await authFetch(
         `${API}/api/projects-application/${projectId}/${applicationId}`,
-        { headers: { Authorization: `Bearer ${accessToken}` } },
       );
 
       if (response.ok) {
@@ -75,25 +69,22 @@ export default function ApplicationClient() {
   const handleApprove = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    const accessToken = localStorage.getItem("accessToken");
-    if (!accessToken) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
     if (submitting) return;
     setSubmitting(true);
     try {
-      const response = await fetch(`${API}/api/projects-application/decide`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
+      const response = await authFetch(
+        `${API}/api/projects-application/decide`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            applicationId: applicationId,
+            decision: "ACCEPTED",
+          }),
         },
-        body: JSON.stringify({
-          applicationId: applicationId,
-          decision: "ACCEPTED",
-        }),
-      });
+      );
 
       if (response.ok) {
         alert("승인되었습니다.");
@@ -112,25 +103,22 @@ export default function ApplicationClient() {
   const handleReject = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    const accessToken = localStorage.getItem("accessToken");
-    if (!accessToken) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
     if (submitting) return;
     setSubmitting(true);
     try {
-      const response = await fetch(`${API}/api/projects-application/decide`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
+      const response = await authFetch(
+        `${API}/api/projects-application/decide`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            applicationId: applicationId,
+            decision: "REJECTED",
+          }),
         },
-        body: JSON.stringify({
-          applicationId: applicationId,
-          decision: "REJECTED",
-        }),
-      });
+      );
 
       if (response.ok) {
         alert("거절하였습니다.");

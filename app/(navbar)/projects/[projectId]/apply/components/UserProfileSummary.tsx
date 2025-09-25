@@ -1,21 +1,13 @@
 "use client";
 
-import { useUserStore } from "@/store/userStore";
+import { useAuth } from "@/context/AuthContext";
 import { Fragment, useEffect } from "react";
 
 export default function UserProfileSummary() {
-  const { user, isLoading, error, fetchUser } = useUserStore();
-
-  useEffect(() => {
-    fetchUser();
-  }, [fetchUser]);
+  const { user, isLoading } = useAuth();
 
   if (isLoading) {
     return <div>로딩중...</div>;
-  }
-
-  if (error) {
-    return <div>에러 : {error}</div>;
   }
 
   return (

@@ -1,9 +1,12 @@
 "use client";
 
+import { loginWithEmail } from "@/api/auth";
+import { fetchUser } from "@/api/user";
 import Input from "@/components/Input";
 import MainButton from "@/components/MainButton";
 import SocialSignInButton from "@/components/SocialSignInButton";
-import { useUserStore } from "@/store/userStore";
+import { useAuth } from "@/context/AuthContext";
+import { UserProfile } from "@/types/userProfile";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -12,6 +15,7 @@ const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export default function Page() {
   const router = useRouter();
+  const { setUser } = useAuth();
 
   const [loginFormData, setLoginFormData] = useState<{
     email: string;
@@ -37,37 +41,24 @@ export default function Page() {
     if (loginFormData.email === "" || loginFormData.password === "") return;
 
     try {
-      const response = await fetch(`${API}/api/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(loginFormData),
-      });
+      // 1단계는 로그인 API 호출
+      const { userId, accessToken } = await loginWithEmail(loginFormData);
+      console.log(userId, "번 유저로 로그인하였습니다.");
+      localStorage.setItem("accessToken", accessToken);
 
-      // 성공/실패 분기
-      if (response.ok) {
-        const data = await response.json();
-        const userId = data.result.memberId;
-        if (!userId) console.log("userId 조회 실패");
-        const receivedAcessToken = response.headers
-          .get("Authorization")
-          ?.slice(7); // Bearer 토큰 이런식으로 와서 앞에 7자리 자르고 액세스 토큰만 저장
+      // 2단계는 유저정보 가져오기
+      //로그인이 정상적으로 되었다면 유저정보 가져오는 API 호출
+      const user: UserProfile = await fetchUser();
 
-        // 혹시 몰라서 액세스 토큰 못받았을 때도 토스트 메세지 띄워줌
-        if (!receivedAcessToken) throw "토큰 저장에 실패했습니다.";
-
-        // 토큰 받아왔으면 localStorage에 넣어주자
-        localStorage.setItem("accessToken", receivedAcessToken);
-
-        //내 정보 불러오가
-        await useUserStore.getState().fetchUser();
-
-        router.push("/"); // 토큰 저장했으면 메인화면 이동까지
+      if (user) {
+        setUser(user);
+        router.push("/");
       } else {
-        const errorData = await response.json();
-        throw errorData.message;
+        throw new Error("사용자 정보를 가져오는 데 실패했습니다.");
       }
     } catch (error) {
-      alert(`${error}`);
+      localStorage.removeItem("accessToken");
+      alert(error);
     }
   };
 

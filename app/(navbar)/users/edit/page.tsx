@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { profileEditSchema } from "@/types/profileEdit";
 import { useAuth } from "@/context/AuthContext";
 import { getUserProfile } from "@/api/user";
+import { authFetch } from "@/api/authFetch";
 
 export default function Page() {
   const { user, isLoading, setUser } = useAuth();
@@ -94,13 +95,10 @@ export default function Page() {
 
     setSubmitting(true);
     const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-    const accessToken = localStorage.getItem("accessToken");
+
     try {
-      const response = await fetch(`${API}/api/members`, {
+      const response = await authFetch(`${API}/api/members`, {
         method: "PUT",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
         body: formData,
       });
 

@@ -1,42 +1,25 @@
 "use client";
 
 import ToggleSwitchButton from "@/components/ToggleSwitchButton";
-import { useState, useEffect } from "react";
 import Image from "next/image";
 import ReviewBox from "./components/ReviewBox";
 import ProjectBox from "./components/ProjectBox";
-import { UserProfile } from "@/types/userProfile";
 import Link from "next/link";
 import * as simpleIcons from "simple-icons";
 import type { SimpleIcon } from "simple-icons";
 import { techStackOptions } from "@/mocks/techs";
-import { fetchUser } from "@/api/user";
 import ModifyButton from "../projects/[projectId]/apply/components/ModifyButton";
 import ProfileDefaultImg from "@/public/images/userImg2.png";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Page() {
-  const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { user, isLoading, logout } = useAuth();
 
-  useEffect(() => {
-    const getData = async () => {
-      setLoading(true);
-      try {
-        const response = await fetchUser();
-        setProfile(response.result);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getData();
-  }, []);
-
-  if (loading) {
+  if (isLoading) {
     return <div>로딩중...</div>;
   }
 
-  if (!profile) {
+  if (!user) {
     return <div>조회된 정보가 없습니다.</div>;
   }
 
@@ -54,9 +37,7 @@ export default function Page() {
     // reviewList,
     projectList,
     profileImageUrl,
-  } = profile;
-
-  console.log(profileImageUrl);
+  } = user;
 
   const newSkills = skills.map((sk) => sk.skill);
   const ICONS = simpleIcons as unknown as Record<string, SimpleIcon>;
@@ -164,7 +145,7 @@ export default function Page() {
           <Link
             href={"/signin"}
             className="text-red-400 cursor-pointer"
-            onClick={() => localStorage.removeItem("accessToken")}
+            onClick={logout}
           >
             로그아웃
           </Link>

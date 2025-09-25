@@ -58,7 +58,11 @@ export default function Page() {
       }
     } catch (error) {
       localStorage.removeItem("accessToken");
-      alert(error);
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert("로그인에 실패했습니다. 다시 시도해주세요.");
+      }
     }
   };
 

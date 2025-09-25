@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/context/AuthContext";
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 
 export default function UserProfileSummary() {
   const { user, isLoading } = useAuth();

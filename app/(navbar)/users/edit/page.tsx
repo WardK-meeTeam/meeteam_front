@@ -1,9 +1,7 @@
 "use client";
 
-import { fetchUser } from "@/api/user";
 import Recruit from "@/app/(navbar)/projects/create/components/Recruit";
 import { userFieldItem } from "@/store/signupDataStore";
-import { UserProfile } from "@/types/userProfile";
 import { useEffect, useState } from "react";
 import KeyValueRow from "./components/KeyValueRow";
 import TechSearch from "@/app/(navbar)/projects/create/components/TechSearch";
@@ -15,54 +13,47 @@ import { urlToFile } from "@/utils/urlToFile";
 import ImageUploader from "@/app/(auth)/setting-after-signup/components/ImageUploader";
 import { useRouter } from "next/navigation";
 import { profileEditSchema } from "@/types/profileEdit";
+import { useAuth } from "@/context/AuthContext";
+import { getUserProfile } from "@/api/user";
 
 export default function Page() {
-  const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { user, isLoading, setUser } = useAuth();
+  const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string[] | undefined>>(
     {},
   );
-  const router = useRouter();
 
+  // user 데이터에 의존하는 state들은 null 또는 기본값으로 초기화
   const [newFields, setNewFields] = useState<userFieldItem[] | null>(null);
   const [newSkills, setNewSkills] = useState<string[] | null>(null);
   const [newParticipation, setNewParticipation] = useState<boolean>(false);
   const [newIntroduce, setNewIntroduce] = useState<string | null>(null);
   const [newImage, setNewImage] = useState<string | null>(null);
 
+  // 2. useEffect를 사용해서 user 정보가 로드되면 state를 업데이트 함
   useEffect(() => {
-    const getData = async () => {
-      setLoading(true);
-      try {
-        const response = await fetchUser();
-        const user: UserProfile = response.result;
-        setProfile(user);
-
-        // 현재 화면에 기존 내정보 띄워주는 용도 (수정할 수 있는 값들만 해당 페이지에서 새로 State로 선언)
-        const newCategories = user.categories.map((ct, idx) => ({
+    if (user) {
+      setNewFields(
+        user.categories.map((ct, idx) => ({
           id: idx,
           field: `${ct.bigCategory}-${ct.smallCategory}`,
-        }));
-        const newSk = user.skills.map((sk) => sk.skill);
-        setNewFields(newCategories);
-        setNewSkills(newSk);
-        setNewParticipation(user.isParticipating);
-        setNewIntroduce(user.introduce);
-        setNewImage(user.profileImageUrl);
-      } finally {
-        setLoading(false);
-      }
-    };
+        })),
+      );
+      setNewSkills(user.skills.map((sk) => sk.skill));
+      setNewParticipation(user.isParticipating);
+      setNewIntroduce(user.introduce);
+      setNewImage(user.profileImageUrl);
+    }
+  }, [user]); // user 객체가 변경될 때 이 effect가 실행됩니다.
 
-    getData();
-  }, []);
+  // 3. 조건부 리턴은 모든 훅이 호출된 이후에 위치합니다.
+  if (isLoading) return <div>로딩중...</div>;
+  if (!user) return <div>유저정보 조회 실패</div>;
 
   // 회원가입 요청 보내는 작업
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    // 요기는 Zod를 이용해서 Zustand에 있는 상태들이 올바른 형태인지 검증하는 작업
 
     const result = profileEditSchema.safeParse({
       newFields: newFields,
@@ -75,28 +66,27 @@ export default function Page() {
 
     setErrors({});
 
-    // request 보낼 가입 데이터
     const registerRequest = {
-      age: age,
-      name: name,
-      gender: gender,
+      age: user.age,
+      name: user.name,
+      gender: user.gender,
       subCategories: newFields!.map((f) => f.field?.split("-")[1] ?? ""),
       skills: newSkills,
       isParticipating: newParticipation,
       introduction: newIntroduce,
     };
 
-    // request body로 넣을 form Data 만들기
     const formData = new FormData();
     formData.append(
       "memberInfo",
       new Blob([JSON.stringify(registerRequest)], { type: "application/json" }),
     );
 
-    if (newImage) {
+    if (newImage && newImage !== user.profileImageUrl) {
+      // 이미지가 변경되었을 때만 포함
       try {
         const file = await urlToFile(newImage, "profileImg.png");
-        formData.append("profileImage", file, file.name); // 파일명도 같이
+        formData.append("profileImage", file, file.name);
       } catch (e) {
         console.error("이미지 변환 실패:", e);
       }
@@ -115,10 +105,11 @@ export default function Page() {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        console.log("성공", data);
         alert("프로필을 수정하였습니다.");
-        router.back();
+
+        const updatedUser = await getUserProfile(); // 업데이트 된 사용자 정보를 Context에도 반영시켜줌
+        if (updatedUser) setUser(updatedUser);
+        router.push("/users"); // 다시 마이페이지로 돌아감
       } else {
         const errorData = await response.json();
         alert(errorData.message);
@@ -130,17 +121,10 @@ export default function Page() {
     }
   };
 
-  if (loading) {
-    return <div>로딩중...</div>;
-  }
-
-  if (!profile) {
-    return <div>조회된 정보가 없습니다.</div>;
-  }
-  const { name, age, gender, email } = profile;
+  const { name, age, gender, email } = user;
   return (
     <form
-      className="flex flex-col gap-16 mx-auto min-w-2xl"
+      className="flex flex-col gap-16 mx-auto min-w-2xl pb-20"
       onSubmit={handleSubmit}
     >
       <h1 className="font-extrabold text-4xl">정보 수정</h1>

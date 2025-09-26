@@ -1,11 +1,12 @@
 // refresh 토큰과 access 토큰 검증 작업을 한번에 진행해줌
 // 토큰이 필요한 API호출은 앞으로 무조건 이 함수를 통해서 해주기를 바람!
+import Cookies from 'js-cookie';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // 먼저 쿠키에 저장된 리프레시 토큰으로 액세스 토큰 가져오는 함수 정의
 
-async function refreshAccessToken(): Promise<string | null> {
+export async function refreshAccessToken(): Promise<string | null> {
   try {
     const response = await fetch(`${API_BASE_URL}/api/auth/refresh`, {
       method: "POST",
@@ -23,7 +24,13 @@ async function refreshAccessToken(): Promise<string | null> {
     const newAccessToken = data.result; // 새 액세스 토큰 받음
 
     console.log(data); // 테스트용
-    localStorage.setItem("accessToken", newAccessToken);
+    if(typeof window !== 'undefined') localStorage.setItem("accessToken", newAccessToken);
+    // 쿠키에도 저장
+    Cookies.set("accessToken", newAccessToken, { 
+      expires: 1, // 1일
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production'
+    });
 
     return newAccessToken;
   } catch (error) {

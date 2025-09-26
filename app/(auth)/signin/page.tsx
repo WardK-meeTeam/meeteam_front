@@ -1,4 +1,5 @@
 "use client";
+import Cookies from 'js-cookie';
 
 import { loginWithEmail } from "@/api/auth";
 import { getUserProfile } from "@/api/user";
@@ -45,6 +46,12 @@ export default function Page() {
       const { userId, accessToken } = await loginWithEmail(loginFormData);
       console.log(userId, "번 유저로 로그인하였습니다.");
       localStorage.setItem("accessToken", accessToken);
+      // 쿠키에 저장
+      Cookies.set("accessToken", accessToken, { 
+        expires: 1, // 1일
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production'
+      });
 
       // 2단계는 유저정보 가져오기
       //로그인이 정상적으로 되었다면 유저정보 가져오는 API 호출
@@ -71,7 +78,7 @@ export default function Page() {
       <Link href={"/"}>
         <h1 className="text-2xl font-bold text-mtm-main-blue">meeTeam</h1>
       </Link>
-      <div className="flex flex-col w-full justify-start items-center gap-3 ">
+      <div className="flex flex-col gap-3 justify-start items-center w-full">
         <SocialSignInButton
           platform="google"
           text="Google로 로그인하기"
@@ -83,10 +90,10 @@ export default function Page() {
           onClick={() => handleClickSignUp("github")}
         />
       </div>
-      <span className="flex flex-row justify-center items-center w-full box-border">
-        <div className="bg-mtm-light-gray h-px flex-1" />
+      <span className="box-border flex flex-row justify-center items-center w-full">
+        <div className="flex-1 h-px bg-mtm-light-gray" />
         <span className="px-4 text-xs">or</span>
-        <div className="bg-mtm-light-gray h-px flex-1" />
+        <div className="flex-1 h-px bg-mtm-light-gray" />
       </span>
       <form className="flex flex-col gap-3 w-full" onSubmit={handleLogin}>
         <div className="flex flex-col">
@@ -116,7 +123,7 @@ export default function Page() {
         아직 meeTeam 계정이 없으신가요?
         <Link
           href={"/setting-after-signup?type=email"}
-          className="text-mtm-main-blue cursor-pointer"
+          className="cursor-pointer text-mtm-main-blue"
         >
           {" "}
           가입하기

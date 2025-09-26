@@ -56,7 +56,7 @@ export default function Card({
   passionLevel,
 }: CardProps) {
   return (
-    <div className="m-3 w-[305px] h-[415px] [perspective: 1000px] group">
+    <div className="m-3 w-[305px] h-[415px] [perspective: 1000px] group cursor-pointer">
       {/*카드 전체 회전용 wrapper*/}
       <div className="relative w-full h-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
         {/*카드 앞면*/}
@@ -69,7 +69,7 @@ export default function Card({
           >
             {/*위쪽*/}
             <div>
-              <div className="flex items-center justify-between mx-6 mt-6">
+              <div className="flex justify-between items-center mx-6 mt-6">
                 <div
                   className="w-[104px] h-[25px]  border-none rounded-[16px] text-[14px] font-semibold text-[#EE7366] flex justify-center items-center"
                   style={{
@@ -82,7 +82,7 @@ export default function Card({
                 <div className="text-[14px] font-normal text-white">{date}</div>
               </div>
 
-              <div className="flex items-center justify-start gap-x-2 px-6 mt-4">
+              <div className="flex gap-x-2 justify-start items-center px-6 mt-4">
                 <div className="flex gap-x-1">
                   {[1, 2, 3].map((tool, idx) => (
                     <Image
@@ -102,7 +102,7 @@ export default function Card({
             </div>
 
             {/*아래쪽*/}
-            <div className="m-5 flex flex-col items-center justify-center">
+            <div className="flex flex-col justify-center items-center m-5">
               <div className="w-[212px] text-[20px] font-bold text-white text-center leading-tight break-words">
                 {title || "스마트 호흡 트레커를 통한 천식 모니터링 앱"}
               </div>
@@ -111,7 +111,7 @@ export default function Card({
                 <div className="font-normal">{leader || "김도윤"}</div>
               </div>
               <div>
-                <div className="flex justify-end items-center gap-x-1 text-white mb-2">
+                <div className="flex gap-x-1 justify-end items-center mb-2 text-white">
                   <div className="text-[14px] font-medium ">
                     {progress || 70}%
                   </div>
@@ -167,12 +167,12 @@ export default function Card({
               </div>
             </div>
 
-            <div className="flex flex-col my-3 gap-y-2">
-              <div className="flex justify-center items-center gap-x-2">
+            <div className="flex flex-col gap-y-2 my-3">
+              <div className="flex gap-x-2 justify-center items-center">
                 {userImg.slice(0, 4).map((img, idx) => (
                   <Image
                     key={idx}
-                    className="rounded-full object-cover"
+                    className="object-cover rounded-full"
                     src={img}
                     alt={`user-${idx}`}
                     width={56}
@@ -180,11 +180,11 @@ export default function Card({
                   />
                 ))}
               </div>
-              <div className="flex justify-center items-center gap-x-2">
+              <div className="flex gap-x-2 justify-center items-center">
                 {userImg.slice(4, 7).map((img, idx) => (
                   <Image
                     key={idx}
-                    className="rounded-full object-cover"
+                    className="object-cover rounded-full"
                     src={img}
                     alt={`user-${idx}`}
                     width={56}

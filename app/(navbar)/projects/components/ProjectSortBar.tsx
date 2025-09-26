@@ -4,7 +4,7 @@ import { Option } from "@/constants/projectOptions";
 export default function ProjectSortBar({ sortOptions }: { sortOptions: Option[] }) {
   return (
     <div className="flex justify-between items-center mb-6">
-      <div className="text-gray-500">
+      <div className="text-black">
         24개
       </div>
       <div className="w-32">

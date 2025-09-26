@@ -1,6 +1,6 @@
 "use client";
 
-import Card, { CardProps } from "@/components/Card";
+import Card from "@/components/Card";
 import ProjectLoading from "./ProjectLoading";
 import { useEffect, useRef, useState } from "react";
 import { ProjectListItem } from "@/types/projectInfo";
@@ -92,7 +92,7 @@ export default function ProjectList({
     return () => {
       observer.disconnect();
     };
-  }, [isLast, isLoading]); // 의존성 배열에 상태 추가
+  }, [isLast, isLoading, fetchNextPage]); // 의존성 배열에 상태 추가
 
   return (
       <>

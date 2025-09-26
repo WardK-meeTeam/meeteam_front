@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-interface CardProps {
+export interface CardProps {
   category: string;
   tool: string;
   teamName: string;
@@ -18,12 +18,23 @@ interface CardProps {
 }
 
 const CardBgImgs: { [key: string]: string } = {
+  // 기존 키 (더미 데이터용)
   Beauty: "/images/Beauty.png",
   Eco: "/images/Eco.png",
   Education: "/images/Education.png",
   Pet: "/images/Pet.png",
   Productivity: "/images/Productivity.png",
   Healthcare: "/images/HealthCare.png",
+  
+  // API 카테고리 키 추가
+  FASHION_BEAUTY: "/images/Beauty.png",
+  ENVIRONMENT: "/images/Eco.png",
+  EDUCATION: "/images/Education.png",
+  PET: "/images/Pet.png",
+  FINANCE_PRODUCTIVITY: "/images/Productivity.png",
+  HEALTHCARE: "/images/HealthCare.png",
+  AI_TECH: "/images/Ai.png",
+  ETC: "/images/Productivity.png", // 기타는 생산성 이미지 사용
 };
 
 const ToolImgs: { [key: string]: string } = {
@@ -34,17 +45,27 @@ const ToolImgs: { [key: string]: string } = {
 
 // 순서대로 [textColor, boxColor, (gradient colors 3개)]
 const CategoryColors: { [key: string]: [string, string, string, string] } = {
+  // 기존 키 (더미 데이터용)
   Beauty: ["#DB6893", "#FFF0F9", "#F3D8E6", "#F2CAD2"],
   Eco: ["#71B04E", "#E5FFD6", "#AAEBE0", "#CBE8BA"],
   Education: ["#A27DC2", "#F5E9FF", "#C7C9EE", "#DDCCEA"],
   Pet: ["#F1A800", "#FFFCE9", "#F4D2BD", "#F4EDBF"],
   Productivity: ["#3A84BC", "#D9FBFF", "#CCDEFF", "#B5E7ED"],
   Healthcare: ["#EE7366", "#FFEAE8", "#FFCAC1", "#F7E2DC"],
+  
+  // API 카테고리 키 추가
+  FASHION_BEAUTY: ["#DB6893", "#FFF0F9", "#F3D8E6", "#F2CAD2"],
+  ENVIRONMENT: ["#71B04E", "#E5FFD6", "#AAEBE0", "#CBE8BA"],
+  EDUCATION: ["#A27DC2", "#F5E9FF", "#C7C9EE", "#DDCCEA"],
+  PET: ["#F1A800", "#FFFCE9", "#F4D2BD", "#F4EDBF"],
+  FINANCE_PRODUCTIVITY: ["#3A84BC", "#D9FBFF", "#CCDEFF", "#B5E7ED"],
+  HEALTHCARE: ["#EE7366", "#FFEAE8", "#FFCAC1", "#F7E2DC"],
+  AI_TECH: ["#3A84BC", "#D9FBFF", "#CCDEFF", "#B5E7ED"], // AI는 생산성 색상 사용
+  ETC: ["#A5A5A5", "#F5F5F5", "#E0E0E0", "#D0D0D0"], // 기타는 회색 계열
 };
 
 export default function Card({
   category,
-
   teamName,
   date,
   title,

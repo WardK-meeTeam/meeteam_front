@@ -1,69 +1,79 @@
 "use client";
 
-import Card from "@/components/Card";
+import Card, { CardProps } from "@/components/Card";
 import ProjectLoading from "./ProjectLoading";
 import { useEffect, useRef, useState } from "react";
-
-const dummyCard = {
-  category: "Healthcare",
-  tool: "Figma",
-  teamName: "BreathMate",
-  date: "2025.06.01",
-  tools: ["Ai", "Figma", "Ps"],
-  title: "스마트 호흡 트레커를 통한 천식 모니터링 앱",
-  leader: "김도윤",
-  progress: 70,
-  teamSize: 9,
-  userImg: [
-    "/images/userImg1.png",
-    "/images/userImg2.png",
-    "/images/userImg3.png",
-    "/images/userImg4.png",
-    "/images/userImg5.png",
-    "/images/userImg6.png",
-    "/images/userImg7.png",
-  ],
-  deadDate: "2025.10.06",
-  passionLevel: 99,
-};
+import { ProjectListItem } from "@/types/projectInfo";
+import NoResult from "./NoResult";
+import { authFetch } from "@/api/authFetch";
+import { buildQueryString } from "@/utils/buildQueryString";
+import { mapProjectToCardProps } from "@/utils/mapProjectToCardProps";
 
 export default function ProjectList({ 
   initialProjects,
   limit,
+  last,
+  searchParams
  }: { 
-  initialProjects: any[], // projects prop은 나중에 실제 데이터를 사용할 때 추가
-  limit: number 
+  initialProjects: ProjectListItem[],
+  limit: number,
+  last: boolean,
+  searchParams?: any // 검색 파라미터 추가
 }) {
-  console.log(initialProjects);
 
-  const [projects, setProjects] = useState(initialProjects);
+  const [projects, setProjects] = useState(Array.isArray(initialProjects) ? initialProjects : []);
   const [isLoading, setIsLoading] = useState(false);
-  const [isLast, setIsLast] = useState(false);
+  const [isLast, setIsLast] = useState(last);
   const [page, setPage] = useState(1);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
-  const fetchNextPage = async (page: number, limit: number) => {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    const newProjects = Array(limit).fill(dummyCard);
-    setProjects(prev => [...prev, ...newProjects]);
-    setIsLoading(false);
-    //last확인 로직
+  const fetchNextPage = async () => {
+    if (isLoading || isLast) return; // 로딩 중이거나 마지막 페이지면 중단
+    
+    setIsLoading(true);
+    
+    try {
+      // 다음 페이지 API 호출
+      const queryParams = {
+        ...searchParams,
+        page: page, // 현재 page는 다음 페이지 번호
+        size: limit,
+        sort: ['createdAt,asc']
+      };
+      
+      const queryString = buildQueryString(queryParams);
+      
+      const response = await authFetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/projects/condition${queryString}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch next page');
+      }
+      
+      const data = await response.json();
+      const newProjects = data.content || [];
+      
+      // 새 프로젝트들을 기존 목록에 추가
+      setProjects(prev => [...prev, ...newProjects]);
+      setIsLast(data.last || newProjects.length === 0);
+      setPage(prev => prev + 1);
+      
+    } catch (error) {
+      console.error('다음 페이지 로딩 실패:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
-  
-  useEffect(() => {
-    setProjects(initialProjects);
-    setIsLoading(false);
-    setIsLast(false);
-  }, [initialProjects]);
 
+  // 무한 스크롤 로직
   useEffect(() => {
     const callback: IntersectionObserverCallback = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting && !isLast && !isLoading) {
-          console.log("화면에 들어옴:", entry.target);
-          setIsLoading(true);
-          fetchNextPage(page, limit);
-          setPage(prev => prev + 1);
+          console.log('fetchNextPage 호출');
+          fetchNextPage();
         }
       });
     };
@@ -86,13 +96,16 @@ export default function ProjectList({
 
   return (
       <>
-        <div className="grid grid-cols-4 gap-0">
-          {projects.map((project, idx) => (
-            <Card key={idx} {...project} />
-          ))}
+        <div className="grid grid-cols-4 gap-8">
+          { projects.length > 0 ?
+            projects.map((project, idx) => (
+              <Card key={idx} {...mapProjectToCardProps(project)} />
+            )) :
+            <NoResult />
+          }
           <div ref={scrollRef} />
         </div>
-        <ProjectLoading />
+        { !isLast ? <ProjectLoading /> : null }
       </>
     );
 }

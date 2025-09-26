@@ -45,7 +45,7 @@ const fetchInitialProjects = async (searchParams: ProjectSearchParams, limit: nu
     techStack: validatedParams.techStack,
     page: validatedParams.page || 0,
     size: limit,
-    sort: ['createdAt,desc']
+    sort: [validatedParams.sort]
   };
   
   const queryString = buildQueryString(queryParams);

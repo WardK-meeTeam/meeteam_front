@@ -15,6 +15,6 @@ export function validateSearchParams(params: any): any {
     techStack: params.techStack,
     page: params.page,
     size: params.size,
-    sort: params.sort || ['createdAt,desc'] // 기본값: 생성일 오름차순 배열
+    sort: params.sort ? [params.sort] : ['createdAt,desc'] // 기본값: 생성일 오름차순 배열
   };
 }

@@ -10,7 +10,7 @@ export interface ProjectSearchParams {
   platformCategory?: PlatformCategory;
   bigCategory?: BigCategory;
   techStack?: TechStack;
-  sort?: "desc" | "asc";
+  sort?: "createdAt,desc" | "createdAt,asc";
   page?: number;
 }
 /* /api/projects/condition */

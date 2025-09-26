@@ -11,7 +11,7 @@ import {
   ProjectApplyNotification,
   ProjectMyApplyNotification,
 } from "@/types/notification";
-import { fetchUser } from "@/api/user";
+import { useAuth } from "@/context/AuthContext";
 
 type SSENotification =
   | ProjectApplyNotification
@@ -19,10 +19,9 @@ type SSENotification =
   | ProjectApplyDecision;
 
 export default function Navbar() {
-  const [search, setSearch] = useState("");
-  const [name, setName] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { user, isLoading } = useAuth();
 
+  const [search, setSearch] = useState("");
   const [showNotification, setShowNotification] = useState<boolean>(false);
   const [notifications, setNotifications] = useState<SSENotification[]>([]);
 
@@ -34,33 +33,7 @@ export default function Navbar() {
     setSearch(e.target.value);
   }
 
-  useEffect(() => {
-    const onTokenChange = () => {
-      const token = localStorage.getItem("accessToken");
-      if (!token) return;
-      (async () => {
-        setLoading(true);
-        try {
-          const res = await fetchUser(); // 캐시 사용 중이면 no-store 옵션 권장
-          setName(res.result.name ?? null);
-        } finally {
-          setLoading(false);
-        }
-      })();
-    };
-
-    onTokenChange();
-
-    // 같은 탭에서의 갱신은 storage 이벤트가 안 떠서 커스텀 이벤트도 함께 사용
-    window.addEventListener("storage", onTokenChange);
-    window.addEventListener("accessToken-updated", onTokenChange);
-
-    return () => {
-      window.removeEventListener("storage", onTokenChange);
-      window.removeEventListener("accessToken-updated", onTokenChange);
-    };
-  }, []); // <-- [name] 의존성 제거
-
+  // 이부분은 SSE 구현부
   useEffect(() => {
     const API = process.env.NEXT_PUBLIC_API_BASE_URL;
     const accessToken = localStorage.getItem("accessToken");
@@ -148,12 +121,12 @@ export default function Navbar() {
           </button>
         </form>
         <ul className="flex divide-x-1 divide-mtm-text-gray">
-          {loading ? (
+          {isLoading ? (
             "로딩중"
-          ) : name ? (
+          ) : user?.name ? (
             <li className="text-mtm-text-gray pl-2 min-w-50">
               <Link href={"/users"} className="font-bold">
-                {name ?? ""}님!
+                {user?.name ?? ""}님!
               </Link>
               안녕하세요
             </li>

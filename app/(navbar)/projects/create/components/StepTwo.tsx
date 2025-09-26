@@ -6,6 +6,7 @@ import ProjectGenerateFooter from "@/app/(navbar)/projects/create/components/Pro
 import { urlToFile } from "@/utils/urlToFile";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { authFetch } from "@/api/authFetch";
 
 export default function StepTwo() {
   const text = useProjectGenerateStore((state) => state.projectDescription);
@@ -60,16 +61,9 @@ export default function StepTwo() {
     const fetchCreateProjects = async () => {
       const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-      const accessToken = localStorage.getItem("accessToken");
-      if (!accessToken) {
-        alert("로그인이 필요합니다!");
-        return;
-      }
-
       try {
-        const response = await fetch(`${API}/api/projects`, {
+        const response = await authFetch(`${API}/api/projects`, {
           method: "POST",
-          headers: { Authorization: `Bearer ${accessToken}` },
           body: formData,
         });
 

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import NotificationBox from "./components/NotificationBox";
 import { Notification } from "@/types/notification";
+import { authFetch } from "@/api/authFetch";
 
 export default function Page() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -16,9 +17,7 @@ export default function Page() {
 
     const fetchNotifications = async () => {
       try {
-        const response = await fetch(`${API}/api/notifications`, {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
+        const response = await authFetch(`${API}/api/notifications`);
 
         if (response.ok) {
           const data = await response.json();

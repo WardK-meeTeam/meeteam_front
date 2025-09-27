@@ -2,21 +2,76 @@
 
 import CardList from "@/components/CardList";
 import TeamRecruitCardList from "@/components/TeamRecruitCardList";
-import { useRef } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
-import { useState } from "react";
+import { useState, useRef, useEffect, useMemo} from "react";
+import { ProjectInfoItem } from "@/types/projectInfo";
+
+const CATEGORY_TO_ID: Record<string, number> = {
+    "친환경" : 1, 
+    "반려동물": 2, 
+    "헬스케어": 3, 
+    "교육/학습": 4, 
+    "AI테크": 5, 
+    "패션/뷰티": 6, 
+    "금융/생산성": 7, 
+    "기타": 8,
+}
+
 
 export default function HomePage() {
 
-    const category = ["친환경", "반려동물", "헬스케어", "교육/학습", "AI테크", "패션/뷰티", "금융/생산성", "기타"];
+    const category = [
+        "친환경", 
+        "반려동물", 
+        "헬스케어", 
+        "교육/학습", 
+        "AI테크", 
+        "패션/뷰티", 
+        "금융/생산성", 
+        "기타",
+    ];
 
-    const [selectedCategory, setSelectedCategory] = useState<string>("");
+    const [selectedCategory, setSelectedCategory] = useState<string>("친환경");
+    const [projects, setProjects] = useState<ProjectInfoItem[]>([]);
+
+    const API = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const bigCategoryId = useMemo(
+        () => CATEGORY_TO_ID[selectedCategory] ?? CATEGORY_TO_ID["기타"],
+        [selectedCategory]
+    );
 
     const handleCategory = (cat: string) => {
        setSelectedCategory(cat);
     }
 
+    // 카테고리별 프로젝트 불러오기
+    useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const res = await fetch(
+                    `${API}/api/main/projects?page=0&size=10&sort=createdAt&direction=desc&bigCategoryId=${bigCategoryId}`,
+                    {
+                        method: "GET",
+                        headers: { Accept: "application/json" },
+                        credentials: "include",
+                    }
+                );
+                if (!res.ok) {
+                    const err = await res.json();
+                    throw new Error(err.message || "프로젝트 조회 실패"); 
+                }
+                const data = await res.json();
+                setProjects(data.content);
+            } catch (e) {
+                console.error(e);
+            } finally {
+            }
+        };
+        fetchProjects();
+    }, [bigCategoryId, API]);
+
+    // 스크롤 
     const scrollRef = useRef<HTMLDivElement>(null);
     const scrollRefTeam = useRef<HTMLDivElement>(null);
     const STEP = 305 + 300;
@@ -54,7 +109,7 @@ export default function HomePage() {
                         <button
                         key={name}
                         type="button"
-                        onClick={() => handleCategory(name)}
+                        onClick={() => setSelectedCategory(name)}
                         className="relative w-auto flex flex-col items-center font-semibold cursor-pointer select-none"
                         
                         >

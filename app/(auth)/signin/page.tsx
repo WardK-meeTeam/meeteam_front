@@ -45,7 +45,7 @@ export default function Page() {
       // 1단계는 로그인 API 호출
       const { userId, accessToken } = await loginWithEmail(loginFormData);
       console.log(userId, "번 유저로 로그인하였습니다.");
-      localStorage.setItem("accessToken", accessToken);
+  
       // 쿠키에 저장
       Cookies.set("accessToken", accessToken, { 
         expires: 1, // 1일

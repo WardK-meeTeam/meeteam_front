@@ -11,6 +11,7 @@ import {
 } from "@/types/projectInfo";
 import HalfPopupButton from "./components/ConnectGithubButton";
 import ConnectRepo from "./components/ConnectRepo";
+import { useRouter } from "next/navigation";
 
 export default function ProjectPageClient({
   projectId,
@@ -33,6 +34,7 @@ export default function ProjectPageClient({
     skills: [],
     recruitments: [],
   });
+  const router = useRouter();
 
   const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -84,8 +86,13 @@ export default function ProjectPageClient({
         <div className="sticky top-20 z-10 flex flex-col gap-3">
           <span className="text-[14px]">프로젝트를 함께할 사람들</span>
           <MemberList members={projectMembers} />
-          <HalfPopupButton />
-          <ConnectRepo projectId={projectId} />
+          <button
+            type="button"
+            onClick={() => router.push(`/projects/${projectId}/manage`)}
+            className="cursor-pointer"
+          >
+            프로젝트 설정
+          </button>
         </div>
       </aside>
       <main className="max-w-[830px] flex flex-col gap-16">

@@ -40,7 +40,7 @@ export default function ProjectList({
     try {
       // 다음 페이지 API 호출
       const queryParams = {
-        ...searchParams,
+        ...(searchParams ?? {}),
         page: page, // 현재 page는 다음 페이지 번호
         size: limit,
         sort: ['createdAt,asc']

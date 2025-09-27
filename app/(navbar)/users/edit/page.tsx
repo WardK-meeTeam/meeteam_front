@@ -107,7 +107,7 @@ export default function Page() {
 
         const updatedUser = await getUserProfile(); // 업데이트 된 사용자 정보를 Context에도 반영시켜줌
         if (updatedUser) setUser(updatedUser);
-        router.push("/users"); // 다시 마이페이지로 돌아감
+        router.back(); // 다시 마이페이지로 돌아감
       } else {
         const errorData = await response.json();
         alert(errorData.message);

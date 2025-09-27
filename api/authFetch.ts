@@ -4,34 +4,21 @@ import Cookies from 'js-cookie';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-// 먼저 쿠키에 저장된 리프레시 토큰으로 액세스 토큰 가져오는 함수 정의
-
+// 먼저 쿠키에 저장된 리프레시 토큰으로 액세스 토큰 발급 후 저장 및 반환하는 함수
 export async function refreshAccessToken(): Promise<string | null> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/auth/refresh`, {
+    const response = await fetch('/api/auth/refresh', {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
       credentials: "include",
     });
 
     if (!response.ok) {
-      //리프레시 토큰 만료 = 세션 아웃  -> 다시 로그인 시키게 해야함
-      console.log("세션이 만료되었습니다. 로그인 후 시도하세요");
       return null;
     }
 
     const data = await response.json();
-    const newAccessToken = data.result; // 새 액세스 토큰 받음
 
-    console.log(data); // 테스트용
-    if(typeof window !== 'undefined') {
-      localStorage.setItem("accessToken", newAccessToken);
-      Cookies.set("accessToken", newAccessToken, { 
-        expires: 1, // 1일
-        sameSite: 'lax',
-        secure: process.env.NODE_ENV === 'production'
-      });
-    }
+    const newAccessToken = data.result.accessToken;
 
     return newAccessToken;
   } catch (error) {
@@ -40,13 +27,27 @@ export async function refreshAccessToken(): Promise<string | null> {
   }
 }
 
-// 액세스 토큰을 필요로 하는 API는 authFetch를 이용해서 fetch를 하면 끝!!
-// 이거 하나로 통일시킴
+// 서버/클라이언트 사이드 공용 authFetch 함수 (헤더에 accessToken 주입)
 export const authFetch = async (
-  url: string,
+  path: string,
   options: RequestInit = {},
 ): Promise<Response> => {
-  const accessToken = localStorage.getItem("accessToken");
+  const url = `${API_BASE_URL}${path}`;
+  let accessToken: string | undefined;
+
+  /* 쿠키에서 액세스 토큰 가져오기 */
+  // 서버 사이드
+  if(typeof window === 'undefined') {
+    const { cookies } = await import('next/headers');
+    const cookieStore = await cookies();
+    accessToken = cookieStore.get("accessToken")?.value;
+  }
+  // 클라이언트 사이드
+  else {
+    accessToken = Cookies.get("accessToken");
+  }
+
+
 
   const headers = {
     ...options.headers,
@@ -71,10 +72,23 @@ export const authFetch = async (
       response = await fetch(url, { ...options, headers: newHeaders });
     } else {
       // 리프레시 토큰으로 액세스 토큰 발급이 실패함 -> 리프레시 토큰도 만료되었다는 뜻
-      // 로그아웃 시킴
-      localStorage.removeItem("accessToken");
-      alert("세션이 만료되었습니다. 로그인 후 시도하세요");
-      window.location.href = "/signin";
+      /* 로그아웃 - 쿠키 삭제 */
+      // 서버 사이드
+      if(typeof window === 'undefined') {
+        const { cookies } = await import('next/headers');
+        const cookieStore = await cookies();
+        cookieStore.delete("accessToken");
+        // 서버 사이드에서는 에러 던짐
+        throw new Error("로그인 후 시도하세요");
+      }
+      // 클라이언트 사이드
+      else {
+        Cookies.remove("accessToken");
+        // 클라이언트 사이드에서는 로그인 페이지 리다이렉트
+        alert("로그인 후 시도하세요");
+        window.location.href = "/signin";
+      }
+      
     }
   }
 

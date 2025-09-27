@@ -43,7 +43,7 @@ export default function ProjectList({
       
       const queryString = buildQueryString(queryParams);
       
-      const response = await authFetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/projects/condition${queryString}`, {
+      const response = await authFetch(`/api/projects/condition${queryString}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });

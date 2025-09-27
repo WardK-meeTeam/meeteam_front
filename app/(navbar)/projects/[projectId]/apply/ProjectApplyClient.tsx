@@ -96,11 +96,9 @@ export default function ProjectApplyClient({
 
     const urlEncodedData = new URLSearchParams(dataForApi);
 
-    const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-
     setIsLoading(true);
     try {
-      const response = await authFetch(`${API}/api/projects-application`, {
+      const response = await authFetch(`/api/projects-application`, {
         method: "POST",
 
         body: urlEncodedData,
@@ -121,7 +119,7 @@ export default function ProjectApplyClient({
   };
   return (
     <>
-      <form className="min-h-screen flex flex-col" onSubmit={handleSubmit}>
+      <form className="flex flex-col min-h-screen" onSubmit={handleSubmit}>
         <div className="w-[430px] m-auto justify-start flex flex-col flex-1 py-10 ">
           <b className="text-[26px] mb-10">프로젝트 지원</b>
           <div className="flex flex-col gap-16">
@@ -153,7 +151,7 @@ export default function ProjectApplyClient({
             <UserProfileSummary />
           </div>
         </div>
-        <footer className="flex flex-row justify-end gap-2 w-full border-t border-mtm-light-gray py-3 px-16">
+        <footer className="flex flex-row gap-2 justify-end px-16 py-3 w-full border-t border-mtm-light-gray">
           <MainButton
             buttonName="지원하기"
             type="submit"

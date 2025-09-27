@@ -12,6 +12,7 @@ import {
   ProjectMyApplyNotification,
 } from "@/types/notification";
 import { useAuth } from "@/context/AuthContext";
+import Cookies from "js-cookie";
 
 type SSENotification =
   | ProjectApplyNotification
@@ -36,7 +37,7 @@ export default function Navbar() {
   // 이부분은 SSE 구현부
   useEffect(() => {
     const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-    const accessToken = localStorage.getItem("accessToken");
+    const accessToken = Cookies.get("accessToken");
 
     if (!accessToken) {
       console.log("로그인 필요함");

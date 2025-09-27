@@ -1,6 +1,6 @@
 import { ProjectSearchParams } from "@/types/projectInfo";
 import ProjectList from "./ProjectList";
-import { serverAuthFetch } from "@/api/serverAuthFetch";
+import { authFetch } from "@/api/authFetch";
 import { buildQueryString } from "@/utils/buildQueryString";
 import { validateSearchParams } from "@/utils/validateSearchParams";
 
@@ -28,7 +28,7 @@ const fetchInitialProjects = async (searchParams: ProjectSearchParams, limit: nu
   const queryString = buildQueryString(queryParams);
   
   // GET 메서드로 변경하고 쿼리 파라미터 사용
-  const response = await serverAuthFetch(`/api/projects/condition${queryString}`, {
+  const response = await authFetch(`/api/projects/condition${queryString}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });

@@ -7,7 +7,12 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 // 먼저 쿠키에 저장된 리프레시 토큰으로 액세스 토큰 발급 후 저장 및 반환하는 함수
 export async function refreshAccessToken(): Promise<string | null> {
   try {
-    const response = await fetch('/api/auth/refresh', {
+    // 서버/클라이언트 환경에 따른 URL 처리
+    const refreshUrl = typeof window === 'undefined' 
+      ? `${API_BASE_URL}/api/auth/refresh`  // 서버: 절대 URL
+      : '/api/auth/refresh';  // 클라이언트: 상대 URL
+
+    const response = await fetch(refreshUrl, {
       method: "POST",
       credentials: "include",
     });

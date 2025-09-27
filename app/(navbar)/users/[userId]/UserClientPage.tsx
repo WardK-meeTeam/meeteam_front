@@ -38,7 +38,7 @@ export default function UserClientPage({ userId }: { userId: string }) {
     };
 
     getData();
-  }, []);
+  }, [userId]);
 
   if (loading) {
     return <div>로딩중...</div>;

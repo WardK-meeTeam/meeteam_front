@@ -64,7 +64,7 @@ export default function ApplicationClient() {
 
   useEffect(() => {
     fetchApplicationInfo();
-  }, []);
+  }, [fetchApplicationInfo]);
 
   const handleApprove = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

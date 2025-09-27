@@ -1,10 +1,9 @@
 import { Suspense } from "react";
 import ProjectFilterBar from "./components/ProjectFilterBar";
-import ProjectSortBar from "./components/ProjectSortBar";
 import ProjectListContainer from "./components/ProjectListContainer";
 import ProjectLoading from "./components/ProjectLoading";
 import { ProjectSearchParams } from "@/types/projectInfo";
-import { projectCategoryOptions, recruitmentOptions, platformOptions, bigCategoryOptions, sortOptions } from "@/constants/projectOptions";
+import { projectCategoryOptions, recruitmentOptions, platformOptions, bigCategoryOptions } from "@/constants/projectOptions";
 import { validateSearchParams } from "@/utils/validateSearchParams";
 
 export default async function ProjectsPage({ 

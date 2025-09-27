@@ -33,17 +33,13 @@ export default function HomePage() {
     ];
 
     const [selectedCategory, setSelectedCategory] = useState<string>("친환경");
-    const [projects, setProjects] = useState<ProjectInfoItem[]>([]);
+    const [_projects, setProjects] = useState<ProjectInfoItem[]>([]);
 
     const API = process.env.NEXT_PUBLIC_API_BASE_URL;
     const bigCategoryId = useMemo(
         () => CATEGORY_TO_ID[selectedCategory] ?? CATEGORY_TO_ID["기타"],
         [selectedCategory]
     );
-
-    const handleCategory = (cat: string) => {
-       setSelectedCategory(cat);
-    }
 
     // 카테고리별 프로젝트 불러오기
     useEffect(() => {

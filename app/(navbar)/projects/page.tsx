@@ -24,7 +24,6 @@ export default async function ProjectsPage({
         platformOptions={platformOptions}
         bigCategoryOptions={bigCategoryOptions}
       />
-      <ProjectSortBar sortOptions={sortOptions} />
       <Suspense key={JSON.stringify(validatedParams)} fallback={<ProjectLoading />}>
         <ProjectListContainer searchParams={validatedParams} limit={20} />
       </Suspense>

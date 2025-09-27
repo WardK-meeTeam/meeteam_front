@@ -8,16 +8,21 @@ import NoResult from "./NoResult";
 import { authFetch } from "@/api/authFetch";
 import { buildQueryString } from "@/utils/buildQueryString";
 import { mapProjectToCardProps } from "@/utils/mapProjectToCardProps";
+import ProjectSortBar from "./ProjectSortBar";
+import { sortOptions } from "@/constants/projectOptions";
+import Link from "next/link";
 
 export default function ProjectList({ 
   initialProjects,
   limit,
   last,
+  totalElements,
   searchParams
  }: { 
   initialProjects: ProjectListItem[],
   limit: number,
   last: boolean,
+  totalElements: number,
   searchParams?: any // 검색 파라미터 추가
 }) {
 
@@ -96,10 +101,13 @@ export default function ProjectList({
 
   return (
       <>
+        <ProjectSortBar sortOptions={sortOptions} totalElements={totalElements} />
         <div className="grid grid-cols-4 gap-8">
           { projects.length > 0 ?
             projects.map((project, idx) => (
-              <Card key={idx} {...mapProjectToCardProps(project)} />
+              <Link href={`/projects/${project.projectId}/detail`} key={idx}>
+                <Card key={idx} {...mapProjectToCardProps(project)} />
+              </Link>
             )) :
             <NoResult />
           }

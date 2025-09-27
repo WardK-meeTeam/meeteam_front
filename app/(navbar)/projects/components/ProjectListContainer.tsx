@@ -50,6 +50,7 @@ export default async function ProjectListContainer({
     <ProjectList 
       initialProjects={projects.content || []} 
       limit={limit}
+      totalElements={projects.totalElements}
       last={projects.last || false}
       searchParams={searchParams}
     />

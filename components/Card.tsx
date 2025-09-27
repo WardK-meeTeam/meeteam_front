@@ -92,13 +92,13 @@ export default function Card({
             <div>
               <div className="flex justify-between items-center mx-6 mt-6">
                 <div
-                  className="w-[104px] h-[25px]  border-none rounded-[16px] text-[14px] font-semibold text-[#EE7366] flex justify-center items-center"
+                  className="h-[25px]  border-none rounded-[16px] text-[14px] font-semibold text-[#EE7366] flex justify-center items-center px-3"
                   style={{
                     color: `${CategoryColors[category]?.[0] || "#EE7366"}`,
                     backgroundColor: `${CategoryColors[category]?.[1] || "#FFEAE8"}`,
                   }}
                 >
-                  {teamName || "BreathMate"}
+                  {category || "ETC"}
                 </div>
                 <div className="text-[14px] font-normal text-white">{date}</div>
               </div>
@@ -167,7 +167,7 @@ export default function Card({
             }}
           >
             <div
-              className="w-[92px] h-[25px] text-[14px] font-semibold border border-none rounded-[13px] flex items-center justify-center m-6"
+              className="h-[25px] text-[14px] font-semibold border border-none rounded-[13px] flex items-center justify-center m-6 px-3"
               style={{
                 color: `${CategoryColors[category]?.[0] || "#EE7366"}`,
                 backgroundColor: `${CategoryColors[category]?.[1] || "#FFEAE8"}`,

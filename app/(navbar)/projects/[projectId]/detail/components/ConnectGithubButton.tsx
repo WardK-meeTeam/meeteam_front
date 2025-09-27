@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
+import { siGithub } from "simple-icons/icons";
 
-export default function HalfPopupButton() {
+export default function ConnectGithubButton() {
   const [blocked, setBlocked] = useState(false);
 
   const openHalfWindow = (url: string) => {
@@ -39,17 +40,13 @@ export default function HalfPopupButton() {
       "noreferrer=yes",
     ].join(",");
 
-    // 1) 기본 이동을 막고 (버튼/클릭 핸들러에서만 호출)
-    // 2) 현재 탭은 절대 이동시키지 않음 (fallback 제거)
     const win = window.open(url, "_blank", features);
 
     if (!win) {
-      // 팝업 차단됨: 현재 탭 이동 금지! UI로만 안내
       setBlocked(true);
       return;
     }
 
-    // 안전: 부모 참조 제거 (일부 브라우저는 noopener 무시할 수 있어 수동 차단)
     try {
       (win as any).opener = null;
     } catch {}
@@ -57,8 +54,7 @@ export default function HalfPopupButton() {
 
   return (
     <div className="space-y-2">
-      <a
-        href="https://github.com/apps/meeteam-pr-review/installations/select_target"
+      <button
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -66,10 +62,15 @@ export default function HalfPopupButton() {
             "https://github.com/apps/meeteam-pr-review/installations/select_target",
           );
         }}
-        className="text-xs flex justify-center items-center"
+        className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-black bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
       >
-        내 레포지토리에 미팀 설치 {">"}
-      </a>
+        <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5">
+          <title>{siGithub.title}</title>
+          <path d={siGithub.path} />
+        </svg>
+        Connect to GitHub
+      </button>
+      {blocked && <p className="text-xs text-red-500">Popup blocked. Please enable popups for this site.</p>}
     </div>
   );
 }

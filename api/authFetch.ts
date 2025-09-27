@@ -24,13 +24,14 @@ export async function refreshAccessToken(): Promise<string | null> {
     const newAccessToken = data.result; // 새 액세스 토큰 받음
 
     console.log(data); // 테스트용
-    if(typeof window !== 'undefined') localStorage.setItem("accessToken", newAccessToken);
-    // 쿠키에도 저장
-    Cookies.set("accessToken", newAccessToken, { 
-      expires: 1, // 1일
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production'
-    });
+    if(typeof window !== 'undefined') {
+      localStorage.setItem("accessToken", newAccessToken);
+      Cookies.set("accessToken", newAccessToken, { 
+        expires: 1, // 1일
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production'
+      });
+    }
 
     return newAccessToken;
   } catch (error) {

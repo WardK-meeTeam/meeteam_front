@@ -7,7 +7,7 @@ export default function ProjectSortBar({ sortOptions, totalElements }: { sortOpt
       <div className="text-black">
         총 {totalElements}개
       </div>
-      <div className="w-32">
+      <div className="flex w-32">
         <QuerySyncSelect
           options={sortOptions}
           paramKey="sort"

@@ -64,7 +64,7 @@ export default function ApplicationClient() {
 
   useEffect(() => {
     fetchApplicationInfo();
-  }, [fetchApplicationInfo]);
+  }, []);
 
   const handleApprove = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -137,27 +137,27 @@ export default function ApplicationClient() {
   return (
     <Modal>
       {applicationInfo && (
-        <div className="flex flex-col justify-start gap-12">
-          <div className="flex flex-row justify-start items-center gap-12">
+        <div className="flex flex-col gap-12 justify-start">
+          <div className="flex flex-row gap-12 justify-start items-center">
             <Link
               href={`/users/${applicationInfo.applicantId}`}
-              className="flex flex-col items-center gap-2 group cursor-pointer"
+              className="flex flex-col gap-2 items-center cursor-pointer group"
             >
               <div className="w-[100px] h-[100px] rounded-full overflow-hidden">
                 <Image
                   src={applicationInfo.imageUrl ?? userImg}
                   width={100}
                   height={100}
-                  className="w-full h-full object-cover object-center"
+                  className="object-cover object-center w-full h-full"
                   alt="사용자"
                 />
               </div>
-              <span className="font-semibold text-xl group-hover:underline">
+              <span className="text-xl font-semibold group-hover:underline">
                 {applicationInfo.applicantName}
               </span>
             </Link>
 
-            <table className="border-spacing-5 border-separate">
+            <table className="border-separate border-spacing-5">
               <tbody>
                 <tr>
                   <th className="text-start">지원 분야</th>

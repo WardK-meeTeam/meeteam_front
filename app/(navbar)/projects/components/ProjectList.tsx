@@ -14,13 +14,11 @@ import Link from "next/link";
 
 export default function ProjectList({ 
   initialProjects,
-  limit,
   last,
   totalElements,
   searchParams
  }: { 
   initialProjects: ProjectListItem[],
-  limit: number,
   last: boolean,
   totalElements: number,
   searchParams?: any // 검색 파라미터 추가
@@ -42,8 +40,6 @@ export default function ProjectList({
       const queryParams = {
         ...(searchParams ?? {}),
         page: page, // 현재 page는 다음 페이지 번호
-        size: limit,
-        sort: ['createdAt,asc']
       };
       
       const queryString = buildQueryString(queryParams);

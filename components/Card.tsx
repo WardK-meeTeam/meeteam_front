@@ -10,7 +10,8 @@ interface CardProps {
   tools: string[];
   title: string;
   leader: string;
-  progress: number;
+  recruitM: number;
+  totalM: number;
   teamSize: number;
   userImg: string[];
   deadDate: string;
@@ -49,7 +50,8 @@ export default function Card({
   date,
   title,
   leader,
-  progress,
+  recruitM,
+  totalM,
   teamSize,
   userImg,
   deadDate,
@@ -113,15 +115,14 @@ export default function Card({
               <div>
                 <div className="flex justify-end items-center gap-x-1 text-white mb-2">
                   <div className="text-[14px] font-medium ">
-                    {progress || 70}%
+                    {recruitM}/{totalM} 모집
                   </div>
-                  <div className="text-[12px] font-normal">진행</div>
                 </div>
                 <div className="w-[230px] h-[5px] border border-none rounded-[30px] bg-[#E0E0E0] mb-1.5">
                   <div
                     className="h-full rounded-[30px]"
                     style={{
-                      width: `${progress || 70}%`,
+                      width: `${recruitM/totalM*100}%`,
                       backgroundColor: `${CategoryColors[category]?.[0] || "#EE7366"}`,
                     }}
                   ></div>

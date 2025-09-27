@@ -89,7 +89,14 @@ export default function ProjectPageClient({
         </div>
       </aside>
       <main className="max-w-[830px] flex flex-col gap-16">
-        <ProjectInfo projectId={projectId} {...projectInfo} />
+        {projectInfo && (
+          <ProjectInfo
+            projectId={projectId}
+            {...projectInfo}
+            onChangeInfo={setProjectInfo}
+          />
+        )}
+
         <hr className="text-mtm-light-gray" />
         <ProjectRecruitInfo projectId={projectId} {...projectRecruit} />
       </main>

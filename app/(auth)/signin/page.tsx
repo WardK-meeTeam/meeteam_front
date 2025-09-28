@@ -1,5 +1,5 @@
 "use client";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 import { loginWithEmail } from "@/api/auth";
 import { getUserProfile } from "@/api/user";
@@ -44,13 +44,12 @@ export default function Page() {
     try {
       // 1단계는 로그인 API 호출
       const { accessToken } = await loginWithEmail(loginFormData);
-      
-  
+
       // 쿠키에 저장
-      Cookies.set("accessToken", accessToken, { 
+      Cookies.set("accessToken", accessToken, {
         expires: 1, // 1일
-        sameSite: 'lax',
-        secure: process.env.NODE_ENV === 'production'
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
       });
 
       // 2단계는 유저정보 가져오기
@@ -64,7 +63,6 @@ export default function Page() {
         throw new Error("사용자 정보를 가져오는 데 실패했습니다.");
       }
     } catch (error) {
-      localStorage.removeItem("accessToken");
       if (error instanceof Error) {
         alert(error.message);
       } else {

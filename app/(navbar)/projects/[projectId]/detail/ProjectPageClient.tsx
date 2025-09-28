@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import MemberList from "./components/MemberList";
+import MemberList from "../components/MemberList";
 import ProjectInfo from "./components/ProjectInfo";
 import ProjectRecruitInfo from "./components/ProjectRecruitInfo";
 import {

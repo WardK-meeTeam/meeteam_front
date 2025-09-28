@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { authFetch } from "@/api/authFetch";
 import { Member } from "@/types/projectInfo";
-import MemberList from "../../detail/components/MemberList";
+import MemberList from "../../components/MemberList";
 
 const TeamManagement = ({ projectId }: { projectId: string }) => {
   const [members, setMembers] = useState<Member[]>([]);

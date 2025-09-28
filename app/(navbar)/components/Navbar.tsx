@@ -128,7 +128,7 @@ export default function Navbar() {
             <li className="text-mtm-text-gray pl-2 min-w-50">
               <Link href={`/users/${user.memberId}`} className="font-bold">
                 {user?.name ?? ""}님!
-              </Link>
+              </Link>{" "}
               안녕하세요
             </li>
           ) : (

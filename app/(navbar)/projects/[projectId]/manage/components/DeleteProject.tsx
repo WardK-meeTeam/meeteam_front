@@ -12,14 +12,10 @@ const DeleteProject = ({ projectId }: { projectId: string }) => {
 
   const handleDelete = async () => {
     setIsDeleting(true);
-    const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
     try {
-      const response = await authFetch(
-        `${BASE_URL}/api/projects/${projectId}`,
-        {
-          method: "DELETE",
-        },
-      );
+      const response = await authFetch(`/api/projects/${projectId}`, {
+        method: "DELETE",
+      });
 
       if (response.ok) {
         alert("프로젝트가 삭제되었습니다.");

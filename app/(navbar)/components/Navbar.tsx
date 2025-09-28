@@ -95,6 +95,12 @@ export default function Navbar() {
         <Link href={"/projects"} className='font-semibold cursor-pointer"'>
           프로젝트
         </Link>
+        <Link
+          href={"/projects/create"}
+          className='font-semibold cursor-pointer"'
+        >
+          프로젝트 생성
+        </Link>
       </div>
       <div className="flex gap-5 items-center">
         <form

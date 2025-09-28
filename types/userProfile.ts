@@ -14,6 +14,7 @@ export interface Project {
 // 아직 리뷰 타입 존재 X
 
 export interface UserProfile {
+  memberId: number;
   name: string;
   age: number;
   gender: "MALE" | "FEMALE";

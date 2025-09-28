@@ -38,6 +38,6 @@ export const bigCategoryOptions: Option[] = [
 ];
 
 export const sortOptions: Option[] = [
-  { value: "desc", label: "최신순" },
-  { value: "asc", label: "오래된순" },
+  { value: "createdAt,desc", label: "최신순" },
+  { value: "createdAt,asc", label: "오래된순" },
 ];

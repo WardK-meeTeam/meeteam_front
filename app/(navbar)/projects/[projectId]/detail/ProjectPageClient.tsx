@@ -9,6 +9,7 @@ import {
   ProjectInfoItem,
   ProjectRecruitInfoItem,
 } from "@/types/projectInfo";
+import { authFetch } from "@/api/authFetch";
 
 export default function ProjectPageClient({
   projectId,
@@ -35,13 +36,7 @@ export default function ProjectPageClient({
   const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const fetchProjectDetail = useCallback(async () => {
-    const accessToken = localStorage.getItem("accessToken");
-    if (!accessToken) return;
-    const response = await fetch(`${API}/api/projects/V2/${projectId}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await authFetch(`/api/projects/V2/${projectId}`);
 
     if (response.ok) {
       const data = await response.json();

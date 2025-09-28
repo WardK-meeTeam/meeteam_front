@@ -4,11 +4,14 @@ import { useState } from "react";
 import Modal from "@/components/Modal";
 import { useRouter } from "next/navigation";
 import { authFetch } from "@/api/authFetch";
+import { getUserProfile } from "@/api/user";
+import { useAuth } from "@/context/AuthContext";
 
 const DeleteProject = ({ projectId }: { projectId: string }) => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
+  const { setUser } = useAuth();
 
   const handleDelete = async () => {
     setIsDeleting(true);
@@ -19,6 +22,10 @@ const DeleteProject = ({ projectId }: { projectId: string }) => {
 
       if (response.ok) {
         alert("프로젝트가 삭제되었습니다.");
+        // 플젝 삭제하고, 마이페이지에도 내 플젝 리스트가 있어서 삭제된 플젝 반영해줘야함 -> 프로필 업데이트
+        const updatedUser = await getUserProfile(); // 업데이트 된 사용자 정보를 Context에도 반영시켜줌
+        if (updatedUser) setUser(updatedUser);
+
         router.push("/");
       } else {
         const errorData = await response.json();

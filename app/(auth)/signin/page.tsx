@@ -1,22 +1,18 @@
 "use client";
-import Cookies from "js-cookie";
 
 import { loginWithEmail } from "@/api/auth";
-import { getUserProfile } from "@/api/user";
 import Input from "@/components/Input";
 import MainButton from "@/components/MainButton";
 import SocialSignInButton from "@/components/SocialSignInButton";
-import { useAuth } from "@/context/AuthContext";
-import { UserProfile } from "@/types/userProfile";
+
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useAuthBootstrap } from "@/hooks/useAuthBootstrap";
 
 const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export default function Page() {
-  const router = useRouter();
-  const { setUser } = useAuth();
+  const { LoginInit } = useAuthBootstrap();
 
   const [loginFormData, setLoginFormData] = useState<{
     email: string;
@@ -44,24 +40,7 @@ export default function Page() {
     try {
       // 1단계는 로그인 API 호출
       const { accessToken } = await loginWithEmail(loginFormData);
-
-      // 쿠키에 저장
-      Cookies.set("accessToken", accessToken, {
-        expires: 1, // 1일
-        sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-      });
-
-      // 2단계는 유저정보 가져오기
-      //로그인이 정상적으로 되었다면 유저정보 가져오는 API 호출
-      const user: UserProfile = await getUserProfile();
-
-      if (user) {
-        setUser(user);
-        router.push("/");
-      } else {
-        throw new Error("사용자 정보를 가져오는 데 실패했습니다.");
-      }
+      LoginInit(accessToken);
     } catch (error) {
       if (error instanceof Error) {
         alert(error.message);

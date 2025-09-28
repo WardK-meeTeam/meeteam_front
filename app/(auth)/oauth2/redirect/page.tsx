@@ -3,10 +3,12 @@
 // 구글, 깃헙 인증 성공 후 리다이렉트 처리할 페이지
 import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useAuthBootstrap } from "@/hooks/useAuthBootstrap";
 
 function RedirectLogic() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { LoginInit } = useAuthBootstrap();
 
   useEffect(() => {
     const accessToken = searchParams.get("token");
@@ -18,8 +20,17 @@ function RedirectLogic() {
       localStorage.setItem("accessToken", accessToken);
 
       // 이미 가입된 사용자면 메인 페이지로 보냄
+
       if (type === "login") {
-        router.push("/");
+        try {
+          LoginInit(accessToken);
+        } catch (error) {
+          if (error instanceof Error) {
+            alert(error.message);
+          } else {
+            alert("로그인에 실패했습니다. 다시 시도해주세요.");
+          }
+        }
       }
       // 회원가입 필요한 사용자면 회원가입 페이지로
       else {

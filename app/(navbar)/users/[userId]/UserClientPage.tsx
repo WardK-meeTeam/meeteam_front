@@ -12,35 +12,44 @@ import ProfileDefaultImg from "@/public/images/userImg2.png";
 import ReviewBox from "../components/ReviewBox";
 import ProjectBox from "../components/ProjectBox";
 import { authFetch } from "@/api/authFetch";
+import { useAuth } from "@/context/AuthContext";
+import ModifyButton from "../../projects/[projectId]/apply/components/ModifyButton";
 
 export default function UserClientPage({ userId }: { userId: string }) {
+  const { user, isLoading, logout } = useAuth();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const isMyPage = userId.toString() === user?.memberId.toString();
 
   useEffect(() => {
-    const getData = async () => {
-      setLoading(true);
-      try {
-        const response = await authFetch(`/api/members/${userId}`);
+    if (!isMyPage) {
+      const getData = async () => {
+        setLoading(true);
+        try {
+          const response = await authFetch(`/api/members/${userId}`);
 
-        if (response.ok) {
-          const data = await response.json();
-          setProfile(data.result);
-        } else {
-          const errorData = await response.json();
-          alert(errorData.message);
+          if (response.ok) {
+            const data = await response.json();
+            setProfile(data.result);
+          } else {
+            const errorData = await response.json();
+            alert(errorData.message);
+          }
+        } catch (error) {
+          alert(`알 수 없는 오류가 발생했습니다 (${error})`);
+        } finally {
+          setLoading(false);
         }
-      } catch (error) {
-        alert(`알 수 없는 오류가 발생했습니다 (${error})`);
-      } finally {
-        setLoading(false);
-      }
-    };
+      };
 
-    getData();
+      getData();
+    } else {
+      setLoading(false);
+      setProfile(user);
+    }
   }, [userId]);
 
-  if (loading) {
+  if (loading || isLoading) {
     return <div>로딩중...</div>;
   }
 
@@ -87,7 +96,10 @@ export default function UserClientPage({ userId }: { userId: string }) {
             />
           </div>
 
-          <span className="text-4xl font-extrabold">{name}</span>
+          <div className="flex justify-center items-center gap-x-4">
+            <div className="text-4xl font-extrabold">{name}</div>
+            {isMyPage && <ModifyButton />}
+          </div>
 
           {/* <div className="w-[148px] h-[45px] rounded-[8px] bg-[#FFF3F0]  flex justify-center items-center text-[#FF4802] font-bold">
             협업온도🔥 98°
@@ -169,6 +181,15 @@ export default function UserClientPage({ userId }: { userId: string }) {
             <div className="font-bold">리뷰 개수</div>
             <div className="font-bold">{reviewCount}개</div>
           </div> */}
+
+          {isMyPage && (
+            <button
+              className="text-red-400 cursor-pointer text-left"
+              onClick={logout}
+            >
+              로그아웃
+            </button>
+          )}
         </div>
       </aside>
 

@@ -11,7 +11,6 @@ import DateSelector from "@/components/DateSelector";
 import Input from "@/components/Input";
 import MarkDown from "@/components/MarkDown";
 import { urlToFile } from "@/utils/urlToFile";
-import { ProjectGenerateState } from "@/store/projectGenerateStore";
 import { authFetch } from "@/api/authFetch";
 import { categories } from "@/mocks/projectCategories";
 import { platforms } from "@/mocks/projectPlatforms";

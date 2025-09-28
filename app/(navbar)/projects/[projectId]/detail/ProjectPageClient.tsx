@@ -9,8 +9,6 @@ import {
   ProjectInfoItem,
   ProjectRecruitInfoItem,
 } from "@/types/projectInfo";
-import HalfPopupButton from "./components/ConnectGithubButton";
-import ConnectRepo from "./components/ConnectRepo";
 import { useRouter } from "next/navigation";
 import { authFetch } from "@/api/authFetch";
 

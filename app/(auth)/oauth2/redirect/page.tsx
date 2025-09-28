@@ -23,7 +23,7 @@ function RedirectLogic() {
       }
       // 회원가입 필요한 사용자면 회원가입 페이지로
       else {
-        router.replace("/setting-after-signup");
+        router.replace("signup/profile/setting");
       }
     } else {
       alert("회원가입에 실패하였습니다.");

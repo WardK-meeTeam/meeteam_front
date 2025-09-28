@@ -120,7 +120,7 @@ export default function Page() {
       <div className="mt-10">
         아직 meeTeam 계정이 없으신가요?
         <Link
-          href={"/setting-after-signup?type=email"}
+          href={"/signup/profile/setting?type=email"}
           className="cursor-pointer text-mtm-main-blue"
         >
           {" "}

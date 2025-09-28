@@ -59,10 +59,8 @@ export default function StepTwo() {
 
     // API 호출부
     const fetchCreateProjects = async () => {
-      const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-
       try {
-        const response = await authFetch(`${API}/api/projects`, {
+        const response = await authFetch(`/api/projects`, {
           method: "POST",
           body: formData,
         });
@@ -105,8 +103,8 @@ export default function StepTwo() {
     }
   };
   return (
-    <form className="min-h-screen flex flex-col" onSubmit={handleSubmit}>
-      <div className="min-h-screen flex flex-col">
+    <form className="flex flex-col min-h-screen" onSubmit={handleSubmit}>
+      <div className="flex flex-col min-h-screen">
         <div className="w-[1000px] m-auto flex flex-col justify-start py-10 flex-1 ">
           <b className="text-[26px] mb-10">프로젝트 등록</b>
           <MarkDown maxSize={800} text={text} onChangeText={setText} />

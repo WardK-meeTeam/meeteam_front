@@ -1,9 +1,7 @@
 import { authFetch } from "./authFetch";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-
 export const getProjectLike = async (projectId: string) => {
-  const response = await authFetch(`${BASE_URL}/api/project/like/${projectId}`);
+  const response = await authFetch(`/api/project/like/${projectId}`);
   if (response.ok) {
     const data = await response.json();
     return {
@@ -21,7 +19,7 @@ export const getProjectLike = async (projectId: string) => {
 
 export const postProjectLike = async (projectId: string) => {
   const response = await authFetch(
-    `${BASE_URL}/api/project/like/${projectId}`,
+    `/api/project/like/${projectId}`,
     {
       method: "POST",
     },

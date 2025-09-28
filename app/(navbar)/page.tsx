@@ -37,17 +37,17 @@ export default function HomePage() {
     };
 
     return (
-        <main className="flex flex-col justify-center items-center gap-y-5">
+        <main className="flex flex-col gap-y-5 justify-center items-center">
             {/**광고 자리 */}
             <div className="w-[88%] h-[180px] bg-[#F8F8F8] my-3">
             </div>
 
             <div className="flex flex-col w-[88%]">
-                <div className="flex flex-col relative ">
+                <div className="flex relative flex-col">
                     {/**회색 바 */}
                     <div className="w-full h-[1.7px] absolute bottom-0 bg-[#E8E8E8] mt-2"></div>
 
-                    <div className="px-5 py-5 flex gap-x-7 justify-start items-center">
+                    <div className="flex gap-x-7 justify-start items-center px-5 py-5">
                     {category.map((name) => {
                         const isSelected = selectedCategory === name;
                         return (
@@ -55,7 +55,7 @@ export default function HomePage() {
                         key={name}
                         type="button"
                         onClick={() => handleCategory(name)}
-                        className="relative w-auto flex flex-col items-center font-semibold cursor-pointer select-none"
+                        className="flex relative flex-col items-center w-auto font-semibold cursor-pointer select-none"
                         
                         >
                             <span className={`text-[18px] ${isSelected ? "text-black" : "text-[#A5A5A5]"}`}>
@@ -84,7 +84,7 @@ export default function HomePage() {
                 [scrollbar-width: none] [&::-webkit-scrollbar]:hidden">
                     <CardList />
                 </div>
-                <div className="w-full h-3 flex gap-x-3 px-5">
+                <div className="flex gap-x-3 px-5 w-full h-3">
                     <button 
                     type="button" 
                     onClick={scrollLeft} 
@@ -109,7 +109,7 @@ export default function HomePage() {
                     [scrollbar-width: none] [&::-webkit-scrollbar]:hidden">
                     <TeamRecruitCardList /> 
                 </div>
-                <div className="w-full h-3 flex gap-x-3 px-5">
+                <div className="flex gap-x-3 px-5 w-full h-3">
                     <button 
                     type="button" 
                     onClick={scrollLeftT} 

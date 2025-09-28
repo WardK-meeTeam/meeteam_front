@@ -14,6 +14,7 @@ import ProjectBox from "../components/ProjectBox";
 import { authFetch } from "@/api/authFetch";
 import { useAuth } from "@/context/AuthContext";
 import ModifyButton from "../../projects/[projectId]/apply/components/ModifyButton";
+import ArrowIcon from "@/public/images/right_arrow_icon.svg";
 
 export default function UserClientPage({ userId }: { userId: string }) {
   const { user, isLoading, logout } = useAuth();
@@ -184,10 +185,12 @@ export default function UserClientPage({ userId }: { userId: string }) {
 
           {isMyPage && (
             <button
-              className="text-red-400 cursor-pointer text-left"
+              className="text-mtm-purple flex gap-2 cursor-pointer text-[14px]"
+              type="button"
               onClick={logout}
             >
               로그아웃
+              <Image src={ArrowIcon} alt="수정하기" width={8} height={12} />
             </button>
           )}
         </div>

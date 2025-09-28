@@ -27,7 +27,8 @@ export function useAuthBootstrap() {
       setUser(user);
       router.push("/");
     } else {
-      throw new Error("사용자 정보를 가져오는 데 실패했습니다.");
+      alert("사용자 정보를 가져오는 데 실패했습니다.");
+      router.push("/signup/profile/setting");
     }
   };
 

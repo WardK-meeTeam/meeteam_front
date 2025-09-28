@@ -37,7 +37,9 @@ export default function ManageClient({ projectId }: { projectId: string }) {
         {tabs.map((tab, index) => (
           <button
             key={tab.name}
-            ref={(el) => (tabsRef.current[index] = el)}
+            ref={(el) => {
+              tabsRef.current[index] = el;
+            }}
             className={`px-4 py-2 text-lg font-medium z-10 transition-colors duration-300 ${
               activeTab === tab.name ? "text-blue-500" : "text-gray-500"
             }`}

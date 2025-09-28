@@ -3,9 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { getProjectDetail } from "@/api/projectDetail";
 import BinaryOptionSelector from "@/components/BinaryOptionSelector";
-import SelectableButtonGroup, {
-  Option,
-} from "@/components/SelectableButtonGroup";
+import SelectableButtonGroup from "@/components/SelectableButtonGroup";
 import ImageSelector from "@/app/(navbar)/projects/create/components/ImageSelector";
 import Recruit from "@/app/(navbar)/projects/create/components/Recruit";
 import TechSearch from "@/app/(navbar)/projects/create/components/TechSearch";
@@ -17,11 +15,6 @@ import { ProjectGenerateState } from "@/store/projectGenerateStore";
 import { authFetch } from "@/api/authFetch";
 import { categories } from "@/mocks/projectCategories";
 import { platforms } from "@/mocks/projectPlatforms";
-import {
-  ProjectInfoItem,
-  ProjectRecruitInfoItem,
-  RecruitStatus,
-} from "@/types/projectInfo";
 
 interface ProjectDetails {
   projectName: string;

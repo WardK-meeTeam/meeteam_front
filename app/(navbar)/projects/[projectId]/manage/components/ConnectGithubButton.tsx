@@ -53,7 +53,7 @@ export default function ConnectGithubButton() {
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 w-full">
       <button
         onClick={(e) => {
           e.preventDefault();
@@ -62,15 +62,22 @@ export default function ConnectGithubButton() {
             "https://github.com/apps/meeteam-pr-review/installations/select_target",
           );
         }}
-        className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-black bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-black bg-white border rounded-md shadow-sm hover:bg-gray-50 focus:outline-none"
       >
-        <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5">
+        <svg
+          role="img"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5"
+        >
           <title>{siGithub.title}</title>
           <path d={siGithub.path} />
         </svg>
-        Connect to GitHub
+        Github 연결하기
       </button>
-      {blocked && <p className="text-xs text-red-500">Popup blocked. Please enable popups for this site.</p>}
+      {blocked && (
+        <p className="text-xs text-red-500">팝업이 차단되었습니다.</p>
+      )}
     </div>
   );
 }

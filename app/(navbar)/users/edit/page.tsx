@@ -10,12 +10,12 @@ import TextArea from "@/components/TextArea";
 import MainButton from "@/components/MainButton";
 import SubButton from "@/components/SubButton";
 import { urlToFile } from "@/utils/urlToFile";
-import ImageUploader from "@/app/(auth)/setting-after-signup/components/ImageUploader";
 import { useRouter } from "next/navigation";
 import { profileEditSchema } from "@/types/profileEdit";
 import { useAuth } from "@/context/AuthContext";
 import { getUserProfile } from "@/api/user";
 import { authFetch } from "@/api/authFetch";
+import ImageUploader from "@/app/(auth)/signup/profile/setting/components/ImageUploader";
 
 export default function Page() {
   const { user, isLoading, setUser } = useAuth();

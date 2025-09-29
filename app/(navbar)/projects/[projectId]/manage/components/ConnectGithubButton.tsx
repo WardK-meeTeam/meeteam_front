@@ -46,6 +46,7 @@ export default function ConnectGithubButton() {
       setBlocked(true);
       return;
     }
+    setBlocked(false);
 
     try {
       (win as any).opener = null;

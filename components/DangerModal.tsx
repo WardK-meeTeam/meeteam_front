@@ -39,7 +39,7 @@ export default function DangerModal({
   return (
     <>
       {isOpen && (
-        <Modal>
+        <Modal onClose={() => onChangeOpen(false)}>
           <div className="flex flex-col justify-start items-center gap-4 min-w-2xs mx-auto">
             <div className="flex flex-col justify-start items-center">
               <h3 className="font-medium">{title ?? ""}</h3>

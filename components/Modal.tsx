@@ -28,7 +28,7 @@ export default function Modal({ children }: { children: ReactNode }) {
 
   return createPortal(
     <dialog
-      className="w-[80%] max-w-xl backdrop-blur-xs m-auto p-12 rounded-2xl"
+      className="max-w-xl backdrop-blur-xs m-auto p-12 rounded-2xl"
       onClose={() => router.back()}
       onClick={(e) => {
         if ((e.target as any).nodeName === "DIALOG") {

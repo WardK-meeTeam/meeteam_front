@@ -79,7 +79,7 @@ export default function ManageClient({ projectId }: { projectId: string }) {
         </Link>
       </h1>
       <div className="flex justify-start gap-28">
-        <div className="flex flex-col justify-start items-start gap-7">
+        <div className="flex flex-col justify-start items-start gap-4 w-1/4">
           <h2 className="text-xl font-bold">팀원 관리</h2>
           <MemberList
             members={project.projectMembers}
@@ -90,7 +90,9 @@ export default function ManageClient({ projectId }: { projectId: string }) {
 
           <button
             type="button"
-            className="flex justify-between w-full cursor-pointer border border-mtm-light-gray px-4 py-3"
+            className="flex justify-between w-full cursor-pointer border border-mtm-light-gray px-4 py-3
+            transition-all duration-200 ease-in-out hover:bg-gray-50
+            "
             onClick={() => router.push(`/projects/${projectId}/manage/edit`)}
           >
             프로젝트 수정
@@ -100,7 +102,9 @@ export default function ManageClient({ projectId }: { projectId: string }) {
           <button
             type="button"
             className="flex justify-between w-full cursor-pointer border border-mtm-light-gray px-4 py-3
-            text-red-500"
+            text-mtm-main-red
+            transition-all duration-200 ease-in-out hover:bg-red-50
+            "
             onClick={() => setShowDeleteCofirmModal(true)}
           >
             프로젝트 삭제
@@ -108,7 +112,7 @@ export default function ManageClient({ projectId }: { projectId: string }) {
           </button>
         </div>
 
-        <div className="flex flex-col justify-start items-start gap-7">
+        <div className="flex flex-col justify-start items-start gap-7 w-1/3">
           <h2 className="text-xl font-bold">레포지토리 관리</h2>
           <RepositoryManagement projectId={projectId} />
         </div>

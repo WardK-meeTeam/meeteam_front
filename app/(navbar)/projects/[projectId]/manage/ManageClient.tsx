@@ -32,11 +32,14 @@ export default function ManageClient({ projectId }: { projectId: string }) {
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    try {
-      fetchProjectInfo();
-    } catch (error) {
-      alert(error);
-    }
+    const run = async () => {
+      try {
+        await fetchProjectInfo();
+      } catch (error) {
+        alert(error instanceof Error ? error.message : String(error));
+      }
+    };
+    run();
   }, []);
 
   const handleDelete = async () => {

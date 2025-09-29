@@ -1,14 +1,24 @@
 "use client";
 
-import ConnectGithubButton from "../../detail/components/ConnectGithubButton";
-import ConnectRepo from "../../detail/components/ConnectRepo";
+import ConnectGithubButton from "./ConnectGithubButton";
+import ConnectRepo from "./ConnectRepo";
 
 const RepositoryManagement = ({ projectId }: { projectId: string }) => {
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">레포지토리 관리</h2>
-      <div className="p-4 border rounded-md">
+    <div className="min-w-[380px] flex flex-col gap-8 justify-start items-start w-full">
+      <div className="flex flex-col gap-5 justify-start items-start w-full">
+        <div className="flex flex-col text-[14px]">
+          <span className="text-mtm-purple">Step1.</span>
+          <span>원하시는 Github저장소에 미팀봇을 설치해주세요!</span>
+        </div>
         <ConnectGithubButton />
+      </div>
+
+      <div className="flex flex-col gap-5 justify-start items-start w-full">
+        <div className="flex flex-col text-[14px]">
+          <span className="text-mtm-purple">Step2.</span>
+          <span>미팀봇을 설치한 저장소의 url주소를 입력해주세요!</span>
+        </div>
         <ConnectRepo projectId={projectId} />
       </div>
     </div>

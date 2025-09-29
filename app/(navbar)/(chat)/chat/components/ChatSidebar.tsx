@@ -4,31 +4,53 @@
 import NewIcon from "./NewIcon";
 import ChatHistory from "./ChatHistory";
 import { useEffect, useState } from "react";
-import { chatData } from "@/mocks/chatData";
+import { fetchAllChatrooms } from "@/api/chat";
+import { ChatHistorySummary } from "@/types/chat";
 // unread와 read로 나누어야함
 
 export default function ChatSideBar() {
   const [isExistNew, setIsExistNew] = useState(false);
-  const unReadChat = chatData.filter((chatData) => chatData.unread === true); // 새로운 채팅기록
-  const readChat = chatData.filter((chatData) => chatData.unread === false);
+  // const unReadChat = chatData.filter((chatData) => chatData.unread === true); // 새로운 채팅기록
+  // const readChat = chatData.filter((chatData) => chatData.unread === false);
+
+  const [chats, setChats] = useState<ChatHistorySummary[]>([]);
+  // useEffect(() => {
+  //   if (unReadChat.length !== 0) {
+  //     setIsExistNew(true);
+  //   }
+  // }, [unReadChat]);
+
   useEffect(() => {
-    if (unReadChat.length !== 0) {
-      setIsExistNew(true);
-    }
-  }, [unReadChat]);
+    const getAllChatrooms = async () => {
+      try {
+        const response = await fetchAllChatrooms();
+
+        if (response.success) {
+          setChats(response.data.result);
+        } else {
+          throw response.data.message;
+        }
+      } catch (error) {
+        alert(error);
+      }
+    };
+
+    getAllChatrooms();
+  }, []);
+
   return (
     <aside className="flex flex-col w-[258px] h-full min-h-0 bg-[#F9FAFA] py-6">
       <div className={isExistNew ? "" : "hidden"}>
         <div className="flex gap-4 items-center">
           <div className="font-bold ml-7.5 text-[#3395F9]">
-            {unReadChat.length}개의 미답변 질문
+            {/* {unReadChat.length}개의 미답변 질문 */}
           </div>
           <NewIcon />
         </div>
         <div className="flex flex-col">
-          {unReadChat.map((unReadChat) => (
+          {/* {unReadChat.map((unReadChat) => (
             <ChatHistory key={unReadChat.chatId} {...unReadChat} />
-          ))}
+          ))} */}
         </div>
         <hr className="text-[#EEEEEE] mt-3 mb-6" />
       </div>
@@ -36,8 +58,8 @@ export default function ChatSideBar() {
       <div className="flex-1 min-h-0 overflow-y-auto">
         <div className="font-bold ml-7.5 text-[#3395F9]">채팅 기록</div>
         <div className="flex flex-col">
-          {readChat.map((readChat) => (
-            <ChatHistory key={readChat.chatId} {...readChat} />
+          {chats.map((chat) => (
+            <ChatHistory key={chat.id} chatHistory={chat} />
           ))}
         </div>
       </div>

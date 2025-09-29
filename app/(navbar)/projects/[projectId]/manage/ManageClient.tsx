@@ -1,61 +1,112 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import TeamManagement from "./components/TeamManagement";
+import { useEffect, useState } from "react";
+import MemberList from "../components/MemberList";
+import { getProjectDetail } from "@/api/projectDetail";
+import { ProjectDetails } from "@/types/projectInfo";
+import Image from "next/image";
+import ArrowIcon from "@/public/images/right_arrow_icon.svg";
 import RepositoryManagement from "./components/RepositoryManagement";
-import DeleteProject from "./components/DeleteProject";
-import ModifyProject from "./components/ModifyProject";
-
-const tabs = [
-  { name: "설정", component: ModifyProject },
-  { name: "팀원 관리", component: TeamManagement },
-  { name: "레포지토리 관리", component: RepositoryManagement },
-  { name: "프로젝트 삭제", component: DeleteProject },
-];
+import { authFetch } from "@/api/authFetch";
+import { getUserProfile } from "@/api/user";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+import DangerModal from "@/components/DangerModal";
 
 export default function ManageClient({ projectId }: { projectId: string }) {
-  const [activeTab, setActiveTab] = useState(tabs[0].name);
-  const [gliderStyle, setGliderStyle] = useState({});
-  const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
+  const [project, setProject] = useState<ProjectDetails | null>(null);
+
+  const router = useRouter();
+  const { setUser } = useAuth();
+  const [showDeleteCofirmModal, setShowDeleteCofirmModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    const activeTabIndex = tabs.findIndex((tab) => tab.name === activeTab);
-    const activeTabEl = tabsRef.current[activeTabIndex];
-    if (activeTabEl) {
-      setGliderStyle({
-        left: activeTabEl.offsetLeft,
-        width: activeTabEl.offsetWidth,
-      });
+    const fetchProjectInfo = async () => {
+      const response = await getProjectDetail(projectId);
+      if (response.success) {
+        setProject(response.data);
+      } else {
+        throw new Error(response.data.message);
+      }
+    };
+
+    try {
+      fetchProjectInfo();
+    } catch (error) {
+      alert(error);
     }
-  }, [activeTab]);
+  }, []);
 
-  const ActiveComponent = tabs.find((tab) => tab.name === activeTab)?.component;
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    try {
+      const response = await authFetch(`/api/projects/${projectId}`, {
+        method: "DELETE",
+      });
 
+      if (response.ok) {
+        alert("프로젝트가 삭제되었습니다.");
+        // 플젝 삭제하고, 마이페이지에도 내 플젝 리스트가 있어서 삭제된 플젝 반영해줘야함 -> 프로필 업데이트
+        const updatedUser = await getUserProfile(); // 업데이트 된 사용자 정보를 Context에도 반영시켜줌
+        if (updatedUser) setUser(updatedUser);
+
+        router.push("/");
+      } else {
+        const errorData = await response.json();
+        alert(errorData.message);
+      }
+    } catch (error) {
+      console.error("Failed to delete project", error);
+      alert("프로젝트 삭제 중 오류가 발생했습니다.");
+    } finally {
+      setIsDeleting(false);
+      setShowDeleteCofirmModal(false);
+    }
+  };
+
+  if (!project) return <div>로딩중...</div>;
   return (
-    <div className="w-xl mx-auto py-10">
-      <div className="relative flex border-b">
-        {tabs.map((tab, index) => (
+    <main className="mx-auto mt-10 w-11/12 max-w-7xl min-w-5xl">
+      <h1 className="mb-11 text-4xl font-extrabold">
+        프로젝트 관리 {` >  ${project.name} `}
+      </h1>
+      <div className="flex justify-start gap-28">
+        <div className="flex flex-col justify-start items-start gap-7">
+          <h2 className="text-xl font-bold">팀원 관리</h2>
+          <MemberList members={project.projectMembers} />
+
           <button
-            key={tab.name}
-            ref={(el) => {
-              tabsRef.current[index] = el;
-            }}
-            className={`px-4 py-2 text-lg font-medium z-10 transition-colors duration-300 ${
-              activeTab === tab.name ? "text-blue-500" : "text-gray-500"
-            }`}
-            onClick={() => setActiveTab(tab.name)}
+            type="button"
+            className="flex justify-between w-full cursor-pointer border border-mtm-light-gray px-4 py-3"
           >
-            {tab.name}
+            프로젝트 수정
+            <Image src={ArrowIcon} alt="arrow" width={8} height={12} />
           </button>
-        ))}
-        <div
-          className="absolute bottom-0 h-0.5 bg-blue-500 transition-all duration-300 ease-in-out"
-          style={gliderStyle}
-        />
+
+          <button
+            type="button"
+            className="flex justify-between w-full cursor-pointer border border-mtm-light-gray px-4 py-3
+            text-red-500"
+            onClick={() => setShowDeleteCofirmModal(true)}
+          >
+            프로젝트 삭제
+            <Image src={ArrowIcon} alt="arrow" width={8} height={12} />
+          </button>
+        </div>
+
+        <div className="flex flex-col justify-start items-start gap-7">
+          <h2 className="text-xl font-bold">레포지토리 관리</h2>
+          <RepositoryManagement projectId={projectId} />
+        </div>
       </div>
-      <div className="py-10 min-h-[800px]">
-        {ActiveComponent && <ActiveComponent projectId={projectId} />}
-      </div>
-    </div>
+      <DangerModal
+        isOpen={showDeleteCofirmModal}
+        onChangeOpen={setShowDeleteCofirmModal}
+        onClickButton={handleDelete}
+        title="프로젝트를 정말 삭제하시겠습니까?"
+        description={`삭제하시려면 "삭제하기"를 입력하세요`}
+      />
+    </main>
   );
 }

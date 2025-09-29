@@ -72,19 +72,16 @@ export default function ApplicationClient() {
     if (submitting) return;
     setSubmitting(true);
     try {
-      const response = await authFetch(
-        `${API}/api/projects-application/decide`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            applicationId: applicationId,
-            decision: "ACCEPTED",
-          }),
+      const response = await authFetch(`/api/projects-application/decide`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          applicationId: applicationId,
+          decision: "ACCEPTED",
+        }),
+      });
 
       if (response.ok) {
         alert("승인되었습니다.");
@@ -106,19 +103,16 @@ export default function ApplicationClient() {
     if (submitting) return;
     setSubmitting(true);
     try {
-      const response = await authFetch(
-        `${API}/api/projects-application/decide`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            applicationId: applicationId,
-            decision: "REJECTED",
-          }),
+      const response = await authFetch(`/api/projects-application/decide`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          applicationId: applicationId,
+          decision: "REJECTED",
+        }),
+      });
 
       if (response.ok) {
         alert("거절하였습니다.");

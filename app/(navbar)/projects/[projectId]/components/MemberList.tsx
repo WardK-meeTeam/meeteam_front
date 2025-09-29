@@ -6,9 +6,13 @@ const NUM_OF_USERIMG = 7; // 프로필 이미지 없을 때 기본 이미지 넣
 export default function MemberList({
   members,
   mode = "DISPLAY",
+  projectId,
+  onUpdate,
 }: {
   members: Member[];
   mode?: "DISPLAY" | "MANAGE";
+  projectId: string;
+  onUpdate?: () => void;
 }) {
   const leaders = members.filter((member) => member.creator === true);
   const teamMembers = members.filter((member) => member.creator !== true);
@@ -25,6 +29,8 @@ export default function MemberList({
               `/images/userImg${(idx % NUM_OF_USERIMG) + 1}.png`
             }
             userName={person.name}
+            projectId={projectId}
+            onUpdate={onUpdate}
           />
         ))}
       </div>
@@ -42,6 +48,8 @@ export default function MemberList({
                 }
                 userName={person.name}
                 canEject={mode === "MANAGE"}
+                projectId={projectId}
+                onUpdate={onUpdate}
               />
             ))}
           </div>

@@ -169,13 +169,11 @@ export default function Page() {
         <KeyValueRow
           title={"자기 소개"}
           value={
-            newIntroduce !== null && (
-              <TextArea
-                maxSize={600}
-                value={newIntroduce}
-                onValueChange={setNewIntroduce}
-              />
-            )
+            <TextArea
+              maxSize={600}
+              value={newIntroduce ?? ""}
+              onValueChange={setNewIntroduce}
+            />
           }
         />
         <footer className="flex gap-x-4 justify-end">

@@ -6,7 +6,7 @@ export default function MemberRow({
   imgUrl,
   userName,
   userId,
-  canEject = true,
+  canEject = false,
 }: {
   imgUrl: string;
   userName: string;

@@ -71,7 +71,6 @@ export default function ProjectModifyClient({
   const [project, setProject] = useState<ProjectDetailsForModify>(initialState);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
-  const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const loadProjectDetail = useCallback(async () => {
     try {

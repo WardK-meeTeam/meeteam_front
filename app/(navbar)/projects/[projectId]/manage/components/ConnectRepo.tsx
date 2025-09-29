@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { siGithub } from "simple-icons/icons";
 import { authFetch } from "@/api/authFetch";
 
@@ -8,7 +8,6 @@ export default function ConnectRepo({ projectId }: { projectId: string }) {
   const [url, setUrl] = useState("");
   const [connectedRepo, setConnectedRepo] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

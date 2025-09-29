@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import ArrowIcon from "@/public/images/right_arrow_icon.svg";
 import { authFetch } from "@/api/authFetch";
-import { useRouter } from "next/navigation";
 
 export default function MemberRow({
   imgUrl,
@@ -21,7 +20,6 @@ export default function MemberRow({
   projectId: string;
   onUpdate?: () => void;
 }) {
-  const router = useRouter();
   // 프로젝트 수정 페이지에서 사용할 사용자 추방 로직
   const handleClickEject = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

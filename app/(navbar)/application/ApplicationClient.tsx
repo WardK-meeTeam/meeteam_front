@@ -127,7 +127,7 @@ export default function ApplicationClient() {
   };
 
   return (
-    <Modal>
+    <Modal intercepting={true}>
       {applicationInfo && (
         <div className="flex flex-col gap-12 justify-start">
           <div className="flex flex-row gap-12 justify-start items-center">

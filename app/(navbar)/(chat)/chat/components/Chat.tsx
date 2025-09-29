@@ -17,6 +17,19 @@ export default function Chat({ id }: { id: string }) {
   const chatContainerRef = useRef<HTMLDivElement>(null); // 채팅페이지 들어왔을 때 제일 마지막 채팅으로 자동스크롤 하기 위함
   const formRef = useRef<HTMLFormElement>(null);
 
+  const getMessages = async () => {
+    try {
+      const actionResult = await fetchAllMessages(id);
+      if (actionResult.success) {
+        setMessages(actionResult.data);
+      } else {
+        alert(actionResult.error.message);
+      }
+    } catch (error) {
+      alert(`알 수 없는 오류가 발생했습니다.(${error})`);
+    }
+  };
+
   function handleChangeInput(e: React.ChangeEvent<HTMLTextAreaElement>) {
     setInputMessage(e.target.value);
     setIsOnChat(e.target.value.trim() !== "");
@@ -44,6 +57,7 @@ export default function Chat({ id }: { id: string }) {
       if (response.success) {
         // 성공하면 textArea 초기화
         setInputMessage("");
+        getMessages();
       } else {
         console.log("메세지 보내기 실패");
       }
@@ -63,19 +77,6 @@ export default function Chat({ id }: { id: string }) {
   });
 
   useEffect(() => {
-    const getMessages = async () => {
-      try {
-        const actionResult = await fetchAllMessages(id);
-        if (actionResult.success) {
-          setMessages(actionResult.data);
-        } else {
-          alert(actionResult.error.message);
-        }
-      } catch (error) {
-        alert(`알 수 없는 오류가 발생했습니다.(${error})`);
-      }
-    };
-
     getMessages();
   }, [id]);
 

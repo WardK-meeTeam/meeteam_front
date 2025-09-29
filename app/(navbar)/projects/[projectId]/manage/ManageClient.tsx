@@ -81,7 +81,7 @@ export default function ManageClient({ projectId }: { projectId: string }) {
       <div className="flex justify-start gap-28">
         <div className="flex flex-col justify-start items-start gap-7">
           <h2 className="text-xl font-bold">팀원 관리</h2>
-          <MemberList members={project.projectMembers} />
+          <MemberList members={project.projectMembers} mode="MANAGE" />
 
           <button
             type="button"

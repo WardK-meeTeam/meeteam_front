@@ -92,7 +92,7 @@ export default function ProjectPageClient({
     }
 
     setIsCreator(true);
-  }, [projectMembers, isLoading]);
+  }, [projectMembers, isLoading, user?.memberId]);
   return (
     <div className="flex flex-row gap-16 max-w-7xl mx-auto pb-24">
       <aside className="w-[194px] flex-1">
@@ -104,7 +104,7 @@ export default function ProjectPageClient({
               type="button"
               onClick={() => router.push(`/projects/${projectId}/manage`)}
               className="cursor-pointer flex justify-between p-3 border border-mtm-light-gray rounded-xl
-            transition-all duraiton-200 ease-in-out hover:bg-mtm-light-purple
+            transition-all duration-200 ease-in-out hover:bg-mtm-light-purple
             "
             >
               <span className="text-[14px] text-mtm-purple">프로젝트 설정</span>

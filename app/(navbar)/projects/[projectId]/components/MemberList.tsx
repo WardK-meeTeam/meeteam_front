@@ -8,7 +8,7 @@ export default function MemberList({
   mode = "DISPLAY",
 }: {
   members: Member[];
-  mode: "DISPLAY" | "MANAGE";
+  mode?: "DISPLAY" | "MANAGE";
 }) {
   const leaders = members.filter((member) => member.creator === true);
   const teamMembers = members.filter((member) => member.creator !== true);

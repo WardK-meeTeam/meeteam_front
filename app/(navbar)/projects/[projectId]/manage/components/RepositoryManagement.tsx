@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import ConnectGithubButton from "./ConnectGithubButton";
 import ConnectRepo from "./ConnectRepo";
 
@@ -21,6 +22,8 @@ const RepositoryManagement = ({ projectId }: { projectId: string }) => {
         </div>
         <ConnectRepo projectId={projectId} />
       </div>
+
+      <Link href={`/projects/${projectId}/manage/github`}>깃허브 관리</Link>
     </div>
   );
 };

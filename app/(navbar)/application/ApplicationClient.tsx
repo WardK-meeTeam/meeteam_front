@@ -45,7 +45,7 @@ export default function ApplicationClient() {
 
     try {
       const response = await authFetch(
-        `${API}/api/projects-application/${projectId}/${applicationId}`,
+        `/api/projects-application/${projectId}/${applicationId}`,
       );
 
       if (response.ok) {

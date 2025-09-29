@@ -12,6 +12,7 @@ import { getUserProfile } from "@/api/user";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import DangerModal from "@/components/DangerModal";
+import Link from "next/link";
 
 export default function ManageClient({ projectId }: { projectId: string }) {
   const [project, setProject] = useState<ProjectDetails | null>(null);
@@ -69,7 +70,13 @@ export default function ManageClient({ projectId }: { projectId: string }) {
   return (
     <main className="mx-auto mt-10 w-11/12 max-w-7xl min-w-5xl">
       <h1 className="mb-11 text-4xl font-extrabold">
-        프로젝트 관리 {` >  ${project.name} `}
+        프로젝트 관리{"  >  "}
+        <Link
+          href={`/projects/${projectId}/detail`}
+          className="hover:underline"
+        >
+          {project.name}
+        </Link>
       </h1>
       <div className="flex justify-start gap-28">
         <div className="flex flex-col justify-start items-start gap-7">
@@ -79,6 +86,7 @@ export default function ManageClient({ projectId }: { projectId: string }) {
           <button
             type="button"
             className="flex justify-between w-full cursor-pointer border border-mtm-light-gray px-4 py-3"
+            onClick={() => router.push(`/projects/${projectId}/manage/edit`)}
           >
             프로젝트 수정
             <Image src={ArrowIcon} alt="arrow" width={8} height={12} />
@@ -106,6 +114,8 @@ export default function ManageClient({ projectId }: { projectId: string }) {
         onClickButton={handleDelete}
         title="프로젝트를 정말 삭제하시겠습니까?"
         description={`삭제하시려면 "삭제하기"를 입력하세요`}
+        cancelText="삭제하지 않기"
+        isLoading={isDeleting}
       />
     </main>
   );

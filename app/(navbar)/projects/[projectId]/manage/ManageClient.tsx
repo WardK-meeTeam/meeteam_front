@@ -27,7 +27,7 @@ export default function ManageClient({ projectId }: { projectId: string }) {
   };
 
   const router = useRouter();
-  const { setUser } = useAuth();
+  const { user, setUser } = useAuth();
   const [showDeleteCofirmModal, setShowDeleteCofirmModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -41,6 +41,20 @@ export default function ManageClient({ projectId }: { projectId: string }) {
     };
     run();
   }, []);
+
+  useEffect(() => {
+    if (!project) return;
+    if (
+      project.projectMembers.filter(
+        (member) =>
+          member.creator === true && member.memberId === user?.memberId,
+      ).length === 0
+    ) {
+      alert("해당 프로젝트 관리 권한이 없습니다!");
+      router.back();
+      return;
+    }
+  }, [user, projectId]);
 
   const handleDelete = async () => {
     setIsDeleting(true);

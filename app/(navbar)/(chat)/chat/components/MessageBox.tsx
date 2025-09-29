@@ -29,7 +29,11 @@ export default function MessageBox({ chat }: MessageBoxProps) {
       <div
         className={`flex ${chat.messageType === "SYSTEM" ? "justify-start" : "justify-end"}`}
       >
-        <div className="text-[#979797] text-[14px]">{chat.createdAt}</div>
+        <div className="text-[#979797] text-[14px]">
+          {new Date(`${chat.createdAt}+00:00`)
+            .toLocaleString("ko-KR")
+            .slice(0, 20)}
+        </div>
       </div>
     </div>
   );

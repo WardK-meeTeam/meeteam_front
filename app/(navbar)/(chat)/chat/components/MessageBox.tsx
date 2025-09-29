@@ -1,33 +1,35 @@
-export default function MessageBox({
-  role,
-  content,
-  timestamp,
-}: {
-  role: string;
-  content: string;
-  timestamp: string;
-}) {
+import { ChatMessage } from "@/types/chat";
+
+interface MessageBoxProps {
+  chat: ChatMessage;
+}
+
+export default function MessageBox({ chat }: MessageBoxProps) {
   return (
     <div className="flex flex-col">
       <div
         className={`flex ${
-          role === "user" ? "justify-end " : "justify-start flex-row-reverse"
+          chat.messageType === "SYSTEM"
+            ? "justify-start flex-row-reverse"
+            : "justify-end "
         }`}
       >
         <div className="flex-1"></div>
         {/*AI채팅은 왼쪽, 유저 채팅은 오른쪽 정렬용*/}
         <div
           className={`px-6 py-4 ${
-            role === "user" ? "bg-[#3395F9] text-white" : "bg-[#F9FAFA]"
+            chat.messageType === "SYSTEM"
+              ? "bg-[#F9FAFA]"
+              : "bg-[#3395F9] text-white"
           } max-w-[830px] rounded-[8px]`}
         >
-          {content}
+          {chat.content}
         </div>
       </div>
       <div
-        className={`flex ${role === "user" ? "justify-end " : "justify-start"}`}
+        className={`flex ${chat.messageType === "SYSTEM" ? "justify-start" : "justify-end"}`}
       >
-        <div className="text-[#979797] text-[14px]">{timestamp}</div>
+        <div className="text-[#979797] text-[14px]">{chat.createdAt}</div>
       </div>
     </div>
   );

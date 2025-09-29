@@ -17,21 +17,21 @@ import Link from "next/link";
 export default function ManageClient({ projectId }: { projectId: string }) {
   const [project, setProject] = useState<ProjectDetails | null>(null);
 
+  const fetchProjectInfo = async () => {
+    const response = await getProjectDetail(projectId);
+    if (response.success) {
+      setProject(response.data);
+    } else {
+      throw new Error(response.data.message);
+    }
+  };
+
   const router = useRouter();
   const { setUser } = useAuth();
   const [showDeleteCofirmModal, setShowDeleteCofirmModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    const fetchProjectInfo = async () => {
-      const response = await getProjectDetail(projectId);
-      if (response.success) {
-        setProject(response.data);
-      } else {
-        throw new Error(response.data.message);
-      }
-    };
-
     try {
       fetchProjectInfo();
     } catch (error) {
@@ -81,7 +81,12 @@ export default function ManageClient({ projectId }: { projectId: string }) {
       <div className="flex justify-start gap-28">
         <div className="flex flex-col justify-start items-start gap-7">
           <h2 className="text-xl font-bold">팀원 관리</h2>
-          <MemberList members={project.projectMembers} mode="MANAGE" />
+          <MemberList
+            members={project.projectMembers}
+            projectId={projectId}
+            mode="MANAGE"
+            onUpdate={fetchProjectInfo}
+          />
 
           <button
             type="button"

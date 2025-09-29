@@ -15,7 +15,7 @@ import { authFetch } from "@/api/authFetch";
 import { categories } from "@/mocks/projectCategories";
 import { platforms } from "@/mocks/projectPlatforms";
 
-interface ProjectDetails {
+interface ProjectDetailsForModify {
   projectName: string;
   projectCategories: string;
   platform: string;
@@ -38,7 +38,7 @@ interface ProjectDetails {
   recruitments: any[]; // You might want to define a proper type for this
 }
 
-const initialState: ProjectDetails = {
+const initialState: ProjectDetailsForModify = {
   projectName: "",
   projectCategories: "",
   platform: "",
@@ -62,7 +62,7 @@ const initialState: ProjectDetails = {
 };
 
 export default function ModifyProject({ projectId }: { projectId: string }) {
-  const [project, setProject] = useState<ProjectDetails>(initialState);
+  const [project, setProject] = useState<ProjectDetailsForModify>(initialState);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const API = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -116,8 +116,8 @@ export default function ModifyProject({ projectId }: { projectId: string }) {
   }, [loadProjectDetail]);
 
   const handleValueChange =
-    (field: keyof ProjectDetails) =>
-    (value: ProjectDetails[keyof ProjectDetails]) => {
+    (field: keyof ProjectDetailsForModify) =>
+    (value: ProjectDetailsForModify[keyof ProjectDetailsForModify]) => {
       setProject((prev) => ({ ...prev, [field]: value }));
     };
 

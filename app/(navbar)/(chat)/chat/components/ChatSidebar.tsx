@@ -9,7 +9,7 @@ import { ChatHistorySummary } from "@/types/chat";
 // unread와 read로 나누어야함
 
 export default function ChatSideBar() {
-  const [isExistNew, setIsExistNew] = useState(false);
+  // const [isExistNew, setIsExistNew] = useState(false);
   // const unReadChat = chatData.filter((chatData) => chatData.unread === true); // 새로운 채팅기록
   // const readChat = chatData.filter((chatData) => chatData.unread === false);
 

@@ -26,8 +26,6 @@ interface ApplicationInfo {
 }
 
 export default function ApplicationClient() {
-  const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-
   const applicationId = useSearchParams().get("applicationId");
   const projectId = useSearchParams().get("projectId");
   const router = useRouter();

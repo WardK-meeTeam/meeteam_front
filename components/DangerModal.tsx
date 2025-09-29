@@ -28,6 +28,14 @@ export default function DangerModal({
     if (text.trim() === "삭제하기") setCorrectInput(true);
     else setCorrectInput(false);
   }, [text]);
+
+  // 열고 닫을 때 text 상태 초기화
+  useEffect(() => {
+    if (!isOpen) {
+      setText("");
+      setCorrectInput(false);
+    }
+  }, [isOpen]);
   return (
     <>
       {isOpen && (
@@ -55,7 +63,7 @@ export default function DangerModal({
                 disabled={!correctInput || isLoading}
                 type="button"
                 className={`px-4 py-2 bg-mtm-main-red text-white rounded-md disabled:bg-gray-400
-                  ${!correctInput || isLoading ? "" : "cursor-pointer`"}
+                  ${!correctInput || isLoading ? "" : "cursor-pointer"}
                   `}
               >
                 {isLoading ? "삭제 중..." : "삭제하기"}

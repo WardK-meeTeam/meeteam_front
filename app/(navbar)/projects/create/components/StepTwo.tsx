@@ -7,8 +7,11 @@ import { urlToFile } from "@/utils/urlToFile";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authFetch } from "@/api/authFetch";
+import { getUserProfile } from "@/api/user";
+import { useAuth } from "@/context/AuthContext";
 
 export default function StepTwo() {
+  const { setUser } = useAuth();
   const text = useProjectGenerateStore((state) => state.projectDescription);
   const setText = useProjectGenerateStore(
     (state) => state.setProjectDescription,
@@ -78,6 +81,8 @@ export default function StepTwo() {
           const data = await response.json();
           const projectId = data.result.id;
           alert("프로젝트가 생성되었습니다!");
+          const updatedUser = await getUserProfile(); // 업데이트 된 사용자 정보를 Context에도 반영시켜줌
+          if (updatedUser) setUser(updatedUser);
           router.push(`/projects/${projectId}/detail`);
         } else {
           //   {

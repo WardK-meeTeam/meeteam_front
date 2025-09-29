@@ -1,8 +1,66 @@
-export type ProjectCategory ="ENVIRONMENT" | "PET" | "HEALTHCARE" | "EDUCATION" | "AI_TECH" | "FASHION_BEAUTY" | "FINANCE_PRODUCTIVITY" | "ETC";
+export type ProjectCategory =
+  | "ENVIRONMENT"
+  | "PET"
+  | "HEALTHCARE"
+  | "EDUCATION"
+  | "AI_TECH"
+  | "FASHION_BEAUTY"
+  | "FINANCE_PRODUCTIVITY"
+  | "ETC";
 export type Recruitment = "RECRUITING" | "CLOSED";
 export type PlatformCategory = "IOS" | "ANDROID" | "WEB";
 export type BigCategory = "기획" | "디자인" | "프론트엔드" | "백엔드" | "기타";
-export type TechStack = "ANSIBLE" | "AWS" | "DOCKER" | "ELASTICSEARCH" | "EXPRESS" | "GIT" | "GITHUB_ACTIONS" | "GRADLE" | "GRAFANA" | "GRAPHQL" | "GRPC" | "HIBERNATE" | "HTML_CSS" | "JAVA" | "JAVASCRIPT" | "JENKINS" | "JPA" | "JUNIT5" | "JWT" | "KAFKA" | "KIBANA" | "KOTLIN" | "KUBERNETES" | "LINUX" | "LOGSTASH" | "MAVEN" | "MICROMETER" | "MOCKITO" | "MONGODB" | "MYSQL" | "NEXT_JS" | "NGINX" | "NODE_JS" | "OAUTH2" | "OPENAPI_SWAGGER" | "POSTGRESQL" | "PROMETHEUS" | "PYTHON" | "QUERYDSL" | "RABBITMQ" | "REACT" | "REDIS" | "SPRING" | "SPRING_BOOT" | "SSE" | "TAILWIND_CSS" | "TERRAFORM" | "TYPESCRIPT" | "WEBFLUX" | "WEBSOCKET";
+export type TechStack =
+  | "ANSIBLE"
+  | "AWS"
+  | "DOCKER"
+  | "ELASTICSEARCH"
+  | "EXPRESS"
+  | "GIT"
+  | "GITHUB_ACTIONS"
+  | "GRADLE"
+  | "GRAFANA"
+  | "GRAPHQL"
+  | "GRPC"
+  | "HIBERNATE"
+  | "HTML_CSS"
+  | "JAVA"
+  | "JAVASCRIPT"
+  | "JENKINS"
+  | "JPA"
+  | "JUNIT5"
+  | "JWT"
+  | "KAFKA"
+  | "KIBANA"
+  | "KOTLIN"
+  | "KUBERNETES"
+  | "LINUX"
+  | "LOGSTASH"
+  | "MAVEN"
+  | "MICROMETER"
+  | "MOCKITO"
+  | "MONGODB"
+  | "MYSQL"
+  | "NEXT_JS"
+  | "NGINX"
+  | "NODE_JS"
+  | "OAUTH2"
+  | "OPENAPI_SWAGGER"
+  | "POSTGRESQL"
+  | "PROMETHEUS"
+  | "PYTHON"
+  | "QUERYDSL"
+  | "RABBITMQ"
+  | "REACT"
+  | "REDIS"
+  | "SPRING"
+  | "SPRING_BOOT"
+  | "SSE"
+  | "TAILWIND_CSS"
+  | "TERRAFORM"
+  | "TYPESCRIPT"
+  | "WEBFLUX"
+  | "WEBSOCKET";
 
 export interface ProjectSearchParams {
   projectCategory?: ProjectCategory;
@@ -91,4 +149,10 @@ export interface ProjectRecruitInfoItem {
   endDate: string;
   skills: string[];
   recruitments: RecruitStatus[];
+}
+
+export interface ProjectDetails
+  extends ProjectInfoItem,
+    ProjectRecruitInfoItem {
+  projectMembers: Member[];
 }

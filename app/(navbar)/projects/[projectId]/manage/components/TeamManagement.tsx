@@ -5,7 +5,7 @@ import { authFetch } from "@/api/authFetch";
 import { Member } from "@/types/projectInfo";
 import MemberList from "../../components/MemberList";
 
-const TeamManagement = ({ projectId }: { projectId: string }) => {
+export default function TeamManagement({ projectId }: { projectId: string }) {
   const [members, setMembers] = useState<Member[]>([]);
   const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -22,6 +22,4 @@ const TeamManagement = ({ projectId }: { projectId: string }) => {
   }, [fetchProjectMembers]);
 
   return <MemberList members={members} />;
-};
-
-export default TeamManagement;
+}

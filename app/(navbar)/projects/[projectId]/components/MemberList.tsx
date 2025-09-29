@@ -3,7 +3,13 @@ import MemberRow from "./MemberRow";
 
 const NUM_OF_USERIMG = 7; // 프로필 이미지 없을 때 기본 이미지 넣어주는 용도
 
-export default function MemberList({ members }: { members: Member[] }) {
+export default function MemberList({
+  members,
+  mode = "DISPLAY",
+}: {
+  members: Member[];
+  mode: "DISPLAY" | "MANAGE";
+}) {
   const leaders = members.filter((member) => member.creator === true);
   const teamMembers = members.filter((member) => member.creator !== true);
   return (
@@ -35,6 +41,7 @@ export default function MemberList({ members }: { members: Member[] }) {
                   `/images/userImg${(idx % NUM_OF_USERIMG) + 1}.png`
                 }
                 userName={person.name}
+                canEject={mode === "MANAGE"}
               />
             ))}
           </div>

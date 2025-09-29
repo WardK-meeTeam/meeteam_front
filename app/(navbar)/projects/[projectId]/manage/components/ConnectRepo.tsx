@@ -15,16 +15,13 @@ export default function ConnectRepo({ projectId }: { projectId: string }) {
     setIsSubmitting(true);
 
     try {
-      const response = await authFetch(
-        `${API}/api/projects/${projectId}/repos`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ repoUrls: [url] }),
+      const response = await authFetch(`/api/projects/${projectId}/repos`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({ repoUrls: [url] }),
+      });
 
       if (response.ok) {
         setConnectedRepo(url);

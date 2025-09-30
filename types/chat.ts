@@ -37,5 +37,5 @@ export interface ChatMessage {
   editedAt: string | null;
   isEdited: boolean;
   isDeleted: boolean;
-  mentionedUserIds: number | null;
+  mentionedUserIds: number[] | null;
 }

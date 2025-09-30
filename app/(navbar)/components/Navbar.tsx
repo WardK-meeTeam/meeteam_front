@@ -12,6 +12,7 @@ import {
   ProjectMyApplyNotification,
 } from "@/types/notification";
 import { useAuth } from "@/context/AuthContext";
+import Cookies from "js-cookie";
 
 type SSENotification =
   | ProjectApplyNotification
@@ -36,7 +37,7 @@ export default function Navbar() {
   // 이부분은 SSE 구현부
   useEffect(() => {
     const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-    const accessToken = localStorage.getItem("accessToken");
+    const accessToken = Cookies.get("accessToken");
 
     if (!accessToken) {
       console.log("로그인 필요함");
@@ -94,6 +95,12 @@ export default function Navbar() {
         <Link href={"/projects"} className='font-semibold cursor-pointer"'>
           프로젝트
         </Link>
+        <Link
+          href={"/projects/create"}
+          className='font-semibold cursor-pointer"'
+        >
+          프로젝트 생성
+        </Link>
       </div>
       <div className="flex gap-5 items-center">
         <form
@@ -127,7 +134,7 @@ export default function Navbar() {
             <li className="text-mtm-text-gray pl-2 min-w-50">
               <Link href={`/users/${user.memberId}`} className="font-bold">
                 {user?.name ?? ""}님!
-              </Link>
+              </Link>{" "}
               안녕하세요
             </li>
           ) : (

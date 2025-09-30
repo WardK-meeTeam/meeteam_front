@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import NotificationBox from "./components/NotificationBox";
 import { Notification } from "@/types/notification";
 import { authFetch } from "@/api/authFetch";
+import Cookies from "js-cookie";
 
 export default function Page() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   useEffect(() => {
-    const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-    const accessToken = localStorage.getItem("accessToken");
+    const accessToken = Cookies.get("accessToken");
     if (!accessToken) {
       alert("로그인이 필요합니다!");
       return;
@@ -17,7 +17,7 @@ export default function Page() {
 
     const fetchNotifications = async () => {
       try {
-        const response = await authFetch(`${API}/api/notifications`);
+        const response = await authFetch(`/api/notifications`);
 
         if (response.ok) {
           const data = await response.json();
@@ -34,7 +34,7 @@ export default function Page() {
     fetchNotifications();
   }, []);
   return (
-    <div className="flex flex-col gap-14 w-5xl mx-auto mt-10">
+    <div className="flex flex-col gap-14 mx-auto mt-10 w-5xl">
       <h1 className="text-4xl font-extrabold">알림</h1>
       <div className="flex flex-col gap-3 w-full">
         {notifications.map((noti) => (

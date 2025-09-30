@@ -10,12 +10,12 @@ import TextArea from "@/components/TextArea";
 import MainButton from "@/components/MainButton";
 import SubButton from "@/components/SubButton";
 import { urlToFile } from "@/utils/urlToFile";
-import ImageUploader from "@/app/(auth)/setting-after-signup/components/ImageUploader";
 import { useRouter } from "next/navigation";
 import { profileEditSchema } from "@/types/profileEdit";
 import { useAuth } from "@/context/AuthContext";
 import { getUserProfile } from "@/api/user";
 import { authFetch } from "@/api/authFetch";
+import ImageUploader from "@/app/(auth)/signup/profile/setting/components/ImageUploader";
 
 export default function Page() {
   const { user, isLoading, setUser } = useAuth();
@@ -94,10 +94,9 @@ export default function Page() {
     }
 
     setSubmitting(true);
-    const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
     try {
-      const response = await authFetch(`${API}/api/members`, {
+      const response = await authFetch(`/api/members`, {
         method: "PUT",
         body: formData,
       });
@@ -122,10 +121,10 @@ export default function Page() {
   const { name, age, gender, email } = user;
   return (
     <form
-      className="flex flex-col gap-16 mx-auto min-w-2xl pb-20"
+      className="flex flex-col gap-16 pb-20 mx-auto min-w-2xl"
       onSubmit={handleSubmit}
     >
-      <h1 className="font-extrabold text-4xl">정보 수정</h1>
+      <h1 className="text-4xl font-extrabold">정보 수정</h1>
 
       <div className="flex flex-col gap-y-12 min-w-xl max-w-[600px]">
         <ImageUploader value={newImage} onUploadImage={setNewImage} />
@@ -170,16 +169,14 @@ export default function Page() {
         <KeyValueRow
           title={"자기 소개"}
           value={
-            newIntroduce !== null && (
-              <TextArea
-                maxSize={600}
-                value={newIntroduce}
-                onValueChange={setNewIntroduce}
-              />
-            )
+            <TextArea
+              maxSize={600}
+              value={newIntroduce ?? ""}
+              onValueChange={setNewIntroduce}
+            />
           }
         />
-        <footer className="flex justify-end gap-x-4">
+        <footer className="flex gap-x-4 justify-end">
           <SubButton
             buttonName="취소"
             type="button"

@@ -26,8 +26,6 @@ interface ApplicationInfo {
 }
 
 export default function ApplicationClient() {
-  const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-
   const applicationId = useSearchParams().get("applicationId");
   const projectId = useSearchParams().get("projectId");
   const router = useRouter();
@@ -45,7 +43,7 @@ export default function ApplicationClient() {
 
     try {
       const response = await authFetch(
-        `${API}/api/projects-application/${projectId}/${applicationId}`,
+        `/api/projects-application/${projectId}/${applicationId}`,
       );
 
       if (response.ok) {
@@ -72,19 +70,16 @@ export default function ApplicationClient() {
     if (submitting) return;
     setSubmitting(true);
     try {
-      const response = await authFetch(
-        `${API}/api/projects-application/decide`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            applicationId: applicationId,
-            decision: "ACCEPTED",
-          }),
+      const response = await authFetch(`/api/projects-application/decide`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          applicationId: applicationId,
+          decision: "ACCEPTED",
+        }),
+      });
 
       if (response.ok) {
         alert("승인되었습니다.");
@@ -106,19 +101,16 @@ export default function ApplicationClient() {
     if (submitting) return;
     setSubmitting(true);
     try {
-      const response = await authFetch(
-        `${API}/api/projects-application/decide`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            applicationId: applicationId,
-            decision: "REJECTED",
-          }),
+      const response = await authFetch(`/api/projects-application/decide`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          applicationId: applicationId,
+          decision: "REJECTED",
+        }),
+      });
 
       if (response.ok) {
         alert("거절하였습니다.");
@@ -135,29 +127,29 @@ export default function ApplicationClient() {
   };
 
   return (
-    <Modal>
+    <Modal intercepting={true}>
       {applicationInfo && (
-        <div className="flex flex-col justify-start gap-12">
-          <div className="flex flex-row justify-start items-center gap-12">
+        <div className="flex flex-col gap-12 justify-start">
+          <div className="flex flex-row gap-12 justify-start items-center">
             <Link
               href={`/users/${applicationInfo.applicantId}`}
-              className="flex flex-col items-center gap-2 group cursor-pointer"
+              className="flex flex-col gap-2 items-center cursor-pointer group"
             >
               <div className="w-[100px] h-[100px] rounded-full overflow-hidden">
                 <Image
                   src={applicationInfo.imageUrl ?? userImg}
                   width={100}
                   height={100}
-                  className="w-full h-full object-cover object-center"
+                  className="object-cover object-center w-full h-full"
                   alt="사용자"
                 />
               </div>
-              <span className="font-semibold text-xl group-hover:underline">
+              <span className="text-xl font-semibold group-hover:underline">
                 {applicationInfo.applicantName}
               </span>
             </Link>
 
-            <table className="border-spacing-5 border-separate">
+            <table className="border-separate border-spacing-5">
               <tbody>
                 <tr>
                   <th className="text-start">지원 분야</th>

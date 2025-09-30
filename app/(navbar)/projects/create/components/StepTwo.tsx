@@ -7,8 +7,11 @@ import { urlToFile } from "@/utils/urlToFile";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authFetch } from "@/api/authFetch";
+import { getUserProfile } from "@/api/user";
+import { useAuth } from "@/context/AuthContext";
 
 export default function StepTwo() {
+  const { setUser } = useAuth();
   const text = useProjectGenerateStore((state) => state.projectDescription);
   const setText = useProjectGenerateStore(
     (state) => state.setProjectDescription,
@@ -59,10 +62,8 @@ export default function StepTwo() {
 
     // API 호출부
     const fetchCreateProjects = async () => {
-      const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-
       try {
-        const response = await authFetch(`${API}/api/projects`, {
+        const response = await authFetch(`/api/projects`, {
           method: "POST",
           body: formData,
         });
@@ -80,6 +81,8 @@ export default function StepTwo() {
           const data = await response.json();
           const projectId = data.result.id;
           alert("프로젝트가 생성되었습니다!");
+          const updatedUser = await getUserProfile(); // 업데이트 된 사용자 정보를 Context에도 반영시켜줌
+          if (updatedUser) setUser(updatedUser);
           router.push(`/projects/${projectId}/detail`);
         } else {
           //   {
@@ -105,8 +108,8 @@ export default function StepTwo() {
     }
   };
   return (
-    <form className="min-h-screen flex flex-col" onSubmit={handleSubmit}>
-      <div className="min-h-screen flex flex-col">
+    <form className="flex flex-col min-h-screen" onSubmit={handleSubmit}>
+      <div className="flex flex-col min-h-screen">
         <div className="w-[1000px] m-auto flex flex-col justify-start py-10 flex-1 ">
           <b className="text-[26px] mb-10">프로젝트 등록</b>
           <MarkDown maxSize={800} text={text} onChangeText={setText} />

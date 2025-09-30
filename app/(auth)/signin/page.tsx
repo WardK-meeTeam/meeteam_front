@@ -1,21 +1,18 @@
 "use client";
 
 import { loginWithEmail } from "@/api/auth";
-import { getUserProfile } from "@/api/user";
 import Input from "@/components/Input";
 import MainButton from "@/components/MainButton";
 import SocialSignInButton from "@/components/SocialSignInButton";
-import { useAuth } from "@/context/AuthContext";
-import { UserProfile } from "@/types/userProfile";
+
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useAuthBootstrap } from "@/hooks/useAuthBootstrap";
 
 const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export default function Page() {
-  const router = useRouter();
-  const { setUser } = useAuth();
+  const { LoginInit } = useAuthBootstrap();
 
   const [loginFormData, setLoginFormData] = useState<{
     email: string;
@@ -43,20 +40,8 @@ export default function Page() {
     try {
       // 1단계는 로그인 API 호출
       const { accessToken } = await loginWithEmail(loginFormData);
-      localStorage.setItem("accessToken", accessToken);
-
-      // 2단계는 유저정보 가져오기
-      //로그인이 정상적으로 되었다면 유저정보 가져오는 API 호출
-      const user: UserProfile = await getUserProfile();
-
-      if (user) {
-        setUser(user);
-        router.push("/");
-      } else {
-        throw new Error("사용자 정보를 가져오는 데 실패했습니다.");
-      }
+      LoginInit(accessToken);
     } catch (error) {
-      localStorage.removeItem("accessToken");
       if (error instanceof Error) {
         alert(error.message);
       } else {
@@ -70,7 +55,7 @@ export default function Page() {
       <Link href={"/"}>
         <h1 className="text-2xl font-bold text-mtm-main-blue">meeTeam</h1>
       </Link>
-      <div className="flex flex-col w-full justify-start items-center gap-3 ">
+      <div className="flex flex-col gap-3 justify-start items-center w-full">
         <SocialSignInButton
           platform="google"
           text="Google로 로그인하기"
@@ -82,10 +67,10 @@ export default function Page() {
           onClick={() => handleClickSignUp("github")}
         />
       </div>
-      <span className="flex flex-row justify-center items-center w-full box-border">
-        <div className="bg-mtm-light-gray h-px flex-1" />
+      <span className="box-border flex flex-row justify-center items-center w-full">
+        <div className="flex-1 h-px bg-mtm-light-gray" />
         <span className="px-4 text-xs">or</span>
-        <div className="bg-mtm-light-gray h-px flex-1" />
+        <div className="flex-1 h-px bg-mtm-light-gray" />
       </span>
       <form className="flex flex-col gap-3 w-full" onSubmit={handleLogin}>
         <div className="flex flex-col">
@@ -114,8 +99,8 @@ export default function Page() {
       <div className="mt-10">
         아직 meeTeam 계정이 없으신가요?
         <Link
-          href={"/setting-after-signup?type=email"}
-          className="text-mtm-main-blue cursor-pointer"
+          href={"/signup/profile/setting?type=email"}
+          className="cursor-pointer text-mtm-main-blue"
         >
           {" "}
           가입하기

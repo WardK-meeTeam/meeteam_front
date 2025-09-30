@@ -12,10 +12,10 @@ import Input from "@/components/Input";
 import { PASSWORD_MIN_LENGTH } from "@/app/lib/constants";
 
 import { Suspense, useState } from "react";
-import { createAccount } from "../../../api/createAccount";
 
 import { baseSchema, emailSchema } from "@/types/auth";
 import { urlToFile } from "@/utils/urlToFile";
+import { createAccount } from "@/api/createAccount";
 
 function SettingAfterSignupForm() {
   const store = useSignUpStore();

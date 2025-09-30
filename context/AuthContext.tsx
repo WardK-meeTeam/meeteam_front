@@ -2,6 +2,7 @@
 import { getUserProfile } from "@/api/user";
 import { UserProfile } from "@/types/userProfile";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 import {
   createContext,
   ReactNode,
@@ -27,7 +28,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const checkUserData = async () => {
-      // 먼저 액세스 토큰이 있으면 그 토큰 기반으로 유저 데이터를 다시 불러옴
+      // 먼저 쿠키에 액세스 토큰이 있는지 확인
+      const accessToken = Cookies.get("accessToken");
+      
+      if (!accessToken) {
+        // 토큰이 없으면 로그인하지 않은 상태
+        setUser(null);
+        setIsLoading(false);
+        return;
+      }
+
+      // 토큰이 있으면 유저 데이터를 불러옴
       try {
         const userData = await getUserProfile();
         if (userData) {
@@ -48,7 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // 로그아웃 시 유저 데이터 삭제 및 메인 페이지 리다이렉트
 
     // !! 여기 나중에 로그아웃 API 파고, 그거 호출하는 방식으로 변경해야함!!
-    localStorage.removeItem("accessToken");
+    Cookies.remove("accessToken");
     setUser(null);
     router.push("/");
   };

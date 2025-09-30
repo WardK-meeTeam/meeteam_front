@@ -4,7 +4,17 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 
-export default function Modal({ children }: { children: ReactNode }) {
+interface ModalProps {
+  children: ReactNode;
+  intercepting?: boolean;
+  onClose?: () => void;
+}
+
+export default function Modal({
+  children,
+  intercepting = false,
+  onClose = () => {},
+}: ModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const router = useRouter();
   const [modalRoot, setModalRoot] = useState<HTMLElement | null>(null);
@@ -12,6 +22,14 @@ export default function Modal({ children }: { children: ReactNode }) {
   useEffect(() => {
     setModalRoot(document.getElementById("modal-root"));
   }, []);
+
+  const handleClose = () => {
+    if (intercepting) {
+      router.back();
+    } else {
+      onClose();
+    }
+  };
 
   useEffect(() => {
     if (modalRoot && !dialogRef.current?.open) {
@@ -28,11 +46,11 @@ export default function Modal({ children }: { children: ReactNode }) {
 
   return createPortal(
     <dialog
-      className="w-[80%] max-w-xl backdrop-blur-xs m-auto p-12 rounded-2xl"
-      onClose={() => router.back()}
+      className="max-w-xl backdrop-blur-xs m-auto p-12 rounded-2xl"
+      onClose={handleClose}
       onClick={(e) => {
         if ((e.target as any).nodeName === "DIALOG") {
-          router.back();
+          handleClose();
         }
       }}
       ref={dialogRef}

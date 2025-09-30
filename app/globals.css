@@ -10,6 +10,7 @@
   --color-mtm-github-black: #1a1e24;
   --color-mtm-purple: #ad5fff;
   --color-mtm-light-purple: #f8f2ff;
+  --color-mtm-main-red: #ff5f5f;
 }
 
 .backface-hidden {
@@ -18,7 +19,9 @@
 
 @layer utilities {
   @keyframes spinner-rotate {
-    100% { transform: rotate(360deg); }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 
   @keyframes spinner-dash {

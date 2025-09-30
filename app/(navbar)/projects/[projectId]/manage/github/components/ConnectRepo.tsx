@@ -74,19 +74,22 @@ export default function ConnectRepo({ projectId }: { projectId: string }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-2 w-full">
+    <form
+      onSubmit={handleSubmit}
+      className="w-full flex justify-start items-center gap-2"
+    >
       <input
         value={url}
         onChange={(e) => setUrl(e.target.value)}
         placeholder="https://github.com/my_repo"
-        className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mtm-main-blue"
+        className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mtm-main-blue"
       />
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-black rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:bg-gray-400"
+        className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-black rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:bg-gray-400"
       >
-        {isSubmitting ? "연결중..." : "레포지토리 연결하기"}
+        {isSubmitting ? "연결중..." : "레포지토리 연결"}
       </button>
     </form>
   );

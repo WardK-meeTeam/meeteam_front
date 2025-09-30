@@ -1,12 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import ConnectGithubButton from "./ConnectGithubButton";
 import ConnectRepo from "./ConnectRepo";
 
 const RepositoryManagement = ({ projectId }: { projectId: string }) => {
   return (
-    <div className="min-w-[380px] flex flex-col gap-8 justify-start items-start w-full">
+    <div className="min-w-[380px] flex gap-8 justify-start items-start w-full">
       <div className="flex flex-col gap-5 justify-start items-start w-full">
         <div className="flex flex-col text-[14px]">
           <span className="text-mtm-purple">Step1.</span>
@@ -22,8 +21,6 @@ const RepositoryManagement = ({ projectId }: { projectId: string }) => {
         </div>
         <ConnectRepo projectId={projectId} />
       </div>
-
-      <Link href={`/projects/${projectId}/manage/github`}>깃허브 관리</Link>
     </div>
   );
 };

@@ -16,6 +16,7 @@ import { useAuth } from "@/context/AuthContext";
 import { getUserProfile } from "@/api/user";
 import { authFetch } from "@/api/authFetch";
 import ImageUploader from "@/app/(auth)/signup/profile/setting/components/ImageUploader";
+import MarkDown from "@/components/MarkDown";
 
 export default function Page() {
   const { user, isLoading, setUser } = useAuth();
@@ -169,10 +170,10 @@ export default function Page() {
         <KeyValueRow
           title={"자기 소개"}
           value={
-            <TextArea
+            <MarkDown
               maxSize={600}
-              value={newIntroduce ?? ""}
-              onValueChange={setNewIntroduce}
+              text={newIntroduce || ""}
+              onChangeText={setNewIntroduce}
             />
           }
         />

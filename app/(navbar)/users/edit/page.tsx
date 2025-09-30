@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import KeyValueRow from "./components/KeyValueRow";
 import TechSearch from "@/app/(navbar)/projects/create/components/TechSearch";
 import ToggleSwitchButton from "@/components/ToggleSwitchButton";
-import TextArea from "@/components/TextArea";
 import MainButton from "@/components/MainButton";
 import SubButton from "@/components/SubButton";
 import { urlToFile } from "@/utils/urlToFile";

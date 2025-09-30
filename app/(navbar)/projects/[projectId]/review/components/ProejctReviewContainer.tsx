@@ -38,7 +38,7 @@ export default async function ProjectReviewContainer({ projectId }: { projectId:
           <span className="font-medium">총 80시간 18분</span> {/* TODO: 함께한 총 시간 데이터 받아오기 */}
         </div>
       </div>
-      <ProjectReviewForm projectId={projectId} />
+      <ProjectReviewForm projectId={projectId} members={data.projectMembers} />
     </div>
   );
 }

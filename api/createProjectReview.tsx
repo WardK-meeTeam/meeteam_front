@@ -10,9 +10,12 @@ export const createProjectReview = async (prevState: any, formData: FormData) =>
       const obj = {
           contents: formData.get('contents'),
           rating: formData.get('rating'),
+          selectedMembers: JSON.parse(formData.get('selectedMembers') as string),
       };
+      console.log('api 요청');
+      console.log('projectId: ', projectId);
+      console.log('obj: ', obj);
       
-      console.log(projectId, obj, 'api 요청');
       const data = obj;
 
       // const res = await authFetch(`/projects/${projectId}/review`, {

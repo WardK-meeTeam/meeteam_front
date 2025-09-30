@@ -5,6 +5,9 @@ import { createProjectReview } from "@/api/createProjectReview";
 import TextArea from "@/components/TextArea";
 import MainButton from "@/components/MainButton";
 import { useRouter } from "next/navigation";
+import MemberSelector from "./MemberSelector";
+import { Member } from "@/types/projectInfo";
+
 
 const initialState = {
   error: "",
@@ -12,17 +15,34 @@ const initialState = {
   result: null
 }
 
-export default function ProjectReviewForm({ projectId }: { projectId: string }) {
-  const [ state, formAction, isPending] = useActionState(createProjectReview, initialState);
+export default function ProjectReviewForm({ 
+  projectId, 
+  members 
+}: { 
+  projectId: string, 
+  members: Member[] 
+}) {
   const router = useRouter();
+  const [state, formAction, isPending] = useActionState(createProjectReview, initialState);
   const [contents, setContents] = useState("");
   const [rating, setRating] = useState(0);
+  const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
+
   console.log(state, 'state');
+  
   const handleChangeContents = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContents(e.target.value);
   }
   const handleChangeRating = (rating: number) => {
     setRating(rating);
+  }
+  const toggleSelectedMembers = (id: string) => {
+    setSelectedMembers((prev) => {
+      if (prev.includes(id)) {
+        return prev.filter((i) => i !== id);
+      }
+      return [...prev, id];
+    });
   }
   return (
     <form action={formAction} className="flex flex-col gap-12 w-150">
@@ -41,6 +61,14 @@ export default function ProjectReviewForm({ projectId }: { projectId: string }) 
         <h2 className="mb-1 text-xl font-bold">리뷰 작성</h2>
         <p className="mb-4 text-xs font-medium text-mtm-main-blue">리뷰는 800자 이내로 작성해주세요!</p>
         <TextArea maxSize={800} value={contents} onChange={handleChangeContents} />
+      </div>
+      <div>
+        <input type="hidden" name="selectedMembers" value={JSON.stringify(selectedMembers)} />
+        <MemberSelector 
+          members={members}
+          selectedMembers={selectedMembers} 
+          onToggleSelectedMember={toggleSelectedMembers} 
+        />
       </div>
       <div className="flex gap-2 justify-space-between">
         <MainButton 

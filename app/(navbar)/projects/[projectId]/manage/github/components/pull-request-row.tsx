@@ -1,19 +1,7 @@
 import { GitPullRequest, MessageSquare, User, Link } from "lucide-react";
 import { RepoSummary } from "../GithubClient";
 import { startPrReview } from "@/api/github";
-
-interface PullRequest {
-  id: string; // DB상의 PR 번호
-  prNumber: string;
-  title: string;
-  body: string;
-  state: "open" | "closed";
-  merged: boolean;
-  authorLogin: string;
-  additions: string;
-  deletions: string;
-  commentsCount: string;
-}
+import { PullRequest } from "@/types/github";
 
 interface PullRequestRowProps {
   pr: PullRequest;
@@ -39,10 +27,7 @@ export default function PullRequestRow({
     }
   };
   return (
-    <div
-      key={pr.id}
-      className="rounded-lg border border-mtm-light-gray p-4 transition-all hover:shadow-md"
-    >
+    <div className="rounded-lg border border-mtm-light-gray p-4 transition-all hover:shadow-md">
       <div className="mb-3 flex items-start justify-between">
         <div className="flex-1">
           <div className="mb-2 flex items-center gap-2">

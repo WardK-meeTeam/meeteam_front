@@ -5,19 +5,7 @@ import PullRequestRow from "./pull-request-row";
 import { useEffect, useState } from "react";
 import { getAllPr } from "@/api/github";
 import { RepoSummary } from "../GithubClient";
-
-interface PullRequest {
-  id: string; // DB상의 PR 번호
-  prNumber: string;
-  title: string;
-  body: string;
-  state: "open" | "closed";
-  merged: boolean;
-  authorLogin: string;
-  additions: string;
-  deletions: string;
-  commentsCount: string;
-}
+import { PullRequest } from "@/types/github";
 
 interface PullRequestListProps {
   repository: RepoSummary;
@@ -30,7 +18,6 @@ export function PullRequestList({ repository }: PullRequestListProps) {
       try {
         const response = await getAllPr(repository.repoFullName);
         if (response.success) {
-          console.log(response.data);
           setPullRequests(response.data.result);
         } else {
           alert("PR 조회에 실패하였습니다.");

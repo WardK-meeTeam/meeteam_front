@@ -11,8 +11,8 @@ export default function ChatBasePage() {
 
   useEffect(() => {
     if (isLoading) return;
-    if (user?.projectList.length !== 0) {
-      setFirstProject(user?.projectList[0].projectId ?? 0);
+    if (user && user.projectList && user.projectList.length > 0) {
+      setFirstProject(user.projectList[0].projectId);
     }
   }, [user, isLoading]);
 

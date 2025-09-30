@@ -32,7 +32,7 @@ export default function ProjectReviewForm({ projectId }: { projectId: string }) 
         <h2 className="mb-1 text-xl font-bold">별점 남기기</h2>
         <p className="mb-4 text-xs font-medium text-mtm-text-gray">리뷰는 본인과 상대방 모두의 성장에 큰 힘이 됩니다!</p>
         <div className="flex">
-          <span className="inline-block w-36 font-bold">프로젝트 별점</span>
+          <span className="inline-block w-32 font-bold">프로젝트 별점</span>
           <StarRating rating={rating} onChangeRating={handleChangeRating} />
         </div>
       </div>

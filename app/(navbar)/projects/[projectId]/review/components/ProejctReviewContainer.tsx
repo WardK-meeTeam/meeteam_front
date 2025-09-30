@@ -26,15 +26,15 @@ export default async function ProjectReviewContainer({ projectId }: { projectId:
       <div>
         <h2 className="mb-4 text-xl font-bold">프로필 정보</h2>
         <div className="mb-2">
-          <span className="inline-block w-36 font-bold">이름</span>
+          <span className="inline-block w-32 font-bold">이름</span>
           <span className="font-medium">{data.projectMembers.filter((member: Member) => member.creator === true)[0].name}</span>
         </div>
         <div className="mb-2">
-          <span className="inline-block w-36 font-bold">직책</span>
+          <span className="inline-block w-32 font-bold">직책</span>
           <span className="font-medium">UI/UX 디자이너</span> {/* TODO: 직책 데이터 받아오기 */}
         </div>
         <div className="mb-2">
-          <span className="inline-block w-36 font-bold">함께한 총 시간</span>
+          <span className="inline-block w-32 font-bold">함께한 총 시간</span>
           <span className="font-medium">총 80시간 18분</span> {/* TODO: 함께한 총 시간 데이터 받아오기 */}
         </div>
       </div>

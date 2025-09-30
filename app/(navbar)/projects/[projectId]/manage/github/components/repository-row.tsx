@@ -43,7 +43,16 @@ export default function RepositoryRow({
         <div className="flex items-center gap-2">
           <h3 className="font-semibold text-foreground">{repo.repoFullName}</h3>
         </div>
-        <span className="text-xs text-gray-700">{repo.pushedAt}</span>
+        <span className="text-xs text-gray-700">
+          {new Date(repo.pushedAt).toLocaleString("ko-KR", {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true,
+          })}
+        </span>
       </div>
 
       <p className="mb-3 line-clamp-2 text-sm text-gray-700">

@@ -50,7 +50,6 @@ export const getAllRepo = async (projectId: string) => {
 
 export const getAllPr = async (repoFullName: string) => {
   const [owner, repo] = repoFullName.split("/");
-  console.log(owner, repo);
   const response = await authFetch(`/api/prs/${owner}/${repo}`);
   if (response.ok) {
     const data = await response.json();

@@ -15,6 +15,7 @@ import { authFetch } from "@/api/authFetch";
 import { useAuth } from "@/context/AuthContext";
 import ModifyButton from "../../projects/[projectId]/apply/components/ModifyButton";
 import ArrowIcon from "@/public/images/right_arrow_icon.svg";
+import MarkDownViewer from "@/components/MarkDownViewer";
 
 export default function UserClientPage({ userId }: { userId: string }) {
   const { user, isLoading, logout } = useAuth();
@@ -198,16 +199,13 @@ export default function UserClientPage({ userId }: { userId: string }) {
 
       {/*메인 정보 부분 */}
       <main className="flex flex-col gap-y-12 mt-10 min-w-2xl">
-        <div>
-          {!introduce || introduce.trim() === "" ? (
-            <>
-              <span>소개글이 존재하지 않습니다.</span>
-              <br />
-            </>
-          ) : (
-            introduce
-          )}
-        </div>
+        <MarkDownViewer
+          markDownText={
+            !introduce || introduce.trim() === ""
+              ? "소개글이 존재하지 않습니다."
+              : introduce
+          }
+        />
 
         <ReviewBox reviews={[]} />
         <ProjectBox projects={projectList} />

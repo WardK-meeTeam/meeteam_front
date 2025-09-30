@@ -3,7 +3,7 @@
 import ConnectGithubButton from "./ConnectGithubButton";
 import ConnectRepo from "./ConnectRepo";
 
-const RepositoryManagement = ({ projectId }: { projectId: string }) => {
+const RepositoryManagement = ({ projectId, onRepoConnect }: { projectId: string, onRepoConnect: () => void }) => {
   return (
     <div className="min-w-[380px] flex gap-8 justify-start items-start w-full">
       <div className="flex flex-col gap-5 justify-start items-start w-full">
@@ -19,7 +19,7 @@ const RepositoryManagement = ({ projectId }: { projectId: string }) => {
           <span className="text-mtm-purple">Step2.</span>
           <span>미팀봇을 설치한 저장소의 url주소를 입력해주세요!</span>
         </div>
-        <ConnectRepo projectId={projectId} />
+        <ConnectRepo projectId={projectId} onRepoConnect={onRepoConnect} />
       </div>
     </div>
   );

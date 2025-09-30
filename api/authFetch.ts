@@ -99,3 +99,16 @@ export const authFetch = async (
 
   return response;
 };
+
+// 공개 api용
+export const proxyFetch = async (
+  path: string,
+  options: RequestInit = {}
+): Promise<Response> => {
+  const url = `/api/_proxy${path.startsWith("/") ? path : `/${path}`}`;
+  return fetch(url, {
+    cache: "no-store",
+    headers: {Accept: "application/json", ...(options.headers || {})},
+    ...options,
+  });
+};

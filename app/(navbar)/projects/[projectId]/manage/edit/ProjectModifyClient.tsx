@@ -16,6 +16,7 @@ import { categories } from "@/mocks/projectCategories";
 import { platforms } from "@/mocks/projectPlatforms";
 import SubButton from "@/components/SubButton";
 import MainButton from "@/components/MainButton";
+import ProjectManageHeader from "../components/ProjectManageHeader";
 
 interface ProjectDetailsForModify {
   projectName: string;
@@ -186,9 +187,11 @@ export default function ProjectModifyClient({
 
   return (
     <main className="mx-auto mt-10 w-11/12">
-      <h1 className="mb-11 text-4xl font-extrabold">
-        프로젝트 관리 {` > 프로젝트 수정  >  ${project.name} `}
-      </h1>
+      <ProjectManageHeader
+        projectId={projectId}
+        projectName={project.name}
+        subPageName="프로젝트 수정"
+      />
       <form
         className="min-h-screen flex flex-col max-w-xl"
         onSubmit={handleSubmit}

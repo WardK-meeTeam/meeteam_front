@@ -24,8 +24,6 @@ export default function ChatBasePage() {
     router.push(`/projects/${firstProject}/manage`);
   };
 
-  console.log(firstProject);
-
   return (
     <main className="flex flex-col h-full w-full items-center">
       <div className="flex-1 flex flex-col justify-center items-center w-full max-w-4xl">

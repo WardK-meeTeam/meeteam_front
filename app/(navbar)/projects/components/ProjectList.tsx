@@ -95,6 +95,8 @@ export default function ProjectList({
     };
   }, [isLast, isLoading, fetchNextPage]); // 의존성 배열에 상태 추가
 
+  console.log(projects, 'projects');
+
   return (
       <>
         <ProjectSortBar sortOptions={sortOptions} totalElements={totalElements} />

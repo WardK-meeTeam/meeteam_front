@@ -1,15 +1,6 @@
 import { Star, Eye } from "lucide-react";
 import { RepoSummary } from "../GithubClient";
-
-interface Repository {
-  id: string;
-  repoFullName: string;
-  description: string;
-  starCount: number;
-  language: string;
-  watcherCount: number;
-  pushedAt: string;
-}
+import { Repository } from "@/types/github";
 
 interface RepositoryRowProps {
   repo: Repository;
@@ -28,7 +19,7 @@ export default function RepositoryRow({
     <div
       key={repo.id}
       className={`cursor-pointer rounded-lg border p-4 transition-all hover:shadow-md ${
-        selectedRepository?.repoId === repo.id
+        selectedRepository?.repoId.toString() === repo.id.toString()
           ? "border-mtm-github-black bg-gray-100"
           : "border-mtm-light-gray hover:border-mtm-github-black"
       }`}

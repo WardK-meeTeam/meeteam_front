@@ -122,12 +122,14 @@ export default function Page() {
   const { name, age, gender, email } = user;
   return (
     <form
-      className="flex flex-col gap-16 pb-20 mx-auto min-w-2xl"
+      className="flex flex-col items-center gap-16 pb-20"
       onSubmit={handleSubmit}
     >
-      <h1 className="text-4xl font-extrabold">정보 수정</h1>
+      <h1 className="w-full max-w-[900px] text-4xl font-extrabold">
+        정보 수정
+      </h1>
 
-      <div className="flex flex-col gap-y-12 min-w-xl max-w-[600px]">
+      <div className="flex w-full max-w-[600px] flex-col gap-y-12">
         <ImageUploader value={newImage} onUploadImage={setNewImage} />
 
         <KeyValueRow title={"이름"} value={<span>{name}</span>} />
@@ -167,25 +169,23 @@ export default function Page() {
             />
           }
         />
-        <KeyValueRow
-          title={"자기 소개"}
-          value={
-            <MarkDown
-              maxSize={600}
-              text={newIntroduce || ""}
-              onChangeText={setNewIntroduce}
-            />
-          }
+
+        <span className="min-w-48 font-bold text-xl">자기 소개</span>
+
+        <MarkDown
+          maxSize={600}
+          text={newIntroduce || ""}
+          onChangeText={setNewIntroduce}
         />
-        <footer className="flex gap-x-4 justify-end">
-          <SubButton
-            buttonName="취소"
-            type="button"
-            onClick={() => router.back()}
-          />
-          <MainButton buttonName="수정" type="submit" disabled={submitting} />
-        </footer>
       </div>
+      <footer className="flex w-full max-w-[900px] justify-end gap-x-4">
+        <SubButton
+          buttonName="취소"
+          type="button"
+          onClick={() => router.back()}
+        />
+        <MainButton buttonName="수정" type="submit" disabled={submitting} />
+      </footer>
     </form>
   );
 }

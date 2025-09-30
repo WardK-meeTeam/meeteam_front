@@ -86,12 +86,9 @@ export default function Navbar() {
         <Link className="text-2xl font-bold cursor-pointer" href={"/"}>
           meeTeam
         </Link>
-        <h2
-          className="font-semibold cursor-pointer"
-          onClick={() => alert("포폴 이동")}
-        >
-          포트폴리오
-        </h2>
+        <Link href={"/chat"} className='font-semibold cursor-pointer"'>
+          PR 리뷰
+        </Link>
         <Link href={"/projects"} className='font-semibold cursor-pointer"'>
           프로젝트
         </Link>

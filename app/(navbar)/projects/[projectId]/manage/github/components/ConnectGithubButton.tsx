@@ -76,9 +76,7 @@ export default function ConnectGithubButton() {
         </svg>
         Github 연결하기
       </button>
-      {blocked && (
-        <p className="text-xs text-red-500">팝업이 차단되었습니다.</p>
-      )}
+      {blocked && <p className="text-xs text-red-500"></p>}
     </div>
   );
 }

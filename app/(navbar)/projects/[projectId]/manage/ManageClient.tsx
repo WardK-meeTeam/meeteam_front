@@ -6,14 +6,12 @@ import { getProjectDetail } from "@/api/projectDetail";
 import { ProjectDetails } from "@/types/projectInfo";
 import Image from "next/image";
 import ArrowIcon from "@/public/images/right_arrow_icon.svg";
-import RepositoryManagement from "./components/RepositoryManagement";
+import ProjectManageHeader from "./components/ProjectManageHeader";
 import { authFetch } from "@/api/authFetch";
 import { getUserProfile } from "@/api/user";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import DangerModal from "@/components/DangerModal";
-import Link from "next/link";
-
 export default function ManageClient({ projectId }: { projectId: string }) {
   const [project, setProject] = useState<ProjectDetails | null>(null);
 
@@ -86,17 +84,10 @@ export default function ManageClient({ projectId }: { projectId: string }) {
   if (!project) return <div>로딩중...</div>;
   return (
     <main className="mx-auto mt-10 w-11/12 max-w-7xl min-w-5xl">
-      <h1 className="mb-11 text-4xl font-extrabold">
-        프로젝트 관리{"  >  "}
-        <Link
-          href={`/projects/${projectId}/detail`}
-          className="hover:underline"
-        >
-          {project.name}
-        </Link>
-      </h1>
-      <div className="flex justify-start gap-28">
-        <div className="flex flex-col justify-start items-start gap-4 w-1/4">
+      <ProjectManageHeader projectId={projectId} projectName={project.name} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        {/* 팀원 관리 섹션 */}
+        <div className="flex flex-col gap-4">
           <h2 className="text-xl font-bold">팀원 관리</h2>
           <MemberList
             members={project.projectMembers}
@@ -104,36 +95,45 @@ export default function ManageClient({ projectId }: { projectId: string }) {
             mode="MANAGE"
             onUpdate={fetchProjectInfo}
           />
-
-          <button
-            type="button"
-            className="flex justify-between w-full cursor-pointer border border-mtm-light-gray px-4 py-3
-            transition-all duration-200 ease-in-out hover:bg-gray-50
-            "
-            onClick={() => router.push(`/projects/${projectId}/manage/edit`)}
-          >
-            프로젝트 수정
-            <Image src={ArrowIcon} alt="arrow" width={8} height={12} />
-          </button>
-
-          <button
-            type="button"
-            className="flex justify-between w-full cursor-pointer border border-mtm-light-gray px-4 py-3
-            text-mtm-main-red
-            transition-all duration-200 ease-in-out hover:bg-red-50
-            "
-            onClick={() => setShowDeleteCofirmModal(true)}
-          >
-            프로젝트 삭제
-            <Image src={ArrowIcon} alt="arrow" width={8} height={12} />
-          </button>
         </div>
 
-        <div className="flex flex-col justify-start items-start gap-7 w-1/3">
-          <h2 className="text-xl font-bold">레포지토리 관리</h2>
-          <RepositoryManagement projectId={projectId} />
+        {/* 프로젝트 설정 섹션 */}
+        <div className="flex flex-col gap-4">
+          <h2 className="text-xl font-bold">프로젝트 설정</h2>
+          <div className="flex flex-col gap-3 rounded-xl border border-mtm-light-gray p-6">
+            <button
+              type="button"
+              className="flex justify-between w-full cursor-pointer rounded-lg p-4
+            transition-all duration-200 ease-in-out hover:bg-gray-50"
+              onClick={() => router.push(`/projects/${projectId}/manage/edit`)}
+            >
+              <span>프로젝트 수정</span>
+              <Image src={ArrowIcon} alt="arrow" width={8} height={12} />
+            </button>
+            <button
+              type="button"
+              className="flex justify-between w-full cursor-pointer rounded-lg p-4
+            transition-all duration-200 ease-in-out hover:bg-gray-50"
+              onClick={() =>
+                router.push(`/projects/${projectId}/manage/github`)
+              }
+            >
+              <span>Github 연동 관리</span>
+              <Image src={ArrowIcon} alt="arrow" width={8} height={12} />
+            </button>
+            <button
+              type="button"
+              className="flex justify-between w-full cursor-pointer rounded-lg p-4 text-mtm-main-red
+            transition-all duration-200 ease-in-out hover:bg-red-50"
+              onClick={() => setShowDeleteCofirmModal(true)}
+            >
+              <span>프로젝트 삭제</span>
+              <Image src={ArrowIcon} alt="arrow" width={8} height={12} />
+            </button>
+          </div>
         </div>
       </div>
+
       <DangerModal
         isOpen={showDeleteCofirmModal}
         onChangeOpen={setShowDeleteCofirmModal}

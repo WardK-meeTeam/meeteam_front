@@ -78,12 +78,17 @@ export interface ProjectListItem {
   projectId: number;
   projectCategory: ProjectCategory;
   platformCategory: PlatformCategory;
+  projectImageUrl: string;
   projectSkills: string[];
   projectName: string;
   creatorName: string;
-  localDate: string;
   likeCount: number;
   liked: boolean;
+  currentCount: number;
+  recruitmentCount: number;
+  projectMembers: Member[];
+  startDate: string;
+  endDate: string;
 }
 
 // API 응답: 페이지네이션 정보 타입

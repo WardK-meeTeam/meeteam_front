@@ -1,22 +1,12 @@
 "use client";
 
+import * as simpleIcons from "simple-icons";
+import type { SimpleIcon } from "simple-icons";
 import Image from "next/image";
-
-export interface CardProps {
-  category: string;
-  tool: string;
-  teamName: string;
-  date: string;
-  tools: string[];
-  title: string;
-  leader: string;
-  recruitM: number;
-  totalM: number;
-  teamSize: number;
-  userImg: string[];
-  deadDate: string;
-  passionLevel: number;
-}
+import { techStackOptions } from "@/mocks/techs";
+import { categories } from "@/mocks/projectCategories";
+import { Member } from "@/types/projectInfo";
+import { useRouter } from "next/navigation";
 
 const CardBgImgs: { [key: string]: string } = {
   // 기존 키 (더미 데이터용)
@@ -36,12 +26,6 @@ const CardBgImgs: { [key: string]: string } = {
   HEALTHCARE: "/images/HealthCare.png",
   AI_TECH: "/images/Ai.png",
   ETC: "/images/Productivity.png", // 기타는 생산성 이미지 사용
-};
-
-const ToolImgs: { [key: string]: string } = {
-  Ai: "/images/Ai.png",
-  Figma: "/images/Figma.png",
-  Ps: "/images/Ps.png",
 };
 
 // 순서대로 [textColor, boxColor, (gradient colors 3개)]
@@ -65,19 +49,40 @@ const CategoryColors: { [key: string]: [string, string, string, string] } = {
   ETC: ["#A5A5A5", "#F5F5F5", "#E0E0E0", "#D0D0D0"], // 기타는 회색 계열
 };
 
+export interface CardProps {
+  projectId: number;
+  category: string;
+  tool: string;
+  teamName: string;
+  skills: string[];
+  title: string;
+  leader: string;
+  projectImageUrl: string;
+  currentCount: number;
+  recruitmentCount: number;
+  projectMembers: Member[];
+  startDate: string;
+  endDate: string;
+}
+
 export default function Card({
+  projectId,
   category,
   teamName,
-  date,
+  skills,
   title,
   leader,
-  recruitM,
-  totalM,
-  teamSize,
-  userImg,
-  deadDate,
-  passionLevel,
+  projectImageUrl,
+  currentCount,
+  recruitmentCount,
+  projectMembers,
+  startDate,
+  endDate,
 }: CardProps) {
+  const ICONS = simpleIcons as unknown as Record<string, SimpleIcon>;
+  const recruitmentProgress = currentCount/recruitmentCount * 100;
+  const router = useRouter();
+  
   return (
     <div className="m-3 w-[305px] h-[415px] [perspective: 1000px] group cursor-pointer">
       {/*카드 전체 회전용 wrapper*/}
@@ -87,7 +92,7 @@ export default function Card({
           <div
             className="w-full h-[415px] full rounded-[16px] flex flex-col justify-between overflow-hidden bg-cover bg-center relative"
             style={{
-              backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 2%, rgba(0, 0, 0, 0.8) 83%), url(${CardBgImgs[category] || "/images/HealthCare.png"})`,
+              backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 2%, rgba(0, 0, 0, 0.8) 83%), url(${projectImageUrl || CardBgImgs[category] || "/images/HealthCare.png"})`,
             }}
           >
             {/*위쪽*/}
@@ -100,26 +105,41 @@ export default function Card({
                     backgroundColor: `${CategoryColors[category]?.[1] || "#FFEAE8"}`,
                   }}
                 >
-                  {category || "ETC"}
+                  {(categories.find(option => typeof option === 'object' && option.value === category) as { value: string; label: string })?.label || "ETC"}
                 </div>
-                <div className="text-[14px] font-normal text-white">{date}</div>
+                <div className="text-[14px] font-normal text-white">{startDate}</div>
               </div>
 
               <div className="flex gap-x-2 justify-start items-center px-6 mt-4">
                 <div className="flex gap-x-1">
-                  {[1, 2, 3].map((tool, idx) => (
-                    <Image
-                      key={idx}
-                      className="rounded-[4px]"
-                      src={ToolImgs[tool] || "/images/Figma.png"}
-                      alt="tool"
-                      width={23}
-                      height={23}
-                    />
-                  ))}
+                  {
+                    skills.slice(0, 3).map((skill, idx) => {
+                      const iconName = techStackOptions.find(option => option.eng === skill)?.iconName;
+                      const icon = ICONS[iconName || ""];
+                      if (!icon) return null;
+
+                      return (
+                        <div 
+                          key={`${projectId}-${skill}-${idx}`}
+                          className="p-1 bg-white rounded-full"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            role="img"
+                            viewBox="0 0 24 24"
+                            width="20"
+                            height="20"
+                            fill={`#${icon.hex}`}
+                          >
+                            <path d={icon.path} />
+                          </svg>
+                        </div>
+                      );
+                    }
+                  )}
                 </div>
                 <div className="text-[12px] font-bold flex justify-center items text-white">
-                  +2
+                  { skills.length > 3 ? `+ ${skills.length - 3}` : null }
                 </div>
               </div>
             </div>
@@ -136,14 +156,15 @@ export default function Card({
               <div>
                 <div className="flex gap-x-1 justify-end items-center mb-2 text-white">
                   <div className="text-[14px] font-medium ">
-                    {recruitM}/{totalM} 모집
+                    { currentCount } / { recruitmentCount }
                   </div>
+                  <div className="text-[12px] font-normal">모집</div>
                 </div>
                 <div className="w-[230px] h-[5px] border border-none rounded-[30px] bg-[#E0E0E0] mb-1.5">
                   <div
                     className="h-full rounded-[30px]"
                     style={{
-                      width: `${recruitM/totalM*100}%`,
+                      width: `${recruitmentProgress}%`,
                       backgroundColor: `${CategoryColors[category]?.[0] || "#EE7366"}`,
                     }}
                   ></div>
@@ -185,32 +206,40 @@ export default function Card({
                   color: `${CategoryColors[category]?.[0] || "#EE7366"}`,
                 }}
               >
-                {teamSize || 0}명
+                {projectMembers.length || 0}명
               </div>
             </div>
 
             <div className="flex flex-col gap-y-2 my-3">
               <div className="flex gap-x-2 justify-center items-center">
-                {userImg.slice(0, 4).map((img, idx) => (
-                  <Image
-                    key={idx}
-                    className="object-cover rounded-full"
-                    src={img}
-                    alt={`user-${idx}`}
-                    width={56}
-                    height={56}
-                  />
-                ))}
+                {
+                  projectMembers.slice(0, 4).map((member, idx) => (
+                    <Image
+                      key={idx}
+                      className="object-cover rounded-full"
+                      src={member.imageUrl ?? "/images/userImg1.png"}
+                      alt={`user-${member.memberId}`}
+                      width={56}
+                      height={56}
+                      onClick={() => {
+                        router.push(`/users/${member.memberId}`);
+                      }}
+                    />
+                  ))
+                }
               </div>
-              <div className="flex gap-x-2 justify-center items-center">
-                {userImg.slice(4, 7).map((img, idx) => (
+              <div className="flex gap-x-2 justify-center items-center min-h-[56px]">
+                {projectMembers.slice(4, 7).map((member, idx) => (
                   <Image
                     key={idx}
                     className="object-cover rounded-full"
-                    src={img}
-                    alt={`user-${idx}`}
+                    src={member.imageUrl ?? "/images/userImg1.png"}
+                    alt={`user-${member.memberId}`}
                     width={56}
                     height={56}
+                    onClick={() => {
+                      router.push(`/users/${member.memberId}`);
+                    }}
                   />
                 ))}
               </div>
@@ -222,18 +251,17 @@ export default function Card({
                   color: `${CategoryColors[category][0]}`,
                 }}
               >
-                +{teamSize - userImg.length}
+                {projectMembers.length > 8 ? `+${projectMembers.length - 7}` : null}
               </div>
             </div>
 
-            <div className="w-[243px] border border-[#D9D9D9] my-5"></div>
-
-            <div className="flex gap-x-2 mt-3">
+            <div className="w-[30px] border" style={{ borderColor: `${CategoryColors[category]?.[0] || "#EE7366"}` }}></div>
+            <div className="flex gap-x-2 mt-5">
               <div className="text-[16px] font-bold text-[#757575]">
                 목표 기간
               </div>
               <div className="text-[16px] font-medium text-[#757575]">
-                {deadDate}
+                {endDate}
               </div>
             </div>
             <div className="flex gap-x-2 my-2">
@@ -241,9 +269,9 @@ export default function Card({
                 열정 레벨
               </div>
               <div className="text-[16px] font-medium text-[#757575]">
-                LV. {passionLevel}
+                LV. ?
               </div>
-            </div>
+            </div>            
           </div>
         </div>
       </div>

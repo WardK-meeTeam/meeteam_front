@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { Search, GitBranch } from "lucide-react";
 import RepositoryRow from "./repository-row";
-import { RepoSummary, Repository } from "../GithubClient";
+import { RepoSummary } from "../GithubClient";
+import { Repository } from "@/types/github";
 
 interface RepositoryListProps {
   repos: Repository[] | null;
@@ -25,7 +26,8 @@ export function RepositoryList({
   const filteredRepositories = repos.filter(
     (repo) =>
       repo.repoFullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (repo.description && repo.description.toLowerCase().includes(searchQuery.toLowerCase())),
+      (repo.description &&
+        repo.description.toLowerCase().includes(searchQuery.toLowerCase())),
   );
 
   const getLanguageColor = (language: string) => {

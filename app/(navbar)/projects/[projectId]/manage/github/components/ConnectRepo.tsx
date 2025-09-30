@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { siGithub } from "simple-icons/icons";
 import { authFetch } from "@/api/authFetch";
 
 export default function ConnectRepo({

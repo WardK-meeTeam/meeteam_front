@@ -1,71 +1,70 @@
 "use client";
 
-import CardList from "@/components/CardList";
+import HomeCategoryTabs from "./components/HomeCategoryTabs";
+import Card from "@/components/Card";
 import TeamRecruitCardList from "@/components/TeamRecruitCardList";
-import { IoIosArrowForward } from "react-icons/io";
-import { IoIosArrowBack } from "react-icons/io";
-import { useState, useRef, useEffect, useMemo} from "react";
-import { ProjectInfoItem } from "@/types/projectInfo";
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import { useRef, useEffect, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import ProjectLoading from "./projects/components/ProjectLoading";
+import { mapAnyProjectToCardProps } from "@/utils/mapProjectToCardProps";
+import { publicFetch } from "../publicFetch";
+import type {
+  ProjectListItem,
+  ProjectInfoItem,
+  ProjectCategory,
+} from "@/types/projectInfo";
 
-const CATEGORY_TO_ID: Record<string, number> = {
-    "친환경" : 1, 
-    "반려동물": 2, 
-    "헬스케어": 3, 
-    "교육/학습": 4, 
-    "AI테크": 5, 
-    "패션/뷰티": 6, 
-    "금융/생산성": 7, 
-    "기타": 8,
-}
+const CATEGORY_TO_BIG_ID = {
+    ENVIRONMENT: 1,
+    PET: 2,
+    HEALTHCARE: 3,
+    EDUCATION: 4,
+    AI_TECH: 5,
+    FASHION_BEAUTY: 6,
+    FINANCE_PRODUCTIVITY: 7,
+    ETC: 8,
+  } as const satisfies Record<ProjectCategory, number>;
 
+type AnyProject = ProjectListItem | ProjectInfoItem;
+
+const isListItem = (p: AnyProject): p is ProjectListItem =>
+    "projectId" in p && "projectName" in p;
 
 export default function HomePage() {
+    const API = process.env.NEXT_PUBLIC_API_BASE_URL!;
+    const sp= useSearchParams();
+    
+    const currentCategory = (sp.get("category") ?? "ENVIRONMENT") as ProjectCategory;
+    const bigCategoryId = CATEGORY_TO_BIG_ID[currentCategory] ?? CATEGORY_TO_BIG_ID.ENVIRONMENT;
 
-    const category = [
-        "친환경", 
-        "반려동물", 
-        "헬스케어", 
-        "교육/학습", 
-        "AI테크", 
-        "패션/뷰티", 
-        "금융/생산성", 
-        "기타",
-    ];
-
-    const [selectedCategory, setSelectedCategory] = useState<string>("친환경");
-    const [_projects, setProjects] = useState<ProjectInfoItem[]>([]);
-
-    const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-    const bigCategoryId = useMemo(
-        () => CATEGORY_TO_ID[selectedCategory] ?? CATEGORY_TO_ID["기타"],
-        [selectedCategory]
-    );
-
+    const [projects, setProjects] = useState<AnyProject[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    
     // 카테고리별 프로젝트 불러오기
     useEffect(() => {
-        const fetchProjects = async () => {
-            try {
-                const res = await fetch(
-                    `${API}/api/main/projects?page=0&size=10&sort=createdAt&direction=desc&bigCategoryId=${bigCategoryId}`,
-                    {
-                        method: "GET",
-                        headers: { Accept: "application/json" },
-                        credentials: "include",
-                    }
-                );
-                if (!res.ok) {
-                    const err = await res.json();
-                    throw new Error(err.message || "프로젝트 조회 실패"); 
-                }
-                const data = await res.json();
-                setProjects(data.content);
-            } catch (e) {
-                console.error(e);
-            } finally {
-            }
-        };
-        fetchProjects();
-    }, [bigCategoryId, API]);
+        let cancelled = false;
+        (async () => {
+          try {
+            setIsLoading(true);
+            const query = `?page=0&size=10&sort=createdAt&direction=desc&bigCategoryId=${bigCategoryId}`;
+            const res = await publicFetch(`/api/main/projects${query}`, { method: "GET" });
+
+            if (!res.ok) throw new Error(`프로젝트 조회 실패: ${res.status}`);
+            const data = await res.json();
+            if (!cancelled) setProjects(Array.isArray(data?.content) ? data.content : []);
+          } catch (e) {
+            console.error(e);
+            if (!cancelled) setProjects([]);
+          } finally {
+            if (!cancelled) setIsLoading(false);
+          }
+        })();
+
+        return () => { cancelled = true; };
+      }, [API, bigCategoryId]);
+    
 
     // 스크롤 
     const scrollRef = useRef<HTMLDivElement>(null);
@@ -87,6 +86,7 @@ export default function HomePage() {
         scrollRefTeam.current?.scrollBy({left: STEPT, behavior: "smooth"});
     };
 
+
     return (
         <main className="flex flex-col gap-y-5 justify-center items-center">
             {/**광고 자리 */}
@@ -94,37 +94,9 @@ export default function HomePage() {
             </div>
 
             <div className="flex flex-col w-[88%]">
-                <div className="flex relative flex-col">
-                    {/**회색 바 */}
-                    <div className="w-full h-[1.7px] absolute bottom-0 bg-[#E8E8E8] mt-2"></div>
-
-                    <div className="flex gap-x-7 justify-start items-center px-5 py-5">
-                    {category.map((name) => {
-                        const isSelected = selectedCategory === name;
-                        return (
-                        <button
-                        key={name}
-                        type="button"
-
-                        onClick={() => setSelectedCategory(name)}
-                        className="relative w-auto flex flex-col items-center font-semibold cursor-pointer select-none"
-                        >
-                            <span className={`text-[18px] ${isSelected ? "text-black" : "text-[#A5A5A5]"}`}>
-                                {name}
-                            </span>
-                            
-                            {/* 파란색 바*/}
-                            {isSelected && (
-                                <div
-                                style={{ width: `${name.length * 19}px` }}
-                                className="h-[1.7px] bg-[#6BB4FF] absolute top-9 mt-2"
-                                />
-                                )}
-                        </button>
-                        );
-                    })}
-                    </div>
-                </div>
+                <Suspense fallback={<ProjectLoading/>}>
+                    <HomeCategoryTabs/>
+                </Suspense>
             </div>
 
             <div className="w-[88%] flex flex-col">
@@ -133,7 +105,41 @@ export default function HomePage() {
                 ref={scrollRef}
                 className="h-[440px] my-1 overflow-x-auto overflow-y-hidden
                 [scrollbar-width: none] [&::-webkit-scrollbar]:hidden">
-                    <CardList />
+                    {isLoading && <ProjectLoading/>}
+                    {!isLoading && (projects?.length ?? 0) === 0 && (
+                        <div className="h-full flex items-center justify-center text-[#A5A5A5]">
+                            표시할 프로젝트가 없습니다.
+                        </div>
+                    )}
+
+                    {!isLoading && (projects?.length ?? 0) > 0 && (
+                        <div className="flex gap-6 px-8">
+                            {projects.map((p) => {
+                                const card = <Card {...mapAnyProjectToCardProps(p)} />;
+                                
+                                if (isListItem(p)) {
+                                    const id = p.projectId;
+                                    return (
+                                        <Link
+                                        href={`/projects/${id}/detail`}
+                                        key={`project-${id}`}
+                                        className="shrink-0"
+                                        >
+                                            {card}
+                                        </Link>
+                                    );
+                                }
+
+                                // 메인 응답에 id가 없을 수 있어 가드
+                                const fallbackKey = `home-${p.name ?? "no-name"}-${p.startDate ?? "no-date"}`;
+                                return (
+                                    <div key={fallbackKey} className="shrink-0">
+                                        {card}
+                                    </div>
+                                );
+                                })}
+                            </div>
+                    )}
                 </div>
                 <div className="flex gap-x-3 px-5 w-full h-3">
                     <button 

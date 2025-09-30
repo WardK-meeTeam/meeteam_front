@@ -1,56 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Search, GitBranch } from "lucide-react";
 import RepositoryRow from "./repository-row";
-import { getAllRepo } from "@/api/github";
-import { RepoSummary } from "../GithubClient";
-
-interface Repository {
-  id: string;
-  repoFullName: string;
-  description: string;
-  starCount: number;
-  language: string;
-  watcherCount: number;
-  pushedAt: string;
-}
+import { RepoSummary, Repository } from "../GithubClient";
 
 interface RepositoryListProps {
+  repos: Repository[] | null;
   selectedRepository: RepoSummary | null;
   onRepositorySelect: (repoSummary: RepoSummary) => void;
-  projectId: string;
 }
 
 export function RepositoryList({
+  repos,
   selectedRepository,
   onRepositorySelect,
-  projectId,
 }: RepositoryListProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const [repos, setRepos] = useState<Repository[] | null>([]);
-  useEffect(() => {
-    const run = async () => {
-      try {
-        const response = await getAllRepo(projectId);
-        if (response.success) {
-          setRepos(response.data.result);
-        } else {
-          alert("레포지토리 조회에 실패하였습니다.");
-        }
-      } catch (error) {
-        alert(`레포지토리 조회에 실패하였습니다. : ${error}`);
-      }
-    };
+  if (!repos) {
+    return <div>Loading...</div>; // Or some other loading indicator
+  }
 
-    run();
-  }, [projectId]);
-
-  const filteredRepositories = repos!.filter(
+  const filteredRepositories = repos.filter(
     (repo) =>
       repo.repoFullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      repo.description.toLowerCase().includes(searchQuery.toLowerCase()),
+      (repo.description && repo.description.toLowerCase().includes(searchQuery.toLowerCase())),
   );
 
   const getLanguageColor = (language: string) => {

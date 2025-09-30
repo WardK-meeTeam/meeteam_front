@@ -57,12 +57,14 @@ export default function Chat({ id }: { id: string }) {
       if (response.success) {
         // 성공하면 textArea 초기화
         setInputMessage("");
-        getMessages();
+        await getMessages();
       } else {
-        console.log("메세지 보내기 실패");
+        alert("메세지 전송에 실패했습니다.");
       }
     } catch (error) {
-      console.log(error);
+      const errorMessage =
+        error instanceof Error ? error.message : "알 수 없는 오류";
+      alert(`메시지 전송 중 오류가 발생했습니다. (${errorMessage})`);
     } finally {
       setIsSending(false);
     }

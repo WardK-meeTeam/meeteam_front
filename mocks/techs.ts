@@ -75,7 +75,7 @@ export const techStackOptions: TechStackOption[] = [
   { kor: "깃허브", eng: "GitHub", iconName: "siGithub" },
   { kor: "슬랙", eng: "Slack", iconName: "siSlack" },
   { kor: "Jira", eng: "Jira", iconName: "siJira" },
-  { kor: "Figma", eng: "Figma", iconName: "siFigma" },
+  { kor: "피그마", eng: "Figma", iconName: "siFigma" },
   { kor: "JUnit 5", eng: "JUnit 5", iconName: "siJunit5" },
   { kor: "Mockito", eng: "Mockito", iconName: "siOpenjdk" },
   { kor: "OAuth2", eng: "OAuth2", iconName: "siOpenid" },

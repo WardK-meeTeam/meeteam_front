@@ -6,7 +6,6 @@ import { getProjectDetail } from "@/api/projectDetail";
 import { ProjectDetails } from "@/types/projectInfo";
 import Image from "next/image";
 import ArrowIcon from "@/public/images/right_arrow_icon.svg";
-import RepositoryManagement from "./components/RepositoryManagement";
 import { authFetch } from "@/api/authFetch";
 import { getUserProfile } from "@/api/user";
 import { useRouter } from "next/navigation";
@@ -128,12 +127,8 @@ export default function ManageClient({ projectId }: { projectId: string }) {
             <Image src={ArrowIcon} alt="arrow" width={8} height={12} />
           </button>
         </div>
-
-        <div className="flex flex-col justify-start items-start gap-7 w-1/3">
-          <h2 className="text-xl font-bold">레포지토리 관리</h2>
-          <RepositoryManagement projectId={projectId} />
-        </div>
       </div>
+
       <DangerModal
         isOpen={showDeleteCofirmModal}
         onChangeOpen={setShowDeleteCofirmModal}

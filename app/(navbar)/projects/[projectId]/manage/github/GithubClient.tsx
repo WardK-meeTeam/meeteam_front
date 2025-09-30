@@ -1,25 +1,60 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PullRequestList } from "./components/pull-request-list";
 import { RepositoryList } from "./components/repository-list";
+import RepositoryManagement from "./components/RepositoryManagement";
+import { getAllRepo } from "@/api/github";
 
 export interface RepoSummary {
   repoFullName: string;
   repoId: string;
 }
 
+export interface Repository {
+  id: string;
+  repoFullName: string;
+  description: string;
+  starCount: number;
+  language: string;
+  watcherCount: number;
+  pushedAt: string;
+}
+
 export default function GithubClient({ projectId }: { projectId: string }) {
   const [selectedRepositoryName, setSelectedRepositoryName] =
     useState<RepoSummary | null>(null);
+  const [repos, setRepos] = useState<Repository[] | null>([]);
+
+  const fetchRepos = async () => {
+    try {
+      const response = await getAllRepo(projectId);
+      if (response.success) {
+        setRepos(response.data.result);
+      } else {
+        alert("레포지토리 조회에 실패하였습니다.");
+      }
+    } catch (error) {
+      alert(`레포지토리 조회에 실패하였습니다. : ${error}`);
+    }
+  };
+
+  useEffect(() => {
+    fetchRepos();
+  }, [projectId]);
 
   return (
     <main className="mx-auto mt-10 w-11/12 max-w-7xl min-w-5xl">
       <h1 className="mb-11 text-4xl font-extrabold">Github 연동 관리</h1>
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+      <RepositoryManagement projectId={projectId} onRepoConnect={fetchRepos} />
+      <div className="flex flex-col text-[14px] mt-10">
+        <span className="text-mtm-purple">Step3.</span>
+        <span>AI 리뷰를 원하는 Pull Request를 선택 해주세요!</span>
+      </div>
+      <div className="mt-5 grid grid-cols-1 gap-8 lg:grid-cols-2 pb-20">
         <div>
           <RepositoryList
-            projectId={projectId}
+            repos={repos}
             selectedRepository={selectedRepositoryName}
             onRepositorySelect={setSelectedRepositoryName}
           />

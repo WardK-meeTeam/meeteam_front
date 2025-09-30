@@ -41,7 +41,7 @@ export const fetchAllMessages = async (chatRoomId: string) => {
   }
 };
 
-// 2. 특정 채팅방의 모든 채팅기록 조회
+// 3. 메세지 전송
 export const sendMessage = async (chatRoomId: string, message: string) => {
   const response = await authFetch(
     `/api/codereviews/chat/chatroom/${chatRoomId}/messages`,

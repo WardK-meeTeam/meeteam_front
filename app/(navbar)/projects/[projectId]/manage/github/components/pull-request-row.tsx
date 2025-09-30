@@ -30,12 +30,12 @@ export default function PullRequestRow({
     try {
       const response = await startPrReview(repoId, prNumber);
       if (response.success) {
-        alert("성공!");
+        alert("PR 리뷰를 시작합니다.");
       } else {
-        alert("실패");
+        alert(response.error.message);
       }
     } catch (error) {
-      console.log(error);
+      alert(`PR 리뷰를 시작하지 못 했습니다. (${error})`);
     }
   };
   return (

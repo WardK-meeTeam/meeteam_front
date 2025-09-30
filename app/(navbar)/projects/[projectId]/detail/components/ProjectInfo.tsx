@@ -7,6 +7,7 @@ import notFoundImg from "@/public/images/ProjectImgNotFound.png";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ProjectInfoItem } from "@/types/projectInfo";
 import { getProjectLike, postProjectLike } from "@/api/projectLike";
+import MarkDownViewer from "@/components/MarkDownViewer";
 
 interface ProjectInfoProps extends ProjectInfoItem {
   projectId: string;
@@ -84,7 +85,7 @@ export default function ProjectInfo({
         </div>
       </div>
       <div className="flex flex-col justify-start items-start gap-3">
-        <p className="w-full">{description}</p>
+        <MarkDownViewer markDownText={description} />
         <span className="text-mtm-text-gray text-xs">게시일 {startDate}</span>
       </div>
 

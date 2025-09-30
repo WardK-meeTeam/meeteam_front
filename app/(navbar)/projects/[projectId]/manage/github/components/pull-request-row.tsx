@@ -65,7 +65,9 @@ export default function PullRequestRow({
           <span className="text-red-600">-{pr.deletions}</span>
         </div>
         <button
-          onClick={() => handleConnect(repository.repoId, pr.prNumber)}
+          onClick={() =>
+            handleConnect(String(repository.repoId), String(pr.prNumber))
+          }
           type="button"
           className="inline-flex items-center justify-center gap-2
           bg-mtm-github-black text-white px-3 py-2

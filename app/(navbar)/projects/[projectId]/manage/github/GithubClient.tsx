@@ -7,24 +7,15 @@ import RepositoryManagement from "./components/RepositoryManagement";
 import { getProjectDetail } from "@/api/projectDetail";
 import ProjectManageHeader from "../components/ProjectManageHeader";
 import { getAllRepo } from "@/api/github";
+import { Repository } from "@/types/github";
 
 export interface RepoSummary {
   repoFullName: string;
-  repoId: string;
-}
-
-export interface Repository {
-  id: string;
-  repoFullName: string;
-  description: string;
-  starCount: number;
-  language: string;
-  watcherCount: number;
-  pushedAt: string;
+  repoId: number;
 }
 
 export default function GithubClient({ projectId }: { projectId: string }) {
-  const [selectedRepositoryName, setSelectedRepositoryName] =
+  const [selectedRepository, setSelectedRepository] =
     useState<RepoSummary | null>(null);
   const [repos, setRepos] = useState<Repository[] | null>([]);
   const [projectName, setProjectName] = useState("");
@@ -70,13 +61,13 @@ export default function GithubClient({ projectId }: { projectId: string }) {
         <div>
           <RepositoryList
             repos={repos}
-            selectedRepository={selectedRepositoryName}
-            onRepositorySelect={setSelectedRepositoryName}
+            selectedRepository={selectedRepository}
+            onRepositorySelect={setSelectedRepository}
           />
         </div>
         <div>
-          {selectedRepositoryName ? (
-            <PullRequestList repository={selectedRepositoryName} />
+          {selectedRepository ? (
+            <PullRequestList repository={selectedRepository} />
           ) : (
             <div className="flex h-96 items-center justify-center rounded-lg border border-mtm-light-gray">
               <p className="text-lg">

@@ -6,13 +6,12 @@ import { getProjectDetail } from "@/api/projectDetail";
 import { ProjectDetails } from "@/types/projectInfo";
 import Image from "next/image";
 import ArrowIcon from "@/public/images/right_arrow_icon.svg";
+import ProjectManageHeader from "./components/ProjectManageHeader";
 import { authFetch } from "@/api/authFetch";
 import { getUserProfile } from "@/api/user";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import DangerModal from "@/components/DangerModal";
-import Link from "next/link";
-
 export default function ManageClient({ projectId }: { projectId: string }) {
   const [project, setProject] = useState<ProjectDetails | null>(null);
 
@@ -85,15 +84,7 @@ export default function ManageClient({ projectId }: { projectId: string }) {
   if (!project) return <div>로딩중...</div>;
   return (
     <main className="mx-auto mt-10 w-11/12 max-w-7xl min-w-5xl">
-      <h1 className="mb-11 text-4xl font-extrabold">
-        프로젝트 관리{"  >  "}
-        <Link
-          href={`/projects/${projectId}/detail`}
-          className="hover:underline"
-        >
-          {project.name}
-        </Link>
-      </h1>
+      <ProjectManageHeader projectId={projectId} projectName={project.name} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
         {/* 팀원 관리 섹션 */}
         <div className="flex flex-col gap-4">
@@ -123,7 +114,9 @@ export default function ManageClient({ projectId }: { projectId: string }) {
               type="button"
               className="flex justify-between w-full cursor-pointer rounded-lg p-4
             transition-all duration-200 ease-in-out hover:bg-gray-50"
-              onClick={() => router.push(`/projects/${projectId}/manage/github`)}
+              onClick={() =>
+                router.push(`/projects/${projectId}/manage/github`)
+              }
             >
               <span>Github 연동 관리</span>
               <Image src={ArrowIcon} alt="arrow" width={8} height={12} />

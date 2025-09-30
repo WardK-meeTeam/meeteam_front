@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { PullRequestList } from "./components/pull-request-list";
 import { RepositoryList } from "./components/repository-list";
 import RepositoryManagement from "./components/RepositoryManagement";
+import { getProjectDetail } from "@/api/projectDetail";
+import ProjectManageHeader from "../components/ProjectManageHeader";
 import { getAllRepo } from "@/api/github";
 
 export interface RepoSummary {
@@ -25,6 +27,7 @@ export default function GithubClient({ projectId }: { projectId: string }) {
   const [selectedRepositoryName, setSelectedRepositoryName] =
     useState<RepoSummary | null>(null);
   const [repos, setRepos] = useState<Repository[] | null>([]);
+  const [projectName, setProjectName] = useState("");
 
   const fetchRepos = async () => {
     try {
@@ -40,12 +43,24 @@ export default function GithubClient({ projectId }: { projectId: string }) {
   };
 
   useEffect(() => {
+    const fetchProjectName = async () => {
+      const response = await getProjectDetail(projectId);
+      if (response.success) {
+        setProjectName(response.data.name);
+      }
+    };
+
     fetchRepos();
+    fetchProjectName();
   }, [projectId]);
 
   return (
     <main className="mx-auto mt-10 w-11/12 max-w-7xl min-w-5xl">
-      <h1 className="mb-11 text-4xl font-extrabold">Github 연동 관리</h1>
+      <ProjectManageHeader
+        projectId={projectId}
+        projectName={projectName}
+        subPageName="Github 연동 관리"
+      />
       <RepositoryManagement projectId={projectId} onRepoConnect={fetchRepos} />
       <div className="flex flex-col text-[14px] mt-10">
         <span className="text-mtm-purple">Step3.</span>

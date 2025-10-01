@@ -15,12 +15,15 @@ import { authFetch } from "@/api/authFetch";
 import { useAuth } from "@/context/AuthContext";
 import ModifyButton from "../../projects/[projectId]/apply/components/ModifyButton";
 import ArrowIcon from "@/public/images/right_arrow_icon.svg";
+import MarkDownViewer from "@/components/MarkDownViewer";
 
 export default function UserClientPage({ userId }: { userId: string }) {
   const { user, isLoading, logout } = useAuth();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const isMyPage = userId.toString() === user?.memberId.toString();
+
+  const noIntroduce = "```\n⚠️ 소개글이 존재하지 않습니다!\n```";
 
   useEffect(() => {
     if (!isMyPage) {
@@ -198,16 +201,11 @@ export default function UserClientPage({ userId }: { userId: string }) {
 
       {/*메인 정보 부분 */}
       <main className="flex flex-col gap-y-12 mt-10 min-w-2xl">
-        <div>
-          {!introduce || introduce.trim() === "" ? (
-            <>
-              <span>소개글이 존재하지 않습니다.</span>
-              <br />
-            </>
-          ) : (
-            introduce
-          )}
-        </div>
+        <MarkDownViewer
+          markDownText={
+            !introduce || introduce.trim() === "" ? noIntroduce : introduce
+          }
+        />
 
         <ReviewBox reviews={[]} />
         <ProjectBox projects={projectList} />

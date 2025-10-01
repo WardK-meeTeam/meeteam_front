@@ -16,6 +16,7 @@ import { Suspense, useState } from "react";
 import { baseSchema, emailSchema } from "@/types/auth";
 import { urlToFile } from "@/utils/urlToFile";
 import { createAccount } from "@/api/createAccount";
+import Link from "next/link";
 
 function SettingAfterSignupForm() {
   const store = useSignUpStore();
@@ -185,10 +186,12 @@ function SettingAfterSignupForm() {
   return (
     <form className="min-h-screen flex flex-col" onSubmit={handleSubmit}>
       <div className="w-[430px] m-auto justify-start flex flex-col flex-1 py-10 ">
-        <h1 className="text-2xl text-center font-bold text-mtm-main-blue mb-14">
-          meeTeam
-        </h1>
-        <b className="text-[26px] mb-10">기본정보</b>
+        <Link href={"/"}>
+          <h1 className="text-2xl text-center font-bold text-mtm-main-blue">
+            meeTeam
+          </h1>
+        </Link>
+        <b className="text-[26px] my-10">기본정보</b>
         <div className="flex flex-col gap-5">
           {signUpType && (
             <>

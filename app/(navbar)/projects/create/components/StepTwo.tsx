@@ -83,6 +83,8 @@ export default function StepTwo() {
           alert("프로젝트가 생성되었습니다!");
           const updatedUser = await getUserProfile(); // 업데이트 된 사용자 정보를 Context에도 반영시켜줌
           if (updatedUser) setUser(updatedUser);
+
+          store.reset(); // 성공하면 입력정보 다 날림
           router.push(`/projects/${projectId}/detail`);
         } else {
           //   {

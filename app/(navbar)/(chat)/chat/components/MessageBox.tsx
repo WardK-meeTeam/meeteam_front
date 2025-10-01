@@ -1,3 +1,4 @@
+import MarkDownViewer from "@/components/MarkDownViewer";
 import { ChatMessage } from "@/types/chat";
 
 interface MessageBoxProps {
@@ -23,7 +24,10 @@ export default function MessageBox({ chat }: MessageBoxProps) {
               : "bg-[#3395F9] text-white"
           } max-w-[830px] rounded-[8px]`}
         >
-          {chat.content}
+          <MarkDownViewer
+            markDownText={chat.content}
+            textColor={chat.messageType === "SYSTEM" ? "black" : "white"}
+          />
         </div>
       </div>
       <div

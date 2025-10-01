@@ -46,7 +46,7 @@ export default function Modal({
 
   return createPortal(
     <dialog
-      className="max-w-xl backdrop-blur-xs m-auto p-12 rounded-2xl"
+      className="p-12 m-auto rounded-2xl backdrop-blur-xs"
       onClose={handleClose}
       onClick={(e) => {
         if ((e.target as any).nodeName === "DIALOG") {

@@ -10,22 +10,9 @@ import Link from "next/link";
 import ProjectLoading from "./projects/components/ProjectLoading";
 import { mapAnyProjectToCardProps } from "@/utils/mapProjectToCardProps";
 import { publicFetch } from "../publicFetch";
-import type {
-  ProjectListItem,
-  ProjectInfoItem,
-  ProjectCategory,
-} from "@/types/projectInfo";
-
-const CATEGORY_TO_BIG_ID = {
-    ENVIRONMENT: 1,
-    PET: 2,
-    HEALTHCARE: 3,
-    EDUCATION: 4,
-    AI_TECH: 5,
-    FASHION_BEAUTY: 6,
-    FINANCE_PRODUCTIVITY: 7,
-    ETC: 8,
-  } as const satisfies Record<ProjectCategory, number>;
+import { CATEGORY_TO_BIG_ID } from "@/constants/categoryIds";
+import type {ProjectListItem, ProjectInfoItem, ProjectCategory} from "@/types/projectInfo";
+import { authFetch } from "@/api/authFetch";
 
 type AnyProject = ProjectListItem | ProjectInfoItem;
 
@@ -33,7 +20,7 @@ const isListItem = (p: AnyProject): p is ProjectListItem =>
     "projectId" in p && "projectName" in p;
 
 export default function HomePage() {
-    const API = process.env.NEXT_PUBLIC_API_BASE_URL!;
+    const API = process.env.NEXT_PUBLIC_API_BASE_URL;
     const sp= useSearchParams();
     
     const currentCategory = (sp.get("category") ?? "ENVIRONMENT") as ProjectCategory;
@@ -43,27 +30,35 @@ export default function HomePage() {
     const [isLoading, setIsLoading] = useState(false);
     
     // 카테고리별 프로젝트 불러오기
-    useEffect(() => {
+    useEffect(()=> {
         let cancelled = false;
         (async () => {
-          try {
-            setIsLoading(true);
-            const query = `?page=0&size=10&sort=createdAt&direction=desc&bigCategoryId=${bigCategoryId}`;
-            const res = await publicFetch(`/api/main/projects${query}`, { method: "GET" });
+            try {
+                setIsLoading(true);
 
-            if (!res.ok) throw new Error(`프로젝트 조회 실패: ${res.status}`);
-            const data = await res.json();
-            if (!cancelled) setProjects(Array.isArray(data?.content) ? data.content : []);
-          } catch (e) {
-            console.error(e);
-            if (!cancelled) setProjects([]);
-          } finally {
-            if (!cancelled) setIsLoading(false);
-          }
+                const query = `?page=0&size=10&sort=createdAt&direction=desc&bigCategoryId=${bigCategoryId}`;
+                const url = `/api/main/projects${query}`;
+                
+                const res = await publicFetch(`/api/main/projects${query}`, { method: "GET" });
+
+                if (!res.ok) {
+                    console.error("[Home] fetch failed:", res.status, res.statusText);
+                    throw new Error(`프로젝트 조회 실패: ${res.status}`);
+                }
+                const data = await res.json();
+                if (!cancelled) {
+                    setProjects(Array.isArray(data?.content) ? data.content : []);
+                }
+            } catch(e) {
+                console.error(e);
+                if (!cancelled) setProjects([]);
+            } finally {
+                if (!cancelled) setIsLoading(false);
+            }
         })();
 
         return () => { cancelled = true; };
-      }, [API, bigCategoryId]);
+    }, [API, bigCategoryId]);
     
 
     // 스크롤 

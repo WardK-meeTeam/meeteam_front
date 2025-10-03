@@ -10,7 +10,6 @@ import Link from "next/link";
 import ProjectLoading from "./projects/components/ProjectLoading";
 import { mapAnyProjectToCardProps } from "@/utils/mapProjectToCardProps";
 import { publicFetch } from "../publicFetch";
-import { CATEGORY_TO_BIG_ID } from "@/constants/categoryIds";
 import type {ProjectListItem, ProjectInfoItem, ProjectCategory} from "@/types/projectInfo";
 import { authFetch } from "@/api/authFetch";
 
@@ -160,13 +159,15 @@ export default function HomePage() {
                 </div>
             </div>
 
-            <div className="w-[93%] flex flex-col my-5 pb-10">
-                <div className="px-8 py-3 text-[26px] font-bold mt-10 mb-3 ml-9">팀을 구해요!</div>
-                <div 
-                ref={scrollRefTeam}
-                className="h-[260px] my-1 overflow-x-auto overflow-y-hidden
-                    [scrollbar-width: none] [&::-webkit-scrollbar]:hidden ml-9">
-                    <TeamRecruitCardList /> 
+            <div className="w-[93%] flex flex-col my-5 pb-10 mt-10">
+                <div className="flex flex-col">
+                    <div className="px-8 py-3 text-[26px] font-bold  mb-3 ml-9 mt-3">팀을 구해요!</div>
+                    <div 
+                    ref={scrollRefTeam}
+                    className="h-[215px] overflow-x-auto overflow-y-hidden
+                        [scrollbar-width: none] [&::-webkit-scrollbar]:hidden ml-9">
+                      <TeamRecruitCardList /> 
+                    </div>
                 </div>
                 <div className="flex gap-x-3 px-5 w-full h-3 ml-6">
                     <button

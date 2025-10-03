@@ -16,17 +16,13 @@ const dummyCard = {
       skillName: "Adobe Photoshop",
       percent: 70,
     },
-    {
-      skillName: "Figma",
-      percent: 40,
-    },
   ],
 };
 
 export default function TeamRecruitCardList() {
   return (
     <div className="h-full w-full">
-      <div className="flex items-start h-full justify-start w-full gap-x-7">
+      <div className="flex items-start h-full justify-start w-full gap-x-5">
           {Array(8)
           .fill(0)
           .map((_, i) => (

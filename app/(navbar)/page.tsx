@@ -23,8 +23,11 @@ export default function HomePage() {
     const API = process.env.NEXT_PUBLIC_API_BASE_URL;
     const sp= useSearchParams();
     
-    const currentCategory = (sp.get("category") ?? "ENVIRONMENT") as ProjectCategory;
-    const bigCategoryId = CATEGORY_TO_BIG_ID[currentCategory] ?? CATEGORY_TO_BIG_ID.ENVIRONMENT;
+    // 쿼리의 category가 공백(모든 카테고리)인 경우 필터를 제외
+    const rawCategory = sp.get("category");
+    const currentCategory = (rawCategory && rawCategory !== "")
+        ? (rawCategory as ProjectCategory)
+        : undefined;
 
     const [projects, setProjects] = useState<AnyProject[]>([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -36,10 +39,13 @@ export default function HomePage() {
             try {
                 setIsLoading(true);
 
-                const query = `?page=0&size=10&sort=createdAt&direction=desc&bigCategoryId=${bigCategoryId}`;
+                const base = `?page=0&size=10&sort=createdAt&direction=desc`;
+                const query = currentCategory
+                    ? `${base}&projectCategory=${encodeURIComponent(currentCategory)}`
+                    : base;
                 const url = `/api/main/projects${query}`;
                 
-                const res = await publicFetch(`/api/main/projects${query}`, { method: "GET" });
+                const res = await publicFetch(url, { method: "GET" });
 
                 if (!res.ok) {
                     console.error("[Home] fetch failed:", res.status, res.statusText);
@@ -47,7 +53,8 @@ export default function HomePage() {
                 }
                 const data = await res.json();
                 if (!cancelled) {
-                    setProjects(Array.isArray(data?.content) ? data.content : []);
+                    const list = data?.result?.content;
+                    setProjects(Array.isArray(list) ? list : []);
                 }
             } catch(e) {
                 console.error(e);
@@ -58,7 +65,7 @@ export default function HomePage() {
         })();
 
         return () => { cancelled = true; };
-    }, [API, bigCategoryId]);
+    }, [API, currentCategory]);
     
 
     // 스크롤 

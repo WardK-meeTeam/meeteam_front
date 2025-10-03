@@ -101,8 +101,8 @@ export default function HomePage() {
                 </Suspense>
             </div>
 
-            <div className="w-[88%] flex flex-col">
-                <div className="px-8 py-1 text-[26px] font-bold mt-1" >프로젝트</div>
+            <div className="w-[93%] flex flex-col">
+                <div className="px-8 py-1 text-[26px] font-bold mt-1 ml-9" >프로젝트</div>
                 <div 
                 ref={scrollRef}
                 className="h-[440px] my-1 overflow-x-auto overflow-y-hidden
@@ -143,7 +143,7 @@ export default function HomePage() {
                             </div>
                     )}
                 </div>
-                <div className="flex gap-x-3 px-5 w-full h-3">
+                <div className="flex gap-x-3 px-5 w-full h-3 ml-6">
                     <button 
                     type="button" 
                     onClick={scrollLeft} 
@@ -160,15 +160,15 @@ export default function HomePage() {
                 </div>
             </div>
 
-            <div className="w-[88%] flex flex-col my-5 pb-10">
-                <div className="px-8 py-3 text-[26px] font-bold mt-10 mb-3">팀을 구해요!</div>
+            <div className="w-[93%] flex flex-col my-5 pb-10">
+                <div className="px-8 py-3 text-[26px] font-bold mt-10 mb-3 ml-9">팀을 구해요!</div>
                 <div 
                 ref={scrollRefTeam}
                 className="h-[260px] my-1 overflow-x-auto overflow-y-hidden
-                    [scrollbar-width: none] [&::-webkit-scrollbar]:hidden">
+                    [scrollbar-width: none] [&::-webkit-scrollbar]:hidden ml-9">
                     <TeamRecruitCardList /> 
                 </div>
-                <div className="flex gap-x-3 px-5 w-full h-3">
+                <div className="flex gap-x-3 px-5 w-full h-3 ml-6">
                     <button
                     type="button" 
                     onClick={scrollLeftT} 

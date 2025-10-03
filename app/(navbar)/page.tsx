@@ -132,7 +132,7 @@ export default function HomePage() {
                                     );
                                 }
 
-                                // 메인 응답에 id가 없을 수 있어 가드
+                                // 메인 응답에 id가 없을 수 있어서 가드용
                                 const fallbackKey = `home-${p.name ?? "no-name"}-${p.startDate ?? "no-date"}`;
                                 return (
                                     <div key={fallbackKey} className="shrink-0">
@@ -169,7 +169,7 @@ export default function HomePage() {
                     <TeamRecruitCardList /> 
                 </div>
                 <div className="flex gap-x-3 px-5 w-full h-3">
-                    <button 
+                    <button
                     type="button" 
                     onClick={scrollLeftT} 
                     className="w-[40px] h-[40px] rounded-[50%] border border-[1px] border-[#CFCFCF] flex justify-center items-center cursor-pointer"

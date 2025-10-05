@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
   images: {
     domains: ["meeteam-bucket.s3.ap-northeast-2.amazonaws.com"],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;

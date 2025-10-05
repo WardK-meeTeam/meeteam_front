@@ -2,7 +2,7 @@
 
 import HomeCategoryTabs from "./components/HomeCategoryTabs";
 import Card from "@/components/Card";
-import TeamRecruitCardList from "@/components/TeamRecruitCardList";
+import TeamRecruitCardList, { TeamRecruitSkeletonRow } from "@/components/TeamRecruitCardList";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { useRef, useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
@@ -10,6 +10,7 @@ import Link from "next/link";
 import ProjectLoading from "./projects/components/ProjectLoading";
 import { mapAnyProjectToCardProps } from "@/utils/mapProjectToCardProps";
 import { publicFetch } from "../publicFetch";
+import { buildQueryString } from "@/utils/buildQueryString";
 import type {ProjectListItem, ProjectInfoItem, ProjectCategory} from "@/types/projectInfo";
 import { authFetch } from "@/api/authFetch";
 
@@ -22,7 +23,6 @@ export default function HomePage() {
     const API = process.env.NEXT_PUBLIC_API_BASE_URL;
     const sp= useSearchParams();
     
-    // 쿼리의 category가 공백(모든 카테고리)인 경우 필터를 제외
     const rawCategory = sp.get("category");
     const currentCategory = (rawCategory && rawCategory !== "")
         ? (rawCategory as ProjectCategory)
@@ -30,21 +30,25 @@ export default function HomePage() {
 
     const [projects, setProjects] = useState<AnyProject[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [mounted, setMounted] = useState(false);
     
-    // 카테고리별 프로젝트 불러오기
+    useEffect(() => { setMounted(true); }, []);
+
     useEffect(()=> {
         let cancelled = false;
         (async () => {
             try {
                 setIsLoading(true);
 
-                const base = `?page=0&size=10&sort=createdAt&direction=desc`;
-                const query = currentCategory
-                    ? `${base}&projectCategory=${encodeURIComponent(currentCategory)}`
-                    : base;
-                const url = `/api/main/projects${query}`;
-                
-                const res = await publicFetch(url, { method: "GET" });
+                const queryString = buildQueryString({
+                    page: 0,
+                    size: 10,
+                    sort: "createdAt,desc",
+                    projectCategory: currentCategory,
+                });
+
+                const absoluteUrl = `${API}/api/projects/condition${queryString}`;
+                const res = await publicFetch(absoluteUrl, { method: "GET" });
 
                 if (!res.ok) {
                     console.error("[Home] fetch failed:", res.status, res.statusText);
@@ -52,7 +56,7 @@ export default function HomePage() {
                 }
                 const data = await res.json();
                 if (!cancelled) {
-                    const list = data?.result?.content;
+                    const list = data?.content;
                     setProjects(Array.isArray(list) ? list : []);
                 }
             } catch(e) {
@@ -67,7 +71,6 @@ export default function HomePage() {
     }, [API, currentCategory]);
     
 
-    // 스크롤 
     const scrollRef = useRef<HTMLDivElement>(null);
     const scrollRefTeam = useRef<HTMLDivElement>(null);
     const STEP = 305 + 300;
@@ -88,6 +91,19 @@ export default function HomePage() {
     };
 
 
+    if (!mounted) {
+        return (
+            <main className="flex flex-col gap-y-5 justify-center items-center">
+                <div className="w-[88%]">
+                    <ProjectLoading count={6}/>
+                </div>
+                <div className="w-[93%]">
+                    <TeamRecruitSkeletonRow />
+                </div>
+            </main>
+        );
+    }
+
     return (
         <main className="flex flex-col gap-y-5 justify-center items-center">
             {/**광고 자리 */}
@@ -95,7 +111,7 @@ export default function HomePage() {
             </div>
 
             <div className="flex flex-col w-[88%]">
-                <Suspense fallback={<ProjectLoading/>}>
+                <Suspense fallback={<ProjectLoading count={6}/> }>
                     <HomeCategoryTabs/>
                 </Suspense>
             </div>
@@ -106,7 +122,7 @@ export default function HomePage() {
                 ref={scrollRef}
                 className="h-[440px] my-1 overflow-x-auto overflow-y-hidden
                 [scrollbar-width: none] [&::-webkit-scrollbar]:hidden">
-                    {isLoading && <ProjectLoading/>}
+                    {isLoading && <ProjectLoading count={6}/>}
                     {!isLoading && (projects?.length ?? 0) === 0 && (
                         <div className="h-full flex items-center justify-center text-[#A5A5A5]">
                             표시할 프로젝트가 없습니다.

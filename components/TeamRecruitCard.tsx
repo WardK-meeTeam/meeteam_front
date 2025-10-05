@@ -64,12 +64,8 @@ export default function TeamRecruitCard({
         <div className="flex gap-x-3">
           {skills.slice(0,3).map((skill, idx) => {
             const raw = (skill.skillName || "").trim();
-            const lower = raw.toLowerCase();
-            const directIcon = ICONS[raw];
-            const matched = techStackOptions.find((option) =>
-              option.eng.toLowerCase() === lower || option.kor.toLowerCase() === lower
-            );
-            const icon = directIcon ?? (matched ? ICONS[matched.iconName] : undefined);
+            const iconName = techStackOptions.find(option => option.eng === raw || option.kor === raw)?.iconName;
+            const icon = ICONS[iconName || ""];
 
             if (!icon) {
               return (

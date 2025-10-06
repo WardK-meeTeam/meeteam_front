@@ -60,7 +60,7 @@ export default function MemberRow({
             alt="프로필 이미지"
             width={45}
             height={45}
-            className="object-none object-center"
+            className="object-cover object-center w-full h-full"
           />
         </div>
         <span className="text-[14px]">{userName}</span>

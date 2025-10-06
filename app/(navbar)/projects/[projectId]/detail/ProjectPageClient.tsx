@@ -122,7 +122,7 @@ export default function ProjectPageClient({
           />
         )}
 
-        <hr className="text-mtm-light-gray" />
+        {/* <hr className="text-mtm-light-gray" /> */}
         <ProjectRecruitInfo projectId={projectId} {...projectRecruit} />
       </main>
     </div>

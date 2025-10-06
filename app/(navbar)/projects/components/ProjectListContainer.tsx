@@ -26,8 +26,7 @@ const fetchInitialProjects = async (searchParams: ProjectSearchParams, limit: nu
   };
   
   const queryString = buildQueryString(queryParams);
-  
-  // GET 메서드로 변경하고 쿼리 파라미터 사용
+
   const response = await authFetch(`/api/projects/condition${queryString}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },

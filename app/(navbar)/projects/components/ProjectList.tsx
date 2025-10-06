@@ -1,10 +1,10 @@
 "use client";
 
 import Card from "@/components/Card";
-import ProjectLoading from "./ProjectLoading";
+import ProjectListLoading from "./ProjectListLoading";
 import { useEffect, useRef, useState } from "react";
 import { ProjectListItem } from "@/types/projectInfo";
-import NoResult from "./NoResult";
+import NoResult from "../../../../components/NoResult";
 import { authFetch } from "@/api/authFetch";
 import { buildQueryString } from "@/utils/buildQueryString";
 import { mapProjectToCardProps } from "@/utils/mapProjectToCardProps";
@@ -111,7 +111,7 @@ export default function ProjectList({
           }
           <div ref={scrollRef} />
         </div>
-        { !isLast ? <ProjectLoading /> : null }
+        { !isLast ? <ProjectListLoading sortBar={false} /> : null }
       </>
     );
 }

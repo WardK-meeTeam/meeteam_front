@@ -6,7 +6,7 @@ const dummyUsers = Array(20).fill(0).map((_, idx) => (
     name: `John Doe ${idx}`,
     temp: 45,
     sideProjectCount: 9,
-    skills: ["react", "nextjs", "tailwindcss"],
+    skills: ["React.js", "Next.js", "Figma", "Java", "Python"],
     profileImg: "/images/userImg1.png",
   }
 ));

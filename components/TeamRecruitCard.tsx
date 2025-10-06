@@ -1,14 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import simpleIcons from "simple-icons/icons.json";
+import * as simpleIcons from "simple-icons";
 import type { SimpleIcon } from "simple-icons";
 import { techStackOptions } from "@/mocks/techs";
 
-interface Skill {
-  skillName: string;
-  percent: number;
-}
 interface TeamCardProps {
   userId: number;
   profileImg: string;
@@ -33,10 +29,10 @@ export default function TeamRecruitCard({
   const ICONS = simpleIcons as unknown as Record<string, SimpleIcon>;
 
   return (
-    <div className={`w-[305px] h-[239px] bg-[#F5F7F9] rounded-[16px] flex-none ${className ?? ""}`}
+    <div className={`w-[305px] bg-[#F5F7F9] rounded-[16px] flex-none ${className ?? ""} pt-6 pb-8 px-6`}
     {...rest}>
       {/* 위칸 */}
-      <div className="flex gap-x-6 justify-start items-center p-5">
+      <div className="flex gap-x-6 justify-start items-center mb-5">
         <div className="flex flex-col gap-y-2 justify-center items-center">
           <Image
             className="rounded-[50%]"
@@ -60,8 +56,8 @@ export default function TeamRecruitCard({
       </div>
 
       {/* 아래칸 */}
-      <div className="flex px-5">
-        <span className="font-bold text-[#C48DFF] min-w-[87px]">Skills</span>
+      <div className="flex items-center">
+        <span className="font-bold text-[#C48DFF] text-center min-w-[87px] box-sizing-border pr-6">Skills</span>
         {
           skills.slice(0, 3).map((skill, idx) => {
           const iconName = techStackOptions.find(option => option.eng === skill)?.iconName;
@@ -70,14 +66,14 @@ export default function TeamRecruitCard({
             return (
               <div 
                 key={`${userId}-${skill}-${idx}`}
-                className="p-1 bg-white rounded-full"
+                className="flex justify-center items-center p-1 mr-1 w-10 h-10"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   role="img"
                   viewBox="0 0 24 24"
-                  width="20"
-                  height="20"
+                  width="30"
+                  height="30"
                   fill={`#${icon.hex}`}
                 >
                   <path d={icon.path} />
@@ -86,6 +82,9 @@ export default function TeamRecruitCard({
             );
           })
           }
+          <div className="flex justify-center text-xs font-bold items text-mtm-text-gray">
+            { skills.length > 3 ? `+ ${skills.length - 3}` : null }
+          </div>
       </div>
     </div>
   );

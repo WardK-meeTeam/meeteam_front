@@ -25,25 +25,45 @@ export const connectSSE = async (
   eventSource.addEventListener("PROJECT_MY_APPLY", (event: any) => {
     const parsedData = JSON.parse(event.data);
 
-    onSaveData((prev: any) => [...prev, parsedData.data]);
+    onSaveData((prev: any) => [
+      ...prev,
+      { ...parsedData.data, type: parsedData.type },
+    ]);
   });
 
   eventSource.addEventListener("PROJECT_APPLY", (event: any) => {
     const parsedData = JSON.parse(event.data);
 
-    onSaveData((prev: any) => [...prev, parsedData.data]);
+    onSaveData((prev: any) => [
+      ...prev,
+      { ...parsedData.data, type: parsedData.type },
+    ]);
   });
 
   eventSource.addEventListener("PROJECT_APPROVE", (event: any) => {
     const parsedData = JSON.parse(event.data);
 
-    onSaveData((prev: any) => [...prev, parsedData.data]);
+    onSaveData((prev: any) => [
+      ...prev,
+      { ...parsedData.data, type: parsedData.type },
+    ]);
   });
 
   eventSource.addEventListener("PROJECT_REJECT", (event: any) => {
     const parsedData = JSON.parse(event.data);
 
-    onSaveData((prev: any) => [...prev, parsedData.data]);
+    onSaveData((prev: any) => [
+      ...prev,
+      { ...parsedData.data, type: parsedData.type },
+    ]);
+  });
+
+  eventSource.addEventListener("PROJECT_END", (event: any) => {
+    const parsedData = JSON.parse(event.data);
+    onSaveData((prev: any) => [
+      ...prev,
+      { ...parsedData.data, type: parsedData.type },
+    ]);
   });
 
   // 에러 처리

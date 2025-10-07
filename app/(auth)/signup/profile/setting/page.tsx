@@ -17,6 +17,7 @@ import { baseSchema, emailSchema } from "@/types/auth";
 import { urlToFile } from "@/utils/urlToFile";
 import { createAccount } from "@/api/createAccount";
 import Link from "next/link";
+import { useAuthBootstrap } from "@/hooks/useAuthBootstrap";
 
 function SettingAfterSignupForm() {
   const store = useSignUpStore();
@@ -30,6 +31,10 @@ function SettingAfterSignupForm() {
   // Oauth로그인 하면 type 없음
   const searchParams = useSearchParams();
   const signUpType = searchParams.get("type");
+  const { LoginInit } = useAuthBootstrap();
+
+  // Oauth2 가입 시 사용할 가입 토큰
+  const registerToken = localStorage.getItem("registerToken");
 
   const handleCheckEmail = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -99,38 +104,32 @@ function SettingAfterSignupForm() {
       age,
       name: store.userName,
       gender: store.gender === "남성" ? "MALE" : "FEMALE",
-      subCategories:
-        signUpType === "email"
-          ? store.field.map((f) => ({
-              subcategory: f.field?.split("-")[1] ?? "",
-            }))
-          : store.field.map((f) => f.field?.split("-")[1] ?? ""),
-      skills:
-        signUpType === "email"
-          ? store.skills.map((s) => ({ skillName: s }))
-          : store.skills,
-      ...(signUpType === "email" && {
-        email: store.email ?? "",
-        password: store.password ?? "",
-        isParticipating: true,
-      }),
+      subCategories: store.field.map((f) => ({
+        subcategory: f.field?.split("-")[1] ?? "",
+      })),
+      skills: store.skills.map((s) => ({ skillName: s })),
+      ...(signUpType === "email"
+        ? {
+            email: store.email ?? "",
+            password: store.password ?? "",
+            isParticipating: true,
+          }
+        : {
+            token: registerToken,
+          }),
     };
 
     // request body key값 request로 일치시킴
     const formData = new FormData();
     formData.append(
-      signUpType === "email" ? "request" : "memberInfo",
+      "request",
       new Blob([JSON.stringify(registerRequest)], { type: "application/json" }),
     );
 
     if (store.profileImg) {
       try {
         const file = await urlToFile(store.profileImg, "profileImg.png");
-        formData.append(
-          signUpType === "email" ? "file" : "profileImage",
-          file,
-          file.name,
-        ); // 파일명도 같이
+        formData.append("file", file, file.name); // 파일명도 같이
       } catch (e) {
         console.error("이미지 변환 실패:", e);
       }
@@ -138,22 +137,28 @@ function SettingAfterSignupForm() {
 
     setIsLoading(true);
     try {
-      // Oauth 회원가입일 때는 PUT 요청을 보내도록 함
+      // Oauth 회원가입
 
       if (!signUpType) {
         const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-        const accessToken = localStorage.getItem("accessToken"); // 이거 가입용이라 끝나고 삭제해야 될거같음
-        const response = await fetch(`${API}/api/members`, {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
+
+        const response = await fetch(`${API}/api/auth/register/oauth2`, {
+          method: "POST",
           body: formData,
+          credentials: "include",
         });
 
         if (response.ok) {
-          // 가입 및 로그인 동시 진행
           alert("가입되었습니다.");
+          localStorage.removeItem("registerToken");
+
+          // 가입 및 로그인 동시 진행
+          const receivedAcessToken = response.headers
+            .get("Authorization")!
+            .slice(7);
+
+          LoginInit(receivedAcessToken);
+
           router.push("/");
         } else {
           const errorData = await response.json();

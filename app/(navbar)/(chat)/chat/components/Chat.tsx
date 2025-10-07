@@ -21,7 +21,7 @@ export default function Chat({ id }: { id: string }) {
     try {
       const actionResult = await fetchAllMessages(id);
       if (actionResult.success) {
-        setMessages(actionResult.data);
+        setMessages(actionResult.data.reverse());
       } else {
         alert(actionResult.error.message);
       }

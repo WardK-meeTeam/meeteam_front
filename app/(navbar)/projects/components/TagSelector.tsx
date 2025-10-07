@@ -150,7 +150,7 @@ export default function TagSelector({ tagGroups }: TagSelectorProps) {
 
       {/* 선택된 태그들 표시 */}
       {allSelectedValues.length > 0 && (
-        <div className="mt-6">
+        <div className="mt-4 mb-4">
           <div className="flex flex-wrap gap-2">
             {allSelectedValues.map((selected) => (
               <div

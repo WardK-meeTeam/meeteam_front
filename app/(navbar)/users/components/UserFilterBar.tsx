@@ -47,7 +47,7 @@ export default function UserFilterBar({
                 title: "분야",
                 options: bigCategoryOptions,
                 paramsKey: "bigCategory",
-                selectedVisible: false
+                multiSelect: true
               }
             ]}
         />

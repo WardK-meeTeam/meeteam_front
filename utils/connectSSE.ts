@@ -71,7 +71,6 @@ export const connectSSE = async (
     console.error("SSE Error:", error);
 
     onError?.(error); // 에러 콜백 호출
-    eventSource.close(); // 연결 종료
   };
 
   return eventSource; // 이벤트 소스 반환

@@ -105,11 +105,11 @@ export const authFetch = async (
       }
       // 클라이언트 사이드
       else {
-        Cookies.remove("accessToken");
-        Cookies.remove("refreshToken");
-        // 클라이언트 사이드에서는 로그인 페이지 리다이렉트
-        alert("로그인 후 시도하세요");
-        window.location.href = "/signin";
+        // Cookies.remove("accessToken");
+        // Cookies.remove("refreshToken");
+        // // 클라이언트 사이드에서는 로그인 페이지 리다이렉트
+        // alert("로그인 후 시도하세요");
+        // window.location.href = "/signin";
       }
     }
   }

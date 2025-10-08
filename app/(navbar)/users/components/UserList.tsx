@@ -13,12 +13,14 @@ export default function UserList({
   initialUsers,
   last,
   totalElements,
-  searchParams
+  searchParams,
+  limit
  }: { 
   initialUsers: any[],
   last: boolean,
   totalElements: number,
-  searchParams?: any // 검색 파라미터 추가
+  searchParams?: any, // 검색 파라미터 추가
+  limit: number
 }) {
 
   const [users, setUsers] = useState<any[]>(Array.isArray(initialUsers) ? initialUsers : []);
@@ -27,29 +29,29 @@ export default function UserList({
   const [page, setPage] = useState(1);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   
-  const fetchNextPage = async () => {
-    if (isLoading || isLast) return; // 로딩 중이거나 마지막 페이지면 중단
-    
-    setIsLoading(true);
-    
-    try {
-      const data = await fetchUsers({ searchParams, page });
-      const newUsers = data.result || [];
-      
-      // 불러온 새 유저 목록을 기존 목록에 추가
-      setUsers(prev => [...prev, ...newUsers]);
-      setIsLast(data.last || newUsers.length === 0);
-      setPage(prev => prev + 1);
-
-    } catch (error) {
-      console.error('다음 페이지 로딩 실패:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   // 무한 스크롤 로직
   useEffect(() => {
+    const fetchNextPage = async () => {
+      if (isLoading || isLast) return; // 로딩 중이거나 마지막 페이지면 중단
+      
+      setIsLoading(true);
+      
+      try {
+        const data = await fetchUsers({ searchParams, page, limit });
+        const newUsers = data.result || [];
+        
+        // 불러온 새 유저 목록을 기존 목록에 추가
+        setUsers(prev => [...prev, ...newUsers]);
+        setIsLast(data.last || newUsers.length === 0);
+        setPage(prev => prev + 1);
+
+      } catch (error) {
+        console.error('다음 페이지 로딩 실패:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     const callback: IntersectionObserverCallback = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting && !isLast && !isLoading) {
@@ -73,14 +75,14 @@ export default function UserList({
     return () => {
       observer.disconnect();
     };
-  }, [isLast, isLoading, fetchNextPage]); // 의존성 배열에 상태 추가
+  }, [isLast, isLoading, page, searchParams, limit]);
 
   return (
       <>
         <UserSortBar totalElements={totalElements} />
         <div className="grid grid-cols-4 gap-8">
           { users.length > 0 ?
-            users.map((user, idx) => (
+            users.map((user) => (
               <Link href={`/users/${user.memberId}`} key={user.memberId}>
                 <TeamRecruitCard {...mapUserToCardProps(user)} />
               </Link>

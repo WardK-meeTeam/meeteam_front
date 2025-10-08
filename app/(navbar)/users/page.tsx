@@ -1,8 +1,6 @@
 import { Suspense } from "react";
 import UserFilterBar from "./components/UserFilterBar";
-import { ProjectSearchParams } from "@/types/projectInfo";
 import { bigCategoryOptions } from "@/constants/projectOptions";
-import { validateSearchParams } from "@/utils/validateSearchParams";
 import UserLoading from "./components/UserListLoading";
 import UserListContainer from "./components/UserListContainer";
 

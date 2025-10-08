@@ -15,9 +15,10 @@ export interface UserListResponse {
 interface FetchUsersParams {
   searchParams: { [key: string]: string | string[] | undefined };
   page?: number;
+  limit?: number;
 }
 
-export const fetchUsers = async ({ searchParams, page = 0 }: FetchUsersParams): Promise<UserListResponse> => {
+export const fetchUsers = async ({ searchParams, page = 0, limit = 20 }: FetchUsersParams): Promise<UserListResponse> => {
   // 프론트엔드 쉼표 구분 방식을 백엔드 다중 파라미터 방식으로 변환
   const skills = typeof searchParams.skills === 'string' 
     ? searchParams.skills.split(',') 

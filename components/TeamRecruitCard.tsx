@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import * as simpleIcons from "simple-icons";
 import type { SimpleIcon } from "simple-icons";
 import { techStackOptions } from "@/mocks/techs";

@@ -8,7 +8,7 @@ interface UserListContainerProps {
 
 export default async function UserListContainer({ searchParams, limit }: UserListContainerProps) {
   // prefetch
-  const users = await fetchUsers({ searchParams });
+  const users = await fetchUsers({ searchParams, limit });
   
   return (
     <UserList 
@@ -16,6 +16,7 @@ export default async function UserListContainer({ searchParams, limit }: UserLis
       totalElements={users.totalElements || 0}
       last={users.last || false}
       searchParams={searchParams}
+      limit={limit}
     />
   );
 }

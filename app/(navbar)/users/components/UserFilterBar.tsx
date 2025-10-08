@@ -1,5 +1,4 @@
 "use client";
-import QuerySyncSelect from "@/app/(navbar)/projects/components/QuerySyncSelect";
 import TagSelector from "../../projects/components/TagSelector";
 import TechSearch from "../../projects/create/components/TechSearch";
 import { Option } from "@/constants/projectOptions";

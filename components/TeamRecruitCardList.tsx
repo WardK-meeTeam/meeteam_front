@@ -3,30 +3,18 @@
 import TeamRecruitCard from "./TeamRecruitCard";
 
 const dummyCard = {
+  userId: 1,
   profileImg: "/images/userImg2.png",
   name: "김도윤",
   temp: 45,
   sideProjectCount: 9,
-  skills: [
-    {
-      skillName: "Adobe Illustrator",
-      percent: 40,
-    },
-    {
-      skillName: "Adobe Photoshop",
-      percent: 70,
-    },
-    {
-      skillName: "Figma",
-      percent: 40,
-    },
-  ],
+  skills: ["Adobe Illustrator", "Adobe Photoshop", "Figma"],
 };
 
 export default function TeamRecruitCardList() {
   return (
-    <div className="h-full w-full">
-      <div className="flex items-start h-full justify-start w-full gap-x-7">
+    <div className="w-full h-full">
+      <div className="flex gap-x-7 justify-start items-start w-full h-full">
           {Array(8)
           .fill(0)
           .map((_, i) => (

@@ -5,7 +5,7 @@ import ProjectLoading from "./ProjectLoading";
 import { useEffect, useRef, useState } from "react";
 import { ProjectListItem } from "@/types/projectInfo";
 import NoResult from "./NoResult";
-import { authFetch, refreshAccessToken } from "@/api/authFetch";
+import { authFetch } from "@/api/authFetch";
 import { buildQueryString } from "@/utils/buildQueryString";
 import { mapProjectToCardProps } from "@/utils/mapProjectToCardProps";
 import ProjectSortBar from "./ProjectSortBar";
@@ -95,7 +95,6 @@ export default function ProjectList({
     };
   }, [isLast, isLoading, fetchNextPage]); // 의존성 배열에 상태 추가
 
-  console.log(projects, 'projects');
 
   return (
       <>

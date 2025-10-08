@@ -19,7 +19,10 @@ const isListItem = (p: AnyProject): p is ProjectListItem =>
     "projectId" in p && "projectName" in p;
 
 export default function HomePageClient() {
-    const API = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const API = process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
+    if (!API) {
+        console.error("NEXT_PUBLIC_API_BASE_URL is not defined");
+    }
     const sp= useSearchParams();
     
     const rawCategory = sp.get("category");
@@ -165,9 +168,10 @@ export default function HomePageClient() {
                     </button>
                     <button 
                     type="button" 
+                    onClick={scrollRight}
                     className="w-[40px] h-[40px] rounded-[50%] border border-[1px] border-[#CFCFCF] flex justify-center items-center cursor-pointer"
                     >
-                        <IoIosArrowForward onClick={scrollRight} className="w-[30px] h-[30px] text-[#CFCFCF] "/>
+                        <IoIosArrowForward className="w-[30px] h-[30px] text-[#CFCFCF] "/>
                     </button>
                 </div>
             </div>

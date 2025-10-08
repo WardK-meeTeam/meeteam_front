@@ -20,6 +20,10 @@ export const techStackOptions: TechStackOption[] = [
   { kor: "HTML/CSS", eng: "HTML/CSS", iconName: "siHtml5" }, // 추가
   { kor: "Tailwind CSS", eng: "Tailwind CSS", iconName: "siTailwindcss" }, // 추가
 
+  // 🎨 디자인
+  { kor: "Adobe Illustrator", eng: "Adobe Illustrator", iconName: "siAdobeillustrator" },
+  { kor: "Adobe Photoshop", eng: "Adobe Photoshop", iconName: "siAdobephotoshop" },
+
   // ⚙️ 백엔드
   { kor: "노드", eng: "Node.js", iconName: "siNodedotjs" },
   { kor: "익스프레스", eng: "Express.js", iconName: "siExpress" },

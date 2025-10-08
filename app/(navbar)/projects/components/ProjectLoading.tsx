@@ -6,7 +6,7 @@ import ProjectSortBar from "./ProjectSortBar";
 export default function ProjectLoading({ count = 8 }: { count?: number }) {
   return (
     <>
-      <ProjectSortBar sortOptions={sortOptions} totalElements={0} />
+      <ProjectSortBar sortOptions={sortOptions} totalElements={0} showSort={false} showCount={false} />
       <CardSkeletonGroup count={count} />
       <div className="flex flex-col gap-2 items-center py-8">
         <CircleSpinner />

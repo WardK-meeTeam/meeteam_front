@@ -99,3 +99,29 @@ export const authFetch = async (
 
   return response;
 };
+
+// 공개 api용
+export const proxyFetch = async (
+  path: string,
+  options: RequestInit = {}
+): Promise<Response> => {
+const url = `/api/_proxy${path.startsWith("/") ? path : `/${path}`}`;
+  
+const headers = new Headers({ Accept: "application/json" });
+const provided = options.headers;
+if (provided instanceof Headers) {
+  provided.forEach((value, key) => headers.set(key, value));
+} else if (Array.isArray(provided)) {
+  provided.forEach(([key, value]) => headers.set(key, value));
+} else if (provided) {
+  Object.entries(provided).forEach(([key, value]) => {
+    if (value !== undefined) headers.set(key, value as string);
+  });
+}
+const fetchInit: RequestInit = {
+  ...options,
+  cache: options.cache ?? "no-store",
+  headers,
+};
+return fetch(url, fetchInit);
+};

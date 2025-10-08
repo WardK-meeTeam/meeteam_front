@@ -1,41 +1,98 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import TeamRecruitCard from "./TeamRecruitCard";
+import { publicFetch } from "@/app/publicFetch";
 
-const dummyCard = {
-  profileImg: "/images/userImg2.png",
-  name: "김도윤",
-  temp: 45,
-  sideProjectCount: 9,
-  skills: [
-    {
-      skillName: "Adobe Illustrator",
-      percent: 40,
-    },
-    {
-      skillName: "Adobe Photoshop",
-      percent: 70,
-    },
-    {
-      skillName: "Figma",
-      percent: 40,
-    },
-  ],
-};
+interface MemberCardApiResponse {
+  result?: Array<{
+    memberId: number;
+    realName: string;
+    storeFileName?: string;
+    temperature?: number;
+    projectCount?: number;
+    skillList?: string[];
+  }>;
+}
 
 export default function TeamRecruitCardList() {
+  const [cards, setCards] = useState<{
+    profileImg: string;
+    name: string;
+    temp: number;
+    sideProjectCount: number;
+    skills: { skillName: string; percent: number }[];
+  }[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        setLoading(true);
+        const API = process.env.NEXT_PUBLIC_API_BASE_URL;
+        const res = await publicFetch(`${API}/api/members/all`, { method: "GET" });
+        if (!res.ok) {
+          
+          if (res.status !== 401) console.warn("members fetch failed:", res.status);
+          setCards([]);
+          return;
+        }
+        const data: MemberCardApiResponse = await res.json();
+        if (cancelled) return;
+
+        const mapped = (data.result ?? []).map((m) => ({
+          profileImg: m.storeFileName || "/images/userImg2.png",
+          name: m.realName || "-",
+          temp: Math.round((m.temperature ?? 0) * 10) / 10,
+          sideProjectCount: m.projectCount ?? 0,
+          skills: (m.skillList ?? []).slice(0, 3).map((s) => ({ skillName: s, percent: 0 })),
+        }));
+        setCards(mapped);
+      } catch (e) {
+        console.error(e);
+        if (!cancelled) setCards([]);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const skeletons = Array(8).fill(0).map((_, i) => (
+    <div key={`skeleton-${i}`} className="w-[305px] h-[200px] bg-[#F5F7F9] rounded-[16px] animate-pulse shrink-0" />
+  ));
+
   return (
     <div className="h-full w-full">
-      <div className="flex items-start h-full justify-start w-full gap-x-7">
-          {Array(8)
-          .fill(0)
-          .map((_, i) => (
-            <TeamRecruitCard  
-            key={i} 
-            {...dummyCard} 
-            className="shrink-0"
+      <div className="flex items-start h-full justify-start w-full gap-x-5">
+        {loading && skeletons}
+        {!loading && cards.length === 0 && skeletons}
+        {!loading && cards.length > 0 && (
+          cards.map((c, i) => (
+            <TeamRecruitCard
+              key={`member-card-${i}`}
+              {...c}
+              className="shrink-0"
             />
-          ))}
+          ))
+        )}
+      </div>
+    </div>
+  );
+}
+
+// 메인 하단 영역 로딩 스켈레톤 노출용 컴포넌트
+export function TeamRecruitSkeletonRow() {
+  const skeletons = Array(8).fill(0).map((_, i) => (
+    <div key={`skeleton-${i}`} className="w-[305px] h-[200px] bg-[#F5F7F9] rounded-[16px] animate-pulse shrink-0" />
+  ));
+  return (
+    <div className="h-full w-full">
+      <div className="flex items-start h-full justify-start w-full gap-x-5">
+        {skeletons}
       </div>
     </div>
   );

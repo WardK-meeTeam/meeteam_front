@@ -4,30 +4,56 @@ import Cookies from 'js-cookie';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-// 먼저 쿠키에 저장된 리프레시 토큰으로 액세스 토큰 발급 후 저장 및 반환하는 함수
+/** 쿠키에 저장된 리프레시 토큰으로 액세스 토큰 발급 후 저장 및 반환하는 함수 */
 export async function refreshAccessToken(): Promise<string | null> {
   try {
-    // 서버/클라이언트 환경에 따른 URL 처리
-    const refreshUrl = typeof window === 'undefined' 
-      ? `${API_BASE_URL}/api/auth/refresh`  // 서버: 절대 URL
-      : '/api/auth/refresh';  // 클라이언트: 상대 URL
+    /** 서버 사이드 */
+    if(typeof window === 'undefined') {
+      const { cookies } = await import('next/headers');
+      const cookieStore = await cookies();
+      const refreshToken = cookieStore.get("refreshToken")?.value; // 리프레시 토큰 가져오기
 
-    const response = await fetch(refreshUrl, {
+      if(!refreshToken) { // 리프레시 토큰이 없으면 리프레시 토큰 발급 실패
+        return null;
+      } 
+
+      // 리프레시 토큰으로 액세스 토큰 발급 요청
+      const response = await fetch(`/api/auth/refresh`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Cookie": `refreshToken=${refreshToken}`, // 서버 사이드는 직접 쿠키 헤더에 담아서 요청
+        },
+      });
+  
+      if (!response.ok) {
+        return null;
+      }
+  
+      const data = await response.json();
+      const newAccessToken = data.result;
+
+      return newAccessToken;
+    } 
+    
+    /** 클라이언트 사이드 */
+    const response = await fetch(`/api/auth/refresh`, {
       method: "POST",
       credentials: "include",
     });
 
-    if (!response.ok) {
+    if(!response.ok) {
       return null;
     }
 
     const data = await response.json();
+    const newAccessToken = data.result;
 
-    const newAccessToken = data.result.accessToken;
+    Cookies.set("accessToken", newAccessToken); //클라이언트에서는 쿠키 저장
 
     return newAccessToken;
   } catch (error) {
-    console.log("refresh토큰으로 accessToken 가져오기 실패", error);
+    console.error("refresh토큰으로 accessToken 가져오기 실패", error);
     return null;
   }
 }
@@ -52,8 +78,7 @@ export const authFetch = async (
     accessToken = Cookies.get("accessToken");
   }
 
-
-
+  // 헤더 설정 (기존 헤더 + 액세스 토큰)
   const headers = {
     ...options.headers,
     Authorization: `Bearer ${accessToken}`,
@@ -61,12 +86,10 @@ export const authFetch = async (
 
   let response = await fetch(url, { ...options, headers });
 
-  // 만약 accessToken을 담아서 요청했는데, 401에러가 뜨면 액세스 토큰이 만료된거임
-  // 따라서 액세스 토큰 재발급 필요
+  // 만약 accessToken을 담아서 요청했는데, 401에러가 뜨면 액세스 토큰이 만료된거임 -> 액세스 토큰 재발급 필요
   if (response.status === 401) {
     // 401 -> Unautorized
     const newAccessToken = await refreshAccessToken();
-
     if (newAccessToken) {
       const newHeaders = {
         ...headers,
@@ -80,20 +103,17 @@ export const authFetch = async (
       /* 로그아웃 - 쿠키 삭제 */
       // 서버 사이드
       if(typeof window === 'undefined') {
-        const { cookies } = await import('next/headers');
-        const cookieStore = await cookies();
-        cookieStore.delete("accessToken");
-        // 서버 사이드에서는 에러 던짐
-        throw new Error("로그인 후 시도하세요");
+        // 서버 사이드에서는 예외 발생시킴
+        throw new Error("SESSION_EXPIRED");
       }
       // 클라이언트 사이드
       else {
         Cookies.remove("accessToken");
+        Cookies.remove("refreshToken");
         // 클라이언트 사이드에서는 로그인 페이지 리다이렉트
         alert("로그인 후 시도하세요");
         window.location.href = "/signin";
       }
-      
     }
   }
 

@@ -2,8 +2,8 @@ export async function loginWithEmail(loginFormData: {
   email: string;
   password: string;
 }) {
-  const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-  const response = await fetch(`${API}/api/auth/login`, {
+  // 프록시를 통해 호출 (도메인 제거)
+  const response = await fetch("/api/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(loginFormData),

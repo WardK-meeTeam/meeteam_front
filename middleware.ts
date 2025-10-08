@@ -39,7 +39,7 @@ export async function middleware(request: NextRequest) {
     //토큰 갱신
     console.log("토큰 갱신 시도중....");
     try {
-      const accessTokenResponse = await fetch(`${process.env.APP_BASE_URL}/api/auth/refresh`, {
+      const accessTokenResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/refresh`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

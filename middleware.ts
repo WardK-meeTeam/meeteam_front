@@ -1,13 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isTokenNearExpiry, isTokenExpired } from '@/utils/token';
-import { ResponseCookies } from "next/dist/compiled/@edge-runtime/cookies";
+import { RequestCookies, ResponseCookies } from "next/dist/compiled/@edge-runtime/cookies";
 
-export async function middleware(request: NextRequest, response: NextResponse) {
+function applySetCookie(req: NextRequest, res: NextResponse): void {
+  // parse the outgoing Set-Cookie header
+  const setCookies = new ResponseCookies(res.headers);
+  // Build a new Cookie header for the request by adding the setCookies
+  const newReqHeaders = new Headers(req.headers);
+  const newReqCookies = new RequestCookies(newReqHeaders);
+  setCookies.getAll().forEach((cookie) => newReqCookies.set(cookie));
+  // set “request header overrides” on the outgoing response
+  NextResponse.next({ request: { headers: newReqHeaders },}).headers.forEach((value, key) => {
+    if (key === 'x-middleware-override-headers' || key.startsWith('x-middleware-request-')) {
+      res.headers.set(key, value);
+    }
+  });
+}
+
+export async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get("accessToken")?.value;
   const refreshToken = request.cookies.get("refreshToken")?.value;
-  console.log('request.cookies.getAll(): ', request.cookies.getAll());
-  console.log('accessToken: ', accessToken);
-  console.log('refreshToken: ', refreshToken);
   
   const logout = () => {
     const res = NextResponse.redirect(new URL('/signin', request.url));
@@ -20,53 +32,48 @@ export async function middleware(request: NextRequest, response: NextResponse) {
     (!accessToken || !refreshToken) || // 액세스 토큰 또는 리프레시 토큰이 없으면 로그인 페이지로 리다이렉트 로그아웃
     (refreshToken && isTokenExpired(refreshToken)) // 리프레시 토큰이 있더라도 리프레시 토큰이 만료되었으면 로그아웃
   ) {
-    logout();
+    return logout();
   }
 
   if (refreshToken && accessToken && isTokenNearExpiry(accessToken)) {
     //토큰 갱신
     console.log("토큰 갱신 시도중....");
     try {
-      const response = await fetch("/api/auth/refresh", {
+      const accessTokenResponse = await fetch(`${process.env.APP_BASE_URL}/api/auth/refresh`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          cookie: `refreshtoken=${refreshToken}`,
+          cookie: `refreshToken=${refreshToken}`,
         },
         credentials: 'include',
       });
       // API를 호출하여 새 액세스 토큰과 리프레시 토큰을 요청
 
-      if (!response.ok) {
+      console.log('accessToken: ', accessToken);
+      console.log('refreshToken: ', refreshToken);
+
+      if (!accessTokenResponse.ok) {
         // 응답이 성공적이지 않으면 로그아웃
-        logout();
+        return logout();
       }
-
-      if (response.ok) {
-        // 응답이 성공적이면 다음 요청을 처리
+      const data = await accessTokenResponse.json();
+      const newAccessToken = data.result;
+      
+      if (newAccessToken) {
+        console.log('newAccessToken: ', newAccessToken);
+        // 응답이 성공적이면 새 액세스 토큰으로 쿠키 설정하고 다음 요청 진행
         const res = NextResponse.next();
-        const responseCookies = new ResponseCookies(response.headers);
-        // 응답 헤더에서 쿠키를 읽음
-
-        const accessToken = responseCookies.get('accesstoken');
-        // 응답에서 'accesstoken' 쿠키를 가져옴
-
-        const refreshToken = responseCookies.get('refreshtoken');
-        // 응답에서 'refreshtoken' 쿠키를 가져옴
-
-        if (accessToken) {
-          // 새 액세스 토큰을 설정
-          res.cookies.set('accesstoken', accessToken.value, {
-            httpOnly: accessToken.httpOnly,
-            sameSite: accessToken.sameSite,
-            path: accessToken.path,
-            secure: accessToken.secure,
-          });
-        }
+        res.cookies.set('accessToken', newAccessToken, {
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
+          path: '/'
+        });
+        applySetCookie(request, res);
+        return res;
       }
     } catch (error) {
-      logout();
       console.error("토큰 갱신 실패", error);
+      return logout();
     }
   }
 

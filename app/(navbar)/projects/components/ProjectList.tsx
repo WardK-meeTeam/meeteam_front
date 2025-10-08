@@ -5,7 +5,7 @@ import ProjectLoading from "./ProjectLoading";
 import { useEffect, useRef, useState } from "react";
 import { ProjectListItem } from "@/types/projectInfo";
 import NoResult from "./NoResult";
-import { authFetch } from "@/api/authFetch";
+import { authFetch, refreshAccessToken } from "@/api/authFetch";
 import { buildQueryString } from "@/utils/buildQueryString";
 import { mapProjectToCardProps } from "@/utils/mapProjectToCardProps";
 import ProjectSortBar from "./ProjectSortBar";
@@ -100,6 +100,11 @@ export default function ProjectList({
   return (
       <>
         <ProjectSortBar sortOptions={sortOptions} totalElements={totalElements} />
+        <button onClick={async () => {
+          console.log(await refreshAccessToken());
+        }}>
+          button
+        </button>
         <div className="grid grid-cols-4 gap-8">
           { projects.length > 0 ?
             projects.map((project, idx) => (

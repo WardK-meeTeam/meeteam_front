@@ -23,7 +23,7 @@ export const isTokenNearExpiry = (token: string): boolean => {
     
     const payload = JSON.parse(atob(token.split(".")[1])); // payload base64 디코딩
     const timeUntilExpiry = payload.exp - currentTime;
-    
+
     return timeUntilExpiry <= REFRESH_THRESHOLD;
   } catch (error) {
     console.error('토큰 갱신 체크 실패:', error);

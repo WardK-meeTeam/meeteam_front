@@ -3,41 +3,11 @@
 import TeamRecruitCard from "@/components/TeamRecruitCard";
 import UserLoading from "./UserListLoading";
 import { useEffect, useRef, useState } from "react";
-import NoResult from "@/components/NoResult";
-import { buildQueryString } from "@/utils/buildQueryString";
+import NoResult from "./NoResult";
 import { mapUserToCardProps } from "@/utils/mapUserToCardProps";
 import UserSortBar from "./UserSortBar";
-import { sortOptions } from "@/constants/projectOptions";
 import Link from "next/link";
-
-const dummyUsers = Array(20).fill(0).map((_, idx) => (
-  {
-    userId: idx,
-    name: `John Doe ${idx}`,
-    temp: 45,
-    sideProjectCount: 9,
-    skills: ["React.js", "Next.js", "Tailwind CSS", "Java", "Python"],
-    profileImg: "/images/userImg1.png",
-  }
-));
-
-interface FetchUsers {
-  content: any[];
-  totalElements: number;
-  last: boolean;
-}
-
-const tempFetchUsers = async (): Promise<FetchUsers> => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({
-        content: dummyUsers,
-        totalElements: 328,
-        last: false
-      });
-    }, 2000);
-  });
-}
+import { fetchUsers } from "@/api/fetchUsers";
 
 export default function UserList({ 
   initialUsers,
@@ -63,36 +33,10 @@ export default function UserList({
     setIsLoading(true);
     
     try {
-      // 다음 페이지 API 호출
-      const queryParams = {
-        ...(searchParams ?? {}),
-        page: page, // 현재 page는 다음 페이지 번호
-      };
+      const data = await fetchUsers({ searchParams, page });
+      const newUsers = data.result || [];
       
-      const queryString = buildQueryString(queryParams);
-
-      console.log('api 호출 queryString: ', queryString);
-      console.log('page: ', page);
-      
-      // const response = await authFetch(`/api/users/condition${queryString}`, {
-      //   method: "GET",
-      //   headers: { "Content-Type": "application/json" },
-      // });
-      
-      // if (!response.ok) {
-      //   throw new Error('Failed to fetch next page');
-      // }
-      
-      // const data = await response.json();
-      // const newUsers = data.content || [];
-      
-      // // 불러온 새 유저 목록을 기존 목록에 추가
-      // setUsers(prev => [...prev, ...newUsers]);
-      // setIsLast(data.last || newUsers.length === 0);
-      // setPage(prev => prev + 1);
-
-      const data = await tempFetchUsers();
-      const newUsers = data.content || [];
+      // 불러온 새 유저 목록을 기존 목록에 추가
       setUsers(prev => [...prev, ...newUsers]);
       setIsLast(data.last || newUsers.length === 0);
       setPage(prev => prev + 1);
@@ -117,7 +61,7 @@ export default function UserList({
 
     const observer = new IntersectionObserver(callback, {
       root: null,              // 관찰 기준 (null=viewport)
-      rootMargin: "400px 0px", // 관찰 영역 여유 (예: 아래쪽 200px 일찍 발동)
+      rootMargin: "400px 0px", // 관찰 영역 여유 (예: 아래쪽 400px 일찍 발동)
       threshold: 0.1           // 10% 보이면 발동
     });
 
@@ -131,15 +75,13 @@ export default function UserList({
     };
   }, [isLast, isLoading, fetchNextPage]); // 의존성 배열에 상태 추가
 
-  console.log(users, 'users');
-
   return (
       <>
-        <UserSortBar sortOptions={sortOptions} totalElements={totalElements} />
+        <UserSortBar totalElements={totalElements} />
         <div className="grid grid-cols-4 gap-8">
           { users.length > 0 ?
             users.map((user, idx) => (
-              <Link href={`/users/${user.userId}`} key={user.userId}>
+              <Link href={`/users/${user.memberId}`} key={user.memberId}>
                 <TeamRecruitCard {...mapUserToCardProps(user)} />
               </Link>
             )) :

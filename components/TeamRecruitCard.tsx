@@ -34,13 +34,7 @@ export default function TeamRecruitCard({
       {/* 위칸 */}
       <div className="flex gap-x-6 justify-start items-center mb-5">
         <div className="flex flex-col gap-y-2 justify-center items-center">
-          <Image
-            className="rounded-[50%]"
-            src={`${profileImg}`}
-            alt="profileImage"
-            width={63}
-            height={63}
-          />
+          <div className="w-[63px] h-[63px] rounded-[50%] bg-cover bg-center" style={{ backgroundImage: `url(${profileImg})` }} />
           <div className="text-[12px] font-bold">{name}</div>
         </div>
         <div className="flex flex-col justify-center items-start">
@@ -57,7 +51,7 @@ export default function TeamRecruitCard({
 
       {/* 아래칸 */}
       <div className="flex items-center">
-        <span className="font-bold text-[#C48DFF] text-center min-w-[87px] box-sizing-border pr-6">Skills</span>
+        <span className="flex items-center font-bold text-[#C48DFF] text-center min-w-[87px] box-sizing-border pr-6 min-h-10">Skills</span>
         {
           skills.slice(0, 3).map((skill, idx) => {
           const iconName = techStackOptions.find(option => option.eng === skill)?.iconName;

@@ -4,7 +4,7 @@ import Card from "@/components/Card";
 import ProjectListLoading from "./ProjectListLoading";
 import { useEffect, useRef, useState } from "react";
 import { ProjectListItem } from "@/types/projectInfo";
-import NoResult from "../../../../components/NoResult";
+import NoResult from "./NoResult";
 import { authFetch } from "@/api/authFetch";
 import { buildQueryString } from "@/utils/buildQueryString";
 import { mapProjectToCardProps } from "@/utils/mapProjectToCardProps";
@@ -81,7 +81,7 @@ export default function ProjectList({
 
     const observer = new IntersectionObserver(callback, {
       root: null,              // 관찰 기준 (null=viewport)
-      rootMargin: "400px 0px", // 관찰 영역 여유 (예: 아래쪽 200px 일찍 발동)
+      rootMargin: "400px 0px", // 관찰 영역 여유 (예: 아래쪽 400px 일찍 발동)
       threshold: 0.1           // 10% 보이면 발동
     });
 
@@ -94,8 +94,6 @@ export default function ProjectList({
       observer.disconnect();
     };
   }, [isLast, isLoading, fetchNextPage]); // 의존성 배열에 상태 추가
-
-  console.log(projects, 'projects');
 
   return (
       <>

@@ -81,7 +81,7 @@ export default function Navbar() {
   }, []); // 마운트 시 한 번만 실행
 
   return (
-    <header className="flex gap-8 justify-between items-baseline w-full pt-9 pb-9 pl-8 pr-8">
+    <header className="flex gap-8 justify-between items-baseline pt-9 pr-8 pb-9 pl-8 w-full">
       <div className="flex gap-7 items-baseline">
         <Link className="text-2xl font-bold cursor-pointer" href={"/"}>
           meeTeam
@@ -89,8 +89,11 @@ export default function Navbar() {
         <Link href={"/chat"} className='font-semibold cursor-pointer"'>
           PR 리뷰
         </Link>
+        <Link href={"/users"} className='font-semibold cursor-pointer"'>
+          팀원 찾기
+        </Link>
         <Link href={"/projects"} className='font-semibold cursor-pointer"'>
-          프로젝트
+          프로젝트 찾기
         </Link>
         <Link
           href={"/projects/create"}
@@ -108,7 +111,7 @@ export default function Navbar() {
           }}
         >
           <input
-            className="w-full bg-transparent pl-3 outline-none"
+            className="pl-3 w-full bg-transparent outline-none"
             type="text"
             value={search}
             onChange={handleSearchChange}
@@ -128,7 +131,7 @@ export default function Navbar() {
           {isLoading ? (
             "로딩중"
           ) : user?.name ? (
-            <li className="text-mtm-text-gray pl-2 min-w-50">
+            <li className="pl-2 text-mtm-text-gray min-w-50">
               <Link href={`/users/${user.memberId}`} className="font-bold">
                 {user?.name ?? ""}님!
               </Link>{" "}
@@ -136,7 +139,7 @@ export default function Navbar() {
             </li>
           ) : (
             <Fragment>
-              <li className="text-mtm-text-gray cursor-pointer px-2">
+              <li className="px-2 cursor-pointer text-mtm-text-gray">
                 <Link href={"/signin"}>로그인</Link>
               </li>
             </Fragment>
@@ -155,7 +158,7 @@ export default function Navbar() {
 
           {notifications.length !== 0 && (
             <>
-              <span className="absolute -top-2 -right-1 h-2 w-2 bg-red-500 rounded-full"></span>
+              <span className="absolute -right-1 -top-2 w-2 h-2 bg-red-500 rounded-full"></span>
             </>
           )}
           <NotificationToast

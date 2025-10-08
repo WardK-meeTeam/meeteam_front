@@ -49,18 +49,15 @@ export async function middleware(request: NextRequest) {
       });
       // API를 호출하여 새 액세스 토큰과 리프레시 토큰을 요청
 
-      console.log('accessToken: ', accessToken);
-      console.log('refreshToken: ', refreshToken);
-
       if (!accessTokenResponse.ok) {
         // 응답이 성공적이지 않으면 로그아웃
         return logout();
       }
+
       const data = await accessTokenResponse.json();
       const newAccessToken = data.result;
       
       if (newAccessToken) {
-        console.log('newAccessToken: ', newAccessToken);
         // 응답이 성공적이면 새 액세스 토큰으로 쿠키 설정하고 다음 요청 진행
         const res = NextResponse.next();
         res.cookies.set('accessToken', newAccessToken, {

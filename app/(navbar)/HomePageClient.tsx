@@ -33,7 +33,22 @@ export default function HomePageClient() {
     const [projects, setProjects] = useState<AnyProject[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [mounted, setMounted] = useState(false);
-    
+
+    const advertisement = [
+        "/images/banner_1.jpg",
+        "/images/banner_2.png",
+        "/images/banner_3.png",
+    ];
+
+    const [currentAdvertisement, setCurrentAdvertisement] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentAdvertisement((prev) => (prev + 1) % advertisement.length);
+        }, 5000);
+        return () => clearInterval(interval);
+    }, [advertisement.length]);
+
     useEffect(() => { setMounted(true); }, []);
 
     useEffect(()=> {
@@ -110,11 +125,12 @@ export default function HomePageClient() {
         <main className="flex flex-col gap-y-5 justify-center items-center">
             {/**광고 자리 */}
             <div className="w-[88%] h-[180px] bg-[#F8F8F8] my-3">
+                <img alt="advertisement" className="w-full h-full object-contain" src={advertisement[currentAdvertisement]} />
             </div>
 
             <div className="flex flex-col w-[88%]">
                 <HomeCategoryTabs/>
-            </div>
+            </div> 
 
             <div className="w-[93%] flex flex-col">
                 <div className="px-8 py-1 text-[26px] font-bold mt-1 ml-9" >프로젝트</div>

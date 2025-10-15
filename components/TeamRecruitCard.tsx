@@ -1,8 +1,9 @@
 "use client";
 
 import * as simpleIcons from "simple-icons";
-import type { SimpleIcon } from "simple-icons";
 import { techStackOptions } from "@/mocks/techs";
+import Image from "next/image";
+import type { SimpleIcon } from "simple-icons";
 
 interface TeamCardProps {
   userId: number;

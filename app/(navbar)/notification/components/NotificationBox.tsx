@@ -4,19 +4,16 @@ import Image from "next/image";
 import DotImg from "@/public/images/Ellipse.svg";
 import Link from "next/link";
 import { Notification } from "@/types/notification";
+import { formatNotification } from "@/utils/notificationFormatter";
 
-export default function NotificationBox({
-  applicationId,
-  createdAt,
-  message,
-  payload,
-  read,
-  type,
-}: Notification) {
+export default function NotificationBox(notification: Notification) {
+  const { applicationId, createdAt, payload, read, type } = notification;
+  const { title, icon, content } = formatNotification(notification);
+
   return (
     <div className="flex flex-col gap-3 border border-mtm-light-gray p-8 rounded-lg w-full">
       <div className="flex flex-row items-center justify-start gap-1">
-        <h1 className="text-xl font-bold">{payload.projectName}</h1>
+        <h1 className="text-xl font-bold">{title}</h1>
         <Image src={DotImg} width={2} height={2} alt="-" />
         <span>{createdAt}</span>
         {!read && <span className="h-2 w-2 bg-red-500 rounded-full"></span>}
@@ -24,12 +21,7 @@ export default function NotificationBox({
 
       <div className="flex flex-row justify-between">
         <span>
-          {type === "PROJECT_MY_APPLY"
-            ? "✉️ "
-            : type === "PROJECT_APPLY"
-              ? "🙋‍♂️ "
-              : " "}
-          {message}
+          {icon} {content}
         </span>
         {type === "PROJECT_APPLY" && (
           <Link

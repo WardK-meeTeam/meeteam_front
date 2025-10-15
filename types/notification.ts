@@ -4,7 +4,8 @@ export type NotificationType =
   | "PROJECT_MY_APPLY"
   | "PROJECT_APPLY"
   | "PROJECT_APPROVE"
-  | "PROJECT_REJECT";
+  | "PROJECT_REJECT"
+  | "PROjECT_END";
 
 export interface Notification {
   id: number;
@@ -24,27 +25,35 @@ export interface Notification {
 // SSE를 활용한 알림을 위한 타입
 
 export interface ProjectApplyNotification {
+  type: "PROJECT_APPLY";
   applicantId: number;
   applicantName: string;
   applicationId: number;
   date: string;
-  message: string;
   projectId: number;
   projectName: string;
   receiverId: number;
 }
 
 export interface ProjectMyApplyNotification {
+  type: "PROJECT_MY_APPLY";
   localDate: string;
-  message: string;
   projectName: string;
   receiverId: number;
 }
 
 export interface ProjectApplyDecision {
+  type: "PROJECT_REJECT" | "PROJECT_APPROVE";
   receiverId: number;
   projectId: number;
   approvalResult: "ACCEPTED" | "REJECTED";
-  message: string;
   date: string;
+}
+
+export interface ProjectEndNotification {
+  type: "PROJECT_END";
+  projectId: number;
+  memberId: number;
+  projectName: string;
+  occurredAt: string;
 }

@@ -36,15 +36,18 @@ export default function Navbar() {
 
   // 이부분은 SSE 구현부
   useEffect(() => {
+    if (!user) {
+      return;
+    }
+
     const API = process.env.NEXT_PUBLIC_API_BASE_URL;
     const accessToken = Cookies.get("accessToken");
 
     if (!accessToken) {
       console.log("로그인 필요함");
-      return; // 토큰이 없으면 즉시 effect 종료
+      return;
     }
 
-    // Effect가 여전히 유효한지 추적하기 위한 플래그
     let isMounted = true;
     let eventSource: EventSourcePolyfill | undefined;
 
@@ -56,11 +59,9 @@ export default function Navbar() {
           setNotifications,
         );
 
-        // 비동기 작업이 완료된 후에도 컴포넌트가 마운트 상태인지 확인
         if (isMounted) {
           eventSource = es;
         } else {
-          // 만약 그 사이에 컴포넌트가 사라졌다면, 생성된 연결을 즉시 닫음
           es.close();
         }
       } catch (error) {
@@ -70,15 +71,12 @@ export default function Navbar() {
 
     setupSSE();
 
-    // 클린업 함수
     return () => {
-      // 클린업 시 플래그를 false로 설정
       isMounted = false;
-      // eventSource가 할당되었다면 연결 종료
       eventSource?.close();
       console.log("SSE 연결이 정리되었습니다.");
     };
-  }, []); // 마운트 시 한 번만 실행
+  }, [user]); // 마운트 시 한 번만 실행
 
   return (
     <header className="flex gap-8 justify-between items-baseline pt-9 pr-8 pb-9 pl-8 w-full">

@@ -3,15 +3,18 @@
 import {
   ProjectApplyDecision,
   ProjectApplyNotification,
+  ProjectEndNotification,
   ProjectMyApplyNotification,
 } from "@/types/notification";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import NotificationToastRow from "./NotificationToastRow";
 
-type ToastNotification =
+export type ToastNotification =
   | ProjectApplyNotification
   | ProjectMyApplyNotification
-  | ProjectApplyDecision;
+  | ProjectApplyDecision
+  | ProjectEndNotification;
 
 interface NotificationToastProps {
   show: boolean;
@@ -52,47 +55,8 @@ export function NotificationToast({
           {notifications.length > 0 ? (
             <ul>
               {notifications.map((item, idx) => {
-                const getDate = (n: ToastNotification) =>
-                  "date" in n ? n.date : "localDate" in n ? n.localDate : "";
-
-                const key =
-                  "applicationId" in item
-                    ? `apply-${item.applicantId}-${getDate(item)}`
-                    : "approvalResult" in item
-                      ? `decision-${item.projectId}-${getDate(item)}`
-                      : `myapply-${item.receiverId}-${getDate(item)}-${idx}`;
-
                 return (
-                  <li
-                    key={key}
-                    className="p-3 hover:bg-muted/50 rounded-lg cursor-pointer transition-colors"
-                  >
-                    <div className="flex items-start gap-3">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-primary/10">
-                        <svg
-                          className="w-5 h-5 text-primary"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                          />
-                        </svg>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm text-foreground leading-relaxed break-words">
-                          {item.message}
-                        </p>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {getDate(item)}
-                        </p>
-                      </div>
-                    </div>
-                  </li>
+                  <NotificationToastRow key={`${item.type}-${idx}`} {...item} />
                 );
               })}
             </ul>
@@ -102,7 +66,6 @@ export function NotificationToast({
             </div>
           )}
         </div>
-
         <div className="mt-2 text-center border-t border-border pt-2">
           <button
             onClick={() => {

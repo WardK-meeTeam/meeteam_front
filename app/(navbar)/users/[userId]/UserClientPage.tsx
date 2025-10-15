@@ -100,7 +100,7 @@ export default function UserClientPage({ userId }: { userId: string }) {
             />
           </div>
 
-          <div className="flex justify-center items-center gap-x-4">
+          <div className="flex gap-x-4 justify-center items-center">
             <div className="text-4xl font-extrabold">{name}</div>
             {isMyPage && <ModifyButton />}
           </div>

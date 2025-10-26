@@ -2,7 +2,7 @@
 
 import Card from "@/components/Card";
 import ProjectListLoading from "./ProjectListLoading";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { ProjectListItem } from "@/types/projectInfo";
 import NoResult from "./NoResult";
 import { authFetch } from "@/api/authFetch";
@@ -30,7 +30,7 @@ export default function ProjectList({
   const [page, setPage] = useState(1);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
-  const fetchNextPage = async () => {
+  const fetchNextPage = useCallback(async () => {
     if (isLoading || isLast) return; // 로딩 중이거나 마지막 페이지면 중단
     
     setIsLoading(true);
@@ -66,7 +66,7 @@ export default function ProjectList({
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [isLoading, isLast, page, searchParams]);
 
   // 무한 스크롤 로직
   useEffect(() => {

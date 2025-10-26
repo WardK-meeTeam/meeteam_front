@@ -40,10 +40,7 @@ export async function refreshAccessToken(): Promise<string | null> {
     const response = await fetch(`/api/auth/refresh`, {
       method: "POST",
       credentials: "include",
-      headers: {
-        "Cookie": `refreshToken=${refreshToken}`,
-      },
-    }); // 리프레시 토큰으로 액세스 토큰 발급 요청
+    });
 
     if(!response.ok) {
       return null;

@@ -12,7 +12,7 @@ export default async function UserListContainer({ searchParams, limit }: UserLis
 
   return (
     <UserList 
-      initialUsers={users.result || []} 
+      initialUsers={users.users || []} 
       totalElements={users.totalElements || 0}
       last={users.last || false}
       searchParams={searchParams}

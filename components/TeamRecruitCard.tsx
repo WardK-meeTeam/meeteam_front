@@ -2,7 +2,6 @@
 
 import * as simpleIcons from "simple-icons";
 import { techStackOptions } from "@/mocks/techs";
-import Image from "next/image";
 import type { SimpleIcon } from "simple-icons";
 
 interface TeamCardProps {
@@ -54,9 +53,21 @@ export default function TeamRecruitCard({
         <span className="flex items-center font-bold text-[#C48DFF] text-center min-w-[87px] box-sizing-border pr-6 min-h-10">Skills</span>
         {
           skills.slice(0, 3).map((skill, idx) => {
-          const iconName = techStackOptions.find(option => option.eng === skill)?.iconName;
+          const option = techStackOptions.find(opt => 
+            opt.eng.toLowerCase() === skill.toLowerCase());
+          const iconName = option?.iconName;
           const icon = ICONS[iconName || ""];
-          if (!icon) return null;
+          if (!icon) {
+            return (
+              <div 
+                key={`${userId}-${skill}-${idx}`}
+                className="flex justify-center items-center p-1 mr-1 text-xs font-medium text-gray-600"
+                title={skill}
+              >
+                {skill.slice(0, 3)}
+              </div>
+            );
+          }
             return (
               <div 
                 key={`${userId}-${skill}-${idx}`}

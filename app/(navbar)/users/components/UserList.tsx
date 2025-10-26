@@ -38,7 +38,7 @@ export default function UserList({
       
       try {
         const data = await fetchUsers({ searchParams, page, limit });
-        const newUsers = data.result || [];
+        const newUsers = data.users || [];
         
         // 불러온 새 유저 목록을 기존 목록에 추가
         setUsers(prev => [...prev, ...newUsers]);

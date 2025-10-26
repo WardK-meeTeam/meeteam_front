@@ -9,7 +9,7 @@ export interface UserProfile {
   skillList: string[];
 }
 export interface UserListResponse {
-  result?: UserProfile[];
+  users?: UserProfile[];
   totalElements?: number;
   projectCount?: number;
   last?: boolean;
@@ -41,7 +41,7 @@ export const fetchUsers = async ({ searchParams, page = 0, limit = 20 }: FetchUs
   
   // 페이징 파라미터
   apiParams.set('page', page.toString());
-  apiParams.set('size', '20');
+  apiParams.set('size', limit.toString());
   
   // 정렬 파라미터
   apiParams.set('sort', sortParam);
@@ -64,15 +64,14 @@ export const fetchUsers = async ({ searchParams, page = 0, limit = 20 }: FetchUs
     const data = await response.json();
     
     return {
-      result: data.result.content || [],
+      users: data.result.content || [],
       totalElements: data.result.totalElements || 0,
-      projectCount: data.result.projectCount || 0,
       last: data.result.last || true,
     };
   } catch (error) {
     console.error('사용자 데이터 fetch 실패:', error);
     return {
-      result: [],
+      users: [],
       totalElements: 0,
       last: true,
     };

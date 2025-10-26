@@ -7,6 +7,8 @@ const userSortOptions: Option[] = [
   { value: "temperature,desc", label: "온도 높은 순" }, //default
   // { value: "projectCount,asc", label: "프로젝트 적은 순" },
   { value: "temperature,asc", label: "온도 낮은 순" },
+  { value: "projectCount,desc", label: "프로젝트 많은 순" },
+  { value: "projectCount,asc", label: "프로젝트 적은 순" },
 ];
 
 export default function UserSortBar({ totalElements }: { totalElements: number }) {

@@ -1,4 +1,4 @@
-export default function CardSkeleton() {
+export default function ProjectCardSkeleton() {
   return (
     <div className="m-3 w-[305px] h-[415px]">
       <div className="w-full h-full rounded-[16px] animate-pulse" style={{ animationDuration: '1.5s' }}>

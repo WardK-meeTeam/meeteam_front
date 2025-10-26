@@ -7,11 +7,12 @@ import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { useRef, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import ProjectLoading from "./projects/components/ProjectLoading";
+import ProjectLoading from "./projects/components/ProjectListLoading";
 import { mapAnyProjectToCardProps } from "@/utils/mapProjectToCardProps";
 import { publicFetch } from "../publicFetch";
 import { buildQueryString } from "@/utils/buildQueryString";
 import type {ProjectListItem, ProjectInfoItem, ProjectCategory} from "@/types/projectInfo";
+import ProjectCardSkeleton from "./projects/components/ProjectCardSkeleton";
 
 type AnyProject = ProjectListItem | ProjectInfoItem;
 
@@ -125,7 +126,7 @@ export default function HomePageClient() {
         <main className="flex flex-col gap-y-5 justify-center items-center">
             {/**광고 자리 */}
             <div className="w-[88%] h-[180px] bg-[#F8F8F8] my-3">
-                <img alt="advertisement" className="w-full h-full object-contain" src={advertisement[currentAdvertisement]} />
+                <img alt="advertisement" className="object-contain w-full h-full" src={advertisement[currentAdvertisement]} />
             </div>
 
             <div className="flex flex-col w-[88%]">
@@ -138,7 +139,13 @@ export default function HomePageClient() {
                 ref={scrollRef}
                 className="h-[440px] my-1 overflow-x-auto overflow-y-hidden
                 [scrollbar-width: none] [&::-webkit-scrollbar]:hidden">
-                    {isLoading && <ProjectLoading count={6}/>}
+                    {isLoading && ( 
+                        <div className="flex gap-6 px-8">
+                            { Array(6).fill(0).map((_, index) => (
+                                <ProjectCardSkeleton key={index} />
+                            )) }
+                        </div>
+                    )}
                     {!isLoading && (projects?.length ?? 0) === 0 && (
                         <div className="h-full flex items-center justify-center text-[#A5A5A5]">
                             표시할 프로젝트가 없습니다.
@@ -174,7 +181,7 @@ export default function HomePageClient() {
                             </div>
                     )}
                 </div>
-                <div className="flex gap-x-3 px-5 w-full h-3 ml-6">
+                <div className="flex gap-x-3 px-5 ml-6 w-full h-3">
                     <button 
                     type="button" 
                     onClick={scrollLeft} 
@@ -202,7 +209,7 @@ export default function HomePageClient() {
                       <TeamRecruitCardList /> 
                     </div>
                 </div>
-                <div className="flex gap-x-3 px-5 w-full h-3 ml-6">
+                <div className="flex gap-x-3 px-5 ml-6 w-full h-3">
                     <button
                     type="button" 
                     onClick={scrollLeftT} 

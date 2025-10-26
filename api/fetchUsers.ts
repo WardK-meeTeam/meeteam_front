@@ -1,3 +1,5 @@
+import { authFetch } from "./authFetch";
+
 export interface UserProfile {
   memberId: number;
   realName: string;
@@ -9,6 +11,7 @@ export interface UserProfile {
 export interface UserListResponse {
   result?: UserProfile[];
   totalElements?: number;
+  projectCount?: number;
   last?: boolean;
 }
 
@@ -51,15 +54,8 @@ export const fetchUsers = async ({ searchParams, page = 0, limit = 20 }: FetchUs
     apiParams.append('bigCategories', category);
   });
 
-  console.log('API 요청 URL:', `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/members/search?${apiParams.toString()}`);
-  
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/members/search?${apiParams.toString()}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    });
+    const response = await authFetch(`/api/members/search?${apiParams.toString()}`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -68,9 +64,10 @@ export const fetchUsers = async ({ searchParams, page = 0, limit = 20 }: FetchUs
     const data = await response.json();
     
     return {
-      result: data.result || [],
-      totalElements: data.totalElements || 0,
-      last: data.last || true,
+      result: data.result.content || [],
+      totalElements: data.result.totalElements || 0,
+      projectCount: data.result.projectCount || 0,
+      last: data.result.last || true,
     };
   } catch (error) {
     console.error('사용자 데이터 fetch 실패:', error);

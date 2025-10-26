@@ -6,6 +6,7 @@ import { validateSearchParams } from "@/utils/validateSearchParams";
 
 // 초기 프로젝트 데이터 fetch
 const fetchInitialProjects = async (searchParams: ProjectSearchParams, limit: number) => {
+  console.log('searchParams: ', searchParams);
   // 검색 파라미터 유효성 검사 및 기본값 설정
   const validatedParams = validateSearchParams({
     ...searchParams,

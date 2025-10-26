@@ -13,7 +13,7 @@ export default async function ProjectsPage({
 }) {
   const params = await searchParams;
   const validatedParams = validateSearchParams(params as ProjectSearchParams);
-  
+
   return (
     <main className="mx-auto mt-10 w-11/12 max-w-7xl min-w-5xl">
       <h1 className="mb-11 text-4xl font-extrabold">프로젝트 찾기</h1>

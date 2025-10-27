@@ -11,7 +11,6 @@ export interface UserProfile {
 export interface UserListResponse {
   users?: UserProfile[];
   totalElements?: number;
-  projectCount?: number;
   last?: boolean;
 }
 

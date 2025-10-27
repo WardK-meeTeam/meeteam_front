@@ -5,7 +5,7 @@ import { getUserProfile } from "@/api/user";
 import { useAuth } from "@/context/AuthContext";
 import { UserProfile } from "@/types/userProfile";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 export function useAuthBootstrap() {
   const router = useRouter();
@@ -25,7 +25,7 @@ export function useAuthBootstrap() {
 
     if (user) {
       setUser(user);
-      window.location.href = "/";
+      redirect("/");
     } else {
       alert("사용자 정보를 가져오는 데 실패했습니다.");
       router.push("/signup/profile/setting");

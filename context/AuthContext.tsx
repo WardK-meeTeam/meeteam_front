@@ -1,7 +1,7 @@
 "use client";
 import { getUserProfile } from "@/api/user";
 import { UserProfile } from "@/types/userProfile";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import Cookies from "js-cookie";
 import {
   createContext,
@@ -22,7 +22,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // 이 Provider를 만든 이유 ? -> User 정보 유무를 통해서 로그인 상태를 통합적으로 관리함
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const router = useRouter();
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -62,7 +61,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // 현재 refreshToken 삭제 불가.
     Cookies.remove("accessToken");
     setUser(null);
-    router.push("/");
+    redirect("/");
   };
 
   const value = { user, setUser, logout, isLoading };

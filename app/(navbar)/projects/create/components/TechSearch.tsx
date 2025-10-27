@@ -10,11 +10,15 @@ export default function TechSearch({
   value,
   onChange,
   errors,
+  styleOptions,
 }: {
   title: string;
   value: string[];
   onChange: (skills: string[]) => void;
   errors?: string[];
+  styleOptions?: {
+    horizontal?: boolean;
+  };
 }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -60,8 +64,8 @@ export default function TechSearch({
 
   return (
     <div className="flex flex-col gap-1">
-      <div className="flex flex-col gap-4">
-        {title !== "" ? <b>{title}</b> : ""}
+      <div className={`flex flex-col gap-4 ${styleOptions?.horizontal ? "flex-row align-center" : "flex-col"}`}>
+        {title !== "" ? <b className="w-20">{title}</b> : ""}
 
         <div ref={rootRef} className="relative">
           <input
@@ -72,7 +76,7 @@ export default function TechSearch({
             placeholder="기술 스택을 검색해주세요"
             className={`w-full rounded-xl py-3 px-5 box-border border 
               transition-colors duration-500 ease-in-out
-            ${open ? "border-mtm-main-blue" : "border-mtm-light-gray "}
+            ${open ? "border-mtm-main-blue" : "border-mtm-light-gray"}
             ${errors?.length ? "border-red-500" : ""}
 
             focus:border-mtm-main-blue hover:border-mtm-main-blue outline-0`}
@@ -103,8 +107,8 @@ export default function TechSearch({
                     }}
                     className={`px-3 py-2 rounded-lg ${
                       isSelected
-                        ? "cursor-not-allowed text-gray-400"
-                        : "hover:bg-mtm-light-blue cursor-pointer"
+                        ? "text-gray-400 cursor-not-allowed"
+                        : "cursor-pointer hover:bg-mtm-light-blue"
                     }`}
                   >
                     <span className="flex flex-row gap-4">
@@ -128,7 +132,7 @@ export default function TechSearch({
         </div>
 
         {/* 선택된 기술 스택 보여줄 곳 */}
-        <div className="flex flex-row flex-wrap justify-start gap-4">
+        <div className="flex flex-row flex-wrap gap-4 justify-start">
           {selectedStacks.map((item) => {
             const icon = ICONS[item.iconName];
             if (!icon) return null;
@@ -143,7 +147,7 @@ export default function TechSearch({
         </div>
       </div>
       {errors?.length ? (
-        <span className="text-red-500 text-sm">{errors[0]}</span>
+        <span className="text-sm text-red-500">{errors[0]}</span>
       ) : null}
     </div>
   );

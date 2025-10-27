@@ -6,25 +6,35 @@ interface TagGroup {
   title: string;
   options: Option[];
   paramsKey: string;
+  multiSelect?: boolean; // 그룹별 다중선택 여부
+  selectedVisible?: boolean; // 선택된 태그 표시 여부
 }
 
 interface TagSelectorProps {
   tagGroups: TagGroup[];
-  multiSelect?: boolean;
 }
 
-export default function TagSelector({ tagGroups, multiSelect = false }: TagSelectorProps) {
+export default function TagSelector({ tagGroups }: TagSelectorProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   
-  // 모든 그룹에서 현재 선택된 값들 가져옴
+  // 해당 그룹이 다중선택인지 확인
+  const isGroupMultiSelect = (paramsKey: string): boolean => {
+    const group = tagGroups.find(g => g.paramsKey === paramsKey);
+    return group?.multiSelect ?? false;
+  };
+  
+  // 모든 그룹에서 현재 선택된 값들 가져옴 (selectedVisible이 true인 그룹만)
   const getAllSelectedValues = () => {
     const selected: Array<{ value: string; paramsKey: string; label: string }> = [];
     
     tagGroups.forEach(group => {
+      // selectedVisible이 false인 그룹은 선택된 태그를 표시하지 않음
+      if (group.selectedVisible === false) return;
+      
       const currentValue = searchParams.get(group.paramsKey);
       if (currentValue) {
-        const values = multiSelect ? currentValue.split(',') : [currentValue];
+        const values = group.multiSelect ? currentValue.split(',') : [currentValue];
         values.forEach(value => {
           const option = group.options.find(opt => opt.value === value);
           if (option && value !== "") {
@@ -47,13 +57,15 @@ export default function TagSelector({ tagGroups, multiSelect = false }: TagSelec
   const getSelectedValuesForGroup = (paramsKey: string): string[] => {
     const currentValue = searchParams.get(paramsKey);
     if (!currentValue) return [];
-    return multiSelect ? currentValue.split(',') : [currentValue];
+    const isMulti = isGroupMultiSelect(paramsKey);
+    return isMulti ? currentValue.split(',') : [currentValue];
   };
 
   // 선택 상태 토글
   const handleTagClick = (value: string, paramsKey: string) => {
     const params = new URLSearchParams(searchParams.toString());
     const selectedValues = getSelectedValuesForGroup(paramsKey);
+    const isMulti = isGroupMultiSelect(paramsKey);
     
     // 전체 선택 시  query string 삭제
     if (value === "") {
@@ -62,7 +74,7 @@ export default function TagSelector({ tagGroups, multiSelect = false }: TagSelec
       return;
     }
     
-    if (multiSelect) {
+    if (isMulti) {
       // 다중 선택
       const newValues = selectedValues.includes(value)
         ? selectedValues.filter(v => v !== value)
@@ -89,8 +101,9 @@ export default function TagSelector({ tagGroups, multiSelect = false }: TagSelec
   const removeTag = (value: string, paramsKey: string) => {
     const params = new URLSearchParams(searchParams.toString());
     const selectedValues = getSelectedValuesForGroup(paramsKey);
+    const isMulti = isGroupMultiSelect(paramsKey);
     
-    if (multiSelect) {
+    if (isMulti) {
       const newValues = selectedValues.filter(v => v !== value);
       if (newValues.length === 0) {
         params.delete(paramsKey);
@@ -137,7 +150,7 @@ export default function TagSelector({ tagGroups, multiSelect = false }: TagSelec
 
       {/* 선택된 태그들 표시 */}
       {allSelectedValues.length > 0 && (
-        <div className="mt-6">
+        <div className="mt-4 mb-4">
           <div className="flex flex-wrap gap-2">
             {allSelectedValues.map((selected) => (
               <div

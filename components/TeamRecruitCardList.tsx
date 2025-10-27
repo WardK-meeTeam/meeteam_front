@@ -17,11 +17,12 @@ interface MemberCardApiResponse {
 
 export default function TeamRecruitCardList() {
   const [cards, setCards] = useState<{
+    userId: number;
     profileImg: string;
     name: string;
     temp: number;
     sideProjectCount: number;
-    skills: { skillName: string; percent: number }[];
+    skills: string[];
   }[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -42,11 +43,12 @@ export default function TeamRecruitCardList() {
         if (cancelled) return;
 
         const mapped = (data.result ?? []).map((m) => ({
+          userId: m.memberId,
           profileImg: m.storeFileName || "/images/userImg2.png",
           name: m.realName || "-",
           temp: Math.round((m.temperature ?? 0) * 10) / 10,
           sideProjectCount: m.projectCount ?? 0,
-          skills: (m.skillList ?? []).slice(0, 3).map((s) => ({ skillName: s, percent: 0 })),
+          skills: m.skillList ?? [],
         }));
         setCards(mapped);
       } catch (e) {
@@ -66,8 +68,8 @@ export default function TeamRecruitCardList() {
   ));
 
   return (
-    <div className="h-full w-full">
-      <div className="flex items-start h-full justify-start w-full gap-x-5">
+    <div className="w-full h-full">
+      <div className="flex gap-x-5 justify-start items-start w-full h-full">
         {loading && skeletons}
         {!loading && cards.length === 0 && skeletons}
         {!loading && cards.length > 0 && (
@@ -90,8 +92,8 @@ export function TeamRecruitSkeletonRow() {
     <div key={`skeleton-${i}`} className="w-[305px] h-[200px] bg-[#F5F7F9] rounded-[16px] animate-pulse shrink-0" />
   ));
   return (
-    <div className="h-full w-full">
-      <div className="flex items-start h-full justify-start w-full gap-x-5">
+    <div className="w-full h-full">
+      <div className="flex gap-x-5 justify-start items-start w-full h-full">
         {skeletons}
       </div>
     </div>

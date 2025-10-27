@@ -1,8 +1,8 @@
 "use client";
 
 import Card from "@/components/Card";
-import ProjectLoading from "./ProjectLoading";
-import { useEffect, useRef, useState } from "react";
+import ProjectListLoading from "./ProjectListLoading";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { ProjectListItem } from "@/types/projectInfo";
 import NoResult from "./NoResult";
 import { authFetch } from "@/api/authFetch";
@@ -30,7 +30,7 @@ export default function ProjectList({
   const [page, setPage] = useState(1);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
-  const fetchNextPage = async () => {
+  const fetchNextPage = useCallback(async () => {
     if (isLoading || isLast) return; // 로딩 중이거나 마지막 페이지면 중단
     
     setIsLoading(true);
@@ -66,7 +66,7 @@ export default function ProjectList({
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [isLoading, isLast, page, searchParams]);
 
   // 무한 스크롤 로직
   useEffect(() => {
@@ -81,7 +81,7 @@ export default function ProjectList({
 
     const observer = new IntersectionObserver(callback, {
       root: null,              // 관찰 기준 (null=viewport)
-      rootMargin: "400px 0px", // 관찰 영역 여유 (예: 아래쪽 200px 일찍 발동)
+      rootMargin: "400px 0px", // 관찰 영역 여유 (예: 아래쪽 400px 일찍 발동)
       threshold: 0.1           // 10% 보이면 발동
     });
 
@@ -110,7 +110,7 @@ export default function ProjectList({
           }
           <div ref={scrollRef} />
         </div>
-        { !isLast ? <ProjectLoading /> : null }
+        { !isLast ? <ProjectListLoading sortBar={false} /> : null }
       </>
     );
 }

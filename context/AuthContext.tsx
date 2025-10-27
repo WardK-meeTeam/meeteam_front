@@ -61,7 +61,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // 현재 refreshToken 삭제 불가.
     Cookies.remove("accessToken");
     setUser(null);
-    redirect("/");
+    window.location.href = "/";
   };
 
   const value = { user, setUser, logout, isLoading };

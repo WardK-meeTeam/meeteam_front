@@ -29,7 +29,7 @@ export async function middleware(request: NextRequest) {
   }
   
   if(
-    (!accessToken || !refreshToken) || // 액세스 토큰 또는 리프레시 토큰이 없으면 로그인 페이지로 리다이렉트 로그아웃
+    (!refreshToken) || //리프레시 토큰이 없으면 로그인 페이지로 리다이렉트 로그아웃
     (refreshToken && isTokenExpired(refreshToken)) // 리프레시 토큰이 있더라도 리프레시 토큰이 만료되었으면 로그아웃
   ) {
     return logout();
@@ -37,7 +37,7 @@ export async function middleware(request: NextRequest) {
 
   if (refreshToken && accessToken && isTokenNearExpiry(accessToken)) {
     //토큰 갱신
-    console.log("토큰 갱신 시도중....");
+    console.log("토큰 갱신 시도중...");
     try {
       const accessTokenResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/refresh`, {
         method: 'POST',

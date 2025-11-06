@@ -61,6 +61,7 @@ export async function middleware(request: NextRequest) {
         // 응답이 성공적이면 새 액세스 토큰으로 쿠키 설정하고 다음 요청 진행
         const res = NextResponse.next();
         res.cookies.set('accessToken', newAccessToken, {
+          expires: 1,
           secure: process.env.NODE_ENV === 'production',
           sameSite: 'lax',
           path: '/'

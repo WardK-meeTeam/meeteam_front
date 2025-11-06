@@ -1,7 +1,6 @@
 "use client";
 import { getUserProfile } from "@/api/user";
 import { UserProfile } from "@/types/userProfile";
-import { redirect } from "next/navigation";
 import Cookies from "js-cookie";
 import {
   createContext,

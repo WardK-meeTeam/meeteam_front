@@ -134,7 +134,7 @@ export default function TagSelector({ tagGroups }: TagSelectorProps) {
                 <button
                   key={option.value}
                   onClick={() => handleTagClick(option.value, group.paramsKey)}
-                  className={`mr-5 text-base font-medium cursor-pointer ${
+                  className={`mr-5 text-base font-medium cursor-pointer transition-colors duration-200 ease hover:text-black ${
                     isSelected
                       ? 'text-black'
                       : 'text-mtm-text-gray'

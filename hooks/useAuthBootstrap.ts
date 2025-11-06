@@ -5,7 +5,7 @@ import { getUserProfile } from "@/api/user";
 import { useAuth } from "@/context/AuthContext";
 import { UserProfile } from "@/types/userProfile";
 import Cookies from "js-cookie";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export function useAuthBootstrap() {
   const router = useRouter();
@@ -17,7 +17,9 @@ export function useAuthBootstrap() {
       expires: 1, // 1일
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
+      path: "/",
     });
+    console.log("accessToken: ", Cookies.get("accessToken"));
 
     // 2단계는 유저정보 가져오기
     //로그인이 정상적으로 되었다면 유저정보 가져오는 API 호출

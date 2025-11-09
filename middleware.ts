@@ -20,23 +20,28 @@ function applySetCookie(req: NextRequest, res: NextResponse): void {
 export async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get("accessToken")?.value;
   const refreshToken = request.cookies.get("refreshToken")?.value;
-  
+
+  const redirectToLogin = () => {
+    return NextResponse.redirect(new URL('/signin', request.url));
+  }
   const logout = () => {
     const res = NextResponse.redirect(new URL('/signin', request.url));
     res.cookies.delete('accessToken');
     res.cookies.delete('refreshToken');
     return res;
   }
-  
-  if(
-    (!refreshToken) || //리프레시 토큰이 없으면 로그인 페이지로 리다이렉트 로그아웃
-    (refreshToken && isTokenExpired(refreshToken)) // 리프레시 토큰이 있더라도 리프레시 토큰이 만료되었으면 로그아웃
-  ) {
+
+  if(refreshToken && isTokenExpired(refreshToken)) {
+    console.log("리프레시 토큰 만료 - 로그아웃");
     return logout();
+  }
+  if(!refreshToken || !accessToken) {
+    console.log("리프레시 또는 액세스 토큰이 없음 - 로그인 페이지로 리다이렉트");
+    return redirectToLogin();
   }
 
   if (refreshToken && accessToken && isTokenNearExpiry(accessToken)) {
-    //토큰 갱신
+    //토큰 갱신 로직
     console.log("토큰 갱신 시도중...");
     try {
       const accessTokenResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/refresh`, {
@@ -67,6 +72,7 @@ export async function middleware(request: NextRequest) {
           path: '/'
         });
         applySetCookie(request, res);
+        console.log("토큰 갱신 성공 - 다음 요청 진행");
         return res;
       }
     } catch (error) {

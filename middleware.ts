@@ -18,8 +18,20 @@ function applySetCookie(req: NextRequest, res: NextResponse): void {
 }
 
 export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
   const accessToken = request.cookies.get("accessToken")?.value;
   const refreshToken = request.cookies.get("refreshToken")?.value;
+
+  const authPages = [
+    "/signin",
+    "/signup",
+    "/signup/profile/setting",
+  ];
+
+  if(authPages.includes(pathname)) {
+    console.log("이미 로그인됨 메인으로 리다이렉트");
+    return NextResponse.redirect(new URL('/', request.url));
+  }
 
   const redirectToLogin = () => {
     return NextResponse.redirect(new URL('/signin', request.url));
@@ -87,11 +99,17 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    /* 인증된 사용자만 접근 가능한 페이지 */
     "/chat/:path*", // 채팅 페이지
     "/application/:path*", // 지원 수락 페이지?
     "/callback", // 콜백 페이지
     "/notification/:path*", // 알림 페이지
     "/projects/create", // 프로젝트 생성 페이지
     "/users/edit", // 회원정보 수정 페이지
-  ], // 인증 필요 페이지
+
+    /* 인증된 사용자는 접근 불가능한 페이지 (authPages) */
+    "/signin", // 로그인 페이지
+    "/signup", // 회원가입 페이지
+    "/signup/profile/setting", // 회원정보 설정 페이지 
+  ],
 };

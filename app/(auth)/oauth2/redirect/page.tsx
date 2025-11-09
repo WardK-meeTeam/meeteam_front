@@ -22,7 +22,7 @@ function RedirectLogic() {
 
       if (type === "login") {
         try {
-          LoginInit(accessToken);
+          // LoginInit(accessToken);
         } catch (error) {
           if (error instanceof Error) {
             alert(error.message);

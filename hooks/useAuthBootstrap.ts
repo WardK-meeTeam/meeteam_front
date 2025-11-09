@@ -27,7 +27,7 @@ export function useAuthBootstrap() {
 
     if (user) {
       setUser(user);
-      window.location.href = "/";
+      // window.location.href = "/";
     } else {
       alert("사용자 정보를 가져오는 데 실패했습니다.");
       router.push("/signup/profile/setting");

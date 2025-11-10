@@ -28,11 +28,6 @@ export async function middleware(request: NextRequest) {
     "/signup/profile/setting",
   ];
 
-  if(authPages.includes(pathname)) {
-    console.log("이미 로그인됨 메인으로 리다이렉트");
-    return NextResponse.redirect(new URL('/', request.url));
-  }
-
   const redirectToLogin = () => {
     return NextResponse.redirect(new URL('/signin', request.url));
   }
@@ -94,6 +89,12 @@ export async function middleware(request: NextRequest) {
   }
 
   console.log('인증된 사용자임. 다음 요청 진행.');
+
+  if(authPages.includes(pathname)) {
+    console.log("인증된 사용자는 접근 불가능");
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+
   return NextResponse.next();
 };
 

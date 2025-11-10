@@ -57,9 +57,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // 로그아웃 시 유저 데이터 삭제 및 메인 페이지 리다이렉트
 
     // !! 여기 나중에 로그아웃 API 파고, 그거 호출하는 방식으로 변경해야함!!
-    // 현재 refreshToken 삭제 불가. -> 백엔드에서 쿠키 Domain 수정해서 이제 삭제 가능
+    // 현재 refreshToken 삭제 불가
     Cookies.remove("accessToken");
-    Cookies.remove("refreshToken");
+
     setUser(null);
     window.location.href = "/";
   };

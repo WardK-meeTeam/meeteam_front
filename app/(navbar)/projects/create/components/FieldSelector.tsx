@@ -35,6 +35,7 @@ export default function FieldSelector({
   // 외부에서 받아오는 value가 바뀌면 계속 동기화 해줌
   useEffect(() => {
     const [newMajorFromProp] = value ? value.split("-") : [null, null];
+    if (value === "") return;
     setSelectedMajor(newMajorFromProp);
   }, [value]);
 
@@ -45,6 +46,7 @@ export default function FieldSelector({
 
   function handleMajorChange(newMajor: string) {
     setSelectedMajor(newMajor);
+    onChange("");
   }
 
   function handleSubChange(newSub: string) {
@@ -54,8 +56,8 @@ export default function FieldSelector({
   }
 
   return (
-    <div className="flex flex-col gap-1 w-full flex-1">
-      <div className="w-full flex flex-1 flex-row gap-2">
+    <div className="flex flex-col flex-1 gap-1 w-full">
+      <div className="flex flex-row flex-1 gap-2 w-full">
         <Selectable
           options={majors}
           value={selectedMajor}
@@ -69,7 +71,7 @@ export default function FieldSelector({
         />
       </div>
       {errors.map((error, index) => (
-        <span key={index} className="text-red-500 font-medium text-sm">
+        <span key={index} className="text-sm font-medium text-red-500">
           {error}
         </span>
       ))}

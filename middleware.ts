@@ -50,12 +50,6 @@ export async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get("accessToken")?.value;
   const refreshToken = request.cookies.get("refreshToken")?.value;
 
-  const redirectToLogin = () => {
-    return NextResponse.redirect(new URL('/signin', request.url));
-  }
-  const redirectToMain = () => {
-    return NextResponse.redirect(new URL('/', request.url));
-  }
   const logout = () => {
     const res = NextResponse.redirect(new URL('/signin', request.url));
     res.cookies.delete('accessToken');
@@ -63,25 +57,26 @@ export async function middleware(request: NextRequest) {
     return res;
   }
 
-  // 인증 페이지 체크 (이미 로그인된 사용자 차단)
+  // 인증 페이지 체크 (이미 인증된 사용자 차단)
   if (isAuthPage(pathname) && refreshToken) {
     console.log("인증된 사용자는 접근 불가능한 페이지에 접근 시도 - 메인으로 리다이렉트");
-    return redirectToMain();
+    return NextResponse.redirect(new URL('/', request.url));
   }
 
+  // 보호된 페이지 체크 (인증된 사용자만 접근 가능)
   if(isProtectedPage(pathname)) {
-    if(refreshToken && isTokenExpired(refreshToken)) {
+    if(refreshToken && isTokenExpired(refreshToken)) { // refreshToken 만료 체크
       console.log("리프레시 토큰 만료 - 로그아웃");
       return logout();
     }
-    if(!refreshToken || !accessToken) {
+    if( !accessToken) { // accessToken, refreshToken 둘 다 체크
       console.log("리프레시 또는 액세스 토큰이 없음 - 로그인 페이지로 리다이렉트");
-      return redirectToLogin();
+      return NextResponse.redirect(new URL('/signin', request.url));
     }
   }
 
   //accessToken 만료 체크 후 토큰 갱신
-  if (refreshToken && accessToken && isTokenNearExpiry(accessToken)) {
+  if (refreshToken && accessToken && isTokenNearExpiry(accessToken)) { // accessToken 만료 체크
     console.log("토큰 갱신 시도중...");
     try {
       const accessTokenResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/refresh`, {

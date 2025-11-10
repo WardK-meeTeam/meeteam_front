@@ -65,17 +65,20 @@ export const authFetch = async (
 ): Promise<Response> => {
   const url = `${API_BASE_URL}${path}`;
   let accessToken: string | undefined;
-
+  let refreshToken: string | undefined;
+  
   /* 쿠키에서 액세스 토큰 가져오기 */
   // 서버 사이드
   if(typeof window === 'undefined') {
     const { cookies } = await import('next/headers');
     const cookieStore = await cookies();
     accessToken = cookieStore.get("accessToken")?.value;
+    refreshToken = cookieStore.get("refreshToken")?.value;
   }
   // 클라이언트 사이드
   else {
     accessToken = Cookies.get("accessToken");
+    refreshToken = Cookies.get("refreshToken");
   }
 
   // 헤더 설정 (기존 헤더 + 액세스 토큰)
@@ -87,7 +90,7 @@ export const authFetch = async (
   let response = await fetch(url, { ...options, headers });
 
   // 만약 accessToken을 담아서 요청했는데, 401에러가 뜨면 액세스 토큰이 만료된거임 -> 액세스 토큰 재발급 필요
-  if (response.status === 401) {
+  if (response.status === 401 && refreshToken) {
     // 401 -> Unautorized
     const newAccessToken = await refreshAccessToken();
     if (newAccessToken) {
@@ -111,7 +114,6 @@ export const authFetch = async (
         Cookies.remove("accessToken");
         Cookies.remove("refreshToken");
         // 클라이언트 사이드에서는 로그인 페이지 리다이렉트
-        alert("로그인 후 시도하세요");
         window.location.href = "/signin";
       }
     }

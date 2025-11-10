@@ -37,7 +37,7 @@ export default function ProjectInfo({
           throw result.message;
         }
       } catch (error) {
-        alert(`알 수 없는 오류가 발생했습니다. (${error})`);
+        console.error(error);
       }
     };
 
@@ -55,7 +55,7 @@ export default function ProjectInfo({
         throw result.message;
       }
     } catch (error) {
-      alert(`알 수 없는 오류가 발생했습니다. (${error})`);
+      alert(`${error}`);
     }
   };
   return (
@@ -84,16 +84,16 @@ export default function ProjectInfo({
           />
         </div>
       </div>
-      <div className="flex flex-col justify-start items-start gap-3">
+      <div className="flex flex-col gap-3 justify-start items-start">
         <MarkDownViewer markDownText={description} />
-        <span className="text-mtm-text-gray text-xs">게시일 {startDate}</span>
+        <span className="text-xs text-mtm-text-gray">게시일 {startDate}</span>
       </div>
 
-      <span className="flex flex-row justify-end items-center gap-1">
+      <span className="flex flex-row gap-1 justify-end items-center">
         {likeCount}
         <button onClick={handleClickLike}>
           <Image
-            className="cursor-pointer transition-all duration-300 hover:scale-110 active:scale-125"
+            className="transition-all duration-300 cursor-pointer hover:scale-110 active:scale-125"
             alt="하트 이미지"
             src={isLiked ? HeartFill : HeartNonFill}
             width={20}

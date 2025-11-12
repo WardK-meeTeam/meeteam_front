@@ -59,13 +59,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     // !! 여기 나중에 로그아웃 API 파고, 그거 호출하는 방식으로 변경해야함!!
     // 현재 refreshToken 삭제 불가
-    Cookies.remove("accessToken");
     authFetch('/api/auth/api/auth/logout', {
-      method: "POST"
+      method: "POST",
+      credentials: "include",
     });
+    Cookies.remove("accessToken");
 
     setUser(null);
-    window.location.href = "/";
+    // window.location.href = "/";
   };
 
   const value = { user, setUser, logout, isLoading };

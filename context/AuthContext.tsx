@@ -66,7 +66,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     Cookies.remove("accessToken");
 
     setUser(null);
-    // window.location.href = "/";
+    window.location.href = "/";
   };
 
   const value = { user, setUser, logout, isLoading };

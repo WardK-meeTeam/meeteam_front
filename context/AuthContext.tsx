@@ -54,19 +54,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     checkUserData();
   }, []);
 
-  const logout = () => {
+  const logout = async () => {
     // 로그아웃 시 유저 데이터 삭제 및 메인 페이지 리다이렉트
 
     // !! 여기 나중에 로그아웃 API 파고, 그거 호출하는 방식으로 변경해야함!!
     // 현재 refreshToken 삭제 불가
-    authFetch('/api/auth/api/auth/logout', {
-      method: "POST",
-      credentials: "include",
-    });
-    Cookies.remove("accessToken");
+    try {
+      const response = await authFetch('/api/auth/api/auth/logout', {
+        method: "POST"
+      });
 
-    setUser(null);
-    window.location.href = "/";
+      if (!response.ok) {
+        throw new Error("로그아웃 실패");
+      }
+
+      Cookies.remove("accessToken");
+      setUser(null);
+      window.location.href = "/";
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const value = { user, setUser, logout, isLoading };

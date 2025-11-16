@@ -86,7 +86,7 @@ export const authFetch = async (
   // 헤더 설정 (기존 헤더 + 액세스 토큰)
   const headers = {
     ...options.headers,
-    Authorization: `Bearer ${accessToken}`,
+    ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
   };
 
   let response = await fetch(url, { ...options, headers });

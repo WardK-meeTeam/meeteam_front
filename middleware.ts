@@ -49,8 +49,6 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const accessToken = request.cookies.get("accessToken")?.value;
   const refreshToken = request.cookies.get("refreshToken")?.value;
-  console.log("accessToken: ", accessToken);
-  console.log("refreshToken: ", refreshToken);
 
   const logout = () => {
     const res = NextResponse.redirect(new URL('/signin', request.url));

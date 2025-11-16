@@ -19,8 +19,6 @@ export function useAuthBootstrap() {
       secure: process.env.NODE_ENV === "production",
       path: "/",
     });
-    console.log("accessToken: ", Cookies.get("accessToken"));
-
     // 2단계는 유저정보 가져오기
     //로그인이 정상적으로 되었다면 유저정보 가져오는 API 호출
     const user: UserProfile = await getUserProfile();

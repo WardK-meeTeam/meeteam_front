@@ -23,7 +23,7 @@ export default async function ProjectsPage({
         platformOptions={platformOptions}
         bigCategoryOptions={bigCategoryOptions}
       />
-      <Suspense key={JSON.stringify(validatedParams)} fallback={<ProjectListLoading />}>
+      <Suspense key={JSON.stringify(validatedParams)} fallback={<ProjectListLoading sortBar={true}/>}>
         <ProjectListContainer searchParams={params} limit={20} />
       </Suspense>
     </main>

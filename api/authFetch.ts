@@ -63,7 +63,7 @@ export const authFetch = async (
   path: string,
   options: RequestInit = {},
 ): Promise<Response> => {
-  const url = `${API_BASE_URL}${path}`;
+  let url: string | undefined;
   let accessToken: string | undefined;
   let refreshToken: string | undefined;
   
@@ -74,11 +74,13 @@ export const authFetch = async (
     const cookieStore = await cookies();
     accessToken = cookieStore.get("accessToken")?.value;
     refreshToken = cookieStore.get("refreshToken")?.value;
+    url = `${API_BASE_URL}${path}`;
   }
   // 클라이언트 사이드
   else {
     accessToken = Cookies.get("accessToken");
     refreshToken = Cookies.get("refreshToken");
+    url = path;
   }
 
   // 헤더 설정 (기존 헤더 + 액세스 토큰)

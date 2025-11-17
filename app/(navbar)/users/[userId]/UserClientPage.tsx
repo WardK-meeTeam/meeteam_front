@@ -16,6 +16,7 @@ import { useAuth } from "@/context/AuthContext";
 import ModifyButton from "../../projects/[projectId]/apply/components/ModifyButton";
 import ArrowIcon from "@/public/images/right_arrow_icon.svg";
 import MarkDownViewer from "@/components/MarkDownViewer";
+import { githubEmailConverter } from "@/utils/githubEmailConverter";
 
 export default function UserClientPage({ userId }: { userId: string }) {
   const { user, isLoading, logout } = useAuth();
@@ -120,7 +121,9 @@ export default function UserClientPage({ userId }: { userId: string }) {
           <div className="flex flex-col gap-y-3  text-[#474747]">
             <div className="">{age}세</div>
             <div className="">{gender === "MALE" ? "남성" : "여성"}</div>
-            <div className="flex items-center">{email}</div>
+            <div className="flex items-center">
+              {githubEmailConverter(email)}
+            </div>
             <div className="flex flex-col">
               {categories.map((category, idx) => (
                 <div key={idx} className="flex gap-x-2">

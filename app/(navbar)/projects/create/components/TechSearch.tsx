@@ -64,8 +64,10 @@ export default function TechSearch({
 
   return (
     <div className="flex flex-col gap-1">
-      <div className={`flex flex-col gap-4 ${styleOptions?.horizontal ? "flex-row align-center" : "flex-col"}`}>
-        {title !== "" ? <b className="w-20">{title}</b> : ""}
+      <div
+        className={`flex flex-col gap-4 ${styleOptions?.horizontal ? "flex-row align-center" : "flex-col"}`}
+      >
+        {title !== "" ? <b>{title}</b> : ""}
 
         <div ref={rootRef} className="relative">
           <input

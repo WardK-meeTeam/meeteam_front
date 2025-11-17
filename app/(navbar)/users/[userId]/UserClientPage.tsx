@@ -145,7 +145,7 @@ export default function UserClientPage({ userId }: { userId: string }) {
               return (
                 <div
                   className="flex flex-col items-center group"
-                  key={`project-${email}-${item.iconName}`}
+                  key={`project-${email}-${item.eng}-${item.iconName}`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

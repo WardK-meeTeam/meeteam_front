@@ -3,6 +3,7 @@
 import * as simpleIcons from "simple-icons";
 import { techStackOptions } from "@/mocks/techs";
 import type { SimpleIcon } from "simple-icons";
+import Link from "next/link";
 
 interface TeamCardProps {
   userId: number;
@@ -13,7 +14,8 @@ interface TeamCardProps {
   skills: string[];
 }
 
-type TeamRecruitCardProps = React.ComponentPropsWithoutRef<"div"> & TeamCardProps;
+type TeamRecruitCardProps = React.ComponentPropsWithoutRef<"div"> &
+  TeamCardProps;
 
 export default function TeamRecruitCard({
   userId,
@@ -28,48 +30,56 @@ export default function TeamRecruitCard({
   const ICONS = simpleIcons as unknown as Record<string, SimpleIcon>;
 
   return (
-    <div className={`w-[305px] bg-[#F5F7F9] rounded-[16px] flex-none ${className ?? ""} pt-6 pb-8 px-6`}
-    {...rest}>
-      {/* 위칸 */}
-      <div className="flex gap-x-6 justify-start items-center mb-5">
-        <div className="flex flex-col gap-y-2 justify-center items-center">
-          <div className="w-[63px] h-[63px] rounded-[50%] bg-cover bg-center" style={{ backgroundImage: `url(${profileImg})` }} />
-          <div className="text-[12px] font-bold">{name}</div>
-        </div>
-        <div className="flex flex-col justify-center items-start">
-          <div className="flex gap-x-2 items-center">
-            <div className="text-[14px] font-bold">협업온도</div>
-            <div>{temp}°</div>
+    <Link href={`/users/${userId}`} key={userId}>
+      <div
+        className={`w-[305px] bg-[#F5F7F9] rounded-[16px] flex-none ${className ?? ""} pt-6 pb-8 px-6`}
+        {...rest}
+      >
+        {/* 위칸 */}
+        <div className="flex gap-x-6 justify-start items-center mb-5">
+          <div className="flex flex-col gap-y-2 justify-center items-center">
+            <div
+              className="w-[63px] h-[63px] rounded-[50%] bg-cover bg-center"
+              style={{ backgroundImage: `url(${profileImg})` }}
+            />
+            <div className="text-[12px] font-bold">{name}</div>
           </div>
-          <div className="flex gap-x-2 items-center">
-            <div className="text-[14px] font-bold">사이드 프로젝트</div>
-            <div>{sideProjectCount}회</div>
+          <div className="flex flex-col justify-center items-start">
+            <div className="flex gap-x-2 items-center">
+              <div className="text-[14px] font-bold">협업온도</div>
+              <div>{temp}°</div>
+            </div>
+            <div className="flex gap-x-2 items-center">
+              <div className="text-[14px] font-bold">사이드 프로젝트</div>
+              <div>{sideProjectCount}회</div>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* 아래칸 */}
-      <div className="flex items-center">
-        <span className="flex items-center font-bold text-[#C48DFF] text-center min-w-[87px] box-sizing-border pr-6 min-h-10">Skills</span>
-        {
-          skills.slice(0, 3).map((skill, idx) => {
-          const option = techStackOptions.find(opt => 
-            opt.eng.toLowerCase() === skill.toLowerCase());
-          const iconName = option?.iconName;
-          const icon = ICONS[iconName || ""];
-          if (!icon) {
-            return (
-              <div 
-                key={`${userId}-${skill}-${idx}`}
-                className="flex justify-center items-center p-1 mr-1 text-xs font-medium text-gray-600"
-                title={skill}
-              >
-                {skill.slice(0, 3)}
-              </div>
+        {/* 아래칸 */}
+        <div className="flex items-center">
+          <span className="flex items-center font-bold text-[#C48DFF] text-center min-w-[87px] box-sizing-border pr-6 min-h-10">
+            Skills
+          </span>
+          {skills.slice(0, 3).map((skill, idx) => {
+            const option = techStackOptions.find(
+              (opt) => opt.eng.toLowerCase() === skill.toLowerCase(),
             );
-          }
+            const iconName = option?.iconName;
+            const icon = ICONS[iconName || ""];
+            if (!icon) {
+              return (
+                <div
+                  key={`${userId}-${skill}-${idx}`}
+                  className="flex justify-center items-center p-1 mr-1 text-xs font-medium text-gray-600"
+                  title={skill}
+                >
+                  {skill.slice(0, 3)}
+                </div>
+              );
+            }
             return (
-              <div 
+              <div
                 key={`${userId}-${skill}-${idx}`}
                 className="flex justify-center items-center p-1 mr-1 w-10 h-10"
               >
@@ -85,12 +95,12 @@ export default function TeamRecruitCard({
                 </svg>
               </div>
             );
-          })
-          }
+          })}
           <div className="flex justify-center text-xs font-bold items text-mtm-text-gray">
-            { skills.length > 3 ? `+ ${skills.length - 3}` : null }
+            {skills.length > 3 ? `+ ${skills.length - 3}` : null}
           </div>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }

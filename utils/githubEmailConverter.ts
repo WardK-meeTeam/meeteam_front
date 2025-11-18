@@ -1,8 +1,8 @@
-import { userProfileConstants } from "@/constants/userProfileConstants";
+import { USER_PROFILE_CONSTANTS } from "@/constants/userProfileConstants";
 
 export function githubEmailConverter(email: string) {
-  if (!email.includes(userProfileConstants.GITHUB_EMAIL_STRING)) {
+  if (!email.includes(USER_PROFILE_CONSTANTS.GITHUB_EMAIL_STRING)) {
     return email;
   }
-  return userProfileConstants.GITHUB_DISPLAY_EMAIL;
+  return USER_PROFILE_CONSTANTS.GITHUB_DISPLAY_EMAIL;
 }

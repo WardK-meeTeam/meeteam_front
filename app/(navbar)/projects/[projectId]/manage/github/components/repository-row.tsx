@@ -47,7 +47,9 @@ export default function RepositoryRow({
       </div>
 
       <p className="mb-3 line-clamp-2 text-sm text-gray-700">
-        {repo.description}
+        {repo.description.toString() === "null"
+          ? "설명글이 존재하지 않습니다"
+          : repo.description}
       </p>
 
       <div className="flex items-center justify-between">

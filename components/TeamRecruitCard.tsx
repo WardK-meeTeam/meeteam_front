@@ -4,6 +4,7 @@ import * as simpleIcons from "simple-icons";
 import { techStackOptions } from "@/mocks/techs";
 import type { SimpleIcon } from "simple-icons";
 import Link from "next/link";
+import Image from "next/image";
 
 interface TeamCardProps {
   userId: number;
@@ -30,7 +31,7 @@ export default function TeamRecruitCard({
   const ICONS = simpleIcons as unknown as Record<string, SimpleIcon>;
 
   return (
-    <Link href={`/users/${userId}`} key={userId}>
+    <Link href={`/users/${userId}`} key={userId} className="group">
       <div
         className={`w-[305px] bg-[#F5F7F9] rounded-[16px] flex-none ${className ?? ""} pt-6 pb-8 px-6`}
         {...rest}
@@ -38,10 +39,14 @@ export default function TeamRecruitCard({
         {/* 위칸 */}
         <div className="flex gap-x-6 justify-start items-center mb-5">
           <div className="flex flex-col gap-y-2 justify-center items-center">
-            <div
-              className="w-[63px] h-[63px] rounded-[50%] bg-cover bg-center"
-              style={{ backgroundImage: `url(${profileImg})` }}
-            />
+            <div className="w-[63px] h-[63px] relative rounded-full bg-mtm-main-blue overflow-hidden">
+              <Image
+                src={profileImg}
+                alt="프로필"
+                fill
+                className="group-hover:scale-107 transition-all ease-in-out duration-300"
+              />
+            </div>
             <div className="text-[12px] font-bold">{name}</div>
           </div>
           <div className="flex flex-col justify-center items-start">

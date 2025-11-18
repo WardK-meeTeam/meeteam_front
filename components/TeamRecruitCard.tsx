@@ -39,7 +39,7 @@ export default function TeamRecruitCard({
         {/* 위칸 */}
         <div className="flex gap-x-6 justify-start items-center mb-5">
           <div className="flex flex-col gap-y-2 justify-center items-center">
-            <div className="w-[63px] h-[63px] relative rounded-full bg-mtm-main-blue overflow-hidden">
+            <div className="w-[63px] h-[63px] relative rounded-full overflow-hidden">
               <Image
                 src={profileImg}
                 alt="프로필"

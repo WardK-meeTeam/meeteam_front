@@ -126,7 +126,7 @@ export default function HomePageClient() {
     return (
         <main className="flex flex-col gap-y-5 justify-center items-center">
             {/**광고 자리 */}
-            <div className="w-[1940px] h-[500px] bg-[#F8F8F8] my-3">
+            <div className="w-[1940px] h-[400px] bg-[#F8F8F8] my-3">
                 <img alt="advertisement" className="object-contain w-full h-full" src={advertisement[currentAdvertisement]} />
             </div>
 

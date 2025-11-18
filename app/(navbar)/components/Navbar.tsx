@@ -85,9 +85,16 @@ export default function Navbar() {
         <Link className="text-2xl font-bold cursor-pointer" href={"/"}>
           meeTeam
         </Link>
+
         {Object.entries(NAVIGATION_LISTS).map(([displayName, address]) => (
-          <Link href={address} className='font-semibold cursor-pointer"'>
-            {displayName}
+          <Link
+            key={`${displayName}-${address}`}
+            href={address}
+            className='font-semibold cursor-pointer"'
+          >
+            <span className="hover:text-mtm-main-blue transition-all ease-in-out">
+              {displayName}
+            </span>
           </Link>
         ))}
       </div>

@@ -36,9 +36,10 @@ export default function HomePageClient() {
     const [mounted, setMounted] = useState(false);
 
     const advertisement = [
-        "/images/banner_1.jpg",
+        "/images/banner_1.png",
         "/images/banner_2.png",
         "/images/banner_3.png",
+        "/images/banner_4.png",
     ];
 
     const [currentAdvertisement, setCurrentAdvertisement] = useState(0);
@@ -125,7 +126,7 @@ export default function HomePageClient() {
     return (
         <main className="flex flex-col gap-y-5 justify-center items-center">
             {/**광고 자리 */}
-            <div className="w-[88%] h-[180px] bg-[#F8F8F8] my-3">
+            <div className="w-[1940px] h-[500px] bg-[#F8F8F8] my-3">
                 <img alt="advertisement" className="object-contain w-full h-full" src={advertisement[currentAdvertisement]} />
             </div>
 

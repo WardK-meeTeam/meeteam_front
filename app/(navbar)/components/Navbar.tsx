@@ -13,6 +13,7 @@ import {
 } from "@/types/notification";
 import { useAuth } from "@/context/AuthContext";
 import Cookies from "js-cookie";
+import { NAVIGATION_LISTS } from "@/constants/navigationBarConstants";
 
 type SSENotification =
   | ProjectApplyNotification
@@ -84,21 +85,11 @@ export default function Navbar() {
         <Link className="text-2xl font-bold cursor-pointer" href={"/"}>
           meeTeam
         </Link>
-        <Link href={"/chat"} className='font-semibold cursor-pointer"'>
-          PR 리뷰
-        </Link>
-        <Link href={"/users"} className='font-semibold cursor-pointer"'>
-          팀원 찾기
-        </Link>
-        <Link href={"/projects"} className='font-semibold cursor-pointer"'>
-          프로젝트 찾기
-        </Link>
-        <Link
-          href={"/projects/create"}
-          className='font-semibold cursor-pointer"'
-        >
-          프로젝트 생성
-        </Link>
+        {Object.entries(NAVIGATION_LISTS).map(([displayName, address]) => (
+          <Link href={address} className='font-semibold cursor-pointer"'>
+            {displayName}
+          </Link>
+        ))}
       </div>
       <div className="flex gap-5 items-center">
         <form

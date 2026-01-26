@@ -29,7 +29,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const checkUserData = async () => {
       // 먼저 쿠키에 액세스 토큰이 있는지 확인
       const accessToken = Cookies.get("accessToken");
-      
+
       if (!accessToken) {
         // 토큰이 없으면 로그인하지 않은 상태
         setUser(null);
@@ -60,9 +60,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // !! 여기 나중에 로그아웃 API 파고, 그거 호출하는 방식으로 변경해야함!!
     // 현재 refreshToken 삭제 불가
     try {
-      const response = await fetch('/api/auth/api/auth/logout', {
+      const accessToken = Cookies.get("accessToken");
+      const response = await fetch("/api/auth/logout", {
         method: "POST",
         credentials: "include",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       });
 
       if (!response.ok) {

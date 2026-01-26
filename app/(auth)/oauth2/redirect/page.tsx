@@ -16,8 +16,6 @@ function RedirectLogic() {
     // type은 login or register
 
     if (accessToken && type) {
-      localStorage.setItem("accessToken", accessToken);
-
       // 이미 가입된 사용자면 메인 페이지로 보냄
 
       if (type === "login") {
@@ -33,7 +31,6 @@ function RedirectLogic() {
       }
       // 회원가입 필요한 사용자면 회원가입 페이지로
       else {
-        localStorage.setItem("registerToken", accessToken); // 가입용 토큰 로컬 스토리지에 저장
         router.replace("/signup/profile/setting");
       }
     } else {

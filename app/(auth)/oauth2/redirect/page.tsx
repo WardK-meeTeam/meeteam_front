@@ -16,7 +16,7 @@ function RedirectLogic() {
 
     const exchangeLoginToken = async () => {
       const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-      
+
       try {
         const response = await fetch(
           `${API_BASE_URL}/api/auth/token/exchange`,
@@ -64,7 +64,7 @@ function RedirectLogic() {
       router.replace("/signup/profile/setting"); // React Router 등
     }
 
-    window.history.replaceState({}, document.title, window.location.pathname);
+    // window.history.replaceState({}, document.title, window.location.pathname);
   }, [searchParams, router, LoginInit]);
 
   // To-Do

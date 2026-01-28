@@ -5,17 +5,18 @@ import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthBootstrap } from "@/hooks/useAuthBootstrap";
 
-async function RedirectLogic() {
+function RedirectLogic() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { LoginInit } = useAuthBootstrap();
 
   useEffect(() => {
     const code = searchParams.get("code");
     const type = searchParams.get("type");
 
-    const exchangeLoginToken = async (code, router) => {
+    const exchangeLoginToken = async () => {
       const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-      const { LoginInit } = useAuthBootstrap();
+      
       try {
         const response = await fetch(
           `${API_BASE_URL}/api/auth/token/exchange`,
@@ -56,15 +57,15 @@ async function RedirectLogic() {
 
     if (type === "login") {
       // → 2번 섹션: 토큰 교환 API 호출
-      exchangeLoginToken(code, router);
+      exchangeLoginToken();
     } else if (type === "register") {
       // → 3번 섹션: code를 저장하고 회원가입 폼으로 이동
-      sessionStorage.setItem("oauthCode", code);
+      sessionStorage.setItem("oauthCode", code!);
       router.replace("/signup/profile/setting"); // React Router 등
     }
 
     window.history.replaceState({}, document.title, window.location.pathname);
-  }, [searchParams, router]);
+  }, [searchParams, router, LoginInit]);
 
   // To-Do
   // 로딩화면도 애니메이션 넣거나 그러면 좋을듯

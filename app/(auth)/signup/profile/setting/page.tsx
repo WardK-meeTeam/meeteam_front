@@ -34,7 +34,7 @@ function SettingAfterSignupForm() {
   const { LoginInit } = useAuthBootstrap();
 
   // Oauth2 가입 시 사용할 가입 토큰
-  const registerToken = localStorage.getItem("registerToken");
+  const registerCode = sessionStorage.getItem("oauthCode");
 
   const handleCheckEmail = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -115,7 +115,7 @@ function SettingAfterSignupForm() {
             isParticipating: true,
           }
         : {
-            token: registerToken,
+            code: registerCode,
           }),
     };
 
@@ -148,22 +148,37 @@ function SettingAfterSignupForm() {
           credentials: "include",
         });
 
-        if (response.ok) {
-          alert("가입되었습니다.");
-          localStorage.removeItem("registerToken");
-
-          // 가입 및 로그인 동시 진행
-          const receivedAcessToken = response.headers
-            .get("Authorization")!
-            .slice(7);
-
-          LoginInit(receivedAcessToken);
-
-          router.push("/");
-        } else {
+        if (!response.ok) {
           const errorData = await response.json();
-          alert(errorData.message);
+          switch (errorData.code) {
+            case "OAUTH404":
+              // 코드 만료 → 소셜 로그인을 처음부터 다시
+              sessionStorage.removeItem("oauthCode");
+              alert("인증이 만료되었습니다. 다시 소셜 로그인을 해주세요.");
+              router.push("/login");
+              break;
+            case "MEMBER400":
+              // 이미 가입된 계정 → 로그인 페이지로
+              sessionStorage.removeItem("oauthCode");
+              alert("이미 가입된 계정입니다. 로그인해주세요.");
+              router.push("/login");
+              break;
+            case "SUBCATEGORY404":
+            case "SKILL404":
+              // 입력값 오류 → 폼에서 수정하도록
+              alert(errorData.message);
+              break;
+            default:
+              alert(errorData.message || "회원가입에 실패했습니다.");
+              break;
+          }
+          return;
         }
+        const data = await response.json();
+        sessionStorage.removeItem("oauthCode");
+        alert("가입되었습니다.");
+        LoginInit(data.result.accessToken);
+        router.push("/");
       }
 
       //

@@ -5,38 +5,65 @@ import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthBootstrap } from "@/hooks/useAuthBootstrap";
 
-function RedirectLogic() {
+async function RedirectLogic() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { LoginInit } = useAuthBootstrap();
 
   useEffect(() => {
-    const accessToken = searchParams.get("accessToken");
+    const code = searchParams.get("code");
     const type = searchParams.get("type");
-    // type은 login or register
 
-    if (accessToken && type) {
-      // 이미 가입된 사용자면 메인 페이지로 보냄
+    const exchangeLoginToken = async (code, router) => {
+      const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+      const { LoginInit } = useAuthBootstrap();
+      try {
+        const response = await fetch(
+          `${API_BASE_URL}/api/auth/token/exchange`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({
+              code: code,
+            }),
+          },
+        );
 
-      if (type === "login") {
-        try {
-          LoginInit(accessToken);
-        } catch (error) {
-          if (error instanceof Error) {
-            alert(error.message);
+        if (!response.ok) {
+          const errorData = await response.json();
+          if (errorData.code === "OAUTH404") {
+            alert("인증이 만료되었습니다. 다시 로그인해주세요.");
           } else {
-            alert("로그인에 실패했습니다. 다시 시도해주세요.");
+            alert(errorData.message || "로그인에 실패했습니다.");
           }
+          router.replace("/signin");
+          return;
         }
+
+        const data = await response.json();
+
+        LoginInit(data.result.accessToken);
+
+        router.replace("/");
+      } catch (error) {
+        console.error("토큰 교환 중 네트워크 오류:", error);
+        alert("네트워크 오류가 발생했습니다.");
+        router.replace("/signin");
       }
-      // 회원가입 필요한 사용자면 회원가입 페이지로
-      else {
-        router.replace("/signup/profile/setting");
-      }
-    } else {
-      alert("회원가입에 실패하였습니다.");
-      router.replace("/signup");
+    };
+
+    if (type === "login") {
+      // → 2번 섹션: 토큰 교환 API 호출
+      exchangeLoginToken(code, router);
+    } else if (type === "register") {
+      // → 3번 섹션: code를 저장하고 회원가입 폼으로 이동
+      sessionStorage.setItem("oauthCode", code);
+      router.replace("/signup/profile/setting"); // React Router 등
     }
+
+    window.history.replaceState({}, document.title, window.location.pathname);
   }, [searchParams, router]);
 
   // To-Do

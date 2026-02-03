@@ -71,14 +71,14 @@ export default function UserClientPage({ userId }: { userId: string }) {
     skills,
     isParticipating,
     projectCount,
-    // reviewCount,
+    // recommendCount,
+    temperature,
     introduce,
-    // reviewList,
     projectList,
     profileImageUrl,
   } = profile;
 
-  const newSkills = skills.map((sk) => sk.skill);
+  const newSkills = skills;
   const ICONS = simpleIcons as unknown as Record<string, SimpleIcon>;
 
   const skillsIcon = techStackOptions.filter((skill) =>
@@ -106,9 +106,9 @@ export default function UserClientPage({ userId }: { userId: string }) {
             {isMyPage && <ModifyButton />}
           </div>
 
-          {/* <div className="w-[148px] h-[45px] rounded-[8px] bg-[#FFF3F0]  flex justify-center items-center text-[#FF4802] font-bold">
-            협업온도🔥 98°
-          </div> */}
+          <div className="w-[148px] h-[45px] rounded-[8px] bg-[#FFF3F0]  flex justify-center items-center text-[#FF4802] font-bold">
+            협업온도🔥 {temperature}°
+          </div>
         </div>
 
         <div className="flex gap-x-4 justify-start w-full">

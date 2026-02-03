@@ -32,7 +32,7 @@ export default function StepTwo() {
       platformCategory: store.platform,
       projectCategory: store.projectCategories,
       projectName: store.projectName,
-      projectSkills: store.skills.map((s) => ({ skillName: s })),
+      skills: store.skills,
       recruitments: store.recruitField.map((f) => ({
         subCategory: f.field?.split("-")[1] ?? "",
         recruitmentCount: f.numOfPeople,

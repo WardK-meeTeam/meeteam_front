@@ -36,8 +36,8 @@ export default function UserProfileSummary() {
         <div>
           {user &&
             user.skills.map((item, idx) => (
-              <Fragment key={`${user.name}-${item.skill}`}>
-                {`${item.skill}${idx !== user.skills.length - 1 ? "," : ""}`}
+              <Fragment key={`${user.name}-${item}`}>
+                {`${item}${idx !== user.skills.length - 1 ? "," : ""}`}
               </Fragment>
             ))}
         </div>

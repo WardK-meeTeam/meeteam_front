@@ -20,12 +20,12 @@ export interface UserProfile {
   gender: "MALE" | "FEMALE";
   email: string;
   categories: Category[];
-  skills: { skill: string }[];
+  skills: string[];
   isParticipating: boolean;
   projectCount: number;
-  reviewCount: number;
+  recommendCount: number;
+  temperature: number;
   introduce: string;
-  reviewList?: [];
   projectList: Project[];
   // 프로필 이미지는 없을때 아래 둘다 null로 전달받음
   profileImageName: string | null;

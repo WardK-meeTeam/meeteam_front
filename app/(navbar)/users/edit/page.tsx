@@ -41,7 +41,7 @@ export default function Page() {
           field: `${ct.bigCategory}-${ct.smallCategory}`,
         })),
       );
-      setNewSkills(user.skills.map((sk) => sk.skill));
+      setNewSkills(user.skills);
       setNewParticipation(user.isParticipating);
       setNewIntroduce(user.introduce);
       setNewImage(user.profileImageUrl);

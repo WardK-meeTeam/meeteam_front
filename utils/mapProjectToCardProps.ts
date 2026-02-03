@@ -7,9 +7,9 @@ import type { ProjectInfoItem } from "@/types/projectInfo";
 export const mapProjectToCardProps = (project: ProjectListItem) : CardProps => ({
   projectId: project.projectId,
   category: project.projectCategory,
-  tool: project.projectSkills[0] || "기타",
+  tool: project.skills[0] || "기타",
   teamName: project.projectName,
-  skills: project.projectSkills,
+  skills: project.skills,
   title: project.projectName,
   leader: project.creatorName,
   projectImageUrl: project.projectImageUrl,

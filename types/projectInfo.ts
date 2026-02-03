@@ -79,7 +79,7 @@ export interface ProjectListItem {
   projectCategory: ProjectCategory;
   platformCategory: PlatformCategory;
   projectImageUrl: string;
-  projectSkills: string[];
+  skills: string[];
   projectName: string;
   creatorName: string;
   likeCount: number;

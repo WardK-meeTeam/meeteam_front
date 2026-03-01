@@ -5,7 +5,7 @@ export interface MainButtonProps {
   height?: number;
   type?: "button" | "submit" | "reset" | undefined;
   invertedColor?: boolean;
-
+  customClass?: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -15,6 +15,8 @@ export default function MainButton({
   onClick,
   type = "button",
   invertedColor = false,
+  customClass,
+  ...others
 }: MainButtonProps) {
   return (
     <button
@@ -23,11 +25,12 @@ export default function MainButton({
       type={type}
       className={`rounded-[10px] border font-bold py-3 px-8 ${
         disabled
-          ? `bg-mtm-button-disabled border-mtm-button-disabled text-white`
+          ? `text-white bg-mtm-button-disabled border-mtm-button-disabled`
           : invertedColor
-            ? "bg-mtm-light-blue border-mtm-light-blue cursor-pointer text-mtm-main-blue"
-            : `bg-mtm-main-blue border-mtm-main-blue cursor-pointer text-white`
-      }`}
+            ? "cursor-pointer bg-mtm-light-blue border-mtm-light-blue text-mtm-main-blue"
+            : `text-white cursor-pointer bg-mtm-main-blue border-mtm-main-blue`
+      } ${customClass}`}
+      {...others}
     >
       {buttonName}
     </button>
